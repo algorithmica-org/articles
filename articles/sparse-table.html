@@ -11841,11 +11841,12 @@ $$ t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1}  \} $$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">lg</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">mx</span><span class="p">[</span><span class="n">maxn</span><span class="p">][</span><span class="n">logn</span><span class="p">];</span>
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">lg</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">mx</span><span class="p">[</span><span class="n">maxn</span><span class="p">][</span><span class="n">logn</span><span class="p">];</span>
 
 <span class="kt">int</span> <span class="nf">rmq</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">lg</span><span class="p">[</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
@@ -11867,6 +11868,8 @@ $$ t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1}  \} $$
 
 </div>
 </div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>

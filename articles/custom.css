@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'Garamond';
+    src: url(/fonts/garamond.ttf);
+}
+
+@font-face {
+    font-family: 'Inconsolata';
+    src: url(/fonts/inconsolata.ttf);
+}
+
+#notebook-container {
+    border: none;
+    background: white;
+    box-shadow: none;
+    max-width: 800px;
+    margin-top: -50px;
+}
+
+body {
+    font-family: 'Garamond', serif;
+}
+
+div#notebook {
+    font-size: 20px;
+}
+
+code, pre {
+    font-family: 'Inconsolata', monospace;
+    font-size: 16px !important;
+}
+
+.prompt {
+    display: none;
+}
+
+.output_area {
+    margin: 8px;
+    border-left: 4px solid lightgrey;
+}
