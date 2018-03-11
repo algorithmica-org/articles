@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>sparse-table</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>linalg</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,13 +11775,85 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1056;&#1072;&#1079;&#1088;&#1077;&#1078;&#1077;&#1085;&#1085;&#1072;&#1103;-&#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;">&#1056;&#1072;&#1079;&#1088;&#1077;&#1078;&#1077;&#1085;&#1085;&#1072;&#1103; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1088;&#1077;&#1078;&#1077;&#1085;&#1085;&#1072;&#1103;-&#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;">&#182;</a></h1><ul>
-<li>Нужна для нахождения минимума на отрезке за $O(1)$ с препроцессингом за $O(n \log n)$ с малой константой.</li>
-<li>Обновления не поддерживает (static RMQ).</li>
-<li>Так как LCA эквивалентна RMQ, может быть применена в разных задачах на деревья.</li>
-<li>Её можно строить на ходу. Это может быть полезно при подсчете всяких динамик (см. последний Всерос).</li>
-<li>Требует $O(n \log n)$ памяти.</li>
-<li>Также можно считать, например, gcd на отрезке за сложность одного gcd, но в основном её используют для RMQ.</li>
+<h1 id="&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103;-&#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;-&#1074;-&#1086;&#1083;&#1080;&#1084;&#1087;&#1080;&#1072;&#1076;&#1085;&#1086;&#1084;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080;">&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103; &#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072; &#1074; &#1086;&#1083;&#1080;&#1084;&#1087;&#1080;&#1072;&#1076;&#1085;&#1086;&#1084; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080;<a class="anchor-link" href="#&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103;-&#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;-&#1074;-&#1086;&#1083;&#1080;&#1084;&#1087;&#1080;&#1072;&#1076;&#1085;&#1086;&#1084;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080;">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Матрицы выглядят так:</p>
+$$
+\begin{pmatrix}
+a_{11} &amp; a_{12} &amp; a_{13} \\
+a_{21} &amp; a_{22} &amp; a_{23} \\
+a_{31} &amp; a_{32} &amp; a_{33} \\
+\end{pmatrix}
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Самая важная для нас операция -- умножение. У матриц оно определено совсем не так, как у чисел. Если $C = AB$, то:</p>
+$$ c_{ij} = \sum_{k=1}^n a_{ik} b_{kj} $$<p></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1060;&#1080;&#1073;&#1086;&#1085;&#1072;&#1095;&#1095;&#1080;">&#1060;&#1080;&#1073;&#1086;&#1085;&#1072;&#1095;&#1095;&#1080;<a class="anchor-link" href="#&#1060;&#1080;&#1073;&#1086;&#1085;&#1072;&#1095;&#1095;&#1080;">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+$$
+\begin{pmatrix}
+f_{n+1} \\
+f_{n+2} \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+0+f_{n+1} \\
+f_{n}+f_{n+1} \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 &amp; 1 \\
+1 &amp; 1 \\
+\end{pmatrix}
+\begin{pmatrix}
+f_{n} \\
+f_{n+1} \\
+\end{pmatrix}
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>У него есть следующие свойства:</p>
+<ul>
+<li>ABC = (AB)C = A(BC)</li>
 </ul>
 
 </div>
@@ -11791,52 +11863,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Определим разреженную таблицу как двумерный массив размера $n \times\log n$:</p>
-$$ t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1}  \} $$
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Идея такая: для каждого отрезка длины $2^k$ мы считаем минимум на нём.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Такой массив можно посчитать за его размер: $t[i][k] = \min(t[i][k-1], t[i+2^{k-1}][k-1])$. Считать его можно как итерируясь как по i, так и по k, причём какой-то из этих вариантов в несколко раз быстрее из-за кэширования.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Имея таком массив, мы можем в принципе для любого отрезка быстро посчитать минимум на нём. Нужно заметить, что у любого отрезка имеется два отрезка длины степени двойки, которые пересекаются, и, главное, покрывают его и только его целиком. Значит, мы можем просто взять минимум из значений, которые соответствуют этим отрезкам.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://neerc.ifmo.ru/wiki/images/7/75/SparseTableRMQ.png" alt=""></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Последняя деталь: для того, чтобы константа на запрос стала настоящей, вместо функции log нужно предпосчитать массив округленных вниз логарифмов.</p>
+<h2 id="*&#1057;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077;-&#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1072;-&#1080;-&#1082;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077;-&#1092;&#1086;&#1088;&#1084;&#1091;&#1083;&#1099;">*&#1057;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077; &#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1072; &#1080; &#1082;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077; &#1092;&#1086;&#1088;&#1084;&#1091;&#1083;&#1099;<a class="anchor-link" href="#*&#1057;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077;-&#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1072;-&#1080;-&#1082;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077;-&#1092;&#1086;&#1088;&#1084;&#1091;&#1083;&#1099;">&#182;</a></h2><p>Очень часто у матриц есть <em>собственные вектора</em> -- те, которые не меняют направление.</p>
+<p>$ Av = k v $, где $k \neq 0$.</p>
+<p>$ Av - kv = (A-kI)v = 0 $. Это означает</p>
+<p>Вообще, собственные вектора в линейной алгебре имеют почти такое же значение, как простые числа в арифметике.</p>
 
 </div>
 </div>
@@ -11846,23 +11876,62 @@ $$ t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1}  \} $$
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">lg</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">mx</span><span class="p">[</span><span class="n">maxn</span><span class="p">][</span><span class="n">logn</span><span class="p">];</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">maxn</span><span class="p">;</span>
 
-<span class="kt">int</span> <span class="nf">rmq</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">lg</span><span class="p">[</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
-    <span class="k">return</span> <span class="n">min</span><span class="p">(</span><span class="n">mx</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">t</span><span class="p">],</span> <span class="n">mx</span><span class="p">[</span><span class="n">r</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">t</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">t</span><span class="p">]);</span>
+<span class="n">multiply</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="k">struct</span> <span class="n">matrix</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">t</span><span class="p">[];</span>
+    <span class="n">matrix</span> <span class="p">(</span><span class="kt">int</span> <span class="n">_n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_m</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">_n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">_m</span><span class="p">;</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">);</span>
+        <span class="n">memset</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">t</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="k">operator</span><span class="p">[]</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="o">*</span><span class="n">m</span><span class="p">];</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="c1">// Это считается уже где-то в первых строчках main:</span>
+<span class="n">matrix</span> <span class="k">operator</span><span class="o">*</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">,</span> <span class="n">matrix</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">matrix</span> <span class="n">c</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">n</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">m</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">.</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">m</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">.</span><span class="n">m</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+                <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
+     <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">logn</span><span class="p">;</span> <span class="n">l</span><span class="o">++</span><span class="p">)</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">l</span><span class="p">);</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">maxn</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="n">lg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
+</div>
+</div>
+</div>
 
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">mx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">logn</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">l</span><span class="o">++</span><span class="p">)</span>
-        <span class="n">mx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">mx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">l</span><span class="p">],</span> <span class="n">mx</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">l</span><span class="p">)][</span><span class="n">l</span><span class="p">]);</span>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="n">matrix</span> <span class="nf">binpow</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">matrix</span> <span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -11875,7 +11944,14 @@ $$ t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1}  \} $$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2d-Static-RMQ">2d Static RMQ<a class="anchor-link" href="#2d-Static-RMQ">&#182;</a></h2><p>Эту структуру тоже можно обобщить на б<em>о</em>льшие размерности. Пусть мы хотим посчитать RMQ на подквадратах. Тогда вместо массива $t[i][k]$ у нас будет $t[i][j][k]$, в котором вместо минимума на отрезах будет храниться минимум на <em>квадратах</em> тех же степеней двоек. Получение минимума на произвольном квадрате тогда уже распадется на четыре минимума на квадратах длины {2^k}.</p>
+<p>Единичной называется матрица, у которой единицы стоят на главной диагонали. Обозначение: $I$.</p>
+$$
+\begin{vmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1 \\
+\end{vmatrix}
+$$<p>В плане умножения она действительно ведет себя как единица: $AI = A = IA$.</p>
 
 </div>
 </div>
@@ -11884,8 +11960,7 @@ $$ t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1}  \} $$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>В более общем случае от нас просят минимум тоже на прямоугольниках. Тогда делаем предподсчет, аналогичный предыдущему случаю, только теперь тут будет $\Theta(n \log^d n)$ памяти. (понадобятся $2^d$ вызовов)</p>
-
+<h2 id="&#1057;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099;-&#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1081;-&#1080;-&#1084;&#1077;&#1090;&#1086;&#1076;-&#1043;&#1072;&#1091;&#1089;&#1089;&#1072;">&#1057;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099; &#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1081; &#1080; &#1084;&#1077;&#1090;&#1086;&#1076; &#1043;&#1072;&#1091;&#1089;&#1089;&#1072;<a class="anchor-link" href="#&#1057;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099;-&#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1081;-&#1080;-&#1084;&#1077;&#1090;&#1086;&#1076;-&#1043;&#1072;&#1091;&#1089;&#1089;&#1072;">&#182;</a></h2>
 </div>
 </div>
 </div>
