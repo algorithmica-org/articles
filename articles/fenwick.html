@@ -11793,10 +11793,10 @@ div#notebook {
 <p>Пусть дан массив $a$ длины $n$. Деревом фенвика будем называть массив $t$ той же длины, который объявим так:</p>
 <p>$$ t_i = \sum_{k=F(i)}^i a_k $$</p>
 <p>Для $F$ выполнено $F(i) \leq i$. Конкретно её определим потом.</p>
-<p>Когда нам нужна сумма на отрезке, мы сводим этот запрос к двум суммам на префиксе, каждый из которых будем считать, пользуясь следующим фактом:</p>
+<p>Когда нам нужна сумма на отрезке, мы сводим этот запрос к двум суммам на префиксе, каждый из которых будем считать по этой формуле:</p>
 <p>$$ sum(k) = t_k + sum(F(k)-1) $$</p>
-<p>Когда мы изменяем $k$-ю ячейку исходного массива, нам нужно обновить все $t_i$, в которых учтена эта ячейка.</p>
-<p>$F$ можно выбрать так, что обе операции будут работать за $O(\log n)$.</p>
+<p>Когда мы изменяем $k$-ю ячейку исходного массива, мы обновляем все $t_i$, в которых учтена эта ячейка.</p>
+<p>$F$ можно выбрать так, что и «спусков» при подсчете суммы, и интересных нам $t_i$ при обновлении будет будет $O(\log n)$.</p>
 
 </div>
 </div>
@@ -11805,7 +11805,13 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Есть два хороших выбора F, оба оперируют с битами, поэтому по-английски структура называется Binary Indexed Tree. Первый: <code>F(x) = x &amp; (x+1)</code>. Второй: <code>F(x) = x - (x &amp; -x) + 1</code>. Первый описан на викиконспектах и емаксе и поэтому более известен. Второй на самом деле более простой для запоминания и кодинга, плюс он более гибкий (там, например, очевидно, как делать бинпоиск по префикным суммам).</p>
+<p>В качестве $F$ популярны две функции:</p>
+<ul>
+<li>$F_1(x) =$ <code>x &amp; (x+1)</code>.</li>
+<li>$F_2(x) =$ <code>x - (x &amp; -x) + 1</code>.</li>
+</ul>
+<p>Первый вариант описан на викиконспектах и емаксе и поэтому более известен.</p>
+<p>Второй, как мы дальше увидим, более простой для запоминания и кодинга, а так же более гибкий — например, там можно делать бинпоиск по префиксным суммам. Он же и используется в статье.</p>
 
 </div>
 </div>
@@ -11814,7 +11820,123 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Итак, <code>F(x) = x - (x &amp; -x) + 1</code>. Поймем, что означает <code>x &amp; -x</code>.</p>
+<p>Наверное, меньше четверти умеющих писать эту структуру полностью понимает, как она работает. Анализ действительно весьма сложный, поэтому приведен в конце статьи.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h1><p>Из-за того, что $F(0) = 1 &gt; 0$ и поэтому $[0, F(0)]$ не является корректным отрезком, нам будет удобнее хранить массив в 1-индексации и не использовать $t_0$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">t</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+
+<span class="c1">// возвращает сумму на префиксе</span>
+<span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(;</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">r</span> <span class="o">-=</span> <span class="n">r</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">t</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="n">sum</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// обновляет нужные t</span>
+<span class="kt">void</span> <span class="nf">add</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">k</span> <span class="o">+=</span> <span class="n">k</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">k</span><span class="p">)</span>
+        <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Отмечу красивую симметрию в формулах <code>r += r &amp; -r</code> и <code>k -= k &amp; -k</code>, которой нет в «традиционной» реализации.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="2d,-3d...">2d, 3d...<a class="anchor-link" href="#2d,-3d...">&#182;</a></h1><blockquote><p>$k$-мерное дерево Фенвика пишется в $(k+1)$ строчку</p>
+</blockquote>
+<p>Нужно добавить всего одну такую же строчку в <code>sum</code>, <code>add</code>, а также при подсчете суммы на прямоугольнике вместо двух запросов к префиксным суммам использовать четыре.</p>
+<p><code>sum</code> перепишется следующим образом:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">r1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">-=</span> <span class="n">i</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">r2</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">-=</span> <span class="n">j</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">ans</span> <span class="o">+=</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Вот моё решение какой-то задачи на 2d сумму с USACO 2017: <a href="https://pastebin.com/DPemaJeW">https://pastebin.com/DPemaJeW</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;">&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;<a class="anchor-link" href="#&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;">&#182;</a></h1><p>Дерево Фенвика можно использовать, когда наша операция обратима, а также когда трюк с префиксными суммами работает. Это обычно простые операции типа суммы, xor, умножения по модулю (если гарантируется, что на этот модуль ничего не делится). Минимум и gcd, отложенные операции и персистентность прикрутить в общем случае уже не получится — тогда уже нужно писать ДО.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;">&#1055;&#1086;&#1095;&#1077;&#1084;&#1091; &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;<a class="anchor-link" href="#&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;">&#182;</a></h1><p>(Раздел не совсем дописан.)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>F(x) = x - (x &amp; -x) + 1</code>. Поймем, что означает <code>x &amp; -x</code>.</p>
 
 </div>
 </div>
@@ -11860,85 +11982,15 @@ $</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Итак, выберем <code>F(x) = x &amp; (-x)</code>. В C++ это будет какая-то степень двойки. Чтобы понять это, вспомним как в компах работают отрицательные числа. Чтобы процессор нигде не ифал знак, он просто считает, что все происходит по модулю $2^k$, где $k$ зависит от операционной системы и типа данных). Чтобы посмотреть, как выглядит отрицательное число, нужно взять его бинарное представление и вычесть из нуля (или из $2^k$ и изменить первый бит).</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">42</span>
-
-<span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="err">Будем</span> <span class="err">перебирать</span> <span class="err">префиксы</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[14]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>2</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">binary</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:b}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-    
-<span class="n">x</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="n">binary</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">binary</span><span class="p">(</span><span class="mi">64</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
-<span class="n">binary</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1101010
-1010110
-1000010
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -11947,68 +11999,7 @@ $</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Чтобы понять, почему всё это называется деревом, нужно немного воображения.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Примерная реализация. <code>While</code>-ы при желании можно заменить <code>for</code>-ами.</p>
-<div class="highlight"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mf">1e5</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">t</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-
-<span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">ans</span> <span class="o">+=</span> <span class="n">t</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="n">sum</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">add</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-        <span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
-        <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">|</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;">&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;<a class="anchor-link" href="#&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;">&#182;</a></h1><p>Дерево Фенвика можно использовать, когда наша операция обратима, а также когда трюк с префиксными суммами работает. Это обычно простые операции типа суммы, xor, умножения по модулю (если гарантируется, что на этот модуль ничего не делится). Минимум и gcd, отложенные операции и персистентность прикрутить в общем случае уже не получится -- тогда уже нужно писать ДО.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="2d,-3d...">2d, 3d...<a class="anchor-link" href="#2d,-3d...">&#182;</a></h1><blockquote><p>$k$-мерное дерево Фенвика пишется в $(k+1)$ строчку</p>
-</blockquote>
-<p>Тут уже явно удобнее использовать <code>for</code>, чем <code>while</code>. Нужно добавить одну такую же строчку в <code>sum</code>, <code>add</code>, а также вместо двух запросов к префиксным суммам использовать четыре.</p>
-<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">r1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">&amp;</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">r2</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span><span class="o">&amp;</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">ans</span> <span class="o">+=</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
-    <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-<p>Вот моё решение какой-то задачи на 2d сумму с USACO 2017: <a href="https://pastebin.com/DPemaJeW">https://pastebin.com/DPemaJeW</a></p>
+<p>Почему дерево Фенвика — дерево? На самом деле это не совсем так. Можно показать, что множества элементов, учтенных в $t_i$ и $t_j$, либо не пересекаются, либо одно является подмножеством другого. Значит, между $t_i$ можно ввести отношение вложенности, и тогда дерево Фенвика можно представить как набор деревьев (не обязательно бинарных). В случае, если длина массива равна $2^k$, то дерево будет только одно.</p>
 
 </div>
 </div>
