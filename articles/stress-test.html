@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>fenwick</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>stress-test</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,12 +11775,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1044;&#1077;&#1088;&#1077;&#1074;&#1086;-&#1060;&#1077;&#1085;&#1074;&#1080;&#1082;&#1072;">&#1044;&#1077;&#1088;&#1077;&#1074;&#1086; &#1060;&#1077;&#1085;&#1074;&#1080;&#1082;&#1072;<a class="anchor-link" href="#&#1044;&#1077;&#1088;&#1077;&#1074;&#1086;-&#1060;&#1077;&#1085;&#1074;&#1080;&#1082;&#1072;">&#182;</a></h1><ul>
-<li>Структура, позволяющая на многих задачах заменить собой дерево отрезков</li>
-<li>Работает намного быстрее (на сумме в ~5 раз быстрее ДО с e-maxx.ru)</li>
-<li>Пишется быстрее и проще — трудно запомнить только две формулы</li>
-<li>Очень легко обобщается на б<em>о</em>льшие размерности, дружит с хэш-таблицами и другими внутренними структурами</li>
-<li>Занимает памяти ровно столько же, сколько бы потребовалось на хранение такого же массива</li>
+<h1 id="&#1057;&#1090;&#1088;&#1077;&#1089;&#1089;-&#1090;&#1077;&#1089;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;">&#1057;&#1090;&#1088;&#1077;&#1089;&#1089;-&#1090;&#1077;&#1089;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;<a class="anchor-link" href="#&#1057;&#1090;&#1088;&#1077;&#1089;&#1089;-&#1090;&#1077;&#1089;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;">&#182;</a></h1><ul>
+<li>Метод поиска багов, заключающийся в генерации случайных тестов и сравнивании результатов двух решений</li>
+<li>Очень полезен на школьных олимпиадах, когда есть много времени, или когда уже написанно решение на маленькие подгруппы</li>
 </ul>
 
 </div>
@@ -11790,28 +11787,13 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Пусть дан массив $a$ длины $n$. Деревом фенвика будем называть массив $t$ той же длины, который объявим так:</p>
-<p>$$ t_i = \sum_{k=F(i)}^i a_k $$</p>
-<p>Для $F$ выполнено $F(i) \leq i$. Конкретно её определим потом.</p>
-<p>Когда нам нужна сумма на отрезке, мы сводим этот запрос к двум суммам на префиксе, каждый из которых будем считать по этой формуле:</p>
-<p>$$ sum(k) = t_k + sum(F(k)-1) $$</p>
-<p>Когда мы изменяем $k$-ю ячейку исходного массива, мы обновляем все $t_i$, в которых учтена эта ячейка.</p>
-<p>$F$ можно выбрать так, что и «спусков» при подсчете суммы, и интересных нам $t_i$ при обновлении будет будет $O(\log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>В качестве $F$ популярны две функции:</p>
+<p>Суть такая:</p>
 <ul>
-<li>$F_1(x) =$ <code>x &amp; (x+1)</code></li>
-<li>$F_2(x) =$ <code>x - (x &amp; -x) + 1</code></li>
+<li>Есть решение <code>smart</code> — быстрое, но в котором есть баг, который хотим найти</li>
+<li>Пишем решение <code>stupid</code> — медленное, но точно корректное</li>
+<li>Пишем генератор <code>gen</code> — печатает какой-то корректный тест, сгенерированный случайно</li>
+<li>Кормим всё в скрипт <code>checker</code>, который n раз генерирует тест, даёт его на ввод <code>stupid</code>-у и <code>smart</code>-у, сравнивает выводы и останавливается, когда они отличаются</li>
 </ul>
-<p>Первый вариант описан на викиконспектах и емаксе и поэтому более известен.</p>
-<p>Второй, как мы дальше увидим, более простой для запоминания и кодинга, а так же более гибкий — например, там можно делать бинпоиск по префиксным суммам. Он же и используется в статье.</p>
 
 </div>
 </div>
@@ -11820,16 +11802,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Наверное, меньше четверти умеющих писать эту структуру полностью понимает, как она работает. Анализ действительно весьма сложный. Он приведен в конце статьи.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Из-за того, что $F(0) = 1 &gt; 0$ и поэтому $[0, F(0)]$ не является корректным отрезком, нам будет удобнее хранить массив в 1-индексации и не использовать $t_0$.</p>
+<p>Примерный код скрипта:</p>
 
 </div>
 </div>
@@ -11839,25 +11812,22 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">t</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
 
-<span class="c1">// возвращает сумму на префиксе</span>
-<span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(;</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">r</span> <span class="o">-=</span> <span class="n">r</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">r</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">+=</span> <span class="n">t</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
-    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">gen</span><span class="p">,</span> <span class="n">iters</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
 
-<span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="n">sum</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// обновляет нужные t</span>
-<span class="kt">void</span> <span class="nf">add</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">k</span> <span class="o">+=</span> <span class="n">k</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">k</span><span class="p">)</span>
-        <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">iters</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test&#39;</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;python3 gen.py &gt; test.txt&#39;</span><span class="p">)</span>
+    <span class="n">v1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;./</span><span class="si">%s</span><span class="s1"> &lt; test.txt&#39;</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">v2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;./</span><span class="si">%s</span><span class="s1"> &lt; test.txt&#39;</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">v1</span> <span class="o">!=</span> <span class="n">v2</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="n">test</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Correct:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="n">v1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Wrong:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="n">v2</span>
+        <span class="k">break</span>
 </pre></div>
 
 </div>
@@ -11869,19 +11839,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Отмечу красивую симметрию в формулах <code>r += r &amp; -r</code> и <code>k -= k &amp; -k</code>, которой нет в «традиционной» реализации.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2d,-3d...">2d, 3d...<a class="anchor-link" href="#2d,-3d...">&#182;</a></h2><blockquote><p>$k$-мерное дерево Фенвика пишется в $(k+1)$ строчку</p>
-</blockquote>
-<p>Нужно добавить всего одну такую же строчку в <code>sum</code>, <code>add</code>, а также при подсчете суммы на прямоугольнике вместо двух запросов к префиксным суммам использовать четыре.</p>
-<p><code>sum</code> перепишется следующим образом:</p>
+<p>Автор обычно запускает его командой <code>python3 checker.py stupid smart gen.py 100</code>, предварительно скомпилировав <code>stupid</code> и <code>smart</code> в ту же директорию, что и сам <code>checker.py</code>.</p>
+<p>Скрипт написан под Linux. Для Windows нужно убрать «<code>./</code>» во всех системных вызовах.</p>
+<p><code>gen.py</code> автор тоже обычно пишет на питоне, но вообще его тоже можно писать на чём угодно и вызывать через <code>./gen</code>. Пример <code>gen</code>-а, генерирующего случайную строку из символов "a", "b" и "c" длины от 1 до 10:</p>
 
 </div>
 </div>
@@ -11891,161 +11851,20 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">r1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">-=</span> <span class="n">i</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">i</span><span class="p">)</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">r2</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">-=</span> <span class="n">j</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">j</span><span class="p">)</span>
-            <span class="n">ans</span> <span class="o">+=</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
-    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-<span class="p">}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">choice</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Автор в своё время решение какой-то задачи на 2d сумму с USACO 2017: <a href="https://pastebin.com/DPemaJeW">https://pastebin.com/DPemaJeW</a></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1041;&#1080;&#1085;&#1087;&#1086;&#1080;&#1089;&#1082;">&#1041;&#1080;&#1085;&#1087;&#1086;&#1080;&#1089;&#1082;<a class="anchor-link" href="#&#1041;&#1080;&#1085;&#1087;&#1086;&#1080;&#1089;&#1082;">&#182;</a></h2><p>Оказывается, можно производить бинарный поиск (точнее, спуск) по префиксным суммам за $O(\log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="c1">// возвращает индекс, на котором сумма уже больше</span>
-<span class="kt">int</span> <span class="nf">lower_bound</span> <span class="p">(</span><span class="kt">int</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">logn</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">l</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">t</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">l</span><span class="p">)]</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">k</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">l</span><span class="p">);</span>
-            <span class="n">s</span> <span class="o">-=</span> <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">k</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Если знать, что $F(x)$ удаляет последний бит $x$, то принцип понятен: просто делается спуск по бинарному дереву, как в ДО.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;">&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;<a class="anchor-link" href="#&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;">&#182;</a></h2><p>Дерево Фенвика можно использовать, когда наша операция обратима, а также когда трюк с префиксными суммами работает. Это обычно простые операции типа суммы, xor, умножения по модулю (если гарантируется, что на этот модуль ничего не делится). Минимум и gcd, отложенные операции и персистентность прикрутить в общем случае уже не получится — тогда уже нужно писать ДО.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;">&#1055;&#1086;&#1095;&#1077;&#1084;&#1091; &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;<a class="anchor-link" href="#&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;">&#182;</a></h2><p>(Раздел не совсем дописан.)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>F(x) = x - (x &amp; -x) + 1</code>. Поймем, что означает <code>x &amp; -x</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Лемма</strong>. <code>x &amp; -x</code> возвращает последний единичный бит в двоичной записи x.</p>
-<p>Как в компах хранятся инты? Чтобы процессор не ифал + и -, их хранят просто как бы по модулю $2^k$, а первый бит отвечает за знак. Поэтому когда мы хотим узнать, как выглядит отрицательное число, нужно его вычесть из нуля: $-x = 0-x = 2^k-x$.</p>
-<p>Рассмотрим пример.</p>
-<p>$
-\begin{align}
- \begin{aligned}
-    +90 = 2+8+16+64  &amp; = 10110_2 \\
-    -90 = 00000_2 - 10110_2 &amp; = 01010_2 \\
-    +90 \text{ &amp; } -90 &amp; = 00010_2 \\ 
- \end{aligned}
- \end{align}
-$</p>
-<p>Когда мы вычитаем, мы идем справа налево. Первые сколько-то нулей с конца ими же и останутся. Потом, на самом младшем единичном бите, мы «займём» много единиц, так что весь префикс станет единицами. Потом отменятся ровно те из них, которые были единицами в исходном числе.</p>
-<p>Делаем &amp;: в каком-то префиксе все биты будут противоположными, младший единичный бит останется, а на суффиксе все как было нулями, так и осталось. Выживет только этот самый младший единичный бит.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Теперь сразу понятно, почему <code>sum</code> будет работать за логарифм -- каждый раз мы делаем x -= x &amp; -x, то есть удаляем один бит.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Теперь сложная (для понимания) часть — как делать add.
-Какие $t_i$ содержат $k$-й элемент? Для них должно выполняться <code>i &gt;= k &gt; i - (i &amp; -i)</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Будем перебирать префиксы TODO</p>
-<p>Мы знаем, что $t_i$ вложены друг в друга. Минимальный подходящий $i$ равен $k$. Какой следующий? Нам нужно для каждого $i$ уметь находить его непосредственного родителя.</p>
-<p>Можно представить дерево так: ячейка 2^k содержит все</p>
-<p>TODO: сначала объявить дерево как дерево и описать его структуру словами, а потом уже показывать реализацию.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;">&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;<a class="anchor-link" href="#&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;">&#182;</a></h2><p>Потому что $F$ использует битовые операции, по-английски структура называется «Binary Indexed Tree».</p>
-<p>Почему дерево Фенвика — дерево? Тут нужно немного воображения. На самом деле BIT в общем случае — набор деревьев.</p>
-<p>Можно показать, что множества элементов, учтенных в $t_i$ и $t_j$, либо не пересекаются, либо одно является подмножеством другого. Значит, между $t_i$ можно ввести отношение вложенности, и тогда дерево Фенвика можно представить как набор деревьев (не обязательно бинарных).</p>
-<p>В частном случае, когда длина массива равна $2^k$, то дерево будет только одно.</p>
-
-</div>
-</div>
 </div>
     </div>
   </div>
