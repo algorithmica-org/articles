@@ -11818,9 +11818,9 @@ div#notebook {
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">iters</span><span class="p">)):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test&#39;</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;python3 gen.py &gt; test.txt&#39;</span><span class="p">)</span>
-    <span class="n">v1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;./</span><span class="si">%s</span><span class="s1"> &lt; test.txt&#39;</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-    <span class="n">v2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;./</span><span class="si">%s</span><span class="s1"> &lt; test.txt&#39;</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;python3 </span><span class="si">%s</span><span class="s1"> &gt; test.txt&#39;</span> <span class="o">%</span> <span class="n">gen</span><span class="p">)</span>
+    <span class="n">v1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;./</span><span class="si">%s</span><span class="s1"> &lt; test.txt&#39;</span> <span class="o">%</span> <span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">v2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;./</span><span class="si">%s</span><span class="s1"> &lt; test.txt&#39;</span> <span class="o">%</span> <span class="n">f2</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">v1</span> <span class="o">!=</span> <span class="n">v2</span><span class="p">:</span>
         <span class="nb">print</span> <span class="n">test</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Correct:&quot;</span><span class="p">)</span>
@@ -11841,7 +11841,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Автор обычно запускает его командой <code>python3 checker.py stupid smart gen.py 100</code>, предварительно скомпилировав <code>stupid</code> и <code>smart</code> в ту же директорию, что и сам <code>checker.py</code>.</p>
 <p>Скрипт написан под Linux. Для Windows нужно убрать «<code>./</code>» во всех системных вызовах.</p>
-<p><code>gen.py</code> автор тоже обычно пишет на питоне, но вообще его тоже можно писать на чём угодно и вызывать через <code>./gen</code>. Пример <code>gen</code>-а, генерирующего случайную строку из символов "a", "b" и "c" длины от 1 до 10:</p>
+<p><code>gen.py</code> автор тоже обычно пишет на питоне, но вообще его тоже можно писать на чём угодно, сделать исполняемым и вызывать через <code>./gen</code>. Пример <code>gen</code>-а, генерирующего случайную строку из символов "a", "b" и "c" длины от 1 до 10:</p>
 
 </div>
 </div>
