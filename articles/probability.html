@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>centroid</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>probability</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,12 +11775,13 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1062;&#1077;&#1085;&#1090;&#1088;&#1086;&#1080;&#1076;&#1085;&#1072;&#1103;-&#1076;&#1077;&#1082;&#1086;&#1084;&#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;">&#1062;&#1077;&#1085;&#1090;&#1088;&#1086;&#1080;&#1076;&#1085;&#1072;&#1103; &#1076;&#1077;&#1082;&#1086;&#1084;&#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1062;&#1077;&#1085;&#1090;&#1088;&#1086;&#1080;&#1076;&#1085;&#1072;&#1103;-&#1076;&#1077;&#1082;&#1086;&#1084;&#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;">&#182;</a></h1><ul>
-<li>Обобщение метода «разделяй-и-властвуй» на деревья</li>
-<li>Очень часто помогает отвечать на запросы «сколько есть путей с такими-то свойствами»</li>
-<li>Также можно отвечать на запросы «есть ли такое-то свойства у этого пути»</li>
-<li>Вполне может встретиться как последняя задача Открытой или Всероса, или как div1 C и дальше</li>
-<li>Иногда вместо неё можно написать HLD (сложнее) или сливающиеся сеты (легче)</li>
+<h1 id="&#1051;&#1080;&#1082;&#1073;&#1077;&#1079;-&#1087;&#1086;-&#1090;&#1077;&#1086;&#1088;&#1074;&#1077;&#1088;&#1091;">&#1051;&#1080;&#1082;&#1073;&#1077;&#1079; &#1087;&#1086; &#1090;&#1077;&#1086;&#1088;&#1074;&#1077;&#1088;&#1091;<a class="anchor-link" href="#&#1051;&#1080;&#1082;&#1073;&#1077;&#1079;-&#1087;&#1086;-&#1090;&#1077;&#1086;&#1088;&#1074;&#1077;&#1088;&#1091;">&#182;</a></h1><ul>
+<li>Вероятностные распределения</li>
+<li>Матожидание и дисперсия</li>
+<li>Парадокс дней рождения</li>
+<li>Нормальное распределение</li>
+<li>Правдоподобие и оценка качества предсказания</li>
+<li>Энтропия и оптимальное кодирование</li>
 </ul>
 
 </div>
@@ -11790,7 +11791,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://qph.ec.quoracdn.net/main-qimg-4728cdabd3052afdcb34cde75df8e97d.webp" alt=""></p>
+<p>Эта статья представляет собой выжимку самых интересных фактов и «больших идей» теорвера, которые обычно рассказывают на курсах статистики, машинного обучения и теории информации.</p>
 
 </div>
 </div>
@@ -11799,33 +11800,23 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Определение</strong>. Центром (centroid) дерева будем называть вершину, при удалении которой размеры оставшихся компонент будут не более $\frac{n}{2}$.</p>
-<p>Центр всегда существует. Иногда центров два. Искать можно так:</p>
+<p>(Эти строчки позволят нам генерировать распределения и рисовать графики, не обращайте внимание.)</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">s</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kt">int</span> <span class="nf">size</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
-        <span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="n">sizes</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">];</span>
-<span class="p">}</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 
-<span class="c1">// второй параметр — размер дерева</span>
-<span class="kt">int</span> <span class="nf">centroid</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">centroid</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">v</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11837,11 +11828,15 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li><code>centroid</code> вернет вершину, у которой размеры всех детей не больше $\frac{n}{2}$ (явно проверяется в <code>if</code>-е)</li>
-<li>Мы пришли в эту вершину, когда её размер был больше $\frac{n}{2}$ $\implies$ в «обратном» направлении не больше $n - (\frac{n}{2}+1) = \frac{n}{2}-1$ вершин</li>
-</ul>
-<p>Значит, размеры всех соседей не больше половины $n$, и алгоритм корректен.</p>
+<h2 id="&#1052;&#1072;&#1090;&#1086;&#1078;&#1080;&#1076;&#1072;&#1085;&#1080;&#1077;">&#1052;&#1072;&#1090;&#1086;&#1078;&#1080;&#1076;&#1072;&#1085;&#1080;&#1077;<a class="anchor-link" href="#&#1052;&#1072;&#1090;&#1086;&#1078;&#1080;&#1076;&#1072;&#1085;&#1080;&#1077;">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1044;&#1080;&#1089;&#1087;&#1077;&#1088;&#1089;&#1080;&#1103;">&#1044;&#1080;&#1089;&#1087;&#1077;&#1088;&#1089;&#1080;&#1103;<a class="anchor-link" href="#&#1044;&#1080;&#1089;&#1087;&#1077;&#1088;&#1089;&#1080;&#1103;">&#182;</a></h2><p>Какие два числа лучше всего описывают распределение?</p>
 
 </div>
 </div>
@@ -11850,9 +11845,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Определение</strong>. Центроидной декомпозицией будем называть рекурсивный процесс «выделить центроид, удадить, запуститься от компонент».</p>
-<p>Заметим, что каждая вершина ровно один раз будет центроидом — в конце всё дерево будет удалено.</p>
-<p><strong>Определение</strong>. Компонентой центроида будем называть множество вершин, достижимых из центроида непосредственно перед его удалением.</p>
+<h2 id="&#1053;&#1086;&#1088;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077;-&#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077;">&#1053;&#1086;&#1088;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077;<a class="anchor-link" href="#&#1053;&#1086;&#1088;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077;-&#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077;">&#182;</a></h2><p>Центральная предельная теорема названа так пафосно вполне обоснованно.</p>
+<p>Она говорит, что нам достаточно про каждое слагаемое знать всего два числа — ожидание и дисперсию.</p>
+$$ f(x) = \frac{1}{2\sqrt{\pi}} e^{-\frac{(x-\mu)^2}{\sigma^2}} $$<p>Доказать это очень трудно. Даже со ссылками на мощные теоремы оно займёт не одну страницу. Обычно доказательство рассказывают в середине второго курса.</p>
+<p>Трудно даже доказать, что это распределение, т. е. что $\int_{-\inf}^\inf f(x) dx = 1$.</p>
 
 </div>
 </div>
@@ -11861,10 +11857,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1047;&#1072;&#1095;&#1077;&#1084;-&#1084;&#1099;-&#1074;&#1089;&#1105;-&#1101;&#1090;&#1086;-&#1076;&#1077;&#1083;&#1072;&#1083;&#1080;:">&#1047;&#1072;&#1095;&#1077;&#1084; &#1084;&#1099; &#1074;&#1089;&#1105; &#1101;&#1090;&#1086; &#1076;&#1077;&#1083;&#1072;&#1083;&#1080;:<a class="anchor-link" href="#&#1047;&#1072;&#1095;&#1077;&#1084;-&#1084;&#1099;-&#1074;&#1089;&#1105;-&#1101;&#1090;&#1086;-&#1076;&#1077;&#1083;&#1072;&#1083;&#1080;:">&#182;</a></h2><p><strong>Утверждение</strong>. Каждая вершина входит в $O(\log n)$ компонент.</p>
-<p><em>Доказательство</em>. Центроид разбивает дерево на компоненты в два раза меньшего размера.</p>
-<p><strong>Утверждение</strong>. Для любого пути $a \leadsto b$ есть единственный центроид $c$, в чьей компоненте были и $a$, и $b$.</p>
-<p><em>Доказательство</em>. Каждая вершина когда-то была центроидом. Какая-то из вершин на пути была центроидом первой, и она навсегда разъединила $a$ и $b$.</p>
+<h2 id="&#1055;&#1088;&#1080;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103;">&#1055;&#1088;&#1080;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103;<a class="anchor-link" href="#&#1055;&#1088;&#1080;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103;">&#182;</a></h2><p>Пусть в некоторой стране есть два кандидата в президенты, назовём их Путин и Навальный.</p>
+<p>Мы спросили у 1000 случайных избирателей бинарный вопрос, и 510 из них сказали, что будут голосовать за Путина. С какой вероятностью он победит? Теорема говорит, что число голосов, как</p>
 
 </div>
 </div>
@@ -11873,7 +11867,11 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Эти факты можно использовать для подсчета количества путей с какими-то свойствами или ответа на запросы про пути. Рассмотрим пример: задача «число путей заданной длины».</p>
+<h2 id="&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1099;&#1077;-&#1088;&#1077;&#1082;&#1091;&#1088;&#1088;&#1077;&#1085;&#1090;&#1099;">&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1099;&#1077; &#1088;&#1077;&#1082;&#1091;&#1088;&#1088;&#1077;&#1085;&#1090;&#1099;<a class="anchor-link" href="#&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1099;&#1077;-&#1088;&#1077;&#1082;&#1091;&#1088;&#1088;&#1077;&#1085;&#1090;&#1099;">&#182;</a></h2><p>Чтобы решать следующие задачи, нам нужно будет использовать следующий факт:</p>
+<p>...</p>
+<p>Доказательство мы не приведем.</p>
+<p>В частности, таким образом получается формула для чисел Фибоначчи.</p>
+$$ f_n = \ldots $$<p>Кто бы мог подумать, что все эти иррациональности и степени сократятся и вообще дадут целое число?..</p>
 
 </div>
 </div>
@@ -11882,15 +11880,11 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1086;&#1076;&#1089;&#1095;&#1077;&#1090;-&#1087;&#1091;&#1090;&#1077;&#1081;-&#1089;-&#1079;&#1072;&#1076;&#1072;&#1085;&#1085;&#1099;&#1084;-&#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086;&#1084;">&#1055;&#1086;&#1076;&#1089;&#1095;&#1077;&#1090; &#1087;&#1091;&#1090;&#1077;&#1081; &#1089; &#1079;&#1072;&#1076;&#1072;&#1085;&#1085;&#1099;&#1084; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086;&#1084;<a class="anchor-link" href="#&#1055;&#1086;&#1076;&#1089;&#1095;&#1077;&#1090;-&#1087;&#1091;&#1090;&#1077;&#1081;-&#1089;-&#1079;&#1072;&#1076;&#1072;&#1085;&#1085;&#1099;&#1084;-&#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086;&#1084;">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Для каждого центроида перед его удалением будем прибавлять к ответу число интересующих нас путей, которые проходят через этот центроид. Количество таких путей можно посчитать за размер текущей компоненты. Асимптотика $O(n \log n)$, потому что каждая вершина входит в $O(\log n)$ компонент.</p>
+<h2 id="&#1050;&#1083;&#1072;&#1089;&#1089;&#1080;&#1082;&#1072;">&#1050;&#1083;&#1072;&#1089;&#1089;&#1080;&#1082;&#1072;<a class="anchor-link" href="#&#1050;&#1083;&#1072;&#1089;&#1089;&#1080;&#1082;&#1072;">&#182;</a></h2><p>Парадокс дней рождения.</p>
+<p>Это на самом деле очень часто используемый результат. Так можно считать вероятность коллизии хэшей, а также он используется во многих теоретико-числовых алгоритмах, в которых используется предположения (весьма справедливые) о распределении простых чисел.</p>
+<p>Пьяница. Человек стоит на краю обрава и идёт в его сторону с вероятностью p. С какой вероятностью он когда-либо в него упадёт?</p>
+<p>TODO: история про эстетическое удовольствие, азарт и смысл посещения казино.
+Казино. Мы приходим в казино с 1000\$ и следующим образом проводим там время: ставим по 1\$, пока не обанкротимся или не выиграем 1100\$. Какая вероятность того, что мы уйдём с деньгами?</p>
 
 </div>
 </div>
@@ -11899,80 +11893,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Чтобы не делать явно удаление вершины, заведем массив <code>used[]</code> — была ли вершина удалена.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">179</span><span class="p">;</span> <span class="c1">// нужная нам длина</span>
-<span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// тут мы храним ответ</span>
-
-<span class="kt">bool</span> <span class="n">used</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="kt">int</span> <span class="n">s</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-
-<span class="kt">void</span> <span class="nf">sizes</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">u</span> <span class="o">!=</span> <span class="n">p</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">used</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
-            <span class="n">sizes</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="n">s</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">centroid</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">u</span> <span class="o">!=</span> <span class="n">p</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">used</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">centroid</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">v</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// записывает в t[] глубины вершин</span>
-<span class="kt">void</span> <span class="nf">dfs</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">d</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">t</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">u</span> <span class="o">!=</span> <span class="n">p</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">used</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
-            <span class="n">dfs</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
-<span class="p">}</span> 
-
-<span class="kt">void</span> <span class="nf">solve</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
-    <span class="cm">/* &lt;единственный зависящий от конкретной задачи код&gt; */</span>
-    <span class="n">size</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">d</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">used</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="p">{</span>
-            <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">;</span>
-            <span class="n">dfs</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
-            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">x</span> <span class="p">:</span> <span class="n">t</span><span class="p">)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">l</span><span class="p">)</span>
-                    <span class="n">ans</span> <span class="o">+=</span> <span class="n">d</span><span class="p">[</span><span class="n">l</span><span class="o">-</span><span class="n">x</span><span class="p">];</span>
-            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">x</span> <span class="p">:</span> <span class="n">t</span><span class="p">)</span>
-                <span class="n">d</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="cm">/* &lt;/единственный зависящий от конкретной задачи код&gt; */</span>
-
-    <span class="n">used</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">used</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
-            <span class="n">solve</span><span class="p">(</span><span class="n">centroid</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">));</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Во многих задачах вместо центроидной декомпозиции можно использовать сливающиеся сеты, heavy-light декомпозицию или разные (часто персистентные) структуры данных. Конкретно здесь самое просто решение будет со сливающимися сетами с сохранением асимптотики $O(n \log n)$.</p>
-
+<h2 id="&#1055;&#1088;&#1080;&#1085;&#1094;&#1080;&#1087;-&#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086;-&#1087;&#1088;&#1072;&#1074;&#1076;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1080;&#1103;">&#1055;&#1088;&#1080;&#1085;&#1094;&#1080;&#1087; &#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086; &#1087;&#1088;&#1072;&#1074;&#1076;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1080;&#1103;<a class="anchor-link" href="#&#1055;&#1088;&#1080;&#1085;&#1094;&#1080;&#1087;-&#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086;-&#1087;&#1088;&#1072;&#1074;&#1076;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1080;&#1103;">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11980,9 +11901,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1050;&#1072;&#1082;-&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1072;-&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;">&#1050;&#1072;&#1082; &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;<a class="anchor-link" href="#&#1050;&#1072;&#1082;-&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1072;-&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;">&#182;</a></h2><p>Мы находим что нам надо сразу, как получаем новую компоненту. Если мы у нас есть запросы посчитать что-то на пути, то мы часто можем обрабатывать их в offline, храня вместе с вершиной список ещё не отвеченных запросов, относящихся к ней. Таким образом, каждый запрос будет просмотрен $O(\log n)$ раз, пока не будет удален.</p>
-<p>Альтернативно, можно сначала «построить» центроидную декомпозицию, а потом отвечать на запросы. Создадим двумерный массив <code>centroid[][]</code> размера $n \times \log n$, в котором для каждой вершины будем хранить $O(\log n)$ центроидов, в чьи компоненты она когда-то входила, а также будем хранить информацию, которая нам будем нужна для ответа на запросы. Например, если мы хотим посчитать минимум на пути, то мы для каждой пары вершина-центроид храним минимум на соответствующем пути. Тогда, при ответе на запрос, мы за $O(\log n)$ операций находим центроид на нужном нам пути и очевидным образом считаем ответ. Так мы можем отвечать на запросы в online и с субьективно более опрятным кодом.</p>
-<p>Подробнее смотрите в <a href="http://acm.math.spbu.ru/~sk1/mm/lections/zksh2016-centroid/conspect.pdf">конспекте от Сергея Копелиовича</a>.</p>
+<h2 id="&#1069;&#1085;&#1090;&#1088;&#1086;&#1087;&#1080;&#1103;">&#1069;&#1085;&#1090;&#1088;&#1086;&#1087;&#1080;&#1103;<a class="anchor-link" href="#&#1069;&#1085;&#1090;&#1088;&#1086;&#1087;&#1080;&#1103;">&#182;</a></h2><p>Энтропией называется минимальное число бит, которым теоретически возможно сжать сообщение. Эта величина важна, потому что на практике если её можно посчитать, то сжатие с соответствующей кратностью реально достижимо.</p>
+<p>Шумный канал.</p>
+<p>Пусть у вас есть 1тб данных и два китайских терабайтника, на каждый из которых можно записать столько данных, но каждый бит имеет вероятность 10% записаться на противоположный. Требуется сохранить данные с первого раза без потерь. Совсем без потерь.</p>
+<p>Причём это делается почти впритык.</p>
 
 </div>
 </div>
