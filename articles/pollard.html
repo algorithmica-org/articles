@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>fenwick</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>pollard</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,13 +11775,15 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1044;&#1077;&#1088;&#1077;&#1074;&#1086;-&#1060;&#1077;&#1085;&#1074;&#1080;&#1082;&#1072;">&#1044;&#1077;&#1088;&#1077;&#1074;&#1086; &#1060;&#1077;&#1085;&#1074;&#1080;&#1082;&#1072;<a class="anchor-link" href="#&#1044;&#1077;&#1088;&#1077;&#1074;&#1086;-&#1060;&#1077;&#1085;&#1074;&#1080;&#1082;&#1072;">&#182;</a></h1><ul>
-<li>Структура, позволяющая на многих задачах заменить собой дерево отрезков</li>
-<li>Работает намного быстрее (на сумме в ~5 раз быстрее ДО с e-maxx.ru)</li>
-<li>Пишется быстрее и проще — трудно запомнить только две формулы</li>
-<li>Очень легко обобщается на б<em>о</em>льшие размерности, дружит с хэш-таблицами и другими внутренними структурами</li>
-<li>Занимает памяти ровно столько же, сколько бы потребовалось на хранение такого же массива</li>
-</ul>
+<h1 id="&#1060;&#1072;&#1082;&#1090;&#1086;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;-&#1079;&#1072;-$O(\sqrt[4]{n})$">&#1060;&#1072;&#1082;&#1090;&#1086;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1079;&#1072; $O(\sqrt[4]{n})$<a class="anchor-link" href="#&#1060;&#1072;&#1082;&#1090;&#1086;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;-&#1079;&#1072;-$O(\sqrt[4]{n})$">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Наука умеет факторизовать целые числа за $O(n^\frac{1}{4})$. Алгоритм будет рандомизированный, поэтому нам сначала понадобится известная теорема теорвера.</p>
 
 </div>
 </div>
@@ -11790,216 +11792,495 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Пусть дан массив $a$ длины $n$. Деревом фенвика будем называть массив $t$ той же длины, который объявим так:</p>
-<p>$$ t_i = \sum_{k=F(i)}^i a_k $$</p>
-<p>Для $F$ выполнено $F(i) \leq i$. Конкретно её определим потом.</p>
-<p>Когда нам нужна сумма на отрезке, мы сводим этот запрос к двум суммам на префиксе, каждый из которых будем считать по этой формуле:</p>
-<p>$$ sum(k) = t_k + sum(F(k)-1) $$</p>
-<p>Когда мы изменяем $k$-ю ячейку исходного массива, мы обновляем все $t_i$, в которых учтена эта ячейка.</p>
-<p>$F$ можно выбрать так, что и «спусков» при подсчете суммы, и интересных нам $t_i$ при обновлении будет будет $O(\log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>В качестве $F$ популярны две функции:</p>
-<ul>
-<li>$F_1(x) =$ <code>x &amp; (x+1)</code></li>
-<li>$F_2(x) =$ <code>x - (x &amp; -x) + 1</code></li>
-</ul>
-<p>Первый вариант описан на викиконспектах и емаксе и поэтому более известен.</p>
-<p>Второй, как мы дальше увидим, более простой для запоминания и кодинга, а так же более гибкий — например, там можно делать бинпоиск по префиксным суммам. Он же и используется в статье.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Наверное, меньше четверти умеющих писать эту структуру полностью понимает, как она работает. Анализ действительно весьма сложный. Он приведен в конце статьи.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Из-за того, что $F(0) = 1 &gt; 0$ и поэтому $[0, F(0)]$ не является корректным отрезком, нам будет удобнее хранить массив в 1-индексации и не использовать $t_0$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">t</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-
-<span class="c1">// возвращает сумму на префиксе</span>
-<span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(;</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">r</span> <span class="o">-=</span> <span class="n">r</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">r</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">+=</span> <span class="n">t</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
-    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="n">sum</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// обновляет нужные t</span>
-<span class="kt">void</span> <span class="nf">add</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">k</span> <span class="o">+=</span> <span class="n">k</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">k</span><span class="p">)</span>
-        <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Отмечу красивую симметрию в формулах <code>r += r &amp; -r</code> и <code>k -= k &amp; -k</code>, которой нет в «традиционной» реализации.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2d,-3d...">2d, 3d...<a class="anchor-link" href="#2d,-3d...">&#182;</a></h2><blockquote><p>$k$-мерное дерево Фенвика пишется в $(k+1)$ строчку</p>
-</blockquote>
-<p>Нужно добавить всего одну такую же строчку в <code>sum</code>, <code>add</code>, а также при подсчете суммы на прямоугольнике вместо двух запросов к префиксным суммам использовать четыре.</p>
-<p><code>sum</code> перепишется следующим образом:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">r1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">-=</span> <span class="n">i</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">i</span><span class="p">)</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">r2</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">-=</span> <span class="n">j</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">j</span><span class="p">)</span>
-            <span class="n">ans</span> <span class="o">+=</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
-    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Автор в своё время решение какой-то задачи на 2d сумму с USACO 2017: <a href="https://pastebin.com/DPemaJeW">https://pastebin.com/DPemaJeW</a></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1041;&#1080;&#1085;&#1087;&#1086;&#1080;&#1089;&#1082;">&#1041;&#1080;&#1085;&#1087;&#1086;&#1080;&#1089;&#1082;<a class="anchor-link" href="#&#1041;&#1080;&#1085;&#1087;&#1086;&#1080;&#1089;&#1082;">&#182;</a></h2><p>Оказывается, можно производить бинарный поиск (точнее, спуск) по префиксным суммам за $O(\log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="c1">// возвращает индекс, на котором сумма уже больше</span>
-<span class="kt">int</span> <span class="nf">lower_bound</span> <span class="p">(</span><span class="kt">int</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">logn</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">l</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">t</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">l</span><span class="p">)]</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">k</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">l</span><span class="p">);</span>
-            <span class="n">s</span> <span class="o">-=</span> <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">k</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Если знать, что $F(x)$ удаляет последний бит $x$, то принцип понятен: просто делается спуск по бинарному дереву, как в ДО.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;">&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;<a class="anchor-link" href="#&#1054;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1103;">&#182;</a></h2><p>Дерево Фенвика можно использовать, когда наша операция обратима, а также когда трюк с префиксными суммами работает. Это обычно простые операции типа суммы, xor, умножения по модулю (если гарантируется, что на этот модуль ничего не делится). Минимум и gcd, отложенные операции и персистентность прикрутить в общем случае уже не получится — тогда уже нужно писать ДО.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;">&#1055;&#1086;&#1095;&#1077;&#1084;&#1091; &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;<a class="anchor-link" href="#&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;">&#182;</a></h2><p>(Раздел не совсем дописан.)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>F(x) = x - (x &amp; -x) + 1</code>. Поймем, что означает <code>x &amp; -x</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Лемма</strong>. <code>x &amp; -x</code> возвращает последний единичный бит в двоичной записи x.</p>
-<p>Как в компах хранятся инты? Чтобы процессор не ифал + и -, их хранят просто как бы по модулю $2^k$, а первый бит отвечает за знак. Поэтому когда мы хотим узнать, как выглядит отрицательное число, нужно его вычесть из нуля: $-x = 0-x = 2^k-x$.</p>
-<p>Рассмотрим пример.</p>
-<p>$
+<h2 id="&#1055;&#1072;&#1088;&#1072;&#1076;&#1086;&#1082;&#1089;-&#1076;&#1085;&#1077;&#1081;-&#1088;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1081;">&#1055;&#1072;&#1088;&#1072;&#1076;&#1086;&#1082;&#1089; &#1076;&#1085;&#1077;&#1081; &#1088;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1081;<a class="anchor-link" href="#&#1055;&#1072;&#1088;&#1072;&#1076;&#1086;&#1082;&#1089;-&#1076;&#1085;&#1077;&#1081;-&#1088;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1081;">&#182;</a></h2><p>Пусть $f(n, d)$ это вероятность того, что в группе из $n$ человек ни у кого не совпали дни рождения.
+Будем считать, что дни рождения распределены независимо и равномерно в промежутке от $1$ до $d$.</p>
+$$f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}{d})$$<p>Попытаемся более-менее адекватно оценить $f$:</p>
+$$
 \begin{align}
   \begin{aligned}
-    +90 = 2+8+16+64  &amp; = 10110_2 \\
-    -90 = 00000_2 - 10110_2 &amp; = 01010_2 \\
-    +90 \text{ &amp; } -90 &amp; = 00010_2 \\ 
+    e^x &amp; = 1 + x + \frac{x^2}{2!} + \ldots &amp; \text{(Ряд Тейлора для экспоненты)} \\
+    &amp; \simeq 1 + x &amp; \text{(аппроксимация для $|x| \ll 1$)} \\
+    e^{-\frac{n}{d}} &amp; \simeq 1 - \frac{n}{d} &amp; \text{(Подставляем $\frac{n}{d} \ll 1$)} \\
+    f(n, d) &amp; \simeq e^{-\frac{1}{d}} \times e^{-\frac{2}{d}} \times \ldots \times e^{-\frac{n-1}{d}} &amp; \\
+    &amp; = e^{-\frac{n(n-1)}{2d}} &amp; \\
+    &amp; \simeq e^{-\frac{n^2}{2d}} &amp; \\
   \end{aligned}
 \end{align}
-$</p>
-<p>Когда мы вычитаем, мы идем справа налево. Первые сколько-то нулей с конца ими же и останутся. Потом, на самом младшем единичном бите, мы «займём» много единиц, так что весь префикс станет единицами. Потом отменятся ровно те из них, которые были единицами в исходном числе.</p>
-<p>Делаем &amp;: в каком-то префиксе все биты будут противоположными, младший единичный бит останется, а на суффиксе все как было нулями, так и осталось. Выживет только этот самый младший единичный бит.</p>
+$$<p>Более-менее понятно, что $\frac{1}{2}$ достигается при $d \approx \sqrt{n}$ и в этой точке растёт быстро.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">*=</span> <span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">d</span>
+    <span class="k">return</span> <span class="n">p</span>
+
+<span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">2.71</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">d</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">exact</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">365</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">40</span><span class="p">)]</span>
+<span class="n">approx</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">365</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">40</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">exact</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">approx</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>На графике две линии, если не видно — аппроксимация настолько хороша. Чтобы продемонстрировать $d \approx n$, построим такую же для больших чисел и перейдём в логарифмический масштаб.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">approx</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">approx</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="$\rho$-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1055;&#1086;&#1083;&#1083;&#1072;&#1088;&#1076;&#1072;">$\rho$-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1055;&#1086;&#1083;&#1083;&#1072;&#1088;&#1076;&#1072;<a class="anchor-link" href="#$\rho$-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1055;&#1086;&#1083;&#1083;&#1072;&#1088;&#1076;&#1072;">&#182;</a></h2><p>Итак, мы хотим факторизовать число $n$. Предположим, что $n = p q$ и $p \approx q$. Понятно, что труднее случая, наверное, нет. Алгоритм итеративно ищет наименьший делитель и сводит задачу к меньшей. Понятно, что на асимптотике это не скажется.</p>
+<p>Возьмём произвольную «достаточно случайную» с точки зрения ТЧ функцию. Например $f(x) = (x+1)^2 \mod n$.</p>
+<p>Как выглядит граф, в котором из вершины есть единственное ребро $x \to f(x)$? Такий граф называется <em>функциональным</em>. Если в нём нарисовать «траекторию» произвольного элемента, — какой-то путь, превращающийся в цикл, — то получится что-то похожее на букву $\rho$ (ро). Алгоритм из-за этого так и назван, но об этом позже.</p>
+<p>Рассмотрим траекторию какого-нибудь элемента $x_0$: {$x_0$, $f(x_0)$, $f(f(x_0))$, $\ldots$}. Ожидаемая длина цикла в этой последовательности $O(\sqrt[4]{n})$ — это следует из парадокса дней рождения и из того, что $p \leq \sqrt{n}$.</p>
+<p>Нам достаточно найти цикл в этой последовательности, для чего воспользуемся стандартным алгоритмом («черепаха и заяц»): будем поддерживать два удаляющиеся друг от друга указателя $i$ и $j$ ($i = 2j$) и проверять, что $f^i(x_0) \equiv f^j(x_0) \pmod p$, что эквивалентно проверке gcd(|$f^i(x_0) - f^j(x_0)$|, $n$) $&gt; 1$.</p>
 
 </div>
 </div>
@@ -12008,41 +12289,152 @@ $</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Теперь сразу понятно, почему <code>sum</code> будет работать за логарифм — каждый раз мы делаем <code>x -= x &amp; -x</code>, то есть удаляем один бит.</p>
+<p>Реализация на Python. Так как питон безумно медленный, асимптотику продемонстрировать не сможем.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[123]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">gcd</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">randint</span>
+
+<span class="k">def</span> <span class="nf">find_divisor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">seed</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">%</span> <span class="n">n</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">),</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">d</span>
+
+<span class="k">def</span> <span class="nf">factorize</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">trials</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="n">trials</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">find_divisor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">d</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">trials</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">+=</span> <span class="p">[</span><span class="n">d</span><span class="p">]</span>
+            <span class="n">n</span> <span class="o">//=</span> <span class="n">d</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">t</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[129]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">factorize</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="mi">5</span><span class="o">*</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[129]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[3, 7, 5]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[114]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="mi">5</span><span class="o">*</span><span class="mi">7</span> <span class="c1"># = 105</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">find_divisor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[116]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="o">+</span><span class="mi">7</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="o">+</span><span class="mi">9</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">find_divisor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1000000009, 1000000007, 1000000007, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000007, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000007, 1000000007, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000007, 1000000007, 1000000007, 1000000009, 1000000009, 1000000009, 1000000009, 1000000007]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Теперь сложная (для понимания) часть — как делать add.
-Какие $t_i$ содержат $k$-й элемент? Для них должно выполняться <code>i &gt;= k &gt; i - (i &amp; -i)</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Будем перебирать префиксы TODO</p>
-<p>Мы знаем, что $t_i$ вложены друг в друга. Минимальный подходящий $i$ равен $k$. Какой следующий? Нам нужно для каждого $i$ уметь находить его непосредственного родителя.</p>
-<p>Можно представить дерево так: ячейка 2^k содержит все</p>
-<p>TODO: сначала объявить дерево как дерево и описать его структуру словами, а потом уже показывать реализацию.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;">&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;<a class="anchor-link" href="#&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;">&#182;</a></h2><p>Потому что $F$ использует битовые операции, по-английски структура называется «Binary Indexed Tree».</p>
-<p>Почему дерево Фенвика — дерево? Тут нужно немного воображения. На самом деле BIT в общем случае — набор деревьев.</p>
-<p>Можно показать, что множества элементов, учтенных в $t_i$ и $t_j$, либо не пересекаются, либо одно является подмножеством другого. Значит, между $t_i$ можно ввести отношение вложенности, и тогда дерево Фенвика можно представить как набор деревьев (не обязательно бинарных).</p>
-<p>В частном случае, когда длина массива равна $2^k$, то дерево будет только одно.</p>
+<h2 id="&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;">&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;">&#182;</a></h2><p>Формально, мы показали, что алгоритм работает за $O(\sqrt[4]{n} \log n)$ за счёт поиска $\gcd$, но сложной теорией чисел можно доказать, что этого логарифма в асимптотике на самом деле нет.</p>
+<p>Алгоритм так назван, потому что если нарисовать «траекторию» зацикливающегося элемента, то получится что-то похожее на букву $\rho$ (ро).</p>
+<p>Пародокс дней рождения также можно использовать при подсчёте вероятности коллизии при хэшировании: модуль должен быть не менее квадрата количества хэшей, а чего-то вроде $5 n^2$ уже достаточно.</p>
+<p>Парадокс дней рождения помогает «решить» такую «задачу»: .</p>
 
 </div>
 </div>
