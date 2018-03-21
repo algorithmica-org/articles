@@ -11783,7 +11783,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Наука умеет факторизовать целые числа за $O(n^\frac{1}{4})$. Алгоритм будет рандомизированный, поэтому нам сначала понадобится известная теорема теорвера.</p>
+<p>Наука умеет раскладывать целые числа на множители за $O(n^\frac{1}{4})$. Алгоритм рандомизированный, поэтому нам сначала понадобится один факт из теорвера.</p>
 
 </div>
 </div>
@@ -11794,7 +11794,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="&#1055;&#1072;&#1088;&#1072;&#1076;&#1086;&#1082;&#1089;-&#1076;&#1085;&#1077;&#1081;-&#1088;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1081;">&#1055;&#1072;&#1088;&#1072;&#1076;&#1086;&#1082;&#1089; &#1076;&#1085;&#1077;&#1081; &#1088;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1081;<a class="anchor-link" href="#&#1055;&#1072;&#1088;&#1072;&#1076;&#1086;&#1082;&#1089;-&#1076;&#1085;&#1077;&#1081;-&#1088;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1081;">&#182;</a></h2><p>Пусть $f(n, d)$ это вероятность того, что в группе из $n$ человек ни у кого не совпали дни рождения.
 Будем считать, что дни рождения распределены независимо и равномерно в промежутке от $1$ до $d$.</p>
-$$f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}{d})$$<p>Попытаемся более-менее адекватно оценить $f$:</p>
+$$f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}{d})$$<p>Попытаемся болеменее адекватно оценить $f$:</p>
 $$
 \begin{align}
   \begin{aligned}
@@ -11806,7 +11806,25 @@ $$
     &amp; \simeq e^{-\frac{n^2}{2d}} &amp; \\
   \end{aligned}
 \end{align}
-$$<p>Более-менее понятно, что $\frac{1}{2}$ достигается при $d \approx \sqrt{n}$ и в этой точке растёт быстро.</p>
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Из формулы более-менее понятно, что вероятность $\frac{1}{2}$ достигается при $n \approx \sqrt{d}$ и в этой точке изменяется быстро. Для самого алгоритма нам понадобится следующее:</p>
+<p><strong>Утверждение</strong>. В мультимножество нужно добавить $O(\sqrt{n})$ случайных чисел от 1 до n, чтобы какие-то два совпали.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Если вы не доверяете математике, посмотрите на графики:</p>
 
 </div>
 </div>
@@ -12096,7 +12114,7 @@ vYQUuhBC9BJS6EII0Uv8P6IEM8ojNRUNAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>На графике две линии, если не видно — аппроксимация настолько хороша. Чтобы продемонстрировать $d \approx n$, построим такую же для больших чисел и перейдём в логарифмический масштаб.</p>
+<p>На графике две линии, если не видно, — аппроксимация настолько хороша. Чтобы продемонстрировать $n \approx \sqrt{d}$, построим такую же для больших чисел и перейдём в логарифмический масштаб.</p>
 
 </div>
 </div>
@@ -12276,11 +12294,12 @@ Egx0IiKVYKATEakEA52ISCUY6EREKvE/CG+u8zeRQzEAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="$\rho$-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1055;&#1086;&#1083;&#1083;&#1072;&#1088;&#1076;&#1072;">$\rho$-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1055;&#1086;&#1083;&#1083;&#1072;&#1088;&#1076;&#1072;<a class="anchor-link" href="#$\rho$-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1055;&#1086;&#1083;&#1083;&#1072;&#1088;&#1076;&#1072;">&#182;</a></h2><p>Итак, мы хотим факторизовать число $n$. Предположим, что $n = p q$ и $p \approx q$. Понятно, что труднее случая, наверное, нет. Алгоритм итеративно ищет наименьший делитель и сводит задачу к меньшей. Понятно, что на асимптотике это не скажется.</p>
+<h2 id="$\rho$-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1055;&#1086;&#1083;&#1083;&#1072;&#1088;&#1076;&#1072;">$\rho$-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1055;&#1086;&#1083;&#1083;&#1072;&#1088;&#1076;&#1072;<a class="anchor-link" href="#$\rho$-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1055;&#1086;&#1083;&#1083;&#1072;&#1088;&#1076;&#1072;">&#182;</a></h2><p>Итак, мы хотим факторизовать число $n$. Предположим, что $n = p q$ и $p \approx q$. Понятно, что труднее случая, наверное, нет. Алгоритм итеративно ищет наименьший делитель и сводит задачу к как минимум в два раза меньшей.</p>
 <p>Возьмём произвольную «достаточно случайную» с точки зрения ТЧ функцию. Например $f(x) = (x+1)^2 \mod n$.</p>
-<p>Как выглядит граф, в котором из вершины есть единственное ребро $x \to f(x)$? Такий граф называется <em>функциональным</em>. Если в нём нарисовать «траекторию» произвольного элемента, — какой-то путь, превращающийся в цикл, — то получится что-то похожее на букву $\rho$ (ро). Алгоритм из-за этого так и назван, но об этом позже.</p>
-<p>Рассмотрим траекторию какого-нибудь элемента $x_0$: {$x_0$, $f(x_0)$, $f(f(x_0))$, $\ldots$}. Ожидаемая длина цикла в этой последовательности $O(\sqrt[4]{n})$ — это следует из парадокса дней рождения и из того, что $p \leq \sqrt{n}$.</p>
-<p>Нам достаточно найти цикл в этой последовательности, для чего воспользуемся стандартным алгоритмом («черепаха и заяц»): будем поддерживать два удаляющиеся друг от друга указателя $i$ и $j$ ($i = 2j$) и проверять, что $f^i(x_0) \equiv f^j(x_0) \pmod p$, что эквивалентно проверке gcd(|$f^i(x_0) - f^j(x_0)$|, $n$) $&gt; 1$.</p>
+<p>Как выглядит граф, в котором из вершины есть единственное ребро $x \to f(x)$? Такой граф называется <em>функциональным</em>. Если в нём нарисовать «траекторию» произвольного элемента, — какой-то путь, превращающийся в цикл, — то получится что-то похожее на букву $\rho$ (ро). Алгоритм из-за этого так и назван.</p>
+<p>Рассмотрим траекторию какого-нибудь элемента $x_0$: {$x_0$, $f(x_0)$, $f(f(x_0))$, $\ldots$}. Теперь сделаем из неё новую последовательность, взяв каждый элемент по модулю $p$ — наименьшего из простых делителей $n$.</p>
+<p><strong>Утверждение</strong>. Ожидаемая длина цикла в этой последовательности $O(\sqrt[4]{n})$.</p>
+<p><em>Доказательство:</em> так как $p$ — меньший делитель, то $p \leq \sqrt{n}$. Теперь просто подставим в предыдущее утверждение: в множество нужно добавить $O(\sqrt{p}) = O(\sqrt[4]{n})$ элементов, чтобы какие-то два совпали, а значит последовательность зациклилась.</p>
 
 </div>
 </div>
@@ -12289,20 +12308,32 @@ Egx0IiKVYKATEakEA52ISCUY6EREKvE/CG+u8zeRQzEAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Реализация на Python. Так как питон безумно медленный, асимптотику продемонстрировать не сможем.</p>
+<p>Если мы найдём цикл в такой последовательности (то есть такие $i$ и $j$, что $f^i(x_0) \equiv f^j(x_0)$), то мы можем восстановить какой-то делитель $n$, а именно $\gcd(|f^i(x_0) - f^j(x_0)|, n)$ — это число меньше $n$ и делится на $p$.</p>
+<p>Алгоритм по сути находит цикл в этой последовательности, используя для этого стандартный алгоритм («черепаха и заяц»): будем поддерживать два удаляющиеся друг от друга указателя $i$ и $j$ ($i = 2j$) и проверять, что $f^i(x_0) \equiv f^j(x_0) \pmod p$, что эквивалентно проверке $\gcd(|f^i(x_0) - f^j(x_0)|, n) &gt; 1$.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[123]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">gcd</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">randint</span>
+</pre></div>
 
-<span class="k">def</span> <span class="nf">find_divisor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">):</span>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">find_divisor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">seed</span>
     <span class="n">d</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">while</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -12310,19 +12341,6 @@ Egx0IiKVYKATEakEA52ISCUY6EREKvE/CG+u8zeRQzEAAAAASUVORK5CYII=
         <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span>
         <span class="n">d</span> <span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">),</span> <span class="n">n</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">d</span>
-
-<span class="k">def</span> <span class="nf">factorize</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">trials</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">while</span> <span class="n">trials</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">find_divisor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">d</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
-            <span class="n">trials</span> <span class="o">-=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">t</span> <span class="o">+=</span> <span class="p">[</span><span class="n">d</span><span class="p">]</span>
-            <span class="n">n</span> <span class="o">//=</span> <span class="n">d</span>
-    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">t</span> <span class="o">+=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">t</span>
 </pre></div>
 
 </div>
@@ -12332,40 +12350,7 @@ Egx0IiKVYKATEakEA52ISCUY6EREKvE/CG+u8zeRQzEAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[129]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">factorize</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="mi">5</span><span class="o">*</span><span class="mi">7</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[129]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[3, 7, 5]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[114]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="mi">5</span><span class="o">*</span><span class="mi">7</span> <span class="c1"># = 105</span>
@@ -12397,11 +12382,11 @@ Egx0IiKVYKATEakEA52ISCUY6EREKvE/CG+u8zeRQzEAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[116]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="o">+</span><span class="mi">7</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="o">+</span><span class="mi">9</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">([</span><span class="n">find_divisor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">find_divisor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)])</span>
 </pre></div>
 
 </div>
@@ -12418,7 +12403,7 @@ Egx0IiKVYKATEakEA52ISCUY6EREKvE/CG+u8zeRQzEAAAAASUVORK5CYII=
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[1000000009, 1000000007, 1000000007, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000007, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000007, 1000000007, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000007, 1000000007, 1000000007, 1000000009, 1000000009, 1000000009, 1000000009, 1000000007]
+<pre>[1000000007, 1000000009, 1000000009, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009]
 </pre>
 </div>
 </div>
@@ -12431,10 +12416,17 @@ Egx0IiKVYKATEakEA52ISCUY6EREKvE/CG+u8zeRQzEAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Так как алгоритм рандомизированный, при полной реализации нужно учитывать разные детали. Например, что иногда делитель не находится (нужно запускать несколько раз), или что при попытке факторизовать простое число он будет работать за $O(\sqrt{n})$ (нужно добавить отсечение по времени).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;">&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;">&#182;</a></h2><p>Формально, мы показали, что алгоритм работает за $O(\sqrt[4]{n} \log n)$ за счёт поиска $\gcd$, но сложной теорией чисел можно доказать, что этого логарифма в асимптотике на самом деле нет.</p>
-<p>Алгоритм так назван, потому что если нарисовать «траекторию» зацикливающегося элемента, то получится что-то похожее на букву $\rho$ (ро).</p>
-<p>Пародокс дней рождения также можно использовать при подсчёте вероятности коллизии при хэшировании: модуль должен быть не менее квадрата количества хэшей, а чего-то вроде $5 n^2$ уже достаточно.</p>
-<p>Парадокс дней рождения помогает «решить» такую «задачу»: .</p>
+<p>Пародокс дней рождения также можно использовать при подсчёте вероятности коллизии при хэшировании. Хороший модуль должен быть не менее квадрата количества хэшей, а чего-то вроде $5 n^2$ уже почти всегда достаточно.</p>
 
 </div>
 </div>
