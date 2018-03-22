@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>bitset</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>bayans</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,10 +11775,79 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1041;&#1080;&#1090;&#1086;&#1074;&#1086;&#1077;-&#1089;&#1078;&#1072;&#1090;&#1080;&#1077;">&#1041;&#1080;&#1090;&#1086;&#1074;&#1086;&#1077; &#1089;&#1078;&#1072;&#1090;&#1080;&#1077;<a class="anchor-link" href="#&#1041;&#1080;&#1090;&#1086;&#1074;&#1086;&#1077;-&#1089;&#1078;&#1072;&#1090;&#1080;&#1077;">&#182;</a></h1><ul>
-<li>Из-за него в «асимптотиках» появляется <code>/64</code></li>
-<li>На Всеросе часто дают задачи, где оно может принести «бесплатные» ~20 баллов</li>
-<li><code>bitset</code> есть в stl; говорят, самописный быстрее</li>
+<h1 id="&#1050;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077;-&#1080;&#1076;&#1077;&#1081;&#1085;&#1099;&#1077;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#1050;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077; &#1080;&#1076;&#1077;&#1081;&#1085;&#1099;&#1077; &#1079;&#1072;&#1076;&#1072;&#1095;&#1080;<a class="anchor-link" href="#&#1050;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077;-&#1080;&#1076;&#1077;&#1081;&#1085;&#1099;&#1077;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#182;</a></h1><p>Везде, где не указано — время работы $O(n)$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1055;&#1086;&#1087;&#1091;&#1075;&#1072;&#1080;">&#1055;&#1086;&#1087;&#1091;&#1075;&#1072;&#1080;<a class="anchor-link" href="#&#1055;&#1086;&#1087;&#1091;&#1075;&#1072;&#1080;">&#182;</a></h2><p>Вам нужно передать 64 байт некоторой информации. Для этого у вас есть 320 специально обученных попугаев, каждый из которых может запомнить число от 0 до 255. Все попугаи рано или поздно долетают до точки назначения и сообщают свой байт, но, возможно, не в том порядке, в котором были выпущены. Попугаи внешне неразличимы.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1052;&#1080;&#1085;&#1080;&#1084;&#1091;&#1084;-&#1080;-&#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1091;&#1084;">&#1052;&#1080;&#1085;&#1080;&#1084;&#1091;&#1084; &#1080; &#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1091;&#1084;<a class="anchor-link" href="#&#1052;&#1080;&#1085;&#1080;&#1084;&#1091;&#1084;-&#1080;-&#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1091;&#1084;">&#182;</a></h2><p>Даны 68 камней разного веса. Требуется за 100 операций взвешивания определить самый лёгкий и самый тяжелый.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1055;&#1077;&#1088;&#1077;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072;">&#1055;&#1077;&#1088;&#1077;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072;<a class="anchor-link" href="#&#1055;&#1077;&#1088;&#1077;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072;">&#182;</a></h2><p>Есть перестановка из 64 элементов. Вы можете спрашивать, какие элементы находятся на заданном множестве позиций (вам сообщается список элементов в произвольном порядке). Восстановите перестановку за наименьшее число вопросов.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1042;&#1099;&#1087;&#1091;&#1082;&#1083;&#1072;&#1103;-&#1086;&#1073;&#1086;&#1083;&#1086;&#1095;&#1082;&#1072;">&#1042;&#1099;&#1087;&#1091;&#1082;&#1083;&#1072;&#1103; &#1086;&#1073;&#1086;&#1083;&#1086;&#1095;&#1082;&#1072;<a class="anchor-link" href="#&#1042;&#1099;&#1087;&#1091;&#1082;&#1083;&#1072;&#1103;-&#1086;&#1073;&#1086;&#1083;&#1086;&#1095;&#1082;&#1072;">&#182;</a></h2><p>Требуется отвечать на 2 типа запросов:</p>
+<ol>
+<li>Добавить точку в выпуклую оболочку.</li>
+<li>Проверить, лежит ли точка внутри выпуклой оболочки.</li>
+</ol>
+<p>Обе операции онлайн за $O(\log n)$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1077;&#1089;&#1089;&#1080;&#1103;">&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103; &#1087;&#1088;&#1086;&#1075;&#1088;&#1077;&#1089;&#1089;&#1080;&#1103;<a class="anchor-link" href="#&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1077;&#1089;&#1089;&#1080;&#1103;">&#182;</a></h2><p>Найдите способ посчитать $\frac{1-a^n}{1-a}$ по произвольному модулю за $O(\log n)$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1055;&#1086;&#1082;&#1077;&#1084;&#1086;&#1085;&#1099;">&#1055;&#1086;&#1082;&#1077;&#1084;&#1086;&#1085;&#1099;<a class="anchor-link" href="#&#1055;&#1086;&#1082;&#1077;&#1084;&#1086;&#1085;&#1099;">&#182;</a></h2><p>В турнире участвуют видов 1024 покемонов. Вы, будучи экспертом по покемонам, знаете, кто кого может победить. Иначе говоря, у вам полностью известен граф-<em>турнир</em> из 1024 вершин и $1023 \times 1022 : 2$ рёбер, в котором каждые две вершины соединены ровно одним ориентированным ребром, определяющим победителя в возможном поединке. У вас есть 10 покеболов. Составьте команду из 10 покемонов, такую что для каждого из 1024 типов покемонов в вашей команде найдется покемон, побеждающий его. Считайте, что в битве одинаковых покемонов побеждает ваш.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1057;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1082;&#1072;">&#1057;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1082;&#1072;<a class="anchor-link" href="#&#1057;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1082;&#1072;">&#182;</a></h2><p>Можно ли отсортировать</p>
+<ul>
+<li>5 камней за 8 взвешиваний?</li>
+<li>5 камней за 7 взвешиваний?</li>
+<li>20 камней за 60 взвешиваний?</li>
 </ul>
 
 </div>
@@ -11788,8 +11857,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Процессор так устроен, что работает сразу с блоками по 32 или 64 бита (зависит от архитектуры, но получить что-то меньше одного байта он в принципе не может). Иными словами, сделать <code>&amp;</code> двух <code>bool</code>-ом и двух <code>long</code>-ов примерно одинаково по скорости.</p>
-<p>Часто нам требуется сделать много одинаковых операций над элементами булевого массива. Проксорить два массива, например. Здесь появляется такая идея: сгруппировать элементы массива в блоки по 64 и каждый блок считать двоичным числом. Тогда мы можем ксорить сразу все 64 бита за одну операцию.</p>
+<h2 id="&#1058;&#1086;&#1095;&#1082;&#1080;-&#1074;-&#1082;&#1088;&#1091;&#1075;&#1077;">&#1058;&#1086;&#1095;&#1082;&#1080; &#1074; &#1082;&#1088;&#1091;&#1075;&#1077;<a class="anchor-link" href="#&#1058;&#1086;&#1095;&#1082;&#1080;-&#1074;-&#1082;&#1088;&#1091;&#1075;&#1077;">&#182;</a></h2><p>Даны $n$ точек, равномерно распределенных в единичном круге с центром в начале координат. Предложите алгоритм, который за $O(n)$ в среднем сортирует их по удаленности от начала координат.</p>
 
 </div>
 </div>
@@ -11798,36 +11866,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Это всё можно кодить и вручную, но в STL это уже сделали до нас, создав структуру, ведущую себя как большое двоичное число со всеми стандартными битовыми операциями — <code>bitset</code>.</p>
-<p>Работать с ним нужно вот так:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">lim</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
-<span class="n">bitset</span><span class="o">&lt;</span><span class="n">lim</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span> <span class="c1">// создать битсет размера lim (должно быть константой)</span>
-<span class="n">b</span><span class="p">.</span><span class="n">set</span><span class="p">();</span>       <span class="c1">// заполнить единицами</span>
-<span class="n">b</span><span class="p">.</span><span class="n">reset</span><span class="p">();</span>     <span class="c1">// заполнить нулями</span>
-<span class="n">b</span><span class="p">.</span><span class="n">flip</span><span class="p">();</span>      <span class="c1">// заменить единички на нули и наоборот</span>
-<span class="n">b</span><span class="p">.</span><span class="n">count</span><span class="p">();</span>     <span class="c1">// посчитать число единичек</span>
-<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">b</span><span class="p">;</span>     <span class="c1">// вывести битовую строку</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Также для битсетов работает вся битовая арифметика — <code>&amp;, |, ^, ~, &lt;&lt;, &gt;&gt;</code> и их варианты с <code>[operator]=</code>.</p>
+<h2 id="&#1047;&#1072;&#1084;&#1082;&#1085;&#1091;&#1090;&#1099;&#1077;-&#1083;&#1086;&#1084;&#1072;&#1085;&#1099;&#1077;">&#1047;&#1072;&#1084;&#1082;&#1085;&#1091;&#1090;&#1099;&#1077; &#1083;&#1086;&#1084;&#1072;&#1085;&#1099;&#1077;<a class="anchor-link" href="#&#1047;&#1072;&#1084;&#1082;&#1085;&#1091;&#1090;&#1099;&#1077;-&#1083;&#1086;&#1084;&#1072;&#1085;&#1099;&#1077;">&#182;</a></h2><p>Даны две замкнутые несамопересекающиеся ломаные. Определите, можно ли перевести их друг в друга с помощью параллельного переноса, поворотов и гомотетии?</p>
 
 </div>
 </div>
@@ -11836,88 +11875,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1102;&#1082;&#1079;&#1072;&#1082;">&#1056;&#1102;&#1082;&#1079;&#1072;&#1082;<a class="anchor-link" href="#&#1056;&#1102;&#1082;&#1079;&#1072;&#1082;">&#182;</a></h2><p>Задача: даны $n$ предметов с положительными целыми весами $a_i$ и рюкзак размера $lim$, выбрать подмножество предметов с максимальной суммой, не превышающий размер рюкзака.</p>
-<p>Обычно его решают так:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="kt">bool</span> <span class="n">dp</span><span class="p">[</span><span class="n">lim</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// так можно его заполнить нулями</span>
-<span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">lim</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span><span class="o">--</span><span class="p">)</span>
-        <span class="n">dp</span><span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">|=</span> <span class="n">dp</span><span class="p">[</span><span class="n">x</span><span class="p">];</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>…а с битсетом оно разгоняется так:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">lim</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span>
-<span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="n">b</span> <span class="o">|=</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1062;&#1080;&#1082;&#1083;-&#1076;&#1083;&#1080;&#1085;&#1099;-3">&#1062;&#1080;&#1082;&#1083; &#1076;&#1083;&#1080;&#1085;&#1099; 3<a class="anchor-link" href="#&#1062;&#1080;&#1082;&#1083;-&#1076;&#1083;&#1080;&#1085;&#1099;-3">&#182;</a></h2><p>Пусть нам нужно узнать, есть ли цикл длины 3 в ориентированном графе из $n$ вершин, заданном своей матрицей смежности. Обернем матрицу в битсет, и тогда задача решается за $O(\frac{n^3}{64})$ следующим образом:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">maxn</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// матрица смежности</span>
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">a</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">b</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">~</span><span class="n">g</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">g</span><span class="p">[</span><span class="n">b</span><span class="p">]).</span><span class="n">any</span><span class="p">())</span> <span class="p">{</span>
-            <span class="c1">// цикл найден</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Benchmark: на серверах CodeForces этот код при $n = 5000$ работает за 7 секунд.</p>
+<h2 id="&#1053;&#1077;&#1091;&#1073;&#1099;&#1074;&#1072;&#1102;&#1097;&#1080;&#1081;-&#1084;&#1072;&#1089;&#1089;&#1080;&#1074;">&#1053;&#1077;&#1091;&#1073;&#1099;&#1074;&#1072;&#1102;&#1097;&#1080;&#1081; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;<a class="anchor-link" href="#&#1053;&#1077;&#1091;&#1073;&#1099;&#1074;&#1072;&#1102;&#1097;&#1080;&#1081;-&#1084;&#1072;&#1089;&#1089;&#1080;&#1074;">&#182;</a></h2><p>Дан массив из $n$ целых чисел. Требуется за $2n$ операций «прибавить к одному элементу любой другой» сделать его неубывающим.</p>
 
 </div>
 </div>
@@ -11926,39 +11884,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1077;&#1088;&#1077;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;-&#1084;&#1072;&#1090;&#1088;&#1080;&#1094;">&#1055;&#1077;&#1088;&#1077;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;<a class="anchor-link" href="#&#1055;&#1077;&#1088;&#1077;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;-&#1084;&#1072;&#1090;&#1088;&#1080;&#1094;">&#182;</a></h2><p>Матрица смежности графа, возведенная в степень $n$, имеет комбинаторный смысл: количество способов дойти из $a$ в $b$, используя ровно $n$ переходов. Иногда нам не нужно знать число способов, и нам просто хватит знания, можно ли вообще через $n$ ходов там оказаться. Тогда вместо числового умножения нам хватит битового умножения:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="k">typedef</span> <span class="n">bitset</span><span class="o">&lt;</span><span class="n">maxn</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">;</span>
-<span class="k">typedef</span> <span class="n">array</span><span class="o">&lt;</span><span class="n">t</span><span class="p">,</span> <span class="n">maxn</span><span class="o">&gt;</span> <span class="n">matrix</span><span class="p">;</span>
-
-<span class="n">matrix</span> <span class="k">operator</span><span class="o">*</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">,</span> <span class="n">matrix</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">matrix</span> <span class="n">c</span><span class="p">;</span>
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">maxn</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">maxn</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
-                <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">|=</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
-    <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>(Я не уверен на 100%, что код рабочий.)</p>
+<h2 id="&#1063;&#1105;&#1090;&#1085;&#1099;&#1081;-&#1094;&#1080;&#1082;&#1083;">&#1063;&#1105;&#1090;&#1085;&#1099;&#1081; &#1094;&#1080;&#1082;&#1083;<a class="anchor-link" href="#&#1063;&#1105;&#1090;&#1085;&#1099;&#1081;-&#1094;&#1080;&#1082;&#1083;">&#182;</a></h2><p>Дан неориентированный граф. Определите, есть ли в нём простой цикл чётной длины.</p>
 
 </div>
 </div>
@@ -11967,7 +11893,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1043;&#1072;&#1091;&#1089;&#1089;">&#1043;&#1072;&#1091;&#1089;&#1089;<a class="anchor-link" href="#&#1043;&#1072;&#1091;&#1089;&#1089;">&#182;</a></h2><p>TODO</p>
+<h2 id="$k$-&#1072;&#1103;-&#1087;&#1086;&#1088;&#1103;&#1076;&#1082;&#1086;&#1074;&#1072;&#1103;-&#1089;&#1090;&#1072;&#1090;&#1080;&#1089;&#1090;&#1080;&#1082;&#1072;">$k$-&#1072;&#1103; &#1087;&#1086;&#1088;&#1103;&#1076;&#1082;&#1086;&#1074;&#1072;&#1103; &#1089;&#1090;&#1072;&#1090;&#1080;&#1089;&#1090;&#1080;&#1082;&#1072;<a class="anchor-link" href="#$k$-&#1072;&#1103;-&#1087;&#1086;&#1088;&#1103;&#1076;&#1082;&#1086;&#1074;&#1072;&#1103;-&#1089;&#1090;&#1072;&#1090;&#1080;&#1089;&#1090;&#1080;&#1082;&#1072;">&#182;</a></h2><p>Дан массив из $n$ целых чисел. Найдите его $k$-й по наименьший элемент за $O(n)$.</p>
 
 </div>
 </div>
