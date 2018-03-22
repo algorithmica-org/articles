@@ -11888,6 +11888,44 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1062;&#1080;&#1082;&#1083;-&#1076;&#1083;&#1080;&#1085;&#1099;-3">&#1062;&#1080;&#1082;&#1083; &#1076;&#1083;&#1080;&#1085;&#1099; 3<a class="anchor-link" href="#&#1062;&#1080;&#1082;&#1083;-&#1076;&#1083;&#1080;&#1085;&#1099;-3">&#182;</a></h2><p>Пусть нам нужно узнать, есть ли цикл длины 3 в графе из $n$ вершин, заданном своей матрицей смежности. Обернем матрицу в битсет, и тогда задача решается за $O(\frac{n^3}{64})$ следующим образом:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">maxn</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// матрица смежности</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">a</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">b</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">g</span><span class="p">[</span><span class="n">b</span><span class="p">]).</span><span class="n">any</span><span class="p">())</span> <span class="p">{</span>
+            <span class="c1">// цикл найден</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Benchmark: на серверах CodeForces этот код при $n = 5000$ работает за 7 секунд.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="&#1055;&#1077;&#1088;&#1077;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;-&#1084;&#1072;&#1090;&#1088;&#1080;&#1094;">&#1055;&#1077;&#1088;&#1077;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;<a class="anchor-link" href="#&#1055;&#1077;&#1088;&#1077;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;-&#1084;&#1072;&#1090;&#1088;&#1080;&#1094;">&#182;</a></h2><p>Матрица смежности графа, возведенная в степень $n$, имеет комбинаторный смысл: количество способов дойти из $a$ в $b$, используя ровно $n$ переходов. Иногда нам не нужно знать число способов, и нам просто хватит знания, можно ли вообще через $n$ ходов там оказаться. Тогда вместо числового умножения нам хватит битового умножения:</p>
 
 </div>
