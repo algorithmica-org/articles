@@ -11816,6 +11816,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Чтобы так не делать, старайтесь по возможности использовать только инты и абсолютную точность. Иногда есть трюки, позволяющие так делать: например, если в задаче все входные точки целочисленные и нас просят посчитать какую-то площадь, то можно все координаты домножить на два, и тогда ответ тоже будет целым (см. векторное произведение), который только при выводе нужно будет поделить на четыре.</p>
+<p>Тем не менее, здесь мы для гибкости будем использовать даблы.</p>
 
 </div>
 </div>
@@ -11833,8 +11834,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1054;&#1054;&#1055;-&#1074;-C++">&#1054;&#1054;&#1055; &#1074; C++<a class="anchor-link" href="#&#1054;&#1054;&#1055;-&#1074;-C++">&#182;</a></h2><p>Очень удобно оборачивать нужные нам свойства в объекты. Здесь мы создадим структуру, которая будет отвечать за все операции с точками.</p>
-<p>Также существует <code>class</code>. Его отличие в том, что по умолчанию его поля <em>приватные</em> — к ним нет прямого доступа снаружи. Это нужно для дополнительной защиты, чтобы в крупных промышленных проектах никто случайно ничего не поломал, но на олимпиадах это не очень актуально.</p>
+<h2 id="&#1054;&#1054;&#1055;-&#1074;-C++">&#1054;&#1054;&#1055; &#1074; C++<a class="anchor-link" href="#&#1054;&#1054;&#1055;-&#1074;-C++">&#182;</a></h2><p>Сначала мы создадим класс, который будет отвечать за все операции с точками. В C++ есть два способа это сделать: через <code>struct</code> и через <code>class</code>. Их основное отличие в том, что по умолчанию в <code>class</code> все поля <em>приватные</em> — к ним нет прямого доступа снаружи. Это нужно для дополнительной защиты, чтобы в крупных промышленных проектах никто случайно ничего не поломал, но на олимпиадах это не очень актуально.</p>
 
 </div>
 </div>
@@ -11845,7 +11845,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-c++"><pre><span></span><span class="k">struct</span> <span class="n">r</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
     <span class="n">r</span> <span class="p">()</span> <span class="p">{}</span>
     <span class="n">r</span> <span class="p">(</span><span class="kt">int</span> <span class="n">_x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_y</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="o">=</span> <span class="n">_x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">_y</span><span class="p">;</span> <span class="p">}</span>
 <span class="p">};</span>
@@ -11855,6 +11855,15 @@ div#notebook {
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Функция <code>r</code> внутри класса вызывается при инциализации объекта. Она называется конструктор, и её можно указывать разную для разных параметров. Таким образом, <code>r()</code> вернёт точку с неопределенными (какие оказались в памяти в тот момент) координатами, а r(x, y) вернет точку с координатами $(x, y)$.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -11877,14 +11886,6 @@ div#notebook {
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1064;&#1072;&#1073;&#1083;&#1086;&#1085;&#1099;">&#1064;&#1072;&#1073;&#1083;&#1086;&#1085;&#1099;<a class="anchor-link" href="#&#1064;&#1072;&#1073;&#1083;&#1086;&#1085;&#1099;">&#182;</a></h2>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -12059,6 +12060,16 @@ div#notebook {
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1055;&#1088;&#1103;&#1084;&#1099;&#1077;,-&#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1080;-&#1080;-&#1083;&#1091;&#1095;&#1080;">&#1055;&#1088;&#1103;&#1084;&#1099;&#1077;, &#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1080; &#1080; &#1083;&#1091;&#1095;&#1080;<a class="anchor-link" href="#&#1055;&#1088;&#1103;&#1084;&#1099;&#1077;,-&#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1080;-&#1080;-&#1083;&#1091;&#1095;&#1080;">&#182;</a></h2><p>Можно хранить</p>
+<p>Переписывать функциональность для прямых и лучей обычно не нужно. Их можно эмулировать, используя</p>
+
+</div>
+</div>
 </div>
     </div>
   </div>
