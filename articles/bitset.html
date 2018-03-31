@@ -11941,8 +11941,8 @@ div#notebook {
 
 <span class="n">matrix</span> <span class="k">operator</span><span class="o">*</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">,</span> <span class="n">matrix</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">matrix</span> <span class="n">c</span><span class="p">;</span>
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">maxn</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">maxn</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
             <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
                 <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">|=</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
     <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
@@ -11958,16 +11958,54 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>(Я не уверен на 100%, что код рабочий.)</p>
+<h2 id="&#1043;&#1072;&#1091;&#1089;&#1089;">&#1043;&#1072;&#1091;&#1089;&#1089;<a class="anchor-link" href="#&#1043;&#1072;&#1091;&#1089;&#1089;">&#182;</a></h2><p>Иногда встречаются задачи, требующие решения системы линейных уравнений. Очень большая часть из них на самом деле над полем $\mathbb{Z}_2$ — то есть все числа по модулю 2. К примеру: есть $n$ переключателей лампочек, каждый активированный переключатель меняет состояние (включает или выключает) какого-то подмножества из $n$ лампочек. Известно состояние всех лампочек, нужно восстановить состояние переключаетелей.</p>
+<p>Нас по сути просят решить следующую систему:</p>
+$$
+\begin{cases}
+a_{11} x_1 + a_{12} x_2 + \ldots + a_{1n} x_n \equiv b_1 \pmod 2\\
+a_{21} x_1 + a_{22} x_2 + \ldots + a_{2n} x_n \equiv b_2 \pmod 2\\
+\ldots \\
+a_{n1} x_1 + a_{n2} x_2 + \ldots + a_{nn} x_n \equiv b_n \pmod 2
+\end{cases}
+$$<p>Здесь $x$ — состояния переключателей, $b$ — состояния лампочек, $A$ — информация о том, влияет ли переключатель на лампочку.</p>
+<p>В таком случае можно значительно ускорить и упростить обычный метод Гаусса:</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="n">t</span> <span class="nf">gauss</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">nonzero</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">nonzero</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+        <span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">nonzero</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">!=</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">^=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">t</span> <span class="n">x</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">^</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1043;&#1072;&#1091;&#1089;&#1089;">&#1043;&#1072;&#1091;&#1089;&#1089;<a class="anchor-link" href="#&#1043;&#1072;&#1091;&#1089;&#1089;">&#182;</a></h2><p>TODO</p>
+<p>Код находит вектор $x$ из уравнения $Ax = b$ при условии, что решение существует и единственно. Для простоты кода, предполагается, что вектор $b$ приписан справа к матрице $A$.</p>
 
 </div>
 </div>
