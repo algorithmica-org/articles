@@ -96,6 +96,6 @@ a[href^='http://codeforces.com']:before {
 }
 
 a[href^='https://www.topcoder.com/']:before {
-    content: url('https://www.topcoder.com/favicon.ico');
+    content: url('https://s3.amazonaws.com/app.topcoder.com/favicon.ico');
     margin-right: 4px;
 }
