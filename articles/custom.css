@@ -16,6 +16,10 @@
     margin-top: -50px;
 }
 
+h1, h2, h3 {
+    margin-top: 10px !important;
+}
+
 body {
     font-family: 'Garamond', serif;
 }
@@ -44,4 +48,54 @@ code {
 .output_area {
     margin: 8px;
     border-left: 4px solid lightgrey;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+a[href^='http://sereja.me']:before {
+    content: url('/favicon.ico');
+    margin-right: 4px;
+}
+
+/* TODO: reasonable way to do this. */
+a[href^='http://e-maxx.ru']:before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    float: left;
+    background: url('http://e-maxx.ru/favicon.ico') no-repeat;
+    background-size: 18px;
+}
+
+a[href^='https://habrahabr.ru']:before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    float: left;
+    background: url('https://habrahabr.ru/favicon.ico') no-repeat;
+    background-size: 18px;
+}
+
+a[href^='https://neerc.ifmo.ru']:before {
+    content: url('https://neerc.ifmo.ru/favicon.ico');
+    margin-right: 4px;
+}
+
+a[href^='https://www.youtube.com']:before {
+    content: url('https://www.youtube.com/favicon.ico');
+    margin-right: 4px;
+}
+
+a[href^='http://codeforces.com']:before {
+    content: url('http://codeforces.com/favicon.ico');
+    margin-right: 4px;
+}
+
+a[href^='https://www.topcoder.com/']:before {
+    content: url('https://www.topcoder.com/favicon.ico');
+    margin-right: 4px;
 }
