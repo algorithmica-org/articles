@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>linalg</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>reciprocal</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,31 +11775,33 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103;-&#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;-&#1074;-&#1086;&#1083;&#1080;&#1084;&#1087;&#1080;&#1072;&#1076;&#1085;&#1086;&#1084;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080;">&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103; &#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072; &#1074; &#1086;&#1083;&#1080;&#1084;&#1087;&#1080;&#1072;&#1076;&#1085;&#1086;&#1084; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080;<a class="anchor-link" href="#&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103;-&#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;-&#1074;-&#1086;&#1083;&#1080;&#1084;&#1087;&#1080;&#1072;&#1076;&#1085;&#1086;&#1084;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080;">&#182;</a></h1>
+<h1 id="&#1054;&#1073;&#1088;&#1072;&#1090;&#1085;&#1099;&#1081;-&#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;-&#1087;&#1086;-&#1084;&#1086;&#1076;&#1091;&#1083;&#1102;">&#1054;&#1073;&#1088;&#1072;&#1090;&#1085;&#1099;&#1081; &#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090; &#1087;&#1086; &#1084;&#1086;&#1076;&#1091;&#1083;&#1102;<a class="anchor-link" href="#&#1054;&#1073;&#1088;&#1072;&#1090;&#1085;&#1099;&#1081;-&#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;-&#1087;&#1086;-&#1084;&#1086;&#1076;&#1091;&#1083;&#1102;">&#182;</a></h1><p>Часто в задачах требуется посчитать что-то по простому модулю (чаще всего $10^9 + 7$). Это делают для того, чтобы участникам не приходилось использовать длинную арифметику, и они могли сосредоточиться на самой задаче.</p>
+<p>Обычные арифметические операции выполняются не сильно сложнее — просто нужно брать модули и заботиться о переполнении. Например:</p>
+
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+<span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">mod</span> <span class="o">+</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">%</span> <span class="n">mod</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Матрицы выглядят так:</p>
-$$
-\begin{pmatrix}
-a_{11} &amp; a_{12} &amp; a_{13} \\
-a_{21} &amp; a_{22} &amp; a_{23} \\
-a_{31} &amp; a_{32} &amp; a_{33} \\
-\end{pmatrix}
-$$
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Самая важная для нас операция -- умножение. У матриц оно определено совсем не так, как у чисел. Если $C = AB$, то:</p>
-$$ c_{ij} = \sum_{k=1}^n a_{ik} b_{kj} $$<p></p>
+<p>Но при этом не можем просто взять и поделить. Пример: $\frac{8}{2} = 4$, но $\frac{8 \% 5 = 3}{2 \% 5 = 2} \neq 4$.</p>
+<p>Нужно найти некоторый элемент, который будет себя вести как $\frac{1}{a} = a^{-1}$. Назовем такой элемент обратным.</p>
 
 </div>
 </div>
@@ -11808,7 +11810,7 @@ $$ c_{ij} = \sum_{k=1}^n a_{ik} b_{kj} $$<p></p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Умножение коммутативно, а значит ничто не мешает нам обобщить бинарное возведение в степень для скаляров (чисел) на матрицы.</p>
+<h2 id="&#1057;&#1087;&#1086;&#1089;&#1086;&#1073;-1:-&#1073;&#1080;&#1085;&#1072;&#1088;&#1085;&#1086;&#1077;-&#1074;&#1086;&#1079;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077;-&#1074;-&#1089;&#1090;&#1077;&#1087;&#1077;&#1085;&#1100;">&#1057;&#1087;&#1086;&#1089;&#1086;&#1073; 1: &#1073;&#1080;&#1085;&#1072;&#1088;&#1085;&#1086;&#1077; &#1074;&#1086;&#1079;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077; &#1074; &#1089;&#1090;&#1077;&#1087;&#1077;&#1085;&#1100;<a class="anchor-link" href="#&#1057;&#1087;&#1086;&#1089;&#1086;&#1073;-1:-&#1073;&#1080;&#1085;&#1072;&#1088;&#1085;&#1086;&#1077;-&#1074;&#1086;&#1079;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077;-&#1074;-&#1089;&#1090;&#1077;&#1087;&#1077;&#1085;&#1100;">&#182;</a></h2><p>Если модуль $p$ простой, то решением будет $a^{-1} \equiv a^{p-2}$. Это следует из малой теоремы Ферма:</p>
 
 </div>
 </div>
@@ -11817,42 +11819,17 @@ $$ c_{ij} = \sum_{k=1}^n a_{ik} b_{kj} $$<p></p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1060;&#1080;&#1073;&#1086;&#1085;&#1072;&#1095;&#1095;&#1080;">&#1060;&#1080;&#1073;&#1086;&#1085;&#1072;&#1095;&#1095;&#1080;<a class="anchor-link" href="#&#1060;&#1080;&#1073;&#1086;&#1085;&#1072;&#1095;&#1095;&#1080;">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Теорема.</strong> $a^p \equiv a \pmod p$ для всех $a$, не делящихся на $p$.</p>
+<p><em>Доказательство</em>. (для понимания несущественно, можно пропустить)</p>
 $$
-\begin{pmatrix}
-f_{n+1} \\
-f_{n+2} \\
-\end{pmatrix}
-=
-\begin{pmatrix}
-0+f_{n+1} \\
-f_{n}+f_{n+1} \\
-\end{pmatrix}
-=
-\begin{pmatrix}
-0 &amp; 1 \\
-1 &amp; 1 \\
-\end{pmatrix}
-\begin{pmatrix}
-f_{n} \\
-f_{n+1} \\
-\end{pmatrix}
-$$
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>По сути, это тоже линейная рекуррента и в каком-то смысле динамика.</p>
+\begin{align}
+a^p &amp;= (\underbrace{1+1+\ldots+1+1}_\text{$a$ раз})^p
+\\  &amp;= \sum_{x_1+x_2+\ldots+x_a = p} P(x_1, x_2, \ldots, x_a) &amp; \text{раскладываем по определению}
+\\  &amp;= \sum_{x_1+x_2+\ldots+x_a = p} \frac{p!}{x_1! x_2! \ldots x_a!} &amp; \text{какие слагаемые не делятся на $p$?}
+\\  &amp;\equiv P(p, 0, \ldots, 0) + P(0, p, \ldots, 0) + \ldots + P(0, 0, \ldots, p) &amp; \text{все остальные не убьют $p$ в знаменателе}
+\\  &amp;= a
+\end{align}
+$$<p>Здесь $P(x_1, x_2, \ldots, x_n) = \frac{k}{\prod (x_i!)}$ это мультиномиальный коеффициент — количество раз, которое элемент $a_1^{x_1} a_2^{x_2} \ldots a_n^{x_n}$ появится при раскрытии скобки $(a_1 + a_2 + \ldots + a_n)^k$.</p>
 
 </div>
 </div>
@@ -11861,10 +11838,77 @@ $$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>У него есть следующие свойства:</p>
+<p>Теперь два раза «поделим» наш результат на $a$.</p>
+$$ a^p \equiv a \implies a^{p-1} \equiv 1 \implies a^{p-2} \equiv a^{-1} $$<p>Получается, что $a^{p-2}$ ведет себя как $a^{-1}$, что нам по сути и нужно.
+Посчитать $a^{p-2}$ можно за $O(\log p)$ бинарным возведением в степень.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Приведем код, который позволяет считает $C_n^k$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">t</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// факториалы, можно предподситать простым циклом</span>
+
+<span class="c1">// бинарное возведение в степень</span>
+<span class="kt">int</span> <span class="nf">bp</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span> <span class="n">a</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+        <span class="n">n</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// находит обратный элемент как a^(p-2)</span>
+<span class="kt">int</span> <span class="nf">inv</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">bp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mod</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">c</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">inv</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">%</span> <span class="n">mod</span> <span class="o">*</span> <span class="n">inv</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="n">k</span><span class="p">])</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1057;&#1087;&#1086;&#1089;&#1086;&#1073;-2:-&#1076;&#1080;&#1086;&#1092;&#1072;&#1085;&#1090;&#1086;&#1074;&#1086;-&#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1077;">&#1057;&#1087;&#1086;&#1089;&#1086;&#1073; 2: &#1076;&#1080;&#1086;&#1092;&#1072;&#1085;&#1090;&#1086;&#1074;&#1086; &#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1077;<a class="anchor-link" href="#&#1057;&#1087;&#1086;&#1089;&#1086;&#1073;-2:-&#1076;&#1080;&#1086;&#1092;&#1072;&#1085;&#1090;&#1086;&#1074;&#1086;-&#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1077;">&#182;</a></h2><p>Диофантовыми уравнениями называют такие штуки:</p>
+$$ ax + by = 1 $$<p>Требуется решить их в целых числах, то есть $a$ и $b$ известны, и нужно найти такие целые (возможно, отрицательные) $x$ и $y$, чтобы равенство выполнялось. Решают такие вещи расширенным алгоритмом Евклида. TODO: описать, как он работает.</p>
+<p>Подставим в качестве $a$ и $b$ соответственно $a$ и $m$</p>
+$$ ax + my = 1 $$<p>Одним из решений уравнения и будет $a^{-1}$, потому что если взять уравнение по модулю $m$, то получим</p>
+$$ ax + by = 1 \iff ax \equiv 1 \iff x \equiv a^{-1} \pmod m $$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Преимущества этого метода над возведением в степень:</p>
 <ul>
-<li>ABC = (AB)C = A(BC)</li>
+<li>Если обратное существует, то оно найдется даже если модуль не простой. Способ с бинарным возведением тоже можно заставить работать с произвольным модулем, но это будет намного труднее. </li>
+<li>Алгоритм проще выполнять руками.</li>
 </ul>
+<p>Сам автор почти всегда использует возведение в степень.</p>
 
 </div>
 </div>
@@ -11873,8 +11917,14 @@ $$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1052;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072;-&#1089;&#1084;&#1077;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080;">&#1052;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072; &#1089;&#1084;&#1077;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080;<a class="anchor-link" href="#&#1052;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072;-&#1089;&#1084;&#1077;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080;">&#182;</a></h2><p>Вам скорее всего когда-то рассказали про матрицы смежности, но вы ими скоро перестали пользоваться, став хранить граф на списках смежности, потому что матрицы заменяются чем-то более эффективным. На самом деле, применение есть: перемножение матриц смежности имеет комбинаторный смысл.</p>
-<p>(см. <a href="http://sereja.me/a/bitset#%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BD%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BC%D0%B0%D1%82%D1%80%D0%B8%D1%86">Битсет</a>)</p>
+<h2 id="&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-$10^9+7$?">&#1055;&#1086;&#1095;&#1077;&#1084;&#1091; $10^9+7$?<a class="anchor-link" href="#&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-$10^9+7$?">&#182;</a></h2><ol>
+<li>Это выражение довольно легко вбивать (<code>1e9+7</code>).</li>
+<li>Простое число.</li>
+<li>Достаточно большое.</li>
+<li><code>int</code> не переполняется при сложении.</li>
+<li><code>long long</code> не переполняется при умножении.</li>
+</ol>
+<p>Кстати, $10^9 + 9$ обладает теми же свойствами. Иногда используют и его.</p>
 
 </div>
 </div>
@@ -11883,10 +11933,9 @@ $$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="*&#1057;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077;-&#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1072;-&#1080;-&#1082;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077;-&#1092;&#1086;&#1088;&#1084;&#1091;&#1083;&#1099;">*&#1057;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077; &#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1072; &#1080; &#1082;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077; &#1092;&#1086;&#1088;&#1084;&#1091;&#1083;&#1099;<a class="anchor-link" href="#*&#1057;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077;-&#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1072;-&#1080;-&#1082;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077;-&#1092;&#1086;&#1088;&#1084;&#1091;&#1083;&#1099;">&#182;</a></h2><p>Очень часто у матриц есть <em>собственные вектора</em> -- те, которые не меняют направление.</p>
-<p>$ Av = k v $, где $k \neq 0$.</p>
-<p>$ Av - kv = (A-kI)v = 0 $. Это означает</p>
-<p>Вообще, собственные вектора в линейной алгебре имеют почти такое же значение, как простые числа в арифметике.</p>
+<h2 id="&#1055;&#1088;&#1077;&#1076;&#1087;&#1086;&#1076;&#1089;&#1095;&#1105;&#1090;-&#1086;&#1073;&#1088;&#1072;&#1090;&#1085;&#1099;&#1093;-&#1092;&#1072;&#1082;&#1090;&#1086;&#1088;&#1080;&#1072;&#1083;&#1086;&#1074;-&#1079;&#1072;-&#1083;&#1080;&#1085;&#1077;&#1081;&#1085;&#1086;&#1077;-&#1074;&#1088;&#1077;&#1084;&#1103;">&#1055;&#1088;&#1077;&#1076;&#1087;&#1086;&#1076;&#1089;&#1095;&#1105;&#1090; &#1086;&#1073;&#1088;&#1072;&#1090;&#1085;&#1099;&#1093; &#1092;&#1072;&#1082;&#1090;&#1086;&#1088;&#1080;&#1072;&#1083;&#1086;&#1074; &#1079;&#1072; &#1083;&#1080;&#1085;&#1077;&#1081;&#1085;&#1086;&#1077; &#1074;&#1088;&#1077;&#1084;&#1103;<a class="anchor-link" href="#&#1055;&#1088;&#1077;&#1076;&#1087;&#1086;&#1076;&#1089;&#1095;&#1105;&#1090;-&#1086;&#1073;&#1088;&#1072;&#1090;&#1085;&#1099;&#1093;-&#1092;&#1072;&#1082;&#1090;&#1086;&#1088;&#1080;&#1072;&#1083;&#1086;&#1074;-&#1079;&#1072;-&#1083;&#1080;&#1085;&#1077;&#1081;&#1085;&#1086;&#1077;-&#1074;&#1088;&#1077;&#1084;&#1103;">&#182;</a></h2><p>Пусть нам нужно зачем-то посчитать все те же $C_n^k$, но для больших $n$ и $k$, поэтому асимптотика $O(n \log m)$ нас не устроит. Оказывается, мы можем сразу предподсчитать все обратные ко всем факториалам.</p>
+<p>Если у нас уже написан <code>inv</code>, то нам не жалко потратить $O(\log m)$ операций, посчитав $m!^{-1}$.</p>
+<p>После этого мы будем считать $(m-1)!^{-1}$ как $m!^{-1} m = \frac{1}{1 \cdot 2 \cdot \ldots \cdot (m-1)}$.</p>
 
 </div>
 </div>
@@ -11896,63 +11945,15 @@ $$
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">maxn</span><span class="p">;</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">f</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">maxn</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
 
-<span class="n">multiply</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="k">struct</span> <span class="n">matrix</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">t</span><span class="p">[];</span>
-    <span class="n">matrix</span> <span class="p">(</span><span class="kt">int</span> <span class="n">_n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_m</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">_n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">_m</span><span class="p">;</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">);</span>
-        <span class="n">memset</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">t</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="kt">int</span><span class="p">[]</span> <span class="k">operator</span><span class="p">[]</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="o">*</span><span class="n">m</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">matrix</span> <span class="k">operator</span><span class="o">*</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">,</span> <span class="n">matrix</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">matrix</span> <span class="n">c</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">n</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">m</span><span class="p">);</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">.</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">m</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">.</span><span class="n">m</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
-                <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
-     <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="n">matrix</span> <span class="nf">binpow</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">matrix</span> <span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="kt">int</span> <span class="n">r</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="n">r</span><span class="p">[</span><span class="n">maxn</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">maxn</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">maxn</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span>
+    <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">i</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
 </pre></div>
 
 </div>
@@ -11964,79 +11965,7 @@ $$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Единичной называется матрица, у которой единицы стоят на главной диагонали. Обозначение: $I$.</p>
-$$
-\begin{vmatrix}
-1 &amp; 0 &amp; 0 \\
-0 &amp; 1 &amp; 0 \\
-0 &amp; 0 &amp; 1 \\
-\end{vmatrix}
-$$<p>В плане умножения она действительно ведет себя как единица: $AI = A = IA$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1057;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099;-&#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1081;-&#1080;-&#1084;&#1077;&#1090;&#1086;&#1076;-&#1043;&#1072;&#1091;&#1089;&#1089;&#1072;">&#1057;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099; &#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1081; &#1080; &#1084;&#1077;&#1090;&#1086;&#1076; &#1043;&#1072;&#1091;&#1089;&#1089;&#1072;<a class="anchor-link" href="#&#1057;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099;-&#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1081;-&#1080;-&#1084;&#1077;&#1090;&#1086;&#1076;-&#1043;&#1072;&#1091;&#1089;&#1089;&#1072;">&#182;</a></h2><p>Иногда встречаются задачи, требующие решения системы линейных уравнений. Очень большая часть из них на самом деле над полем $\mathbb{Z}_2$ — то есть все числа по модулю 2. К примеру: есть $n$ переключателей лампочек, каждый активированный переключатель меняет состояние (включает или выключает) какого-то подмножества из $n$ лампочек. Известно состояние всех лампочек, нужно восстановить состояние переключаетелей.</p>
-<p>Нас по сути просят решить следующую систему:</p>
-$$
-\begin{cases}
-a_{11} x_1 + a_{12} x_2 + \ldots + a_{1n} x_n \equiv b_1 \pmod 2\\
-a_{21} x_1 + a_{22} x_2 + \ldots + a_{2n} x_n \equiv b_2 \pmod 2\\
-\ldots \\
-a_{n1} x_1 + a_{n2} x_2 + \ldots + a_{nn} x_n \equiv b_n \pmod 2
-\end{cases}
-$$<p>Здесь $x$ — состояния переключателей, $b$ — состояния лампочек, $A$ — информация о том, влияет ли переключатель на лампочку.</p>
-<p>В таком случае можно значительно ускорить и упростить обычный метод Гаусса:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="n">t</span> <span class="nf">gauss</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">int</span> <span class="n">nonzero</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
-                <span class="n">nonzero</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
-        <span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">nonzero</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">!=</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
-                <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">^=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="n">t</span> <span class="n">x</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">^</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
-    <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Код находит вектор $x$ из уравнения $Ax = b$ при условии, что решение существует и единственно. Для простоты кода, предполагается, что вектор $b$ приписан справа к матрице $A$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Часто эту систему нужно решить по модулю 2. Тогда код значительно упрощается и ускоряется (опять же, см. <a href="http://sereja.me/a/bitset#%D0%93%D0%B0%D1%83%D1%81%D1%81">битсет</a>).</p>
+<p>TODO: техника с сайта емакса.</p>
 
 </div>
 </div>
