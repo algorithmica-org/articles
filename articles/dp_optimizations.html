@@ -11776,12 +11776,11 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="&#1054;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;-&#1076;&#1080;&#1085;&#1072;&#1084;&#1080;&#1082;&#1080;">&#1054;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080; &#1076;&#1080;&#1085;&#1072;&#1084;&#1080;&#1082;&#1080;<a class="anchor-link" href="#&#1054;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;-&#1076;&#1080;&#1085;&#1072;&#1084;&#1080;&#1082;&#1080;">&#182;</a></h2><ul>
-<li>«Разделяй и властвуй»</li>
+<li>Разделяй и властвуй</li>
 <li>Оптимизация Кнута</li>
 <li>Convex Hull Trick</li>
 <li>Лямбда-оптимизация</li>
 </ul>
-<p>Очень часто некоторые из них можно применить к одной и той же задаче. IOI Aliens — хороший пример.</p>
 
 </div>
 </div>
@@ -11790,7 +11789,187 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1051;&#1103;&#1084;&#1073;&#1076;&#1072;-&#1086;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1051;&#1103;&#1084;&#1073;&#1076;&#1072;-&#1086;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1051;&#1103;&#1084;&#1073;&#1076;&#1072;-&#1086;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Пусть у нас есть функция $f(x)$, которую сложно посчитать. Но пусть при этом нам легко посчитать g(x) =</p>
+<h2 id="&#1047;&#1072;&#1076;&#1072;&#1095;&#1072;">&#1047;&#1072;&#1076;&#1072;&#1095;&#1072;<a class="anchor-link" href="#&#1047;&#1072;&#1076;&#1072;&#1095;&#1072;">&#182;</a></h2><blockquote><p>Даны $n$ точек на прямой. Нужно найти $m$ отрезков, покрывающих все точки, минимизировав при этом сумму квадратов их длин.</p>
+</blockquote>
+<p>Базовое решение — следующая динамика: $f[i, j]$ — минимальная стоимость покрытия $i$ первых (самых левых) точек, используя не более $j$ отрезков (итоговый ответ будет записан в $f[n, m]$ — прим. К. О.).</p>
+<p>Переход — перебор всех возможных последних отрезков, то есть $f[i, j] = \min_{k &lt; i} \{f[k, j-1] + (x_{i-1}-x_k)^2 \}$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="c1">// x[] — отсортированный массив координат точек, нумерация с нуля</span>
+
+<span class="c1">// квадрат длины отрезка от i-той до j-той точки</span>
+<span class="kt">int</span> <span class="nf">cost</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="p">}</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// если нам не нужно ничего покрывать, то всё и так хорошо</span>
+<span class="c1">// все остальные f предполагаем равными бесконечности</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">f</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">cost</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Заметим, что циклы по <code>i</code> и <code>j</code> можно поменять местами.</p>
+<p>Такое решение пока работает за $O(n^2 m)$ — для каждого состояния линейный перебор. Сейчас мы покажем 4 разных метода, как его ускорить.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1056;&#1072;&#1079;&#1076;&#1077;&#1083;&#1103;&#1081;-&#1080;-&#1074;&#1083;&#1072;&#1089;&#1090;&#1074;&#1091;&#1081;">&#1056;&#1072;&#1079;&#1076;&#1077;&#1083;&#1103;&#1081;-&#1080;-&#1074;&#1083;&#1072;&#1089;&#1090;&#1074;&#1091;&#1081;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1076;&#1077;&#1083;&#1103;&#1081;-&#1080;-&#1074;&#1083;&#1072;&#1089;&#1090;&#1074;&#1091;&#1081;">&#182;</a></h2><p>Обозначим за $opt[i, j]$ оптимальный $k$, на котором $f[i, j]$ минимизируется. Для однозначности, из всех оптимальных индексов веберем набольший.</p>
+<p><em>Утверждение.</em> $opt[i, j] \leq opt[i, j+1]$.</p>
+<p>Интуиция такая: чем меньше доступно отрезков, тем больше нам нужно делать самый последний отрезок.</p>
+<p>Что это нам даёт? Если мы уже знаем $opt[i, l]$ и $opt[i, r]$ и хотим посчитать $opt[i, j]$ для какого-то $j$ между $l$ и $r$, то мы можем сузить отрезок поиска оптимального индекса с $[0, i-1]$ до $[opt[i, l], opt[i][r]]$.</p>
+<p>Давайте делать следующее: заведем рекурсивную функцию, которая считает динамики для отрезка $[l, r]$, зная, что их $opt$-ы лежат между $l'$ и $r'$. Она берет середину отрезка $[l, r]$ и линейным проходом считает ответ для неё, а затем просто спускается дальше рекурсивно.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">void</span> <span class="nf">solve</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&gt;</span> <span class="n">r</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span> <span class="c1">// отрезок пустой — выходим</span>
+    <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">_l</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">_l</span><span class="p">);</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">_r</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">cost</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">k</span><span class="p">])</span> <span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">,</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">f</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">_l</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+    <span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">_r</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Вызываться она будет просто последовательно для каждого слоя:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">solve</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Теперь пересчет одного «слоя» динамики занимает $O(n \log n)$ вместо $O(n^2)$. Почему? Потому что каждый раз рекурсивная функция уменьшает в два раза хотя бы один из отрезков, так что её глубина будет  $O(\log n)$, а значит и каждый элемент будет просмотрен не более $O(\log n)$ раз.</p>
+<p>Получается, что асимптотика улучшилась до $O(n m \log n)$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1054;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;-&#1050;&#1085;&#1091;&#1090;&#1072;">&#1054;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1050;&#1085;&#1091;&#1090;&#1072;<a class="anchor-link" href="#&#1054;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;-&#1050;&#1085;&#1091;&#1090;&#1072;">&#182;</a></h2><p>Предыдущий метод основывался на том факте, что $opt[i, j] \leq opt[i, j+1]$. А что, если $opt$ монотонен ещё и по первому параметру?</p>
+$$ opt[i-1, j] \leq opt[i, j] \leq opt[i, j+1] $$<p>Здесь это выполняется примерно по той же логике: если наш отрезок стал меньше, то мы можем себе позволить больший последний отрезок.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Convex-Hull-Trick">Convex Hull Trick<a class="anchor-link" href="#Convex-Hull-Trick">&#182;</a></h2><p>Этот метод призывает думать об оптимизируемой функции геометрически, например, посмотрев на <code>cost</code> и увидев там скалярное произведение.</p>
+$$ f[i, j] = \min_{k &lt; i} \{f[k, j-1] + (x_{i-1}-x_k)^2 \} = \min_{k &lt; i} \{
+f[k, j-1] + x_{i-1}^2
+- 2x_{i-1}^2 x_k
++ x_k^2
+\}$$<p>Посмотрим внимательнее на минимизируемое выражение. $x_{i-1}^2$ не зависит от $k$. Значит его можно вынести. Что остается?</p>
+$$
+f[k, j-1] + x_k^2
+- 2 x_{i-1}^2 x_k
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>#</p>
+<h1 id="$$-dp[i,-j]-=-\min_{k-&lt;-j}-\{dp[i-1,-k]-+-c[k][j]-\}-$$">$$ dp[i, j] = \min_{k &lt; j} \{dp[i-1, k] + c[k][j] \} $$<a class="anchor-link" href="#$$-dp[i,-j]-=-\min_{k-&lt;-j}-\{dp[i-1,-k]-+-c[k][j]-\}-$$">&#182;</a></h1><h1 id="$$-dp[i,-j]-=-\min_{\vec{a}-\in-S}-\{-\vec{a}-\cdot-\vec{b}-\}-$$">$$ dp[i, j] = \min_{\vec{a} \in S} \{ \vec{a} \cdot \vec{b} \} $$<a class="anchor-link" href="#$$-dp[i,-j]-=-\min_{\vec{a}-\in-S}-\{-\vec{a}-\cdot-\vec{b}-\}-$$">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1051;&#1103;&#1084;&#1073;&#1076;&#1072;-&#1086;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1051;&#1103;&#1084;&#1073;&#1076;&#1072;-&#1086;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1051;&#1103;&#1084;&#1073;&#1076;&#1072;-&#1086;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Не «фольклорное» название — дискретный метод множителей Лагранжа.</p>
+<p>Очень часто некоторые из них можно применить к одной и той же задаче. Мы рассмотрим задачу, похожую на Aliens с IOI 2016-года. У неё также доступен официальный <a href="http://www.ioinformatics.org/locations/ioi16/contest/IOI2016_analysis.pdf">разбор</a> (14-17 страницы). Она очень хороша, потому что в ней можно применить все методы сразу.</p>
+<p>Пусть у нас есть функция $f(x)$, которую сложно посчитать. Но пусть при этом нам легко посчитать g(x) =</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1057;&#1091;&#1084;&#1084;&#1080;&#1088;&#1091;&#1077;&#1084;">&#1057;&#1091;&#1084;&#1084;&#1080;&#1088;&#1091;&#1077;&#1084;<a class="anchor-link" href="#&#1057;&#1091;&#1084;&#1084;&#1080;&#1088;&#1091;&#1077;&#1084;">&#182;</a></h2><p>TODO: сделать табличку</p>
+<ul>
+<li>Разделяйка: $O(nm \log n)$, если <code>cost</code> такой, что <code>opt</code> монотонна по одному аргументу.</li>
+<li>Кнут: $O(nm)$, если <code>cost</code> такой, что <code>opt</code> монотонна по обоим аргументам.</li>
+<li>CHT: $O(nm)$. В оптимизируемой функции нужно увидеть скалярное произведение.</li>
+<li>Лагранж: $O(n \log n)$. Функция должна быть выпуклой.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1044;&#1088;&#1091;&#1075;&#1080;&#1077;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#1044;&#1088;&#1091;&#1075;&#1080;&#1077; &#1079;&#1072;&#1076;&#1072;&#1095;&#1080;<a class="anchor-link" href="#&#1044;&#1088;&#1091;&#1075;&#1080;&#1077;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#182;</a></h2><p>Как мы увидели, часто оптимизации динамики взаимо заменяемые. Сведение оставляется читателю как упражнение.</p>
+<blockquote><p>Есть $n$ ферм на длинной прямой дороге. Каждая ферма каждую осень производит сколько-то мешков зерна. Требуеттся так поставить $m$ амбаров в некоторых фермах, чтобы суммарная стоимость транспортировки зерна была минимальной. Перевезти 1 мешок зерна на 1 метр стоит 1 доллар.</p>
+</blockquote>
 
 </div>
 </div>
