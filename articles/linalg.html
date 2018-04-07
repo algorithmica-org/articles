@@ -11862,8 +11862,42 @@ $$ C = AB: C_{ij} = \sum_{i=1}^{k} A_{ik} B_{kj} $$<p>Эту формулу мо
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>TODO: куча примеров отображений и их матриц.</p>
-
+<p><strong>Пример</strong>: матрица поворота в 2d.</p>
+$$
+\begin{pmatrix}
+\cos \alpha &amp; -\sin \alpha \\
+\sin \alpha &amp; \cos \alpha \\
+\end{pmatrix}
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Пример</strong>: матрица проецирования на $Ox$ в 3d.</p>
+$$
+\begin{pmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+\end{pmatrix}
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Пример</strong>: матрица «свапни $x$ и $y$».</p>
+$$
+\begin{pmatrix}
+0 &amp; 1 \\
+1 &amp; 0 \\
+\end{pmatrix}
+$$
 </div>
 </div>
 </div>
@@ -11963,11 +11997,13 @@ $$ A^8 = A^{2^{2^{2}}} = ((AA)(AA))((AA)(AA)) $$<p>Это будет работ�
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-c++"><pre><span></span><span class="n">matrix</span> <span class="nf">binpow</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">matrix</span> <span class="n">ans</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+    <span class="n">matrix</span> <span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
         <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="k">while</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+        <span class="n">p</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
 <span class="p">}</span>
@@ -11977,6 +12013,22 @@ $$ A^8 = A^{2^{2^{2}}} = ((AA)(AA))((AA)(AA)) $$<p>Это будет работ�
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Единичной называется матрица, у которой единицы стоят на главной диагонали. Обозначение: $I$.</p>
+$$
+\begin{vmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1 \\
+\end{vmatrix}
+$$<p>В плане умножения она действительно ведет себя как единица: $AI = A = IA$. В коде она используется вместо единицы.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -12069,22 +12121,6 @@ $$ x \vec{a} + y \vec{b} = -\vec{c} $$<p>Площадь параллелогра
 <p>$ Av = k v $, где $k \neq 0$.</p>
 <p>$ Av - kv = (A-kI)v = 0 $. Это означает</p>
 <p>Вообще, собственные вектора в линейной алгебре имеют почти такое же значение, как простые числа в арифметике.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Единичной называется матрица, у которой единицы стоят на главной диагонали. Обозначение: $I$.</p>
-$$
-\begin{vmatrix}
-1 &amp; 0 &amp; 0 \\
-0 &amp; 1 &amp; 0 \\
-0 &amp; 0 &amp; 1 \\
-\end{vmatrix}
-$$<p>В плане умножения она действительно ведет себя как единица: $AI = A = IA$.</p>
 
 </div>
 </div>
