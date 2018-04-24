@@ -99,3 +99,7 @@ a[href^='https://www.topcoder.com/']:before {
     content: url('https://s3.amazonaws.com/app.topcoder.com/favicon.ico');
     margin-right: 4px;
 }
+
+Mathjax_Display {
+    padding-top: 10px;
+}
