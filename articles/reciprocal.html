@@ -11788,7 +11788,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-c++"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
 <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">mod</span> <span class="o">+</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">%</span> <span class="n">mod</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
 </pre></div>
 
 </div>
@@ -11800,8 +11800,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Но при этом не можем просто взять и поделить. Пример: $\frac{8}{2} = 4$, но $\frac{8 \% 5 = 3}{2 \% 5 = 2} \neq 4$.</p>
-<p>Нужно найти некоторый элемент, который будет себя вести как $\frac{1}{a} = a^{-1}$. Назовем такой элемент обратным.</p>
+<p>Но вот с делением возникают проблемы — мы не можем просто взять и поделить. Пример: $\frac{8}{2} = 4$, но $\frac{8 \% 5 = 3}{2 \% 5 = 2} \neq 4$.</p>
+<p>Нужно найти некоторый элемент, который будет себя вести как $\frac{1}{a} = a^{-1}$, и вместо «деления» домножать на него. Назовем такой элемент обратным.</p>
 
 </div>
 </div>
@@ -11824,9 +11824,9 @@ div#notebook {
 $$
 \begin{align}
 a^p &amp;= (\underbrace{1+1+\ldots+1+1}_\text{$a$ раз})^p
-\\  &amp;= \sum_{x_1+x_2+\ldots+x_a = p} P(x_1, x_2, \ldots, x_a) &amp; \text{раскладываем по определению}
-\\  &amp;= \sum_{x_1+x_2+\ldots+x_a = p} \frac{p!}{x_1! x_2! \ldots x_a!} &amp; \text{какие слагаемые не делятся на $p$?}
-\\  &amp;\equiv P(p, 0, \ldots, 0) + \ldots + P(0, 0, \ldots, p) &amp; \text{все остальные не убьют $p$ в знаменателе}
+\\  &amp;= \sum_{x_1+x_2+\ldots+x_a = p} P(x_1, x_2, \ldots, x_a) &amp; \text{(раскладываем по определению)}
+\\  &amp;= \sum_{x_1+x_2+\ldots+x_a = p} \frac{p!}{x_1! x_2! \ldots x_a!} &amp; \text{(какие слагаемые не делятся на $p$?)}
+\\  &amp;\equiv P(p, 0, \ldots, 0) + \ldots + P(0, 0, \ldots, p) &amp; \text{(все остальные не убьют $p$ в знаменателе)}
 \\  &amp;= a
 \end{align}
 $$<p>Здесь $P(x_1, x_2, \ldots, x_n) = \frac{k}{\prod (x_i!)}$ это мультиномиальный коеффициент — количество раз, которое элемент $a_1^{x_1} a_2^{x_2} \ldots a_n^{x_n}$ появится при раскрытии скобки $(a_1 + a_2 + \ldots + a_n)^k$.</p>
