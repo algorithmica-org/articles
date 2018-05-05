@@ -11954,8 +11954,7 @@ $$<p>Получаем, что стоимость всех путей из $a$ в
 <span class="kt">bool</span> <span class="nf">dijkstra</span> <span class="p">(</span><span class="kt">int</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">used</span><span class="p">[</span><span class="n">maxn</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
 
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">inf</span><span class="p">;</span>
+    <span class="n">fill</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="o">+</span><span class="n">n</span><span class="p">,</span> <span class="n">inf</span><span class="p">);</span>
     <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
     <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
