@@ -11929,7 +11929,7 @@ $$<p>Получаем, что стоимость всех путей из $a$ в
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h3><p>Решение задачи о назначениях за $O(n^3 \log n)$, для простоты использующее алгоритм дейкстры для разреженных графов. От логарифма в асимптотике можно избавиться, если искать минимум каждый раз заново, а не хранить приоритетную очередь.</p>
+<h3 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h3><p>Решение задачи о назначениях за $O(n^3)$. Используется алгоритм Дейкстры для плотных графов (без приоритетной очереди — каждую итерацию ищем минимум за линию).</p>
 <ul>
 <li><code>cost</code>, <code>cap</code> — параметры сети</li>
 <li><code>pot</code> — потенциалы</li>
@@ -11947,29 +11947,30 @@ $$<p>Получаем, что стоимость всех путей из $a$ в
     <div class="input_area">
 <div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">maxn</span> <span class="o">=</span> <span class="mi">305</span><span class="p">,</span> <span class="n">inf</span> <span class="o">=</span> <span class="mf">1e9</span><span class="p">;</span>
 
+<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
 <span class="kt">int</span> <span class="n">cost</span><span class="p">[</span><span class="n">maxn</span><span class="p">][</span><span class="n">maxn</span><span class="p">],</span> <span class="n">cap</span><span class="p">[</span><span class="n">maxn</span><span class="p">][</span><span class="n">maxn</span><span class="p">];</span>
 <span class="kt">int</span> <span class="n">d</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">pot</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">par</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
 
-<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-
-<span class="kt">bool</span> <span class="nf">dijkstra</span><span class="p">(</span><span class="kt">int</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">t</span><span class="p">){</span>
-    <span class="n">set</span><span class="o">&lt;</span> <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
-    <span class="n">q</span><span class="p">.</span><span class="n">insert</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="p">});</span>
+<span class="kt">bool</span> <span class="nf">dijkstra</span> <span class="p">(</span><span class="kt">int</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">used</span><span class="p">[</span><span class="n">maxn</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
 
     <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
         <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">inf</span><span class="p">;</span>
     <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
-    <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">()){</span>
-        <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
-        <span class="n">q</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">begin</span><span class="p">());</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">u</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">u</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">used</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]))</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">u</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">||</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">inf</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="n">used</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
         <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">u</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">u</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
             <span class="kt">int</span> <span class="n">w</span> <span class="o">=</span> <span class="n">cost</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="o">+</span> <span class="n">pot</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">-</span> <span class="n">pot</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">cap</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">q</span><span class="p">.</span><span class="n">erase</span><span class="p">({</span><span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">u</span><span class="p">});</span>
                 <span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">;</span>
                 <span class="n">par</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
-                <span class="n">q</span><span class="p">.</span><span class="n">insert</span><span class="p">({</span><span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">u</span><span class="p">});</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span>
