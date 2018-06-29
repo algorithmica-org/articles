@@ -11826,6 +11826,42 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Совсем наивная реализация — каждый раз перебираем все рёбра:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">maxn</span> <span class="o">=</span> <span class="mf">1e5</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">weight</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="n">used</span><span class="p">[</span><span class="n">maxn</span><span class="p">]</span>
+
+<span class="c1">// считать все рёбра в массивы</span>
+
+<span class="n">used</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">opt_w</span> <span class="o">=</span> <span class="n">inf</span><span class="p">,</span> <span class="n">opt_from</span><span class="p">,</span> <span class="n">opt_to</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">opt_w</span> <span class="o">&lt;</span> <span class="n">weight</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">used</span><span class="p">[</span><span class="n">from</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">used</span><span class="p">[</span><span class="n">to</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
+            <span class="n">opt_w</span> <span class="o">=</span> <span class="n">weight</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">opt_from</span> <span class="o">=</span> <span class="n">from</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">opt_to</span> <span class="o">=</span> <span class="n">to</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">used</span><span class="p">[</span><span class="n">opt_to</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">opt_from</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">opt_to</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Реализация за $O(n^2)$:</p>
 
 </div>
@@ -11840,18 +11876,19 @@ div#notebook {
 <span class="kt">bool</span> <span class="n">used</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
 <span class="n">vector</span><span class="o">&lt;</span> <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
 <span class="kt">int</span> <span class="n">min_edge</span><span class="p">[</span><span class="n">maxn</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">inf</span><span class="p">},</span> <span class="n">best_edge</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="n">used</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">min_edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
 <span class="c1">// ...</span>
 
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">u</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">used</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">||</span> <span class="n">min_edge</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_edge</span><span class="p">[</span><span class="n">v</span><span class="p">]))</span>
             <span class="n">v</span> <span class="o">=</span> <span class="n">u</span><span class="p">;</span>
  
     <span class="n">used</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">v</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">best_edge</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">v</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">best_edge</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
  
     <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">e</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
         <span class="kt">int</span> <span class="n">u</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
