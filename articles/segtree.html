@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>index</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>segtree</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,27 +11775,71 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1052;&#1086;&#1105;">&#1052;&#1086;&#1105;<a class="anchor-link" href="#&#1052;&#1086;&#1105;">&#182;</a></h2><p>Стараюсь писать только про то, чего нет в интернете в нормальном виде, либо про то, что мне очень сложно давалось, когда я был школьником.</p>
+<h1 id="&#1044;&#1077;&#1088;&#1077;&#1074;&#1086;-&#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1086;&#1074;">&#1044;&#1077;&#1088;&#1077;&#1074;&#1086; &#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1086;&#1074;<a class="anchor-link" href="#&#1044;&#1077;&#1088;&#1077;&#1074;&#1086;-&#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1086;&#1074;">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Рассмотрим следующую задачу. Дан массив $a$ из $n$ целых чисел, нужно уметь отвечать на запросы двух типов:</p>
+<ol>
+<li>Изменить значение в ячейке (т. е. отреагировать на присвоение <code>a[k] = x</code>).</li>
+<li>Вывести сумму элементов $a_i$ на отрезке с $l$ по $r$.</li>
+</ol>
+<p>Оба запроса нужно обрабатывать за время $O(n \log n)$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Чтобы решить задачу, сделаем с исходным массивом следующие манипуляции:</p>
+<p>Посчитаем сумму всего массива и где-нибудь запишем. Потом разделим его пополам и посчитаем сумму на половинах. Каждую половину потом разделим пополам ещё раз и так далее, пока не придём к отрезкам длины 1.</p>
+<p>Эту последовательность разбиений можно представить в виде дерева.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<картинка>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Корень этого дерева — отрезок $[0, n-1]$, а каждая вершина имеет ровно двух сыновей, кроме вершин-листьев, у которых отрезок имеет длину 1. Отсюда и название — «дерево отрезков».</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Заметим, что оно содержит менее $2n$ вершин: первый уровень дерева отрезков содержит одну вершину (корень), второй уровень — в худшем случае две вершины, на третьем уровне в худшем случае будет четыре вершины, и так далее, пока число вершин не достигнет n. Таким образом, число вершин в худшем случае оценивается суммой $n + n/2 + n/4 + n/8 + \ldots + 1 &lt; 2n$.</p>
+<p>При n, отличных от степеней двойки, не все уровни дерева отрезков будут полностью заполнены. Например, при n=3 левый сын корня есть отрезок $[0, 1]$, имеющий двух потомков, в то время как правый сын корня — отрезок [2, 2], являющийся листом. Это надо иметь в виду при реализации.</p>
+<p>Высота дерева отрезков есть $O(\log n)$: длина отрезка в корне дерева равна $n$, а при переходе на один уровень вниз длина отрезков уменьшается примерно вдвое.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Строить его можно рекурсивной функцией:</p>
 <ul>
-<li><a href="http://sereja.me/a/bitset">Битовое сжатие</a></li>
-<li><a href="http://sereja.me/a/centroid">Центроидная декомпозиция</a></li>
-<li><a href="http://sereja.me/a/matroid">Матроиды</a></li>
-<li><a href="http://sereja.me/a/pollard">Ро-алгоритм Полларда</a></li>
-<li><a href="http://sereja.me/a/sparse-table">Sparse table</a></li>
-<li><a href="http://sereja.me/a/mincost-maxflow">Поток минимальной стоимости</a></li>
-<li><a href="http://sereja.me/a/stress-test">Стресс-тестирование</a> (~95%: баг с генерацией рандома)</li>
-<li><a href="http://sereja.me/a/geometry">Геометрия</a> (~90%)</li>
-<li><a href="http://sereja.me/a/dp_optimizations">Оптимизации ДП</a> (~80%)</li>
-<li><a href="http://sereja.me/a/fenwick">Дерево Фенвика</a> (~75%)</li>
-<li><a href="http://sereja.me/a/mst">Остовные деревья</a> (~70%)</li>
-<li><a href="http://sereja.me/a/reciprocal">Обратное по модулю</a> (~60%)</li>
-<li><a href="http://sereja.me/a/annealing">Метод отжига</a> (~60%)</li>
-<li><a href="http://sereja.me/a/linalg">Линейная алгебра</a> (~50%)</li>
-<li><a href="http://sereja.me/a/probability">Теорвер</a> (~20%)</li>
-<li><a href="http://sereja.me/a/segtree">Дерево отрезков</a> (~0%)</li>
-<li><a href="http://sereja.me/a/treap">Декартово дерево</a> (~0%)</li>
-<li><a href="http://sereja.me/a/hashing">Полиномиальное хэширование</a> (~0%)</li>
-<li><a href="http://sereja.me/a/bayans">Классные задачки</a> (решения начну писать, когда разберусь, как делать спойлеры)</li>
+<li>Если вершина является листом, взять в качестве суммы значение соответствующей ячейки.</li>
+<li>Если вершина является отрезком, разделить его на два и в качестве суммы взять сумму его детей.</li>
 </ul>
 
 </div>
@@ -11805,15 +11849,26 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1057;&#1090;&#1088;&#1091;&#1082;&#1091;&#1090;&#1088;&#1099;-&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;">&#1057;&#1090;&#1088;&#1091;&#1082;&#1091;&#1090;&#1088;&#1099; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;<a class="anchor-link" href="#&#1057;&#1090;&#1088;&#1091;&#1082;&#1091;&#1090;&#1088;&#1099;-&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/segment_tree">Дерево отрезков</a></li>
-<li><a href="http://codeforces.com/blog/entry/18051">Итеративное дерево отрезков</a></li>
-<li><a href="http://e-maxx.ru/algo/dsu">Система непересекающихся множеств</a></li>
-<li><a href="http://sereja.me/a/sparse-table">Разреженная таблица</a></li>
-<li><a href="http://sereja.me/a/fenwick">Дерево Фенвика</a></li>
-<li><a href="http://e-maxx.ru/algo/treap">Декартово дерево</a></li>
-<li><a href="http://sereja.me/a/bitset">Применения битсета</a></li>
+<h1 id="&#1054;&#1082;,-&#1079;&#1072;&#1095;&#1077;&#1084;-&#1086;&#1085;&#1086;-&#1085;&#1072;&#1076;&#1086;?">&#1054;&#1082;, &#1079;&#1072;&#1095;&#1077;&#1084; &#1086;&#1085;&#1086; &#1085;&#1072;&#1076;&#1086;?<a class="anchor-link" href="#&#1054;&#1082;,-&#1079;&#1072;&#1095;&#1077;&#1084;-&#1086;&#1085;&#1086;-&#1085;&#1072;&#1076;&#1086;?">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Опишем теперь, как с его помощью решить задачу.</p>
+<p><strong>Запрос обновления</strong>. Нам нужно перестроить дерево таким образом, чтобы оно соответствовало новому значению $a[k] = x$.</p>
+<p>Давайте изменим все вершины, в которых участвует $k$-тый элемент. Их будет $O(\log n)$ — по одной с каждого уровня.</p>
+<p>Это можно реализовать как рекурсивную функцию: ей передаётся текущая вершина дерева отрезков, и эта функция выполняет рекурсивный вызов от одного из двух своих сыновей (от того, который содержит $k$-ый элемент в своём отрезке), а после этого — пересчитывает значение суммы в текущей вершине точно таким же образом, как мы это делали при построении дерева отрезков.</p>
+<p><strong>Запрос суммы</strong>. Мы знаем, что во всех вершинах лежат корректные значения.</p>
+<p>Сделаем тут тоже рекурсивную функцию, рассмотрев три случая</p>
+<ul>
+<li>Если отрезок запроса лежит целиком в </li>
+<li>Если отрезок запроса лежить целиком вне, то вернуть 0.</li>
+<li>Иначе разделиться рекурсивно на 2 и вернуть сумму.</li>
 </ul>
+<p>Чтобы разобраться, почему это работает за $O(\log n)$, нужно оценить количество «интересных» отрезков: тех, которые порождают что-то в рекурсии.</p>
 
 </div>
 </div>
@@ -11822,10 +11877,65 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1040;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;">&#1040;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/binary_pow">Бинарное возведение в степень</a></li>
-<li><a href="https://www.youtube.com/watch?v=iTMn0Kt18tg">Быстрое преобразование Фурье</a></li>
-</ul>
+<h1 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>&lt;Ликбез про структуры и указатели&gt;.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="k">struct</span> <span class="n">segtree</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">lb</span><span class="p">,</span> <span class="n">rb</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">segtree</span> <span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="o">*</span><span class="n">r</span><span class="p">;</span>
+    <span class="n">segtree</span> <span class="p">(</span><span class="kt">int</span> <span class="n">_lb</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_rb</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="n">_lb</span><span class="p">,</span> <span class="n">rb</span> <span class="o">=</span> <span class="n">_rb</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">!=</span> <span class="n">rb</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="k">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="k">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">rb</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">add</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">sum</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">!=</span> <span class="n">rb</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="p">)</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+            <span class="k">else</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">get_sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">lq</span><span class="p">,</span> <span class="kt">int</span> <span class="n">rq</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&gt;=</span> <span class="n">lq</span> <span class="o">&amp;&amp;</span> <span class="n">rb</span> <span class="o">&lt;=</span> <span class="n">rq</span><span class="p">)</span> <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&gt;</span> <span class="n">rq</span> <span class="o">||</span> <span class="n">rb</span> <span class="o">&lt;</span> <span class="n">lq</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">get_sum</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">)</span> <span class="o">+</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">get_sum</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="&#1044;&#1088;&#1091;&#1075;&#1080;&#1077;-&#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;">&#1044;&#1088;&#1091;&#1075;&#1080;&#1077; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;<a class="anchor-link" href="#&#1044;&#1088;&#1091;&#1075;&#1080;&#1077;-&#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;">&#182;</a></h1><p>Эта реализация проста и легко расширяема, но весьма медленная.</p>
+<p><strong>На массивах</strong>. Можно ввести несложную нумерацию вершин, позволяющую при спуске в ребёнка пересчитывать его номер. Это позволит не хранить границы текущего отрезка. Подробнее у <a href="http://e-maxx.ru/algo/segment_tree">емакса</a>.</p>
+<p><strong>«ДО снизу»</strong>. Можно вообще делать все операции итеративно. Так получится раз в 7 быстрее, но код писать намного труднее. Подробнее смотрите в одном посте с <a href="https://codeforces.com/blog/entry/18051">codeforces</a>.</p>
+<p>Также можно заменить отрезки на полуинтервалы — так кода будет меньше. Это утверждение относится не только к ДО.</p>
 
 </div>
 </div>
@@ -11834,7 +11944,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1043;&#1088;&#1072;&#1092;&#1099;">&#1043;&#1088;&#1072;&#1092;&#1099;<a class="anchor-link" href="#&#1043;&#1088;&#1072;&#1092;&#1099;">&#182;</a></h2>
+<h1 id="&#1054;&#1090;&#1083;&#1086;&#1078;&#1077;&#1085;&#1085;&#1099;&#1077;-&#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080;">&#1054;&#1090;&#1083;&#1086;&#1078;&#1077;&#1085;&#1085;&#1099;&#1077; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080;<a class="anchor-link" href="#&#1054;&#1090;&#1083;&#1086;&#1078;&#1077;&#1085;&#1085;&#1099;&#1077;-&#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080;">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -11842,13 +11952,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1069;&#1081;&#1083;&#1077;&#1088;&#1086;&#1074;&#1099;-&#1086;&#1073;&#1093;&#1086;&#1076;&#1099;">&#1069;&#1081;&#1083;&#1077;&#1088;&#1086;&#1074;&#1099; &#1086;&#1073;&#1093;&#1086;&#1076;&#1099;<a class="anchor-link" href="#&#1069;&#1081;&#1083;&#1077;&#1088;&#1086;&#1074;&#1099;-&#1086;&#1073;&#1093;&#1086;&#1076;&#1099;">&#182;</a></h3><ul>
-<li><a href="http://e-maxx.ru/algo/topological_sort">Топологическая сортировка</a></li>
-<li><a href="http://e-maxx.ru/algo/bridge_searching">Поиск мостов</a></li>
-<li><a href="https://neerc.ifmo.ru/wiki/index.php?title=%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%BF%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%B8%D1%8F_%D0%AD%D0%B9%D0%BB%D0%B5%D1%80%D0%BE%D0%B2%D0%B0_%D1%86%D0%B8%D0%BA%D0%BB%D0%B0">Эйлеров цикл</a></li>
-<li><a href="http://e-maxx.ru/algo/strong_connected_components">Конденсация графа</a></li>
-<li><a href="http://e-maxx.ru/algo/2_sat">2-SAT</a></li>
-</ul>
+<p>Пусть у нас теперь есть операции «прибавить на отрезке».</p>
 
 </div>
 </div>
@@ -11857,10 +11961,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1050;&#1088;&#1072;&#1090;&#1095;&#1072;&#1081;&#1096;&#1080;&#1077;-&#1087;&#1091;&#1090;&#1080;">&#1050;&#1088;&#1072;&#1090;&#1095;&#1072;&#1081;&#1096;&#1080;&#1077; &#1087;&#1091;&#1090;&#1080;<a class="anchor-link" href="#&#1050;&#1088;&#1072;&#1090;&#1095;&#1072;&#1081;&#1096;&#1080;&#1077;-&#1087;&#1091;&#1090;&#1080;">&#182;</a></h3><ul>
-<li><a href="http://e-maxx.ru/algo/dijkstra_sparse">Алгоритм Дейкстры</a></li>
-<li><a href="http://e-maxx.ru/algo/ford_bellman">Алгоритм Форда-Беллмана</a></li>
-</ul>
+<p>Идея в том, чтобы выполнять операции максимально лениво — только тогда, когда их результаты нам понадобятся. В случае с прибавлением на отрезке, можно создать отдельную переменную — сколько нужно прибавить к этому отрезку и ко всем его детям, чтобы значения в них получились корректными.</p>
 
 </div>
 </div>
@@ -11869,10 +11970,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1054;&#1089;&#1090;&#1086;&#1074;&#1085;&#1099;&#1077;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;">&#1054;&#1089;&#1090;&#1086;&#1074;&#1085;&#1099;&#1077; &#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;<a class="anchor-link" href="#&#1054;&#1089;&#1090;&#1086;&#1074;&#1085;&#1099;&#1077;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;">&#182;</a></h3><ul>
-<li><a href="http://e-maxx.ru/algo/mst_prim">Алгоритм Прима</a></li>
-<li><a href="http://e-maxx.ru/algo/mst_kruskal_with_dsu">Алгоритм Крускала</a></li>
-</ul>
+<p>Можно создать вспомогательную функцию <code>push</code>, которая будет гарантировать, что в текущей вершине все значения корректны, и передавать сверху обновления детям, если надо.</p>
 
 </div>
 </div>
@@ -11881,11 +11979,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1055;&#1072;&#1088;&#1086;&#1089;&#1086;&#1095;&#1077;&#1090;&#1072;&#1085;&#1080;&#1103;-&#1080;-&#1087;&#1086;&#1090;&#1086;&#1082;&#1080;">&#1055;&#1072;&#1088;&#1086;&#1089;&#1086;&#1095;&#1077;&#1090;&#1072;&#1085;&#1080;&#1103; &#1080; &#1087;&#1086;&#1090;&#1086;&#1082;&#1080;<a class="anchor-link" href="#&#1055;&#1072;&#1088;&#1086;&#1089;&#1086;&#1095;&#1077;&#1090;&#1072;&#1085;&#1080;&#1103;-&#1080;-&#1087;&#1086;&#1090;&#1086;&#1082;&#1080;">&#182;</a></h3><ul>
-<li><a href="http://e-maxx.ru/algo/kuhn_matching">Алгоритм Куна</a></li>
-<li><a href="https://www.topcoder.com/community/data-science/data-science-tutorials/minimum-cost-flow-part-one-key-concepts/">Максимальный поток минимального веса</a></li>
-</ul>
-
+<h1 id="&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077;-&#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077;">&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077; &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077;<a class="anchor-link" href="#&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077;-&#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077;">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -11893,127 +11987,46 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1057;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099;-&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;-&#1085;&#1072;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;&#1093;">&#1057;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1085;&#1072; &#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;&#1093;<a class="anchor-link" href="#&#1057;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099;-&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;-&#1085;&#1072;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;&#1093;">&#182;</a></h3><ul>
-<li><a href="http://sereja.me/a/fenwick">Дерево Фенвика</a></li>
-<li><a href="http://sereja.me/a/centroid">Центроидная декомпозиция</a></li>
-</ul>
+<p>А что, если у нас все индексы лежать не от в пределах $10^9$, а, например, $10^9$. Все асимптотики нас по прежнему устраивают ($\log_2 10^6 \approx 20$, $\log_2 10^9 \approx 30$), кроме этапа построения.</p>
+<p>Можно решить эту проблему так: можно не строить дерево целиком изначально, а, подобно отложенным операциям, создавать вершины тогда, когда в них нужно будет записать что-то не дефолтное.</p>
+<p>Реализовать это можно так же, как и с push-ем: в начале всех методов проверять, что дети-вершины созданы.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1050;&#1086;&#1084;&#1073;&#1080;&#1085;&#1072;&#1090;&#1086;&#1088;&#1080;&#1082;&#1072;">&#1050;&#1086;&#1084;&#1073;&#1080;&#1085;&#1072;&#1090;&#1086;&#1088;&#1080;&#1082;&#1072;<a class="anchor-link" href="#&#1050;&#1086;&#1084;&#1073;&#1080;&#1085;&#1072;&#1090;&#1086;&#1088;&#1080;&#1082;&#1072;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/binomial_coeff">Биномиальные коэффициенты</a></li>
-<li><a href="http://e-maxx.ru/algo/inclusion_exclusion_principle">Принцип включений-исключений</a></li>
-<li><a href="http://e-maxx.ru/algo/burnside_polya">Лемма Бернсайда</a></li>
-</ul>
-
+<h1 id="&#1055;&#1077;&#1088;&#1089;&#1080;&#1089;&#1090;&#1077;&#1085;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100;">&#1055;&#1077;&#1088;&#1089;&#1080;&#1089;&#1090;&#1077;&#1085;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100;<a class="anchor-link" href="#&#1055;&#1077;&#1088;&#1089;&#1080;&#1089;&#1090;&#1077;&#1085;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100;">&#182;</a></h1>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1058;&#1077;&#1086;&#1088;&#1080;&#1103;-&#1095;&#1080;&#1089;&#1077;&#1083;">&#1058;&#1077;&#1086;&#1088;&#1080;&#1103; &#1095;&#1080;&#1089;&#1077;&#1083;<a class="anchor-link" href="#&#1058;&#1077;&#1086;&#1088;&#1080;&#1103;-&#1095;&#1080;&#1089;&#1077;&#1083;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/euclid_algorithm">Алгоритм Евклида</a></li>
-<li><a href="http://sereja.me/a/pollard">Парадокс дней рождений и ро-алгоритм Полларда</a></li>
-<li><a href="http://e-maxx.ru/algo/reverse_element">Нахождение обратного элемента по модулю</a></li>
-</ul>
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span>
+</pre></div>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;">&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;<a class="anchor-link" href="#&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/longest_increasing_subseq_log">Наибольшая возрастающая последовательность</a></li>
-<li><a href="http://acm.math.spbu.ru/~sk1/mm/lections/zksh2017-dp/conspect.pdf">Оптимизации динамики</a>  (Копелиович)</li>
-</ul>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1058;&#1077;&#1086;&#1088;&#1080;&#1103;-&#1080;&#1075;&#1088;">&#1058;&#1077;&#1086;&#1088;&#1080;&#1103; &#1080;&#1075;&#1088;<a class="anchor-link" href="#&#1058;&#1077;&#1086;&#1088;&#1080;&#1103;-&#1080;&#1075;&#1088;">&#182;</a></h2><ul>
-<li><a href="http://informatics.mccme.ru/file.php/1563/games.pdf">Игры на графах</a> (Станкевич)</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1103;">&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1103;<a class="anchor-link" href="#&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1103;">&#182;</a></h2><ul>
-<li><a href="https://habrahabr.ru/post/147691/">Вводная статья в вычислительную геометрию</a></li>
-<li><a href="http://e-maxx.ru/algo/segment_to_line">Уравнение прямой по двум точкам</a></li>
-<li><a href="http://e-maxx.ru/algo/convex_hull_graham">Построение выпуклой оболочки</a></li>
-<li><a href="http://e-maxx.ru/algo/geometric_inversion">Геометрическая инверсия</a></li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1057;&#1090;&#1088;&#1086;&#1082;&#1080;">&#1057;&#1090;&#1088;&#1086;&#1082;&#1080;<a class="anchor-link" href="#&#1057;&#1090;&#1088;&#1086;&#1082;&#1080;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/string_hashes">Полиномиальное хеширование</a></li>
-<li><a href="http://e-maxx.ru/algo/z_function">Z-функция</a></li>
-<li><a href="http://e-maxx.ru/algo/aho_corasick">Алгоритм Ахо-Корасик</a></li>
-<li><a href="http://e-maxx.ru/algo/suffix_automata">Суффиксный автомат</a></li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1040;&#1087;&#1087;&#1088;&#1086;&#1082;&#1089;&#1080;&#1084;&#1072;&#1094;&#1080;&#1080;">&#1040;&#1087;&#1087;&#1088;&#1086;&#1082;&#1089;&#1080;&#1084;&#1072;&#1094;&#1080;&#1080;<a class="anchor-link" href="#&#1040;&#1087;&#1087;&#1088;&#1086;&#1082;&#1089;&#1080;&#1084;&#1072;&#1094;&#1080;&#1080;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/roots_newton">Метод Ньютона</a></li>
-<li><a href="http://sereja.me/a/annealing.html">Метод отжига</a></li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;-/-&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1099;">&#1056;&#1072;&#1079;&#1085;&#1086;&#1077; / &#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1099;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;-/-&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1099;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/kth_order_statistics">$k$-ая порядковая статистика за $O(n)$</a></li>
-<li><a href="http://codeforces.com/blog/entry/4898">Тест против хешей по модулю $2^{64}$</a></li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;-/-&#1058;&#1077;&#1093;&#1085;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077;-&#1079;&#1085;&#1072;&#1085;&#1080;&#1103;">&#1056;&#1072;&#1079;&#1085;&#1086;&#1077; / &#1058;&#1077;&#1093;&#1085;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077; &#1079;&#1085;&#1072;&#1085;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;-/-&#1058;&#1077;&#1093;&#1085;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077;-&#1079;&#1085;&#1072;&#1085;&#1080;&#1103;">&#182;</a></h2><ul>
-<li><a href="http://sereja.me/a/stress-test.html">Стресс-тестирование</a></li>
-<li><a href="http://en.cppreference.com/w/cpp/algorithm">Крутые вещи в плюсах</a></li>
-<li><a href="http://codeforces.com/blog/entry/55274">Список задач по всем темам</a></li>
-</ul>
-
-</div>
-</div>
 </div>
     </div>
   </div>

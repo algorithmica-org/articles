@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>index</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>hashing</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,28 +11775,15 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1052;&#1086;&#1105;">&#1052;&#1086;&#1105;<a class="anchor-link" href="#&#1052;&#1086;&#1105;">&#182;</a></h2><p>Стараюсь писать только про то, чего нет в интернете в нормальном виде, либо про то, что мне очень сложно давалось, когда я был школьником.</p>
-<ul>
-<li><a href="http://sereja.me/a/bitset">Битовое сжатие</a></li>
-<li><a href="http://sereja.me/a/centroid">Центроидная декомпозиция</a></li>
-<li><a href="http://sereja.me/a/matroid">Матроиды</a></li>
-<li><a href="http://sereja.me/a/pollard">Ро-алгоритм Полларда</a></li>
-<li><a href="http://sereja.me/a/sparse-table">Sparse table</a></li>
-<li><a href="http://sereja.me/a/mincost-maxflow">Поток минимальной стоимости</a></li>
-<li><a href="http://sereja.me/a/stress-test">Стресс-тестирование</a> (~95%: баг с генерацией рандома)</li>
-<li><a href="http://sereja.me/a/geometry">Геометрия</a> (~90%)</li>
-<li><a href="http://sereja.me/a/dp_optimizations">Оптимизации ДП</a> (~80%)</li>
-<li><a href="http://sereja.me/a/fenwick">Дерево Фенвика</a> (~75%)</li>
-<li><a href="http://sereja.me/a/mst">Остовные деревья</a> (~70%)</li>
-<li><a href="http://sereja.me/a/reciprocal">Обратное по модулю</a> (~60%)</li>
-<li><a href="http://sereja.me/a/annealing">Метод отжига</a> (~60%)</li>
-<li><a href="http://sereja.me/a/linalg">Линейная алгебра</a> (~50%)</li>
-<li><a href="http://sereja.me/a/probability">Теорвер</a> (~20%)</li>
-<li><a href="http://sereja.me/a/segtree">Дерево отрезков</a> (~0%)</li>
-<li><a href="http://sereja.me/a/treap">Декартово дерево</a> (~0%)</li>
-<li><a href="http://sereja.me/a/hashing">Полиномиальное хэширование</a> (~0%)</li>
-<li><a href="http://sereja.me/a/bayans">Классные задачки</a> (решения начну писать, когда разберусь, как делать спойлеры)</li>
-</ul>
+<h1 id="&#1061;&#1101;&#1096;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;-&#1074;-&#1089;&#1090;&#1088;&#1086;&#1082;&#1086;&#1074;&#1099;&#1093;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1072;&#1093;">&#1061;&#1101;&#1096;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1074; &#1089;&#1090;&#1088;&#1086;&#1082;&#1086;&#1074;&#1099;&#1093; &#1079;&#1072;&#1076;&#1072;&#1095;&#1072;&#1093;<a class="anchor-link" href="#&#1061;&#1101;&#1096;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;-&#1074;-&#1089;&#1090;&#1088;&#1086;&#1082;&#1086;&#1074;&#1099;&#1093;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1072;&#1093;">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Хэширование — это сопоставление некоторым объектам числовых значений. Оно обычно не обратно однозначное: многим хэшу может соответствовать много объектов. Иначе говоря, хэш — это просто функция, но в каком-то смысле «детерминированно случайная».</p>
 
 </div>
 </div>
@@ -11805,15 +11792,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1057;&#1090;&#1088;&#1091;&#1082;&#1091;&#1090;&#1088;&#1099;-&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;">&#1057;&#1090;&#1088;&#1091;&#1082;&#1091;&#1090;&#1088;&#1099; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;<a class="anchor-link" href="#&#1057;&#1090;&#1088;&#1091;&#1082;&#1091;&#1090;&#1088;&#1099;-&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/segment_tree">Дерево отрезков</a></li>
-<li><a href="http://codeforces.com/blog/entry/18051">Итеративное дерево отрезков</a></li>
-<li><a href="http://e-maxx.ru/algo/dsu">Система непересекающихся множеств</a></li>
-<li><a href="http://sereja.me/a/sparse-table">Разреженная таблица</a></li>
-<li><a href="http://sereja.me/a/fenwick">Дерево Фенвика</a></li>
-<li><a href="http://e-maxx.ru/algo/treap">Декартово дерево</a></li>
-<li><a href="http://sereja.me/a/bitset">Применения битсета</a></li>
-</ul>
+<p>Объекты могут быть самыми разными: тексты, изображения, графы, шахматные позиции и просто битовые файлы. Мы остановимся на строках.</p>
 
 </div>
 </div>
@@ -11822,10 +11801,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1040;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;">&#1040;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/binary_pow">Бинарное возведение в степень</a></li>
-<li><a href="https://www.youtube.com/watch?v=iTMn0Kt18tg">Быстрое преобразование Фурье</a></li>
-</ul>
+<p>Алгоритмы, основанные на хешировании подстрок, позволяют решить огромное число задач (см. примеры).</p>
+<p><strong>Лайфхак</strong>: пока вы не выучили все детерминированные строковые алгоритмы, научитесь пользоваться хэшами.</p>
 
 </div>
 </div>
@@ -11834,21 +11811,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1043;&#1088;&#1072;&#1092;&#1099;">&#1043;&#1088;&#1072;&#1092;&#1099;<a class="anchor-link" href="#&#1043;&#1088;&#1072;&#1092;&#1099;">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1069;&#1081;&#1083;&#1077;&#1088;&#1086;&#1074;&#1099;-&#1086;&#1073;&#1093;&#1086;&#1076;&#1099;">&#1069;&#1081;&#1083;&#1077;&#1088;&#1086;&#1074;&#1099; &#1086;&#1073;&#1093;&#1086;&#1076;&#1099;<a class="anchor-link" href="#&#1069;&#1081;&#1083;&#1077;&#1088;&#1086;&#1074;&#1099;-&#1086;&#1073;&#1093;&#1086;&#1076;&#1099;">&#182;</a></h3><ul>
-<li><a href="http://e-maxx.ru/algo/topological_sort">Топологическая сортировка</a></li>
-<li><a href="http://e-maxx.ru/algo/bridge_searching">Поиск мостов</a></li>
-<li><a href="https://neerc.ifmo.ru/wiki/index.php?title=%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%BF%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%B8%D1%8F_%D0%AD%D0%B9%D0%BB%D0%B5%D1%80%D0%BE%D0%B2%D0%B0_%D1%86%D0%B8%D0%BA%D0%BB%D0%B0">Эйлеров цикл</a></li>
-<li><a href="http://e-maxx.ru/algo/strong_connected_components">Конденсация графа</a></li>
-<li><a href="http://e-maxx.ru/algo/2_sat">2-SAT</a></li>
-</ul>
+<p>Есть одино интересное семейство хэшей: полиномиальные.</p>
 
 </div>
 </div>
@@ -11857,10 +11820,39 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1050;&#1088;&#1072;&#1090;&#1095;&#1072;&#1081;&#1096;&#1080;&#1077;-&#1087;&#1091;&#1090;&#1080;">&#1050;&#1088;&#1072;&#1090;&#1095;&#1072;&#1081;&#1096;&#1080;&#1077; &#1087;&#1091;&#1090;&#1080;<a class="anchor-link" href="#&#1050;&#1088;&#1072;&#1090;&#1095;&#1072;&#1081;&#1096;&#1080;&#1077;-&#1087;&#1091;&#1090;&#1080;">&#182;</a></h3><ul>
-<li><a href="http://e-maxx.ru/algo/dijkstra_sparse">Алгоритм Дейкстры</a></li>
-<li><a href="http://e-maxx.ru/algo/ford_bellman">Алгоритм Форда-Беллмана</a></li>
-</ul>
+<p>Давайте представим строку в виде последовательности чисел $\{a_i\}$, каждое лежит от 1 до размера алфавита. Тогда хэш от неё будем считать двумя вариантами:</p>
+<ol>
+<li>$h_1 = (a_0) \mod p$ </li>
+<li>$h_2 = $</li>
+</ol>
+<p>Здесь $k$ — произвольное число большее размера алфавита, а $p$ — достаточно большой модуль, вообще говоря, не обязательно простой.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">31</span><span class="p">,</span> <span class="n">mod</span> <span class="o">=</span> <span class="mf">1e9</span><span class="o">+</span><span class="mi">7</span><span class="p">;</span>
+
+<span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;abacabadaba&quot;</span><span class="p">;</span>
+<span class="kt">long</span> <span class="kt">long</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">char</span> <span class="nl">x</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="o">*</span><span class="n">k</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>В чем, собственно преимущество: чтобы посчитать хэш подстроки, достаточно посчитать префиксные хэши, а затем делать быстрые операции вычитания и умножения. Это позволяет сравнивать строки за $O(1)$.</p>
 
 </div>
 </div>
@@ -11869,10 +11861,57 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1054;&#1089;&#1090;&#1086;&#1074;&#1085;&#1099;&#1077;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;">&#1054;&#1089;&#1090;&#1086;&#1074;&#1085;&#1099;&#1077; &#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;<a class="anchor-link" href="#&#1054;&#1089;&#1090;&#1086;&#1074;&#1085;&#1099;&#1077;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;">&#182;</a></h3><ul>
-<li><a href="http://e-maxx.ru/algo/mst_prim">Алгоритм Прима</a></li>
-<li><a href="http://e-maxx.ru/algo/mst_kruskal_with_dsu">Алгоритм Крускала</a></li>
-</ul>
+<p>Давайте вместо приведения к нулевым степяням приведем их к каким-то одинаковым — например, к $n$-ной. Так код упростится.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ull</span><span class="p">;</span>
+
+<span class="n">ull</span> <span class="n">h</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+
+
+<span class="kt">bool</span> <span class="nf">hash</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="n">r</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">-</span> <span class="n">h</span><span class="p">[</span><span class="n">l</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">k</span><span class="p">;</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099;-&#1079;&#1072;&#1076;&#1072;&#1095;">&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099; &#1079;&#1072;&#1076;&#1072;&#1095;<a class="anchor-link" href="#&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099;-&#1079;&#1072;&#1076;&#1072;&#1095;">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Количество разных подстрок</strong>. Можно посчитать хэши от всех подстрок за $O(n^2)$ и запихнуть их все в set, а затем сделать <code>s.size()</code>.</p>
+<p><strong>Поиск подстроки в строке</strong>. Можно посчитать хэши от паттерна и пройтись «окном» по тексту, начитывая хэш окна. Это называют алгоритмом Рабина-Карпа.</p>
+<p><strong>Сравнение строк</strong>. У любых двух строк есть какой-то (возможно, пустой) общий префикс. Можно сделать бинпоиск по его длине, а дальше сравнить два символа, идущие за ним.</p>
+<p><strong>Проверка на палиндром</strong>. Можно посчитать два массива — обратные хэши и прямые. Проверка на палиндром будет заключаться в сравнении соответствующих разностей префиксных сумм.</p>
+<p><strong>Количество палиндромов</strong>. Можно перебрать центр палиндрома, а для каждого центра — его размер. Проверять на палиндромность подстроки мы уже умеем.</p>
 
 </div>
 </div>
@@ -11881,10 +11920,15 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1055;&#1072;&#1088;&#1086;&#1089;&#1086;&#1095;&#1077;&#1090;&#1072;&#1085;&#1080;&#1103;-&#1080;-&#1087;&#1086;&#1090;&#1086;&#1082;&#1080;">&#1055;&#1072;&#1088;&#1086;&#1089;&#1086;&#1095;&#1077;&#1090;&#1072;&#1085;&#1080;&#1103; &#1080; &#1087;&#1086;&#1090;&#1086;&#1082;&#1080;<a class="anchor-link" href="#&#1055;&#1072;&#1088;&#1086;&#1089;&#1086;&#1095;&#1077;&#1090;&#1072;&#1085;&#1080;&#1103;-&#1080;-&#1087;&#1086;&#1090;&#1086;&#1082;&#1080;">&#182;</a></h3><ul>
-<li><a href="http://e-maxx.ru/algo/kuhn_matching">Алгоритм Куна</a></li>
-<li><a href="https://www.topcoder.com/community/data-science/data-science-tutorials/minimum-cost-flow-part-one-key-concepts/">Максимальный поток минимального веса</a></li>
-</ul>
+<h1 id="&#1042;&#1077;&#1088;&#1086;&#1103;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100;-&#1086;&#1096;&#1080;&#1073;&#1082;&#1080;-&#1080;-&#1074;&#1099;&#1073;&#1086;&#1088;-&#1082;&#1086;&#1085;&#1089;&#1090;&#1072;&#1085;&#1090;">&#1042;&#1077;&#1088;&#1086;&#1103;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100; &#1086;&#1096;&#1080;&#1073;&#1082;&#1080; &#1080; &#1074;&#1099;&#1073;&#1086;&#1088; &#1082;&#1086;&#1085;&#1089;&#1090;&#1072;&#1085;&#1090;<a class="anchor-link" href="#&#1042;&#1077;&#1088;&#1086;&#1103;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100;-&#1086;&#1096;&#1080;&#1073;&#1082;&#1080;-&#1080;-&#1074;&#1099;&#1073;&#1086;&#1088;-&#1082;&#1086;&#1085;&#1089;&#1090;&#1072;&#1085;&#1090;">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>У алгоритмов, используюзих хэширование, есть один существенный недостаток: недетерминированность. На CodeForces даже иногда бывали случаи взломов, сгенерированных против конкретных значений параметров.</p>
 
 </div>
 </div>
@@ -11893,10 +11937,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1057;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099;-&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;-&#1085;&#1072;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;&#1093;">&#1057;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1085;&#1072; &#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;&#1093;<a class="anchor-link" href="#&#1057;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099;-&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;-&#1085;&#1072;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;&#1093;">&#182;</a></h3><ul>
-<li><a href="http://sereja.me/a/fenwick">Дерево Фенвика</a></li>
-<li><a href="http://sereja.me/a/centroid">Центроидная декомпозиция</a></li>
-</ul>
+<p><strong>Парадокс дней рождений</strong>. Если в классе есть 22 учеников, то с вероятностью более 50% у кого-то совпадут дни рождения. В общем случае он формулируется так: если есть $n$ чисел от 1 до $n^2$, то вероятность совпадения не очень большая и не очень маленькая. Доказывать это мы не будем, по крайней мере сейчас.</p>
 
 </div>
 </div>
@@ -11905,11 +11946,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1050;&#1086;&#1084;&#1073;&#1080;&#1085;&#1072;&#1090;&#1086;&#1088;&#1080;&#1082;&#1072;">&#1050;&#1086;&#1084;&#1073;&#1080;&#1085;&#1072;&#1090;&#1086;&#1088;&#1080;&#1082;&#1072;<a class="anchor-link" href="#&#1050;&#1086;&#1084;&#1073;&#1080;&#1085;&#1072;&#1090;&#1086;&#1088;&#1080;&#1082;&#1072;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/binomial_coeff">Биномиальные коэффициенты</a></li>
-<li><a href="http://e-maxx.ru/algo/inclusion_exclusion_principle">Принцип включений-исключений</a></li>
-<li><a href="http://e-maxx.ru/algo/burnside_polya">Лемма Бернсайда</a></li>
-</ul>
+<p>Полезное правило: брать модуль на несколько порядков больше, чем квадрат количества сравнений.</p>
 
 </div>
 </div>
@@ -11918,11 +11955,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1058;&#1077;&#1086;&#1088;&#1080;&#1103;-&#1095;&#1080;&#1089;&#1077;&#1083;">&#1058;&#1077;&#1086;&#1088;&#1080;&#1103; &#1095;&#1080;&#1089;&#1077;&#1083;<a class="anchor-link" href="#&#1058;&#1077;&#1086;&#1088;&#1080;&#1103;-&#1095;&#1080;&#1089;&#1077;&#1083;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/euclid_algorithm">Алгоритм Евклида</a></li>
-<li><a href="http://sereja.me/a/pollard">Парадокс дней рождений и ро-алгоритм Полларда</a></li>
-<li><a href="http://e-maxx.ru/algo/reverse_element">Нахождение обратного элемента по модулю</a></li>
-</ul>
+<p>Можно брать два или даже три модуля.</p>
 
 </div>
 </div>
@@ -11931,10 +11964,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;">&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;<a class="anchor-link" href="#&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/longest_increasing_subseq_log">Наибольшая возрастающая последовательность</a></li>
-<li><a href="http://acm.math.spbu.ru/~sk1/mm/lections/zksh2017-dp/conspect.pdf">Оптимизации динамики</a>  (Копелиович)</li>
-</ul>
+<p>Можно также брать модуль $2^{64}$. Он удобен тем, что не о каких переполнениях заботиться не нужно: можно просто все хранить в <code>unsigned long long</code> — архитектура процессора устроена так, что сама перенесет лишнее. Это может работать очень быстро. Существует известный тест против него, однако на некоторых контестах его могут не добавить.</p>
 
 </div>
 </div>
@@ -11943,74 +11973,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1058;&#1077;&#1086;&#1088;&#1080;&#1103;-&#1080;&#1075;&#1088;">&#1058;&#1077;&#1086;&#1088;&#1080;&#1103; &#1080;&#1075;&#1088;<a class="anchor-link" href="#&#1058;&#1077;&#1086;&#1088;&#1080;&#1103;-&#1080;&#1075;&#1088;">&#182;</a></h2><ul>
-<li><a href="http://informatics.mccme.ru/file.php/1563/games.pdf">Игры на графах</a> (Станкевич)</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1103;">&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1103;<a class="anchor-link" href="#&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1103;">&#182;</a></h2><ul>
-<li><a href="https://habrahabr.ru/post/147691/">Вводная статья в вычислительную геометрию</a></li>
-<li><a href="http://e-maxx.ru/algo/segment_to_line">Уравнение прямой по двум точкам</a></li>
-<li><a href="http://e-maxx.ru/algo/convex_hull_graham">Построение выпуклой оболочки</a></li>
-<li><a href="http://e-maxx.ru/algo/geometric_inversion">Геометрическая инверсия</a></li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1057;&#1090;&#1088;&#1086;&#1082;&#1080;">&#1057;&#1090;&#1088;&#1086;&#1082;&#1080;<a class="anchor-link" href="#&#1057;&#1090;&#1088;&#1086;&#1082;&#1080;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/string_hashes">Полиномиальное хеширование</a></li>
-<li><a href="http://e-maxx.ru/algo/z_function">Z-функция</a></li>
-<li><a href="http://e-maxx.ru/algo/aho_corasick">Алгоритм Ахо-Корасик</a></li>
-<li><a href="http://e-maxx.ru/algo/suffix_automata">Суффиксный автомат</a></li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1040;&#1087;&#1087;&#1088;&#1086;&#1082;&#1089;&#1080;&#1084;&#1072;&#1094;&#1080;&#1080;">&#1040;&#1087;&#1087;&#1088;&#1086;&#1082;&#1089;&#1080;&#1084;&#1072;&#1094;&#1080;&#1080;<a class="anchor-link" href="#&#1040;&#1087;&#1087;&#1088;&#1086;&#1082;&#1089;&#1080;&#1084;&#1072;&#1094;&#1080;&#1080;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/roots_newton">Метод Ньютона</a></li>
-<li><a href="http://sereja.me/a/annealing.html">Метод отжига</a></li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;-/-&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1099;">&#1056;&#1072;&#1079;&#1085;&#1086;&#1077; / &#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1099;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;-/-&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1099;">&#182;</a></h2><ul>
-<li><a href="http://e-maxx.ru/algo/kth_order_statistics">$k$-ая порядковая статистика за $O(n)$</a></li>
-<li><a href="http://codeforces.com/blog/entry/4898">Тест против хешей по модулю $2^{64}$</a></li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;-/-&#1058;&#1077;&#1093;&#1085;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077;-&#1079;&#1085;&#1072;&#1085;&#1080;&#1103;">&#1056;&#1072;&#1079;&#1085;&#1086;&#1077; / &#1058;&#1077;&#1093;&#1085;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077; &#1079;&#1085;&#1072;&#1085;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1085;&#1086;&#1077;-/-&#1058;&#1077;&#1093;&#1085;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077;-&#1079;&#1085;&#1072;&#1085;&#1080;&#1103;">&#182;</a></h2><ul>
-<li><a href="http://sereja.me/a/stress-test.html">Стресс-тестирование</a></li>
-<li><a href="http://en.cppreference.com/w/cpp/algorithm">Крутые вещи в плюсах</a></li>
-<li><a href="http://codeforces.com/blog/entry/55274">Список задач по всем темам</a></li>
-</ul>
+<p>В выборе $k$ и $p$ нет никакой логики. Главное, чтобы их не знал человек, генерирующий тесты. Имеет смысл, чтобы они были взаимно простыми, чтобы начианя с какого-то момента все не обнулилось.</p>
 
 </div>
 </div>
