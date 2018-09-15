@@ -12599,12 +12599,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Замечание</strong>. Почти везде мы будем использовать полуинтервалы — обозначаемые как $[l, r)$ — вместо отрезков. Несмотря на контринтуитивность, это немного упростит код и вообще является хорошей практикой в программировании, подобно нумерации с нуля:</p>
-<ul>
-<li>Длина полуинтервала считается как просто $(r-l)$.</li>
-<li>Для бинпоиска можно считать середину и не делать $t+1$.</li>
-<li>TODO ещё какие-нибудь примеры, где полуинтервалы лучше</li>
-</ul>
+<p><strong>Замечание</strong>. Почти везде мы будем использовать полуинтервалы — обозначаемые как $[l, r)$ — вместо отрезков. Несмотря на контринтуитивность, это немного упростит код и вообще является хорошей практикой в программировании, подобно нумерации с нуля.</p>
 
 </div>
 </div>
@@ -12672,6 +12667,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="&#1056;&#1072;&#1079;&#1085;&#1099;&#1077;-&#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1072;">&#1056;&#1072;&#1079;&#1085;&#1099;&#1077; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1072;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1085;&#1099;&#1077;-&#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1072;">&#182;</a></h2><p>Высота такого дерева есть величина $\Theta(\log n)$: на каждом новом уровне длина отрезка уменьшается вдвое. Этот факт будет ключевым для оценки асимптотики.</p>
+<p>Более того, любой полуинтервал разбивается на $O(\log n)$ неперекрывающихся полуинтервалов, соответствующих в вершинам дерева: с каждого уровня нам достаточно не более двух отрезков.</p>
 <p>Дерево также содержит менее $2n$ вершин: первый уровень дерева отрезков содержит одну вершину (корень), второй уровень — в худшем случае две вершины, на третьем уровне в худшем случае будет четыре вершины, и так далее, пока число вершин не достигнет $n$. Таким образом, число вершин в худшем случае оценивается суммой $n + \frac{n}{2} + \frac{n}{4} + \frac{n}{8} + \ldots + 1 &lt; 2n$. Значит, оно линейное по памяти.</p>
 <p>При $n$, отличных от степеней двойки, не все уровни дерева отрезков будут полностью заполнены. Например, при $n=3$ левый сын корня есть отрезок $[0, 2)$, имеющий двух потомков, в то время как правый сын корня — отрезок $[2, 3)$, являющийся листом.</p>
 
@@ -12784,7 +12780,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Кстати</strong>, вы не задумывались, почему мы перешли с 32-битных процессоров на 64-битные? Каждый указатель ссылается на байт — более точный адрес менеджер памяти выделять не умеет. Поэтому 32-битный компьютер умеет работать только с не более, чем $2^{32}$ байтами памяти — ровно 4 гигабайта — что с какого-то момента начало нехватать. Большинство операций — это операции с памятью, и размерность повысили именно из-за этого, а не чтобы операции с <code>long long</code> быстрее считались</p>
+<p>Кстати, вы не задумывались, почему мы перешли с 32-битных процессоров на 64-битные? Каждый указатель ссылается на байт — более точный адрес менеджер памяти выделять не умеет. Поэтому 32-битный компьютер умеет работать только с не более, чем $2^{32}$ байтами памяти — ровно 4 гигабайта — что с какого-то момента начало нехватать. Большинство операций — это операции с памятью, и размерность повысили именно из-за этого, а не чтобы операции с <code>long long</code> быстрее считались</p>
 
 </div>
 </div>
@@ -12819,10 +12815,11 @@ div#notebook {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">struct</span> <span class="n">segtree</span> <span class="p">{</span>
     <span class="nb">int</span> <span class="n">lb</span><span class="p">,</span> <span class="n">rb</span><span class="p">;</span> <span class="o">//</span> <span class="n">левые</span> <span class="n">и</span> <span class="n">правые</span> <span class="n">границы</span> <span class="n">отрезков</span>
     <span class="nb">int</span> <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">//</span> <span class="n">сумма</span> <span class="n">на</span> <span class="n">текущем</span> <span class="n">отрезке</span>
-    <span class="n">segtree</span> <span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="o">*</span><span class="n">r</span><span class="p">;</span>
+    <span class="n">segtree</span> <span class="o">*</span><span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="n">segtree</span> <span class="p">(</span><span class="nb">int</span> <span class="n">_lb</span><span class="p">,</span> <span class="nb">int</span> <span class="n">_rb</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">lb</span> <span class="o">=</span> <span class="n">_lb</span><span class="p">,</span> <span class="n">rb</span> <span class="o">=</span> <span class="n">_rb</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">!=</span> <span class="n">rb</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">rb</span><span class="p">)</span> <span class="p">{</span>
+            <span class="o">//</span> <span class="n">если</span> <span class="n">не</span> <span class="n">лист</span><span class="p">,</span> <span class="n">создаем</span> <span class="n">детей</span>
             <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">rb</span><span class="p">);</span>
@@ -12830,20 +12827,21 @@ div#notebook {
     <span class="p">}</span>
     <span class="n">void</span> <span class="n">add</span> <span class="p">(</span><span class="nb">int</span> <span class="n">k</span><span class="p">,</span> <span class="nb">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
         <span class="nb">sum</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">!=</span> <span class="n">rb</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="p">)</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
-            <span class="k">else</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">rb</span><span class="p">)</span>
+                <span class="n">l</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+            <span class="k">else</span>
+                <span class="n">r</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="nb">int</span> <span class="n">get_sum</span> <span class="p">(</span><span class="nb">int</span> <span class="n">lq</span><span class="p">,</span> <span class="nb">int</span> <span class="n">rq</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&gt;=</span> <span class="n">lq</span> <span class="o">&amp;&amp;</span> <span class="n">rb</span> <span class="o">&lt;=</span> <span class="n">rq</span><span class="p">)</span>
             <span class="o">//</span> <span class="n">если</span> <span class="n">мы</span> <span class="n">лежим</span> <span class="n">полностью</span> <span class="n">в</span> <span class="n">отрезке</span> <span class="n">запроса</span><span class="p">,</span> <span class="n">вывести</span> <span class="n">сумму</span>
             <span class="k">return</span> <span class="nb">sum</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&gt;</span> <span class="n">rq</span> <span class="o">||</span> <span class="n">rb</span> <span class="o">&lt;</span> <span class="n">lq</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">lq</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">min</span><span class="p">(</span><span class="n">rb</span><span class="p">,</span> <span class="n">rq</span><span class="p">))</span>
             <span class="o">//</span> <span class="n">если</span> <span class="n">мы</span> <span class="n">не</span> <span class="n">пересекаемся</span> <span class="n">с</span> <span class="n">отрезком</span> <span class="n">запроса</span><span class="p">,</span> <span class="n">вывести</span> <span class="n">ноль</span>
             <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="o">//</span> <span class="n">иначе</span> <span class="n">всё</span> <span class="n">сложно</span> <span class="err">—</span> <span class="n">запускаемся</span> <span class="n">от</span> <span class="n">детей</span> <span class="n">и</span> <span class="n">пусть</span> <span class="n">они</span> <span class="n">там</span> <span class="n">сами</span> <span class="n">решают</span>
+        <span class="o">//</span> <span class="n">иначе</span> <span class="n">всё</span> <span class="n">сложно</span> <span class="o">--</span> <span class="n">запускаемся</span> <span class="n">от</span> <span class="n">детей</span> <span class="n">и</span> <span class="n">пусть</span> <span class="n">они</span> <span class="n">там</span> <span class="n">сами</span> <span class="n">решают</span>
         <span class="k">return</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">get_sum</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">)</span> <span class="o">+</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">get_sum</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">};</span>
@@ -12924,13 +12922,13 @@ div#notebook {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">struct</span> <span class="n">segtree</span> <span class="p">{</span>
     <span class="nb">int</span> <span class="n">lb</span><span class="p">,</span> <span class="n">rb</span><span class="p">;</span>
     <span class="nb">int</span> <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">assign</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    <span class="n">segtree</span> <span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="o">*</span><span class="n">r</span><span class="p">;</span>
+    <span class="n">segtree</span> <span class="o">*</span><span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="n">segtree</span> <span class="p">(</span><span class="nb">int</span> <span class="n">_lb</span><span class="p">,</span> <span class="nb">int</span> <span class="n">_rb</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">lb</span> <span class="o">=</span> <span class="n">_lb</span><span class="p">,</span> <span class="n">rb</span> <span class="o">=</span> <span class="n">_rb</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">!=</span> <span class="n">rb</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">rb</span><span class="p">)</span> <span class="p">{</span>
             <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">rb</span><span class="p">);</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">rb</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="n">void</span> <span class="n">push</span> <span class="p">()</span> <span class="p">{</span>
@@ -12947,7 +12945,7 @@ div#notebook {
         <span class="n">push</span><span class="p">();</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">lq</span> <span class="o">&lt;=</span> <span class="n">lb</span> <span class="o">&amp;&amp;</span> <span class="n">rb</span> <span class="o">&lt;=</span> <span class="n">rq</span><span class="p">)</span>
             <span class="n">assign</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
-        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&amp;&amp;</span> <span class="n">lb</span> <span class="o">&lt;=</span> <span class="n">rq</span> <span class="o">&amp;&amp;</span> <span class="n">rb</span> <span class="o">&gt;=</span> <span class="n">rq</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&amp;&amp;</span> <span class="nb">max</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">lq</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">rb</span><span class="p">,</span> <span class="n">rq</span><span class="p">))</span> <span class="p">{</span>
             <span class="o">//</span> <span class="n">если</span> <span class="n">есть</span> <span class="n">дети</span> <span class="n">и</span> <span class="n">отрезок</span> <span class="n">запроса</span> <span class="n">хоть</span> <span class="n">как</span><span class="o">-</span><span class="n">то</span> <span class="n">пересекается</span> <span class="n">с</span> <span class="n">нашим</span>
             <span class="n">l</span><span class="o">-&gt;</span><span class="n">upd</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
             <span class="n">r</span><span class="o">-&gt;</span><span class="n">upd</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
@@ -12958,7 +12956,7 @@ div#notebook {
         <span class="n">push</span><span class="p">();</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&gt;=</span> <span class="n">lq</span> <span class="o">&amp;&amp;</span> <span class="n">rb</span> <span class="o">&lt;=</span> <span class="n">rq</span><span class="p">)</span>
             <span class="k">return</span> <span class="nb">sum</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&gt;</span> <span class="n">rq</span> <span class="o">||</span> <span class="n">rb</span> <span class="o">&lt;</span> <span class="n">lq</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">lq</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">min</span><span class="p">(</span><span class="n">rb</span><span class="p">,</span> <span class="n">rq</span><span class="p">))</span>
             <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
         <span class="k">return</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">get_sum</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">)</span> <span class="o">+</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">get_sum</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">);</span>
     <span class="p">}</span>
@@ -13010,28 +13008,27 @@ div#notebook {
     <span class="n">segtree</span> <span class="o">*</span><span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="n">segtree</span> <span class="p">(</span><span class="nb">int</span> <span class="n">_lb</span><span class="p">,</span> <span class="nb">int</span> <span class="n">_rb</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">lb</span> <span class="o">=</span> <span class="n">_lb</span><span class="p">,</span> <span class="n">rb</span> <span class="o">=</span> <span class="n">_rb</span><span class="p">;</span>
-        <span class="o">//</span> <span class="n">а</span> <span class="n">тут</span> <span class="n">ничего</span> <span class="n">нет</span><span class="err">!</span>
+        <span class="o">//</span> <span class="n">а</span> <span class="n">тут</span> <span class="n">ничего</span> <span class="n">нет</span>
     <span class="p">}</span>
     <span class="n">void</span> <span class="n">extend</span> <span class="p">()</span> <span class="p">{</span>
         <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span>l<span class="o">)</span> <span class="o">{</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">rb</span><span class="p">);</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">rb</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="n">void</span> <span class="n">add</span> <span class="p">(</span><span class="nb">int</span> <span class="n">k</span><span class="p">,</span> <span class="nb">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
         <span class="nb">sum</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">!=</span> <span class="n">rb</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">extend</span><span class="p">();</span>
-            <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="p">)</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">rb</span><span class="p">)</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
             <span class="k">else</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="nb">int</span> <span class="n">get_sum</span> <span class="p">(</span><span class="nb">int</span> <span class="n">lq</span><span class="p">,</span> <span class="nb">int</span> <span class="n">rq</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&gt;=</span> <span class="n">lq</span> <span class="o">&amp;&amp;</span> <span class="n">rb</span> <span class="o">&lt;=</span> <span class="n">rq</span><span class="p">)</span>
             <span class="k">return</span> <span class="nb">sum</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&gt;</span> <span class="n">rq</span> <span class="o">||</span> <span class="n">rb</span> <span class="o">&lt;</span> <span class="n">lq</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">lq</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">min</span><span class="p">(</span><span class="n">rb</span><span class="p">,</span> <span class="n">rq</span><span class="p">))</span>
             <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
         <span class="n">extend</span><span class="p">();</span>
         <span class="k">return</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">get_sum</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">)</span> <span class="o">+</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">get_sum</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">);</span>
@@ -13098,7 +13095,7 @@ div#notebook {
         <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">!=</span> <span class="n">rb</span><span class="p">)</span> <span class="p">{</span>
             <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">rb</span><span class="p">);</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">rb</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="n">void</span> <span class="n">copy</span> <span class="p">()</span> <span class="p">{</span>
@@ -13110,17 +13107,16 @@ div#notebook {
     <span class="n">void</span> <span class="n">add</span> <span class="p">(</span><span class="nb">int</span> <span class="n">k</span><span class="p">,</span> <span class="nb">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">copy</span><span class="p">();</span>
         <span class="nb">sum</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">!=</span> <span class="n">rb</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="p">)</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">rb</span><span class="p">)</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
             <span class="k">else</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="nb">int</span> <span class="n">get_sum</span> <span class="p">(</span><span class="nb">int</span> <span class="n">lq</span><span class="p">,</span> <span class="nb">int</span> <span class="n">rq</span><span class="p">)</span> <span class="p">{</span>
-        <span class="o">//</span> <span class="n">этот</span> <span class="n">метод</span> <span class="n">ничего</span> <span class="n">не</span> <span class="n">меняет</span> <span class="err">—</span> <span class="n">он</span> <span class="n">и</span> <span class="n">так</span> <span class="n">хороший</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&gt;=</span> <span class="n">lq</span> <span class="o">&amp;&amp;</span> <span class="n">rb</span> <span class="o">&lt;=</span> <span class="n">rq</span><span class="p">)</span>
+        <span class="o">//</span> <span class="n">этот</span> <span class="n">метод</span> <span class="n">ничего</span> <span class="n">не</span> <span class="n">меняет</span> <span class="o">--</span> <span class="n">он</span> <span class="n">и</span> <span class="n">так</span> <span class="n">хороший</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lq</span> <span class="o">&lt;=</span> <span class="n">lb</span> <span class="o">&amp;&amp;</span> <span class="n">rb</span> <span class="o">&lt;=</span> <span class="n">rq</span><span class="p">)</span>
             <span class="k">return</span> <span class="nb">sum</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&gt;</span> <span class="n">rq</span> <span class="o">||</span> <span class="n">rb</span> <span class="o">&lt;</span> <span class="n">lq</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">lq</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">min</span><span class="p">(</span><span class="n">rb</span><span class="p">,</span> <span class="n">rq</span><span class="p">))</span>
             <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
         <span class="k">return</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">get_sum</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">)</span> <span class="o">+</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">get_sum</span><span class="p">(</span><span class="n">lq</span><span class="p">,</span> <span class="n">rq</span><span class="p">);</span>
     <span class="p">}</span>
@@ -13157,8 +13153,8 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="&#1044;&#1088;&#1091;&#1075;&#1080;&#1077;-&#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;">&#1044;&#1088;&#1091;&#1075;&#1080;&#1077; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;<a class="anchor-link" href="#&#1044;&#1088;&#1091;&#1075;&#1080;&#1077;-&#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;">&#182;</a></h2><p>Эта реализация проста и легко расширяема, но весьма медленная и неэффективная по памяти. Есть альтернативы:</p>
-<p><strong>На массивах</strong>. Можно ввести несложную нумерацию вершин, позволяющую при спуске в ребёнка пересчитывать его номер. Это позволит не хранить границы текущего отрезка. Подробнее у <a href="http://e-maxx.ru/algo/segment_tree">емакса</a>.</p>
-<p><strong>«ДО снизу»</strong>. Можно вообще делать все операции итеративно. Так получится раз в 7 быстрее, но код писать намного труднее. Подробнее смотрите в одном посте с <a href="https://codeforces.com/blog/entry/18051">codeforces</a>.</p>
+<p><strong>На массивах</strong>. Можно ввести несложную нумерацию вершин, позволяющую при спуске в ребёнка пересчитывать его номер. Это позволит не хранить границы текущего отрезка. Подробнее у <a href="http://e-maxx.ru/algo/segment_tree">Емакса</a>.</p>
+<p><strong>«ДО снизу»</strong>. Можно делать все операции итеративно — так получится раз в 7 быстрее, но писать что-либо нетривиальное (например, массовые операции) так будет намного труднее. Подробнее смотрите в одном посте с <a href="https://codeforces.com/blog/entry/18051">CodeForces</a>.</p>
 
 </div>
 </div>
@@ -13168,10 +13164,9 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="&#1047;&#1072;&#1076;&#1072;&#1095;&#1080;">&#1047;&#1072;&#1076;&#1072;&#1095;&#1080;<a class="anchor-link" href="#&#1047;&#1072;&#1076;&#1072;&#1095;&#1080;">&#182;</a></h2><ul>
-<li><a href="https://codeforces.com/contest/61/problem/E">Противник слаб</a></li>
-<li><a href="https://codeforces.com/contest/380/problem/C">Серёжа и скобочки</a></li>
-<li><a href="https://codeforces.com/problemset/problem/915/E?locale=ru">Занятия физкультуры</a> — на динамическое построение</li>
-<li><a href="https://codeforces.com/problemset/problem/813/E">Создание армии</a> — на персистеность</li>
+<li><a href="https://informatics.msk.ru/mod/statements/view3.php?id=33853&amp;chapterid=752#1">Первый контест</a> — на базовые операции.</li>
+<li>Второй контест — на отложенные операции.</li>
+<li><a href="https://codeforces.com/group/g92L0id9Yb/contest/228565">Дополнительный контест</a> — на динамическое построение и персистентность.</li>
 </ul>
 
 </div>
