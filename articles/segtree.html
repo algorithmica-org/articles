@@ -12858,7 +12858,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <blockquote><p>Посчитать число беспорядков в перестановке из $n$ элементов (беспорядок или инверсия — это пара чисел $i &lt; j$, для которых $p_i &gt; p_j$).</p>
 </blockquote>
-<p>Эта задача <a href="link_to_year1_conspect">решается</a> просто, если уметь писать сортировку слиянием. Но мы пойдем по другому пути. Создадим ДО для суммы на $n$ элементов, изначально заполненное нулями. Теперь будем проходить по этому массиву слева направа. Когда обрабатываем очередное число $x$, будем делать две вещи:</p>
+<p>Эта задача решается просто, если уметь писать сортировку слиянием вручную. Но мы пойдем по другому пути. Создадим ДО для суммы на $n$ элементов, изначально заполненное нулями. Теперь будем проходить по этому массиву слева направа. Когда обрабатываем очередное число $x$, будем делать две вещи:</p>
 <ul>
 <li>Запросим сумму от $k$ до $n$ в ДО.</li>
 <li>Добавим единичку в $k$-тую позицию в ДО.</li>
@@ -12990,7 +12990,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>А что, если у нас все индексы лежать не от в пределах $10^9$, а, например, $10^9$. Все асимптотики нас по прежнему устраивают ($\log_2 10^6 \approx 20$, $\log_2 10^9 \approx 30$), кроме этапа построения.</p>
+<p>А что, если у нас все индексы лежать не от в пределах $10^5$, а, например, $10^9$. Все асимптотики нас по прежнему устраивают ($\log_2 10^6 \approx 20$, $\log_2 10^9 \approx 30$), кроме этапа построения.</p>
 <p>Можно решить эту проблему так: откажемся от явного создания всех вершин дерева изначально. Изначально создадим только лишь корень, а остальные вершины будем создавать на ходу, когда в них потребуется записать что-то не дефолтное — как в lazy propagation.</p>
 <p>Реализовать это можно так же, как и с <code>push</code>-ем: в начале всех методов будем проверять, что дети-вершины созданы, и создавать их, если это не так.</p>
 
@@ -13011,18 +13011,20 @@ div#notebook {
         <span class="o">//</span> <span class="n">а</span> <span class="n">тут</span> <span class="n">ничего</span> <span class="n">нет</span>
     <span class="p">}</span>
     <span class="n">void</span> <span class="n">extend</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span>l<span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span>l <span class="o">&amp;&amp;</span> lb + <span class="m">1</span> &lt; rb<span class="o">)</span> <span class="o">{</span>
+            <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">rb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">new</span> <span class="n">segtree</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">rb</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="n">void</span> <span class="n">add</span> <span class="p">(</span><span class="nb">int</span> <span class="n">k</span><span class="p">,</span> <span class="nb">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">extend</span><span class="p">();</span>
         <span class="nb">sum</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">extend</span><span class="p">();</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">rb</span><span class="p">)</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
-            <span class="k">else</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">rb</span><span class="p">)</span>
+                <span class="n">l</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+            <span class="k">else</span>
+                <span class="n">r</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="nb">int</span> <span class="n">get_sum</span> <span class="p">(</span><span class="nb">int</span> <span class="n">lq</span><span class="p">,</span> <span class="nb">int</span> <span class="n">rq</span><span class="p">)</span> <span class="p">{</span>
