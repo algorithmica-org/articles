@@ -13123,7 +13123,17 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Хэширование — это сопоставление некоторым объектам числовых значений. Оно обычно не обратно однозначное: многим хэшу может соответствовать много объектов. Иначе говоря, хэш — это просто функция, но в каком-то смысле «детерминированно случайная».</p>
+<p>Хэш — это какая-то функция, сопоставляющая объектам какого-то множества числовые значения из ограниченного промежутка.</p>
+<p>«Хорошая» хэш-функция:</p>
+<ul>
+<li>Быстро считается  — за линейное от размера объекта время;</li>
+<li>Имеет не очень большие значения — влезающие в 64 бита;</li>
+<li>«Детерминированно-случайная» — если хэш может принимать $n$ различных значений, то  вероятность того, что хэши от двух случайных объектов совпадут, равна примерно $\frac{1}{n}$.</li>
+</ul>
+<p>Обычно хэш-функция не является взаимно однозначной: одному хэшу может соответствовать много объектов.</p>
+<p>Для некоторых задач удобнее работать с хэшами, чем с самими объектами.</p>
+<p>Например, если у нас есть $n$ строк длины $m$, и нас просят $q$ раз проверить произвольные две на равенство. Вместо наивных проверок за $O(qnm)$ мы можем посчитать хэши от всех строк, где-нибудь записать и при ответе на запрос сравнивать два числа, а не все строки.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Hash_table_4_1_1_0_0_1_0_LL.svg/300px-Hash_table_4_1_1_0_0_1_0_LL.svg.png" alt="hash"></p>
 
 </div>
 </div>
@@ -13131,7 +13141,13 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Объекты могут быть самыми разными: тексты, изображения, графы, шахматные позиции и просто битовые файлы. Мы остановимся на строках.</p>
+<h2 id="&#1055;&#1088;&#1080;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103;">&#1055;&#1088;&#1080;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103;<a class="anchor-link" href="#&#1055;&#1088;&#1080;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103;">&#182;</a></h2><ul>
+<li><strong>Хэш-таблица</strong>. Класс <code>unordered_set</code> из STL можно реализовать так: заведем $n$ изначально пустых односвязных списков. Возьмем какую-нибудь хэш-функцию $f$ с областью значений $[0, n)$. При обработке <code>.insert(x)</code> мы будем добавлять элемент $x$ в $f(x)$-тый список. При ответе на <code>.find(x)</code> мы будем проверять, лежит ли $x$-тый элемент в $f(x)$-том списке. Из-за свойства хэш-функций быть «равномерными» ожидаемое количество сравнений будет равно $\frac{k}{n}$.</li>
+<li><strong>Мемоизация</strong>. Нам может быть нужно реализовать динамическое программирование над сложными состояниями, которые нельзя «разгладить» в массив. В таком случае нужно писать динамику рекурсивно и хранить подсчитанные значения в хэш-таблице, а для идентификации состояния использовать его хэш.</li>
+<li><strong>Проверка на изоморфизм</strong>. Если нам нужно проверить, что какие-нибудь сложные структуры (например, деревья) совпадают, то мы можем придумать для них хэш-функцию и сравнивать их хэши аналогично примеру со строками.</li>
+<li><strong>Криптография</strong>. Правильнее и безопаснее хранить хэши паролей в базе данных вместо самих паролей — хэш-функцию нельзя однозначно восстановить.</li>
+<li><strong>Поиск в многомерных пространствах</strong>. Детерминированный поиск ближайшей точки среди $m$ точек в $n$-мерном пространстве быстро не решается. Однако можно придумать <a href="https://ru.wikipedia.org/wiki/Locality-sensitive_hashing">хэш-функцию, присваивающую лежащим рядом элементам одинаковые хэши</a>, и делать поиск только среди элементов с тем же хэшом, что у запроса.</li>
+</ul>
 
 </div>
 </div>
@@ -13139,8 +13155,8 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Алгоритмы, основанные на хешировании подстрок, позволяют решить огромное число задач (см. примеры).</p>
-<p><strong>Лайфхак</strong>: пока вы не выучили все детерминированные строковые алгоритмы, научитесь пользоваться хэшами.</p>
+<p>Хэшируемые объекты могут быть самыми разными: строки, изображения, графы, шахматные позиции, просто битовые файлы.</p>
+<p>Сегодня же мы остановимся на строках.</p>
 
 </div>
 </div>
@@ -13148,79 +13164,28 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Есть одино интересное семейство хэшей: полиномиальные.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Давайте представим строку в виде последовательности чисел $\{a_i\}$, каждое лежит от 1 до размера алфавита. Тогда хэш от неё будем считать двумя вариантами:</p>
-<ol>
-<li>$h_1 = (a_0) \mod p$ </li>
-<li>$h_2 = $</li>
-</ol>
-<p>Здесь $k$ — произвольное число большее размера алфавита, а $p$ — достаточно большой модуль, вообще говоря, не обязательно простой.</p>
+<h1 id="&#1055;&#1086;&#1083;&#1080;&#1085;&#1086;&#1084;&#1080;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077;-&#1093;&#1101;&#1096;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;">&#1055;&#1086;&#1083;&#1080;&#1085;&#1086;&#1084;&#1080;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077; &#1093;&#1101;&#1096;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;<a class="anchor-link" href="#&#1055;&#1086;&#1083;&#1080;&#1085;&#1086;&#1084;&#1080;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077;-&#1093;&#1101;&#1096;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;">&#182;</a></h1><p><strong>Лайфхак</strong>: пока вы не выучили все детерминированные строковые алгоритмы, научитесь пользоваться хэшами.</p>
+<p>Будем считать, что строка — это последовательность чисел от $1$ до $m$ (размер алфавита). В C++ <code>char</code> это на самом деле тоже число, поэтому можно вычитать из символов минимальный код и кастовать в число: <code>int x = (int) (c - 'a' + 1)</code>.</p>
+<p>Определим <em>прямой полиномиальный хэш</em> строки как значение следующего многочлена:</p>
+$$ h_f = (s_0 + s_1 k + s_2 k^2 + \ldots + s_n k^n) \mod p $$<p>Здесь $k$ — произвольное число больше размера алфавита, а $p$ — достаточно большой модуль, вообще говоря, не обязательно простой.</p>
+<p>Его можно посчитать за линейное время, поддерживая переменную, равную нужной в данный момент степени $k$:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">31</span><span class="p">,</span> <span class="n">mod</span> <span class="o">=</span> <span class="mf">1e9</span><span class="o">+</span><span class="mi">7</span><span class="p">;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">const</span> <span class="nb">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">31</span><span class="p">,</span> <span class="n">mod</span> <span class="o">=</span> <span class="mf">1e9</span><span class="o">+</span><span class="mi">7</span><span class="p">;</span>
 
-<span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;abacabadaba&quot;</span><span class="p">;</span>
-<span class="kt">long</span> <span class="kt">long</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="kt">char</span> <span class="nl">x</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="o">*</span><span class="n">k</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>В чем, собственно преимущество: чтобы посчитать хэш подстроки, достаточно посчитать префиксные хэши, а затем делать быстрые операции вычитания и умножения. Это позволяет сравнивать строки за $O(1)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Давайте вместо приведения к нулевым степяням приведем их к каким-то одинаковым — например, к $n$-ной. Так код упростится.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ull</span><span class="p">;</span>
-
-<span class="n">ull</span> <span class="n">h</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
-
-
-<span class="kt">bool</span> <span class="nf">hash</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="n">r</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">-</span> <span class="n">h</span><span class="p">[</span><span class="n">l</span><span class="p">]);</span>
-<span class="p">}</span>
-
-<span class="c1">// ...</span>
-
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">k</span><span class="p">;</span>
-
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;abacabadaba&quot;</span><span class="p">;</span>
+<span class="n">long</span> <span class="n">long</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">char</span> <span class="n">c</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">int</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="s1">&#39;a&#39;</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13232,18 +13197,33 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099;-&#1079;&#1072;&#1076;&#1072;&#1095;">&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099; &#1079;&#1072;&#1076;&#1072;&#1095;<a class="anchor-link" href="#&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099;-&#1079;&#1072;&#1076;&#1072;&#1095;">&#182;</a></h1>
+<p>Можем ещё определить <em>обратный полиномиальный хэш</em>:</p>
+$$ h_b = (s_0 k^n + s_1 k^{n-1} + \ldots + s_n) \mod p $$<p>Его преимущество в том, что можно написать на одну строчку кода меньше:</p>
+
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">long</span> <span class="n">long</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">char</span> <span class="n">c</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">int</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="p">(</span><span class="n">c</span><span class="o">-</span><span class="s1">&#39;a&#39;</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="o">*</span><span class="n">k</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Количество разных подстрок</strong>. Можно посчитать хэши от всех подстрок за $O(n^2)$ и запихнуть их все в set, а затем сделать <code>s.size()</code>.</p>
-<p><strong>Поиск подстроки в строке</strong>. Можно посчитать хэши от паттерна и пройтись «окном» по тексту, начитывая хэш окна. Это называют алгоритмом Рабина-Карпа.</p>
-<p><strong>Сравнение строк</strong>. У любых двух строк есть какой-то (возможно, пустой) общий префикс. Можно сделать бинпоиск по его длине, а дальше сравнить два символа, идущие за ним.</p>
-<p><strong>Проверка на палиндром</strong>. Можно посчитать два массива — обратные хэши и прямые. Проверка на палиндром будет заключаться в сравнении соответствующих разностей префиксных сумм.</p>
-<p><strong>Количество палиндромов</strong>. Можно перебрать центр палиндрома, а для каждого центра — его размер. Проверять на палиндромность подстроки мы уже умеем.</p>
+<p>Автору проще думать об обычных многочленах, поэтому он будет везде использовать прямой полиномиальный хэш и обозначать его просто буквой $h$.</p>
 
 </div>
 </div>
@@ -13251,14 +13231,89 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1042;&#1077;&#1088;&#1086;&#1103;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100;-&#1086;&#1096;&#1080;&#1073;&#1082;&#1080;-&#1080;-&#1074;&#1099;&#1073;&#1086;&#1088;-&#1082;&#1086;&#1085;&#1089;&#1090;&#1072;&#1085;&#1090;">&#1042;&#1077;&#1088;&#1086;&#1103;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100; &#1086;&#1096;&#1080;&#1073;&#1082;&#1080; &#1080; &#1074;&#1099;&#1073;&#1086;&#1088; &#1082;&#1086;&#1085;&#1089;&#1090;&#1072;&#1085;&#1090;<a class="anchor-link" href="#&#1042;&#1077;&#1088;&#1086;&#1103;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100;-&#1086;&#1096;&#1080;&#1073;&#1082;&#1080;-&#1080;-&#1074;&#1099;&#1073;&#1086;&#1088;-&#1082;&#1086;&#1085;&#1089;&#1090;&#1072;&#1085;&#1090;">&#182;</a></h1>
+<h2 id="&#1047;&#1072;&#1095;&#1077;&#1084;-&#1086;&#1085;-&#1085;&#1091;&#1078;&#1077;&#1085;?">&#1047;&#1072;&#1095;&#1077;&#1084; &#1086;&#1085; &#1085;&#1091;&#1078;&#1077;&#1085;?<a class="anchor-link" href="#&#1047;&#1072;&#1095;&#1077;&#1084;-&#1086;&#1085;-&#1085;&#1091;&#1078;&#1077;&#1085;?">&#182;</a></h2><p>Используя тот факт, что хэш это значение многочлена, можно быстро пересчитывать хэш результата выполнения многих строковых операций.</p>
+<p>Например, если нам нужно посчитать хэш от конкатенации строк $a$ и $b$ (т. е. $b$ приписали в конец строки $a$), то можно просто хэш $a$ домножить на $k^{|b|}$ и сложить с хэшом $a$:</p>
+$$ h(ab) = h(a) \cdot k^{|b|} + h(b) $$<p>Удалить префикс строки можно так:</p>
+$$ h(a) = \frac{h(ab) - h(b)}{k^{|b|}} $$<p>А суффикс — ещё проще:</p>
+$$ h(b) = h(ab) - h(a) $$<p>В задачах нам часто понадобится домножать $k$ в какой-то степени, поэтому имеет смысл пред предпосчитать все нужные степени и хранить в массиве:</p>
+
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">const</span> <span class="nb">int</span> <span class="n">maxn</span> <span class="o">=</span> <span class="mf">1e5</span><span class="o">+</span><span class="mi">5</span><span class="p">;</span>
+
+<span class="nb">int</span> <span class="n">p</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">maxn</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>У алгоритмов, используюзих хэширование, есть один существенный недостаток: недетерминированность. На CodeForces даже иногда бывали случаи взломов, сгенерированных против конкретных значений параметров.</p>
+<p>Как это использовать в реальных задачах? Пусть нам надо отвечать на запросы проверки на равенство произвольных подстрок одной большой строки. Подсчитаем значение хэш-функции для каждого префикса:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="n">h</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">//</span> <span class="n">h</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">--</span> <span class="n">хэш</span> <span class="n">префикса</span> <span class="n">длины</span> <span class="n">k</span>
+
+<span class="n">b</span><span class="o">//</span> <span class="n">будем</span> <span class="n">считать</span><span class="p">,</span> <span class="n">что</span> <span class="n">s</span> <span class="n">это</span> <span class="n">уже</span> <span class="n">последовательность</span> <span class="nb">int</span><span class="o">-</span><span class="n">ов</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> 
+    <span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Теперь с помощью этих префиксных хэшей мы можем определить функцию, которая будет считать хэш на произвольном подотрезке:</p>
+$$ h(s[l:r]) = \frac{h_r-h_l}{k^l} $$<p>Деление по модулю воможно делать только при некоторых <code>k</code> и <code>mod</code> (а именно — при взаимно простых). В любом случае, писать это долго, и мы это делать не хотим. Давайте вместо приведения к нулевой степяни приведем многочлен к какой-нибудь достаточно большой — например, к $n$-ной. Так проще — нужно будет домножать, а не делить.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="n">hash_substring</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span><span class="p">,</span> <span class="nb">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">h</span><span class="p">[</span><span class="n">l</span><span class="p">])</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="n">r</span><span class="p">]</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Теперь при ответе на запрос мы можем просто вызывать эту функцию от двух отрезков запроса и сравнивать значение, отвечая на запрос за $O(1)$.</p>
 
 </div>
 </div>
@@ -13266,7 +13321,11 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Парадокс дней рождений</strong>. Если в классе есть 22 учеников, то с вероятностью более 50% у кого-то совпадут дни рождения. В общем случае он формулируется так: если есть $n$ чисел от 1 до $n^2$, то вероятность совпадения не очень большая и не очень маленькая. Доказывать это мы не будем, по крайней мере сейчас.</p>
+<h2 id="&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099;-&#1079;&#1072;&#1076;&#1072;&#1095;">&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099; &#1079;&#1072;&#1076;&#1072;&#1095;<a class="anchor-link" href="#&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099;-&#1079;&#1072;&#1076;&#1072;&#1095;">&#182;</a></h2><p><strong>Количество разных подстрок</strong>. Посчитаем хэши от всех подстрок за $O(n^2)$ и добавим их все в <code>std::set</code>. Чтобы получить ответ, просто вызовем <code>set.size()</code>.</p>
+<p><strong>Поиск подстроки в строке</strong>. Можно посчитать хэши от шаблона (строки, которую ищем) и пройтись «окном» размера шаблона по тексту, поддерживая хэш текущей подстроки. Если хэш какой-то из этих подстрок совпал с хэшом шаблона, то мы нашли нужную подстроку. Это называется алгоритмом Рабина-Карпа.</p>
+<p><strong>Сравнение строк</strong>. У любых двух строк есть какой-то общий префикс (возможно, пустой). Сделаем бинпоиск по его длине, а дальше сравним два символа, идущие за ним.</p>
+<p><strong>Палиндромность подстроки</strong>. Можно посчитать два массива — обратные хэши и прямые. Проверка на палиндром будет заключаться в сравнении значений <code>hash_substring()</code> на первом массиве и на втором.</p>
+<p><strong>Количество палиндромов</strong>. Можно перебрать центр палиндрома, а для каждого центра — бинпоиском его размер. Проверять подстроку на палиндромность мы уже умеем. Как и всегда в задачах на палиндромы, случаи четных и нечетных палиндромов нужно обрабатывать отдельно.</p>
 
 </div>
 </div>
@@ -13274,7 +13333,9 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Полезное правило: брать модуль на несколько порядков больше, чем квадрат количества сравнений.</p>
+<h3 id="&#1048;&#1079;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103;-&#1089;&#1090;&#1088;&#1086;&#1082;&#1080;*">&#1048;&#1079;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103; &#1089;&#1090;&#1088;&#1086;&#1082;&#1080;*<a class="anchor-link" href="#&#1048;&#1079;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103;-&#1089;&#1090;&#1088;&#1086;&#1082;&#1080;*">&#182;</a></h3><p>Если для вас всё вышеперечисленное тривиально: можно делать много клёвых вещей, если «оборачивать» строки в декартово дерево. В вершине дерева можно хранить символ, а также хэш подстроки, соответствующей её поддереву. Чтобы поддерживать хэш, нужно просто добавить в <code>upd()</code> пересчёт хэша от конкатенации трёх строк — левого сына, своего собственного символа и правого сына.</p>
+<p>Имея такое дерево, мы можем обрабатывать запросы, связанные с изменением строки: удаление и вставка символов, перемещение и разворот подстрок, а если дерево персистентное — то и копирование подстрок. При запросе хэша подстроки нам, как обычно, нужно просто вырезать нужную подстроку и взять хэш, который будет лежать в вершине-корне.</p>
+<p>Если нам не нужно обрабатывать запросы вставки и удаления символов, а, например, только изменения, то можно использовать и дерево отрезков вместо декартова.</p>
 
 </div>
 </div>
@@ -13282,7 +13343,8 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Можно брать два или даже три модуля.</p>
+<h1 id="&#1042;&#1077;&#1088;&#1086;&#1103;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100;-&#1086;&#1096;&#1080;&#1073;&#1082;&#1080;-&#1080;-&#1087;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1101;&#1090;&#1086;-&#1074;&#1089;&#1105;-&#1074;&#1086;&#1086;&#1073;&#1097;&#1077;-&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;">&#1042;&#1077;&#1088;&#1086;&#1103;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100; &#1086;&#1096;&#1080;&#1073;&#1082;&#1080; &#1080; &#1087;&#1086;&#1095;&#1077;&#1084;&#1091; &#1101;&#1090;&#1086; &#1074;&#1089;&#1105; &#1074;&#1086;&#1086;&#1073;&#1097;&#1077; &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;<a class="anchor-link" href="#&#1042;&#1077;&#1088;&#1086;&#1103;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100;-&#1086;&#1096;&#1080;&#1073;&#1082;&#1080;-&#1080;-&#1087;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1101;&#1090;&#1086;-&#1074;&#1089;&#1105;-&#1074;&#1086;&#1086;&#1073;&#1097;&#1077;-&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;">&#182;</a></h1><p>У алгоритмов, использующих хэширование, есть один неприятный недостаток: недетерминированность. Если мы сгенерируем бесконечно много примеров, то когда-нибудь из-за недетерминизма программа отработает неправильно. На CodeForces даже иногда случаются взломы решений, использующих хэширование — хакеры может сгенерировать тест против конкретного алгоритма и заданных значений параметров.</p>
+<p>Событие, когда два хэша совпали, а не должны, называется <em>коллизией</em>. Пусть мы решаем задачу определения количества различных подстрок — мы засовываем в <code>set</code> $O(n^2)$ различных случайных значений в промежутке $[0, m)$. Понятно, что если тут произойдет коллизия, то мы какую-то строку не посчитаем, и получим WA. Насколько большим следует делать $m$, чтобы не бояться такого?</p>
 
 </div>
 </div>
@@ -13290,7 +13352,15 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Можно также брать модуль $2^{64}$. Он удобен тем, что не о каких переполнениях заботиться не нужно: можно просто все хранить в <code>unsigned long long</code> — архитектура процессора устроена так, что сама перенесет лишнее. Это может работать очень быстро. Существует известный тест против него, однако на некоторых контестах его могут не добавить.</p>
+<h2 id="&#1042;&#1099;&#1073;&#1086;&#1088;-&#1082;&#1086;&#1085;&#1089;&#1090;&#1072;&#1085;&#1090;">&#1042;&#1099;&#1073;&#1086;&#1088; &#1082;&#1086;&#1085;&#1089;&#1090;&#1072;&#1085;&#1090;<a class="anchor-link" href="#&#1042;&#1099;&#1073;&#1086;&#1088;-&#1082;&#1086;&#1085;&#1089;&#1090;&#1072;&#1085;&#1090;">&#182;</a></h2><p>Неплохое правило: если вам нужно хранить $n$ различных хэшей, то безопасный модуль — это число порядка $10 \cdot n^2$. Обоснование — см. парадокс дней рождений.</p>
+<p>Не всегда такой можно выбрать один — если он будет слишком большой, будут происходить переполнения. Вместо этого можно брать два или даже три модуля и считать много хэшей параллельно.</p>
+<p>Можно также брать модуль $2^{64}$. Во-первых, он большой — второго модуля так точно не надо будет. Во-вторых, он удобен тем, что не о каких переполнениях заботиться не нужно: можно просто все хранить в <code>unsigned long long</code> — архитектура процессора устроена так, что <code>%</code> даже выполнять не нужно. Было бы всё прекрасно, если бы не существовал <a href="http://codeforces.com/blog/entry/4898">тест против него</a>. Однако на некоторых контестах его могут не добавить.</p>
+<p>В выборе же $k$ ограничения не такие серьезные:</p>
+<ul>
+<li>Она должна быть чуть больше размера словаря — иначе можно изменить две соседние буквы и получить коллизию.</li>
+<li>Она должна быть взаимно проста с модулем — иначе в какой-то момент всё может занулиться.</li>
+<li>Главное — чтобы её и модуль не знал человек, который генерирует тесты.</li>
+</ul>
 
 </div>
 </div>
@@ -13298,7 +13368,31 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>В выборе $k$ и $p$ нет никакой логики. Главное, чтобы их не знал человек, генерирующий тесты. Имеет смысл, чтобы они были взаимно простыми, чтобы начианя с какого-то момента все не обнулилось.</p>
+<h2 id="&#1055;&#1072;&#1088;&#1072;&#1076;&#1086;&#1082;&#1089;-&#1076;&#1085;&#1077;&#1081;-&#1088;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1081;*">&#1055;&#1072;&#1088;&#1072;&#1076;&#1086;&#1082;&#1089; &#1076;&#1085;&#1077;&#1081; &#1088;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1081;*<a class="anchor-link" href="#&#1055;&#1072;&#1088;&#1072;&#1076;&#1086;&#1082;&#1089;-&#1076;&#1085;&#1077;&#1081;-&#1088;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1081;*">&#182;</a></h2><blockquote><p>В группе, состоящей из 23 или более человек, вероятность совпадения дней рождения хотя бы у двух людей превышает 50%.</p>
+</blockquote>
+<p>Пусть $f(n, d)$ это вероятность того, что в группе из $n$ человек ни у кого не совпали дни рождения.
+Будем считать, что дни рождения распределены независимо и равномерно в промежутке от $1$ до $d$.</p>
+$$f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}{d})$$<p>Попытаемся оценить $f$:</p>
+$$
+\begin{align}
+  \begin{aligned}
+    e^x &amp; = 1 + x + \frac{x^2}{2!} + \ldots &amp; \text{(ряд Тейлора для экспоненты)} \\
+    &amp; \simeq 1 + x &amp; \text{(аппроксимация для $|x| \ll 1$)} \\
+    e^{-\frac{n}{d}} &amp; \simeq 1 - \frac{n}{d} &amp; \text{(подставим $\frac{n}{d} \ll 1$)} \\
+    f(n, d) &amp; \simeq e^{-\frac{1}{d}} \times e^{-\frac{2}{d}} \times \ldots \times e^{-\frac{n-1}{d}} &amp; \\
+    &amp; = e^{-\frac{n(n-1)}{2d}} &amp; \\
+    &amp; \simeq e^{-\frac{n^2}{2d}} &amp; \\
+  \end{aligned}
+\end{align}
+$$<p>Из последнего выражения более-менее понятно, что вероятность $\frac{1}{2}$ достигается при $n \approx \sqrt{d}$ и в этой точке изменяется очень быстро. Важный вывод из этого следующий: <strong>в мультимножество нужно добавить $\Theta(\sqrt{n})$ случайных чисел от 1 до n, чтобы какие-то два совпали</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="&#1041;&#1086;&#1085;&#1091;&#1089;:-&#171;&#1084;&#1077;&#1090;&#1072;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1072;&#187;">&#1041;&#1086;&#1085;&#1091;&#1089;: &#171;&#1084;&#1077;&#1090;&#1072;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1072;&#187;<a class="anchor-link" href="#&#1041;&#1086;&#1085;&#1091;&#1089;:-&#171;&#1084;&#1077;&#1090;&#1072;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1072;&#187;">&#182;</a></h3><p>В задаче дана произвольная строка, по которой известным только авторам способом генерируется ответ yes/no. В задаче 100 тестов. У вас есть 20 попыток. В качестве фидбэка вам доступны вердикты на каждом тесте. Вердикта всего два: OK (ответ совпал) и WA. Попытки поделить на ноль, выделить терабайт памяти и подобное тоже считаются как WA. «Решите» задачу.</p>
 
 </div>
 </div>
