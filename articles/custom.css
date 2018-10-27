@@ -25,12 +25,21 @@ body {
 }
 
 div#notebook {
-    font-size: 20px;
+    font-size: 22px;
+    line-height: 30px;
 }
 
 code, pre {
     font-family: 'Inconsolata', monospace;
     font-size: 16px !important;
+}
+
+ul {
+    margin-top:10px!important;
+}
+
+li {
+    margin-top:4px;
 }
 
 code {
@@ -95,3 +104,4 @@ a[href^='https://www.topcoder.com/']:before {
 .MathJax_Display {
     padding-top: 10px;
 }
+
