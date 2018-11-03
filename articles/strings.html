@@ -13524,12 +13524,12 @@ $$\underbrace{aba}c\overbrace{aba}daba \hspace{1em} (z_4 = 3)$$
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">const</span> <span class="nb">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
 
-<span class="n">struct</span> <span class="n">Node</span> <span class="p">{</span>
-    <span class="n">Node</span><span class="o">*</span> <span class="n">to</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="n">struct</span> <span class="n">Vertex</span> <span class="p">{</span>
+    <span class="n">Vertex</span><span class="o">*</span> <span class="n">to</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
     <span class="nb">bool</span> <span class="n">terminal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="n">Node</span> <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Node</span><span class="p">();</span>
+<span class="n">Vertex</span> <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Vertex</span><span class="p">();</span>
 </pre></div>
 
     </div>
@@ -13555,7 +13555,7 @@ $$\underbrace{aba}c\overbrace{aba}daba \hspace{1em} (z_4 = 3)$$
     <span class="k">for</span> <span class="p">(</span><span class="n">char</span> <span class="n">c</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">c</span> <span class="o">-=</span> <span class="s1">&#39;a&#39;</span><span class="p">;</span>
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span>v-&gt;to<span class="o">[</span>c<span class="o">])</span> 
-            <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Node</span><span class="p">();</span>
+            <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Vertex</span><span class="p">();</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
     <span class="p">}</span>
     <span class="n">v</span><span class="o">-&gt;</span><span class="n">terminal</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
@@ -13592,7 +13592,7 @@ $$\underbrace{aba}c\overbrace{aba}daba \hspace{1em} (z_4 = 3)$$
 <h2 id="&#1040;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1099;*">&#1040;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1099;*<a class="anchor-link" href="#&#1040;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1099;*">&#182;</a></h2><p>Пусть мы построили бор для заданного набора строк. Посмотрим на него теперь немного с другой стороны. Если мы рассмотрим любую вершину, то строка, которая соответствует ей, является префиксом одной или нескольких строк из набора; т.е. каждую вершину бора можно понимать как позицию в одной или нескольких строках из набора.</p>
 <p>Фактически, вершины бора можно понимать как состояния <em>конечного детерминированного автомата</em>. Находясь в каком-либо состоянии, мы под воздействием какой-то входной буквы переходим в другое состояние.</p>
 <p>Однако одними только рёбрами бора нельзя ограничиваться. Если мы пытаемся выполнить переход по какой-либо букве, а соответствующего ребра в боре нет, то мы тем не менее должны перейти в какое-то состояние.</p>
-<p>Более строго, пусть мы находимся в состоянии p, которому соответствует некоторая строка t, и хотим выполнить переход по символу c. Если в боре из вершины p есть переход по букве c, то мы просто переходим по этому ребру и попадаем в вершину, которой соответствует строка tc. Если же такого ребра нет, то мы должны найти состояние, соответствующее наидлиннейшему собственному суффиксу строки t (наидлиннейшему из имеющихся в боре), и попытаться выполнить переход по букве c из него.</p>
+<p>Пусть мы находимся в состоянии $v$, которому соответствует некоторая строка $s$, и хотим выполнить переход по символу $c$. Если в боре из вершины $p$ есть переход по букве $c$, то мы просто переходим по этому ребру и попадаем в вершину, которой соответствует строка $sc$. Если же такого ребра нет, то мы должны найти состояние, соответствующее <strong>наидлиннейшему собственному суффиксу</strong> среди имеющихся в боре строки $s$, и попытаться выполнить переход по букве $c$ уже их него.</p>
 <p>Например, пусть бор построен по строкам и , и мы под воздействием строки перешли в некоторое состояние, являющееся листом. Тогда под воздействием буквы мы вынуждены перейти в состояние, соответствующее строке , и только оттуда выполнить переход по букве .</p>
 <p>Суффиксная ссылка для каждой вершины p — это вершина, в которой оканчивается наидлиннейший собственный суффикс строки, соответствующей вершине p. Единственный особый случай — корень бора; для удобства суффиксную ссылку из него проведём в себя же. Теперь мы можем переформулировать утверждение по поводу переходов в автомате так: пока из текущей вершины бора нет перехода по соответствующей букве (или пока мы не придём в корень бора), мы должны переходить по суффиксной ссылке.</p>
 <p>Таким образом, мы свели задачу построения автомата к задаче нахождения суффиксных ссылок для всех вершин бора. Однако строить эти суффиксные ссылки мы будем, как ни странно, наоборот, с помощью построенных в автомате переходов.</p>
@@ -13606,10 +13606,86 @@ $$\underbrace{aba}c\overbrace{aba}daba \hspace{1em} (z_4 = 3)$$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*">&#182;</a></h2><p><img src="https://www.parazitakusok.ru/images/item/5728/item_1109_1510080296_558.jpg" alt="karasik"></p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">const</span> <span class="nb">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
+
+<span class="n">struct</span> <span class="n">Vertex</span> <span class="p">{</span>
+    <span class="n">Vertex</span> <span class="o">*</span><span class="n">to</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="o">*</span><span class="n">go</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+    <span class="n">Vertex</span> <span class="o">*</span><span class="n">link</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+    <span class="nb">int</span> <span class="n">pch</span><span class="p">;</span>
+    <span class="n">Vertex</span> <span class="p">(</span><span class="nb">int</span> <span class="n">_pch</span><span class="p">,</span> <span class="n">Vertex</span> <span class="o">*</span><span class="n">_p</span><span class="p">)</span> <span class="p">{</span> <span class="n">pch</span> <span class="o">=</span> <span class="n">_pch</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">_p</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">Vertex</span> <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Vertex</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>C++ так не умеет — нужно сначала все объявить, а потом ссылаться.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Vertex</span><span class="o">*</span> <span class="n">go</span> <span class="p">(</span><span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span><span class="p">,</span> <span class="nb">int</span> <span class="n">c</span><span class="p">);</span>
+
+<span class="n">Vertex</span><span class="o">*</span> <span class="n">link</span> <span class="p">(</span><span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span>v-&gt;link<span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="n">root</span> <span class="o">||</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">p</span> <span class="o">==</span> <span class="n">root</span><span class="p">)</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span> <span class="o">=</span> <span class="n">go</span><span class="p">(</span><span class="n">link</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">p</span><span class="p">),</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">pch</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">Vertex</span><span class="o">*</span> <span class="n">go</span> <span class="p">(</span><span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span><span class="p">,</span> <span class="nb">int</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span>v-&gt;go<span class="o">[</span>c<span class="o">])</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="n">root</span><span class="p">)</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">go</span><span class="p">(</span><span class="n">link</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">add_string</span> <span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">char</span> <span class="n">_c</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">int</span> <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_c</span><span class="o">-</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span>v-&gt;to<span class="o">[</span>c<span class="o">])</span> v-&gt;to<span class="o">[</span>c<span class="o">]</span> <span class="o">=</span> new Vertex<span class="o">(</span>c, v<span class="o">)</span><span class="p">;</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
