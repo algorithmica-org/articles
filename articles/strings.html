@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>cross-entropy</title>
+<title>strings</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13116,8 +13116,64 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1084;&#1072;&#1096;&#1080;&#1085;&#1085;&#1086;&#1077;-&#1086;&#1073;&#1091;&#1095;&#1077;&#1085;&#1080;&#1077;-&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;">&#1055;&#1086;&#1095;&#1077;&#1084;&#1091; &#1084;&#1072;&#1096;&#1080;&#1085;&#1085;&#1086;&#1077; &#1086;&#1073;&#1091;&#1095;&#1077;&#1085;&#1080;&#1077; &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;<a class="anchor-link" href="#&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1084;&#1072;&#1096;&#1080;&#1085;&#1085;&#1086;&#1077;-&#1086;&#1073;&#1091;&#1095;&#1077;&#1085;&#1080;&#1077;-&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090;">&#182;</a></h1><p>b</p>
-<p>Принцип максимального правдоподобия —</p>
+<h1 id="&#1041;&#1072;&#1079;&#1086;&#1074;&#1099;&#1077;-&#1089;&#1090;&#1088;&#1086;&#1082;&#1086;&#1074;&#1099;&#1077;-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1099;">&#1041;&#1072;&#1079;&#1086;&#1074;&#1099;&#1077; &#1089;&#1090;&#1088;&#1086;&#1082;&#1086;&#1074;&#1099;&#1077; &#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1099;<a class="anchor-link" href="#&#1041;&#1072;&#1079;&#1086;&#1074;&#1099;&#1077;-&#1089;&#1090;&#1088;&#1086;&#1082;&#1086;&#1074;&#1099;&#1077;-&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1099;">&#182;</a></h1><h2 id="&#1055;&#1088;&#1077;&#1092;&#1080;&#1082;&#1089;-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;">&#1055;&#1088;&#1077;&#1092;&#1080;&#1082;&#1089;-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1055;&#1088;&#1077;&#1092;&#1080;&#1082;&#1089;-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Рассмотрим задачу, которая возникает каждый раз, когда вы делаете <code>ctrl+f</code>:</p>
+<blockquote><p>Есть большой текст $t$. Нужно найти все вхождения строки $s$ в него.</p>
+</blockquote>
+<p>Наивное решение со сравнением всех подстрок $t$ длины $|s|$ со строкой $s$ работает за $O(|t| \cdot |s|)$. Если текст большой, то длинные слова в нем искать становится очень долго.</p>
+<p>Для решения этой задачи за линейное время придумали <strong>префикс-функцию</strong>.</p>
+<p><strong>Определение</strong>. Префикс-функцией от строки $s$ называется массив $p$, где $p_i$ равно длине самого большого префикса строки $s_0 s_1 s_2 \ldots s_i$, который также является и суффиксом этой строки (не считая всю строку).</p>
+<p>Например, самый большой префикс, который равен суффиксу для строки «aataataa» — это «aataa»; префикс-функция для этой строки равна $[0, 1, 0, 1, 2, 3, 4, 5]$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">slow_prefix_function</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">n</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">prefix</span><span class="p">[:</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="n">prefix</span><span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="p">:]:</span>
+                <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="k">return</span> <span class="n">p</span>
+
+<span class="n">slow_prefix_function</span><span class="p">(</span><span class="s1">&#39;aataataa&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[0, 0, 1, 0, 1, 2, 3, 4]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(Этот алгоритм работает за $O(n^3)$, но это только пока.)</p>
 
 </div>
 </div>
@@ -13125,27 +13181,56 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1060;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;-&#1087;&#1088;&#1072;&#1074;&#1076;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1080;&#1103;">&#1060;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103; &#1087;&#1088;&#1072;&#1074;&#1076;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1080;&#1103;<a class="anchor-link" href="#&#1060;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;-&#1087;&#1088;&#1072;&#1074;&#1076;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1080;&#1103;">&#182;</a></h2>
+<h2 id="&#1050;&#1072;&#1082;-&#1101;&#1090;&#1086;-&#1087;&#1086;&#1084;&#1086;&#1078;&#1077;&#1090;-&#1088;&#1077;&#1096;&#1080;&#1090;&#1100;-&#1080;&#1089;&#1093;&#1086;&#1076;&#1085;&#1091;&#1102;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1091;?">&#1050;&#1072;&#1082; &#1101;&#1090;&#1086; &#1087;&#1086;&#1084;&#1086;&#1078;&#1077;&#1090; &#1088;&#1077;&#1096;&#1080;&#1090;&#1100; &#1080;&#1089;&#1093;&#1086;&#1076;&#1085;&#1091;&#1102; &#1079;&#1072;&#1076;&#1072;&#1095;&#1091;?<a class="anchor-link" href="#&#1050;&#1072;&#1082;-&#1101;&#1090;&#1086;-&#1087;&#1086;&#1084;&#1086;&#1078;&#1077;&#1090;-&#1088;&#1077;&#1096;&#1080;&#1090;&#1100;-&#1080;&#1089;&#1093;&#1086;&#1076;&#1085;&#1091;&#1102;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1091;?">&#182;</a></h2><p>Давайте пока поверим, что мы умеем считать префикс-функцию за линейное от размера строки — как это делать, поясним дальше — и научимся с помощью нее искать подстроку в строке.</p>
+<p>Соединим подстроки $s$ и $t$ каким-нибудь символом, который не встречается ни там, ни там. Посмотрим на префикс-функцию получившейся строки $s\#t$.</p>
+
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;let it go&quot;</span>
+<span class="n">t</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;let it go, let it go</span>
+<span class="s2">can&#39;t hold it back anymore</span>
+<span class="s2">let it go, let it go</span>
+<span class="s2">turn away and slam the door!&quot;&quot;&quot;</span>
+
+<span class="nb">print</span><span class="p">((</span><span class="n">s</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">slow_prefix_function</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="n">t</span><span class="p">)]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>let it go#let it go, let it go can&#39;t hold it back anymore let it go, let it go turn away and slam the door!
+00000000000123456789001234567890000000001000000000000000000123456789001234567890000000000000000100000000000
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-$$ \hat{\theta} = \argmax_\theta P(X | \theta) $$
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1088;&#1080;&#1085;&#1094;&#1080;&#1087;-&#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086;-&#1087;&#1088;&#1072;&#1074;&#1076;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1080;&#1103;">&#1055;&#1088;&#1080;&#1085;&#1094;&#1080;&#1087; &#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086; &#1087;&#1088;&#1072;&#1074;&#1076;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1080;&#1103;<a class="anchor-link" href="#&#1055;&#1088;&#1080;&#1085;&#1094;&#1080;&#1087;-&#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086;-&#1087;&#1088;&#1072;&#1074;&#1076;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1080;&#1103;">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<p>Видно, что все места, где значения равны 9 (длине S) — это концы вхождений $s$ в текст $t$.</p>
+<p>Такой алгоритм (посчитать префикс-функцию от $s\#t$ и посмотреть, в каких позициях она равна $|s|$) называется <strong>алгоритмом Кнута-Морриса-Пратта</strong>.</p>
 
 </div>
 </div>
@@ -13153,21 +13238,376 @@ $$ \hat{\theta} = \argmax_\theta P(X | \theta) $$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1051;&#1086;&#1075;&#1080;&#1089;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103;-&#1088;&#1077;&#1075;&#1088;&#1077;&#1089;&#1089;&#1080;&#1103;">&#1051;&#1086;&#1075;&#1080;&#1089;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103; &#1088;&#1077;&#1075;&#1088;&#1077;&#1089;&#1089;&#1080;&#1103;<a class="anchor-link" href="#&#1051;&#1086;&#1075;&#1080;&#1089;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103;-&#1088;&#1077;&#1075;&#1088;&#1077;&#1089;&#1089;&#1080;&#1103;">&#182;</a></h2>
+<h2 id="&#1050;&#1072;&#1082;-&#1077;&#1105;-&#1073;&#1099;&#1089;&#1090;&#1088;&#1086;-&#1089;&#1095;&#1080;&#1090;&#1072;&#1090;&#1100;">&#1050;&#1072;&#1082; &#1077;&#1105; &#1073;&#1099;&#1089;&#1090;&#1088;&#1086; &#1089;&#1095;&#1080;&#1090;&#1072;&#1090;&#1100;<a class="anchor-link" href="#&#1050;&#1072;&#1082;-&#1077;&#1105;-&#1073;&#1099;&#1089;&#1090;&#1088;&#1086;-&#1089;&#1095;&#1080;&#1090;&#1072;&#1090;&#1100;">&#182;</a></h2><p>Рассмотрим ещё несколько примеров префикс-функций:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;aaaaa&#39;</span><span class="p">,</span> <span class="s1">&#39;abcdef&#39;</span><span class="p">,</span> <span class="s1">&#39;abacabadava&#39;</span><span class="p">,</span> <span class="s1">&#39;antananarivuantananarivu&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">slow_prefix_function</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[0, 0, 1, 2, 3]
+[0, 0, 0, 0, 0, 0]
+[0, 0, 0, 1, 0, 1, 2, 3, 0, 1, 0]
+[0, 0, 0, 0, 1, 2, 1, 2, 1, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Можно заметить несколько особенностей:</p>
+<ul>
+<li>$p_0 = 0$ для всех строк: префикс подстроки из первого символа, который не совпадает со всей строкой — это только пустой префикс;</li>
+<li>$p_{i+1}$ максимум на единицу превосходит $p_i$: если есть префикс, равный суффиксу строки $s_0 s_1 \ldots s_{i+1}$ длины $p_{i+1}$, то, отбросив последний символ, можно получить и правильный суффикс для строки $s_0 s_1 \ldots s_i$, длина которого будет ровно на единицу меньше.</li>
+</ul>
+<p>Хочется придумать алгоритм, как считать префикс-функцию за $O(N)$. Логично это делать с помощью динамики: найти формулу для $p_i$ через предыдущие значения.</p>
+<p>Заметим, что $p_{i+1} = p_i + 1$ в том и только том случае, когда $s_{p_i} =s_{i+1}$. Например, в строке $\underbrace{aabaa}t\overbrace{aabaa}$ выделен максимальный префикс, равный суффиксу: $p_{10} = 5$. Если следующий символ равен будет равен $t$, то $p_{11} = p_{10} + 1 = 6$.</p>
+<p>Но что происходит, когда $s_{p_i}\neq s_{i+1}$? Пусть следующий символ в этой же строке равен $b$.</p>
+<ul>
+<li>$\implies$ Тогда длина префикса, равного суффиксу новой строки, будет точно меньше 5.</li>
+<li>$\implies$ Значит, помимо того, что он является суффиксом «aabaa<strong>b</strong>», префикс является префиксом и подстроки «aabaa».</li>
+<li>$\implies$ Значит, следующий кандидат на проверку — это значение префикс-функции от «aabaa», то есть $p_4 = 2$.</li>
+<li>$\implies$ Если $s_2 = s_{11}$ (т. е. новый символ совпадает с идущим после префикса-кандидата), то $p_{11} = p_2 + 1 = 2 + 1 = 3$.</li>
+</ul>
+<p>В данном случае это действительно так (нужный префикс — «aab»). Но что делать, если, в общем случае, $p_{i+1} \neq p_{p_i+1} $? Тогда мы проводим такое же рассуждение и получаем нового кандидата, меньшей длины — $p_{p_{p_i}}$. Если и этот не подошел — аналогично проверяем меньшего, пока этот индекс не станет нулевым.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fast_prefix_function</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">n</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># перебираем префикс-функцию, пока не найдем равный символ</span>
+        <span class="k">while</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="n">cur</span><span class="p">]</span> <span class="ow">and</span> <span class="n">cur</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">cur</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+         <span class="c1"># если нашли, то значение на единицу больше</span>
+        <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">cur</span><span class="p">]:</span>
+            <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">p</span>
+
+<span class="n">fast_prefix_function</span><span class="p">(</span><span class="s1">&#39;abacabadabacabax&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[0, 0, 1, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 0]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="&#1040;&#1089;&#1080;&#1084;&#1087;&#1090;&#1086;&#1090;&#1080;&#1082;&#1072;">&#1040;&#1089;&#1080;&#1084;&#1087;&#1090;&#1086;&#1090;&#1080;&#1082;&#1072;<a class="anchor-link" href="#&#1040;&#1089;&#1080;&#1084;&#1087;&#1090;&#1086;&#1090;&#1080;&#1082;&#1072;">&#182;</a></h3><p>Почему это работает за $O(N)$? В худшем случае этот <code>while</code> может работать $O(N)$ раз за одну итерацию. Но оказывается, что <em>в среднем</em> каждый <code>while</code> работает за $O(1)$ — это называется амортизированной асимптотикой.</p>
+<p><strong>Доказательство</strong>:</p>
+<ul>
+<li>Как мы ранее заметили, префикс функция возрастает максимум на единицу.</li>
+<li>$\implies$ Вырасти она может максимум $n-1$ раз.</li>
+<li>Если мы зашли в <code>while</code>, то каждая его итерация понижает значение префикс-функции хотя бы на один.</li>
+<li>$\implies$ Количество понижений не больше количества повышений, то есть $O(n)$.</li>
+<li>$\implies$ Суммарно итераций цикла <code>while</code> — $O(n)$.</li>
+</ul>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1053;&#1086;&#1088;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077;-&#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077;-&#1080;-MSE">&#1053;&#1086;&#1088;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077; &#1080; MSE<a class="anchor-link" href="#&#1053;&#1086;&#1088;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077;-&#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077;-&#1080;-MSE">&#182;</a></h2>
+<h2 id="Z-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;">Z-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;<a class="anchor-link" href="#Z-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Альтернатива префикс-функции — z-функция (<em>примечание: не «зи», а «зет»</em>). Она немного проще для понимания.</p>
+<p>Z-функция от строки $s$ — это такой массив $z$, что $z_i$ равно длине максимальной подстроки, <strong>начинающейся</strong> с $i$-й позиции, которая равна префиксу $s$.</p>
+$$\underbrace{aba}c\overbrace{aba}daba \hspace{1em} (z_4 = 3)$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">slow_z_function</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">n</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">s</span><span class="p">[:</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="n">suffix</span><span class="p">[:</span><span class="n">l</span><span class="p">]:</span>
+                <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="k">return</span> <span class="n">z</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;abacabadaba&#39;</span><span class="p">,</span> <span class="s1">&#39;aabcaabaabca&#39;</span><span class="p">,</span> <span class="s1">&#39;antananarivuantananarivu&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">slow_z_function</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[0, 0, 1, 0, 3, 0, 1, 0, 3, 0, 1]
+[0, 0, 0, 0, 3, 1, 0, 5, 1, 0, 0, 1]
+[0, 0, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 11, 0, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Z-функцию можно использовать вместо префикс-функции в алгоритме Кнута-Морриса-Пратта — только теперь нужные позиции будут начинаться c $s$, а не заканчиваться. Осталось научиться её искать за $O(n)$.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1089;&#1080;&#1075;&#1084;&#1086;&#1080;&#1076;&#1072;">&#1055;&#1086;&#1095;&#1077;&#1084;&#1091; &#1089;&#1080;&#1075;&#1084;&#1086;&#1080;&#1076;&#1072;<a class="anchor-link" href="#&#1055;&#1086;&#1095;&#1077;&#1084;&#1091;-&#1089;&#1080;&#1075;&#1084;&#1086;&#1080;&#1076;&#1072;">&#182;</a></h2>
+<h2 id="&#1050;&#1072;&#1082;-&#1077;&#1105;-&#1073;&#1099;&#1089;&#1090;&#1088;&#1086;-&#1089;&#1095;&#1080;&#1090;&#1072;&#1090;&#1100;">&#1050;&#1072;&#1082; &#1077;&#1105; &#1073;&#1099;&#1089;&#1090;&#1088;&#1086; &#1089;&#1095;&#1080;&#1090;&#1072;&#1090;&#1100;<a class="anchor-link" href="#&#1050;&#1072;&#1082;-&#1077;&#1105;-&#1073;&#1099;&#1089;&#1090;&#1088;&#1086;-&#1089;&#1095;&#1080;&#1090;&#1072;&#1090;&#1100;">&#182;</a></h2><p>Заметим, что:</p>
+<ul>
+<li>$z_0 = 0$ — из-за договоренности (потому что информации не несет);</li>
+<li>$z_i = 0 \iff s_i \neq s_0$;</li>
+<li>$z_i &gt; 0 \iff s_i = s_0$.</li>
+</ul>
+<p>Будем идти слева направо и хранить <em>z-блок</em> — самую правую подстроку, равную префиксу, которую мы успели обнаружить. Будем обозначать его границы как $l$ и $r$.</p>
+<p>Пусть мы сейчас хотим найти $z_i$, а все предыдущие уже нашли. Если новый, $i$-й символ не лежит левее z-блока, значит он лежит либо в z-блоке, либо правее.</p>
+<ul>
+<li>Если правее, то мы просто наивно перебором найдем $z_i$ (максимальный отрезок, начинающийся с $s_i$ и равный префиксу), и объявим его новым z-блоком.</li>
+<li>Если $i$-й элемент лежит внутри z-блока, то мы можем посмотреть на значение $z_{i-l}$ и использовать его, чтобы инициализировать $z_i$ чем-то, возможно, отличным от нуля. Если $z_{i-l}$ «не хватает» до границы $z$-блока, то $z_i = z_{i-l}$. Если он упирается, в границу, то «обрежем» его до известной границы и будем увеличивать на единичку.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fast_z_function</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">n</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">:</span>
+            <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">l</span><span class="p">])</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">+</span> <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="ow">and</span> <span class="n">s</span><span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]]:</span>
+            <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">+</span> <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">r</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span>  <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">z</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Асимптотика</strong>. В алгоритме мы делаем столько действий, сколько раз сдвигается правая граница z-блока — а это $O(n)$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1047;&#1072;&#1095;&#1077;&#1084;-&#1090;&#1086;&#1075;&#1076;&#1072;-&#1083;&#1102;&#1076;&#1080;-&#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1102;&#1090;-&#1087;&#1088;&#1077;&#1092;&#1080;&#1082;&#1089;-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1102;">&#1047;&#1072;&#1095;&#1077;&#1084; &#1090;&#1086;&#1075;&#1076;&#1072; &#1083;&#1102;&#1076;&#1080; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1102;&#1090; &#1087;&#1088;&#1077;&#1092;&#1080;&#1082;&#1089;-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1102;<a class="anchor-link" href="#&#1047;&#1072;&#1095;&#1077;&#1084;-&#1090;&#1086;&#1075;&#1076;&#1072;-&#1083;&#1102;&#1076;&#1080;-&#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1102;&#1090;-&#1087;&#1088;&#1077;&#1092;&#1080;&#1082;&#1089;-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1102;">&#182;</a></h2><p><img src="https://cs8.pikabu.ru/post_img/2016/12/13/5/1481615023179882832.jpg" alt="hz"></p>
+<p>Алгоритм Кнута-Морриса-Пратта есть во всех классических учебниках по программированию. Z-функция же намного менее известна. В целом они очень похожи.</p>
+<p>Про префикс-функцию важно ещё знать, что она онлайновая — достаточно считать следующий символ, и сразу можешь узнать значение. В некоторых задачах это имеет значение.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="&#1041;&#1086;&#1088;">&#1041;&#1086;&#1088;<a class="anchor-link" href="#&#1041;&#1086;&#1088;">&#182;</a></h1><p>Бор — это структура данных для компактного хранения строк.</p>
+<p>Он устроен в виде дерева, где на ребрах между вершинами написана символы, а некоторые вершины помечены терминальными. Бор хранит ровно те строки, которые получаются, если выписать подряд все буквы на путях от корня до терминальных вершин.</p>
+<p><img src="https://koenig-media.raywenderlich.com/uploads/2016/10/SwiftAlgClub_TrieData-trie-1.png" alt="trie"></p>
+<p>Бор можно удобно использовать для разных задач:</p>
+<ul>
+<li>Хранение строк — занимает гораздо меньше места, чем массив или сет строк.</li>
+<li><p>Сортировка строк — по бору можно пройтись dfs-ом и вывести все строки в лексикографическом порядке.</p>
+</li>
+<li><p>Сет строк — как мы увидим, в нем легко добавлять и удалять слова, а также проверять, если ли слово в бореи.</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Бор состоит из ссылающихся друг на друга вершин. В вершине обычно хранится такая информация:</p>
+<ul>
+<li>терминальная ли вершина,</li>
+<li>ссылки на детей,</li>
+<li>возможно, какая-нибудь дополнительная зависящая от задачи информация о слове, если вершина терминальная. Например, количество таких слов — так можно реализовать мультисет.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">const</span> <span class="nb">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
+
+<span class="n">struct</span> <span class="n">Node</span> <span class="p">{</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">to</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+    <span class="nb">bool</span> <span class="n">terminal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">Node</span> <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Node</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Чтобы добавить слово в бор, нужно пройти от корня по символам слова. Если перехода по для очередного символа нет — создать его, иначе пройти по уже существующему. Последнюю вершину нужно пометить терминальной.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">void</span> <span class="n">add_string</span> <span class="p">(</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">char</span> <span class="n">c</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">c</span> <span class="o">-=</span> <span class="s1">&#39;a&#39;</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span>v-&gt;to<span class="o">[</span>c<span class="o">])</span> 
+            <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Node</span><span class="p">();</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">v</span><span class="o">-&gt;</span><span class="n">terminal</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Чтобы проверить, есть ли слово в боре, нужно пройти от корня по символам слова. Если в конце оказались в терминальной вершине — то есть. Если оказались в нетерминальной или когда-нибудь потребовалось пройтись по несуществущей ссылке — то есть.</p>
+<p>Удалить слово можно лениво, просто дойдя до него и убрав флаг терминальности.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="&#1050;&#1072;&#1082;-&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#1050;&#1072;&#1082; &#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1089;&#1089;&#1099;&#1083;&#1082;&#1080;<a class="anchor-link" href="#&#1050;&#1072;&#1082;-&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#182;</a></h3><p>Хранить ссылки на детей не обязательно в массиве. Возможно, наш алфавит большой — у нас тогда просто не хватит памяти инициализировать столько массивов, большинство из которых будут пустыми.</p>
+<p>В этом случае можно придумать какой-нибудь другой способ хранить отображение из символа в ссылку на вершину, например бинарном дереве (<code>map</code>) или хэш-таблице (<code>unordered_map</code>). Они будут работать дольше (но лишь в константу раз), но зато потребление памяти в них будет линейным. У <code>map</code>-а есть ещё одно преимущество, что он хранит ссылки уже отсортированными по символам — так можно отсортировать строки, например.</p>
+<p>Учитывайте, что писать бор можно по-разному, особенно когда решаете задачи с жестокими ограничениями.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1040;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1099;*">&#1040;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1099;*<a class="anchor-link" href="#&#1040;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1099;*">&#182;</a></h2><p>Пусть мы построили бор для заданного набора строк. Посмотрим на него теперь немного с другой стороны. Если мы рассмотрим любую вершину, то строка, которая соответствует ей, является префиксом одной или нескольких строк из набора; т.е. каждую вершину бора можно понимать как позицию в одной или нескольких строках из набора.</p>
+<p>Фактически, вершины бора можно понимать как состояния <em>конечного детерминированного автомата</em>. Находясь в каком-либо состоянии, мы под воздействием какой-то входной буквы переходим в другое состояние.</p>
+<p>Однако одними только рёбрами бора нельзя ограничиваться. Если мы пытаемся выполнить переход по какой-либо букве, а соответствующего ребра в боре нет, то мы тем не менее должны перейти в какое-то состояние.</p>
+<p>Более строго, пусть мы находимся в состоянии p, которому соответствует некоторая строка t, и хотим выполнить переход по символу c. Если в боре из вершины p есть переход по букве c, то мы просто переходим по этому ребру и попадаем в вершину, которой соответствует строка tc. Если же такого ребра нет, то мы должны найти состояние, соответствующее наидлиннейшему собственному суффиксу строки t (наидлиннейшему из имеющихся в боре), и попытаться выполнить переход по букве c из него.</p>
+<p>Например, пусть бор построен по строкам и , и мы под воздействием строки перешли в некоторое состояние, являющееся листом. Тогда под воздействием буквы мы вынуждены перейти в состояние, соответствующее строке , и только оттуда выполнить переход по букве .</p>
+<p>Суффиксная ссылка для каждой вершины p — это вершина, в которой оканчивается наидлиннейший собственный суффикс строки, соответствующей вершине p. Единственный особый случай — корень бора; для удобства суффиксную ссылку из него проведём в себя же. Теперь мы можем переформулировать утверждение по поводу переходов в автомате так: пока из текущей вершины бора нет перехода по соответствующей букве (или пока мы не придём в корень бора), мы должны переходить по суффиксной ссылке.</p>
+<p>Таким образом, мы свели задачу построения автомата к задаче нахождения суффиксных ссылок для всех вершин бора. Однако строить эти суффиксные ссылки мы будем, как ни странно, наоборот, с помощью построенных в автомате переходов.</p>
+<p>Заметим, что если мы хотим узнать суффиксную ссылку для некоторой вершины v, то мы можем перейти в предка p текущей вершины (пусть c — буква, по которой из p есть переход в v), затем перейти по его суффиксной ссылке, а затем из неё выполнить переход в автомате по букве c.</p>
+<p>Таким образом, задача нахождения перехода свелась к задаче нахождения суффиксной ссылки, а задача нахождения суффиксной ссылки — к задаче нахождения суффиксной ссылки и перехода, но уже для более близких к корню вершин. Мы получили рекурсивную зависимость, но не бесконечную, и, более того, разрешить которую можно за линейное время.</p>
+<p>Перейдём теперь к реализации. Заметим, что нам теперь понадобится для каждой вершины хранить её предка \rm p, а также символ \rm pch, по которому из предка есть переход в нашу вершину. Также в каждой вершине будем хранить \rm int~link — суффиксная ссылка (или -1, если она ещё не вычислена), и массив \rm int~go[k] — переходы в автомате по каждому из символов (опять же, если элемент массива равен -1, то он ещё не вычислен). Приведём теперь полную реализацию всех необходимых функций:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*">&#182;</a></h2><p><img src="https://www.parazitakusok.ru/images/item/5728/item_1109_1510080296_558.jpg" alt="karasik"></p>
+
 </div>
 </div>
 </div>
