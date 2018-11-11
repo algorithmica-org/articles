@@ -1,0 +1,722 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{bayans}
+    
+    
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Красивые идейные
+задачи}\label{ux43aux440ux430ux441ux438ux432ux44bux435-ux438ux434ux435ux439ux43dux44bux435-ux437ux430ux434ux430ux447ux438}
+
+Значительная часть использовалось в качестве теорзадач на тренировках
+сборной 1С:КП.
+
+Везде, где не указано --- время работы \(O(n)\), а если есть конкретные
+числа, то TL 1 секунда.
+
+Задачи идут в порядке вспоминания, то есть в весьма рандомном.
+
+    \subsection{Попугаи}\label{ux43fux43eux43fux443ux433ux430ux438}
+
+Вам нужно передать 64 байт некоторой информации. Для этого у вас есть
+320 специально обученных попугаев, каждый из которых может запомнить
+число от 0 до 255. Все попугаи рано или поздно долетают до точки
+назначения и сообщают свой байт, но, возможно, не в том порядке, в
+котором были выпущены. Попугаи внешне неразличимы.
+
+    \subsection{Минимум и
+максимум}\label{ux43cux438ux43dux438ux43cux443ux43c-ux438-ux43cux430ux43aux441ux438ux43cux443ux43c}
+
+Даны 68 камней разного веса. Требуется за 100 операций взвешивания
+определить самый лёгкий и самый тяжелый.
+
+    \subsection{Перестановка}\label{ux43fux435ux440ux435ux441ux442ux430ux43dux43eux432ux43aux430}
+
+Есть перестановка из 64 элементов. Вы можете спрашивать, какие элементы
+находятся на заданном множестве позиций (вам сообщается список элементов
+в произвольном порядке). Восстановите перестановку за 6 запросов.
+
+    \subsection{Выпуклая
+оболочка}\label{ux432ux44bux43fux443ux43aux43bux430ux44f-ux43eux431ux43eux43bux43eux447ux43aux430}
+
+Требуется отвечать на 2 типа запросов:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Добавить точку в выпуклую оболочку.
+\item
+  Проверить, лежит ли точка внутри выпуклой оболочки.
+\end{enumerate}
+
+Обе операции онлайн за \(O(\log n)\).
+
+    \subsection{Геометрическая
+прогрессия}\label{ux433ux435ux43eux43cux435ux442ux440ux438ux447ux435ux441ux43aux430ux44f-ux43fux440ux43eux433ux440ux435ux441ux441ux438ux44f}
+
+Найдите способ посчитать \(\frac{1-a^n}{1-a}\) по произвольному модулю
+за \(O(\log n)\).
+
+    \subsection{Покемоны}\label{ux43fux43eux43aux435ux43cux43eux43dux44b}
+
+В турнире участвуют 1024 видов покемонов. Вы, будучи экспертом по
+покемонам, знаете, кто кого может победить. Иначе говоря, вам полностью
+известен граф-\emph{турнир} из 1024 вершин и \(1023 \times 1022 : 2\)
+рёбер, в котором каждые две вершины соединены ровно одним
+ориентированным ребром, определяющим победителя в возможном поединке.
+Обратите внимание, что из \(a \to b\) и \(b \to c\) не следует, что
+\(a \to c\).
+
+У вас есть 10 покеболов. Составьте команду из 10 покемонов такую, что
+для каждого из 1024 типов покемонов в вашей команде найдется покемон,
+побеждающий его. Считайте, что в битве одинаковых покемонов побеждает
+ваш.
+
+    \subsection{Сортировка}\label{ux441ux43eux440ux442ux438ux440ux43eux432ux43aux430}
+
+Можно ли отсортировать * 5 камней за 8 взвешиваний? * 5 камней за 7
+взвешиваний? * 20 камней за 60 взвешиваний?
+
+    \subsection{Точки в
+круге}\label{ux442ux43eux447ux43aux438-ux432-ux43aux440ux443ux433ux435}
+
+Даны \(n\) точек, равномерно распределенных в единичном круге с центром
+в начале координат. Предложите алгоритм, который за \(O(n)\) в среднем
+сортирует их по удаленности от начала координат.
+
+    \subsection{Замкнутые
+ломаные}\label{ux437ux430ux43cux43aux43dux443ux442ux44bux435-ux43bux43eux43cux430ux43dux44bux435}
+
+Даны две замкнутые несамопересекающиеся ломаные. Определите, можно ли
+перевести их друг в друга с помощью параллельного переноса, поворотов и
+гомотетии?
+
+    \subsection{Неубывающий
+массив}\label{ux43dux435ux443ux431ux44bux432ux430ux44eux449ux438ux439-ux43cux430ux441ux441ux438ux432}
+
+Дан массив из \(n\) целых чисел. Требуется за \(2n\) операций «прибавить
+к одному элементу любой другой» сделать его неубывающим.
+
+    \subsection{Чётный
+цикл}\label{ux447ux451ux442ux43dux44bux439-ux446ux438ux43aux43b}
+
+Дан неориентированный граф. Определите, есть ли в нём простой цикл
+чётной длины.
+
+    \subsection{\texorpdfstring{\(k\)-ая порядковая
+статистика}{k-ая порядковая статистика}}\label{k-ux430ux44f-ux43fux43eux440ux44fux434ux43aux43eux432ux430ux44f-ux441ux442ux430ux442ux438ux441ux442ux438ux43aux430}
+
+Дан массив из \(n\) целых чисел. Найдите его \(k\)-й наименьший элемент
+за \(O(n)\).
+
+    \subsection{Доминирующий
+элемент}\label{ux434ux43eux43cux438ux43dux438ux440ux443ux44eux449ux438ux439-ux44dux43bux435ux43cux435ux43dux442}
+
+Дан массив из \(n\) элементов. Требуется ответить на \(m\) запросов,
+есть ли на отрезке \([l, r]\) \emph{доминирующий} элемент --- тот,
+который встречается на нём хотя бы \(\frac{r-l}{2}\) раз. Время работы
+\(O((n+m) \log n)\).
+
+    \subsection{Разрушение
+дерева}\label{ux440ux430ux437ux440ux443ux448ux435ux43dux438ux435-ux434ux435ux440ux435ux432ux430}
+
+Дано корневое дерево. Каждую итерацию выбирается вершина (равновероятно
+из всех оставшихся), и удаляется всё поддерево, соответствующее этой
+вершине. Найти, сколько ходов в среднем будет продолжаться этот процесс,
+то есть матожидание номера итерации, на которой будет удалён корень
+дерева.
+
+    \subsection{\texorpdfstring{\(k\)-ый элемент на
+отрезке}{k-ый элемент на отрезке}}\label{k-ux44bux439-ux44dux43bux435ux43cux435ux43dux442-ux43dux430-ux43eux442ux440ux435ux437ux43aux435}
+
+Дан массив из \(n\) целых чисел. Требуется ответить на \(m\) запросов
+\(k\)-ой порядковой статистики на произвольном отрезке. Время работы
+\(O((n+m) \log n)\).
+
+    \subsection{Различные числа на
+отрезке}\label{ux440ux430ux437ux43bux438ux447ux43dux44bux435-ux447ux438ux441ux43bux430-ux43dux430-ux43eux442ux440ux435ux437ux43aux435}
+
+Дан массив из \(n\) целых чисел. Требуется ответить на \(m\) запросов
+количества различных элементов на произвольном отрезке. Время работы
+\(O(m\sqrt{n})\).
+
+    \subsection{Физкультура}\label{ux444ux438ux437ux43aux443ux43bux44cux442ux443ux440ux430}
+
+Зачёт по физкультуре в одном институте ставится по количеству посещений,
+поэтому важно знать, сколько учебных дней осталось до конца семестра
+(особенно когда напропускал пары). Семестр длится \(m\) дней. Деканат
+последовательно издает \(n\) приказов двух типов:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Объявить все дни с \(l\) по \(r\) выходными (физру закрывать нельзя)
+\item
+  Объявить все дни с \(l\) по \(r\) учебными (физру закрывать можно)
+\end{enumerate}
+
+При этом приказ может частично отменить действие предыдущих приказов.
+
+После каждого приказа нужно посчитать суммарное число учебных дней в
+семестре. Асимптотика \(O(n \log n)\).
+
+    \subsection{Нулевая
+сумма}\label{ux43dux443ux43bux435ux432ux430ux44f-ux441ux443ux43cux43cux430}
+
+Дано мультимножество из \(n\) целых чисел. Найдите любое его
+подмножество, сумма чисел которого делится на \(n\).
+
+    \subsection{Мета-задача}\label{ux43cux435ux442ux430-ux437ux430ux434ux430ux447ux430}
+
+В задаче дана произвольная строка, по которой известным только авторам
+способом генерируется ответ yes/no. В задаче 100 тестов. У вас есть 20
+попыток. В качестве фидбэка вам доступны вердикты на каждом тесте.
+Вердикта всего два: OK (ответ совпал) и WA. Попытки поделить на ноль,
+выделить терабайт памяти и подобное тоже считаются как WA. «Решите»
+задачу.
+
+    \subsection{Ниточка}\label{ux43dux438ux442ux43eux447ux43aux430}
+
+В плоскую доску вбили \(n\) гвоздей радиуса \(r\), причём так, что
+соответствующие точки на плоскости образуют вершины выпуклого
+многоугольника. На эти гвозди натянули ниточку, причём ниточка «огибает»
+по кругу гвозди. Найдите длину ниточки, то есть периметр этого
+многоугольника с учётом закругления.
+
+    \subsection{Пельмени}\label{ux43fux435ux43bux44cux43cux435ux43dux438}
+
+Компания друзей захотела сделать заготовки для пельменей из огромного
+прямоугольного куска теста. Для этого в ход пошли всевозможные предметы
+округлой формы: стаканы, кружки, кострюли\ldots{} В итоге тесто было
+разделено \(n\) возможно пересекающимися окружностями произвольных
+радиусов и центров. Нам интересно посчитать, сколько получилось
+заготовок, то есть на сколько кусков распалось тесто. Асимптотика
+\(O(n^2 \log n)\).
+
+    \subsection{От нуля до
+единицы}\label{ux43eux442-ux43dux443ux43bux44f-ux434ux43e-ux435ux434ux438ux43dux438ux446ux44b}
+
+Дан следующий код:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{x} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{k}{while} \PY{n}{x} \PY{o}{\PYZlt{}} \PY{l+m+mi}{1}\PY{p}{:}
+            \PY{n}{x} \PY{o}{+}\PY{o}{=} \PY{n}{random}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+    Требуется посчитать матожидание \texttt{x}.
+
+(\texttt{random} в питоне возвращает случайное действительное число от 0
+до 1.)
+
+    \subsection{Площадь}\label{ux43fux43bux43eux449ux430ux434ux44c}
+
+Дан единичный квадрат и 100 кругов. Нужно посчитать площадь квадрата,
+которую покрывают эти круги, с ошибкой менее 1\%.
+
+    \subsection{Окружности}\label{ux43eux43aux440ux443ux436ux43dux43eux441ux442ux438}
+
+Имеется окружность радиуса \(R\), назовём её \emph{внешней}. Внутри неё
+лежит окружность радиуса \(r < R\) и соприкасается с ней. Дальше
+строятся бесконечное число окружностей по следующему правилу: \(k\)-я
+окружность должна
+
+\begin{itemize}
+\tightlist
+\item
+  соприкасаться с \emph{внешней},
+\item
+  соприкасаться с предыдущей ((\(k-1\))-ой),
+\item
+  иметь при этом максимальный радиус.
+\end{itemize}
+
+Найдите (выведите формулу за \(O(1)\)) радиус \(k\)-й такой окружности.
+
+    \subsection{Блеф}\label{ux431ux43bux435ux444}
+
+Катя и Серёжа играют в игру. У Кати есть \(n\) карт, у Серёжи --- \(m\).
+Одна дополнительная карта лежит на столе рубашкой вверх. Назовём её
+\emph{особой}. Цель игроков --- её отгадать. Все \(n+m+1\) карт
+различны, игроки изначально знают только свои карты. Игроки ходят по
+очереди, начинает Катя. Игрок в свой ход может:
+
+\begin{itemize}
+\tightlist
+\item
+  Попытаться угадать \emph{особую} карту. Если получилось угадать, то
+  игрок победил, иначе проиграл. В любом случае, игра на этом
+  заканчивается.
+\item
+  Назвать любую карту из колоды. Если у соперника есть такая карта ---
+  он обязан показать ее и вывести из игры. Если же у него нет такой
+  карты --- он сообщает об этом.
+\end{itemize}
+
+С какой вероятностью выиграет Катя при оптимальной игре обоих игроков?
+Асимптотика \(O(nm)\).
+
+    \subsection{Достижимость}\label{ux434ux43eux441ux442ux438ux436ux438ux43cux43eux441ux442ux44c}
+
+Дан ориентированный граф без кратных рёбер. Для всех пар вершин \(u\) и
+\(v\) определите, можно ли дойти из \(u\) в \(v\). Вершин меньше 2000.
+
+    \subsection{Нумизмат}\label{ux43dux443ux43cux438ux437ux43cux430ux442}
+
+Есть \(n\) жадных коллекционеров монет, которые согласны меняться,
+только если взамен монеты, которых у них более одной, они получают
+монету, которых у них нет вовсе. Всего есть \(k\) типов монет. Известно
+количество монет каждого типа у каждого коллекционера и у коллекционера
+Серёжи. Серёжа хочет максимизировать количество различных монет у него
+путем обмена с жадными коллекционерами. Считайте, что жадные
+коллекционеры не меняются между собой.
+
+Придумайте любой полиномиальный алгоритм.
+
+    \subsection{Принцесса}\label{ux43fux440ux438ux43dux446ux435ux441ux441ux430}
+
+В некотором королевстве жила принцесса. Она была настольно прекрасна,
+что каждый юноша в королевстве хотел жениться на ней. Принцесса была
+привередлива, поэтому твердо решила выйти замуж только за самого
+красивого юношу в государстве.
+
+Она составила список из \(n\) самых красивых юношей и вызывает их каждый
+день в случайном порядке. После того, как к ней приходит очередной
+юноша, она принимает решение: либо выйти за него замуж, либо нет. Если
+она выходит за него замуж, то она все равно просматривает всех
+остальных, чтобы убедиться, что он действительно самый красивый. Если
+это так, то они живут долго и счастливо. Если нет (если она вышла замуж
+не за самого красивого, либо не вышла замуж вообще), то принцесса
+покончит жизнь самоубийством.
+
+У принцессы очень хорошая память, поэтому она может сравнивать красоту
+очередного юноши со всеми предыдущими, а также у неё тонкий вкус,
+поэтому никакие двое юношей не являются для неё одинаково красивыми.
+
+Помогите принцессе разработать стратегую, которая максимизирует
+вероятность того, что она выйдет замуж за наиболее красивого юношу.
+
+Асимптотика \(O(n^2)\).
+
+    \subsection{Спираль}\label{ux441ux43fux438ux440ux430ux43bux44c}
+
+Определим спираль \((2n+1) \times (2n+1)\) как матрицу следующего вида:
+
+\[
+\begin{matrix}
+21 & 22 & 23 & 24 & 25 \\
+20 & 7 &  8 &  9 & 10 \\
+19 & 6 &  1 &  2 & 11 \\
+18 & 5 &  4 &  3 & 12 \\
+17 & 16 & 15 & 14 & 13 \\
+\end{matrix}
+\]
+
+    Ваша задача --- рассчитать ответы на \(q\) запросов суммы чисел в
+произвольной прямоугольной области (по модулю \(10^9+7\)).
+
+\(q \leq 100\), \(n \leq 10^9\).
+
+    \subsection{Польский
+лабиринт}\label{ux43fux43eux43bux44cux441ux43aux438ux439-ux43bux430ux431ux438ux440ux438ux43dux442}
+
+Группа из \(n\) туристов гуляет в бесконечном лабиринте. Лабиринт имеет
+форму треугольника Серпинского: клетка \((x, y)\) свободна, только если
+\texttt{x\ \&\ y\ ==\ 0}.
+
+\begin{figure}
+\centering
+\includegraphics{https://image.ibb.co/cSs7H7/Screenshot_from_2018_03_31_16_34_58.png}
+\caption{}
+\end{figure}
+
+Туристы устали блуждать по лабиринту и хотят встретиться в какой-нибудь
+свободной клетке, сумма расстояний от всех туристов до которой
+наименьшая. Туристы за один ход могут передвигаться вверх, вниз, влево и
+вправо по свободным клеткам.
+
+\(n \leq 10^5\), изначальные координаты туристов до \(10^9\).
+
+    \subsection{Ним}\label{ux43dux438ux43c}
+
+Есть множество \(A\), состоящее из \(n\) чисел от 0 до \(2^{32}-1\).
+Требуется выбрать его подмножество \(B \subseteq A\) максимальной суммы
+такое, что нельзя выбрать его подмножество \(C \subseteq B\) такое, что
+ним на кучках соответствующего размера --- проигрышный. Асимптотика
+\(O(n \log n)\).
+
+    \subsection{Баланс
+степеней}\label{ux431ux430ux43bux430ux43dux441-ux441ux442ux435ux43fux435ux43dux435ux439}
+
+Дан неориентированный граф. Требуется ориентировать каждое ребро так,
+чтобы максимизировать число вершин, у которых степень исхода равна
+степени захода.
+
+    \subsection{Два пути}\label{ux434ux432ux430-ux43fux443ux442ux438}
+
+Дан ориентированный граф. Найдите два непересекающихся по рёбрам пути из
+\(s\) в \(t\).
+
+    \subsection{Пьяница}\label{ux43fux44cux44fux43dux438ux446ux430}
+
+Пьяница стоит на числовой прямой в точке 0. Каждую секунду он делает
+единичный шаг вправо (в сторону увеличения координат) с вероятностью
+\(p\) и влево с вероятностью \(1-p\). С какой вероятностью он когда-либо
+окажется в точке с отрицательной координатой?
+
+    \subsection{Ксоровый
+рюкзак}\label{ux43aux441ux43eux440ux43eux432ux44bux439-ux440ux44eux43aux437ux430ux43a}
+
+Дан массив из \(10^5\) целых чисел от \(0\) до \((2^{30}-1)\). Найти
+количество различных подпоследовательностей этого массива,
+\texttt{xor}-сумма которых равна заданному числу \(x\).
+
+    \subsection{Иван
+Сусанин}\label{ux438ux432ux430ux43d-ux441ux443ux441ux430ux43dux438ux43d}
+
+Польская армия хочет добраться из поселения \(s\) в поселение \(t\). Ей
+руководят два гетмана --- Камиль и Матеуш.
+
+\begin{itemize}
+\tightlist
+\item
+  Камиль руководит армией днём и водит армию по \emph{дорогам}.
+\item
+  Матеуш руководит армией ночью и совершает маневры по \emph{секретным
+  тропам}.
+\end{itemize}
+
+Каждый гетман перед маршем спрашивает дорогу у Ивана Сусанина. Иван
+хочет задержать наступление польских войск.
+
+Карта дорог известна Камилю. Аналогично, карта секретных троп известна
+Матеушу. Поэтому Ивану не удастся их так просто обмануть --- он должен
+каждый раз выбрать переход так, что минимальное расстояние между
+поселением \(t\) и войском по соответствующей карте строго уменьшилось.
+
+Вы знаете карту дорог и троп вместе с их длинами. Помогите Ивану как
+можно дольше (желательно, бесконечно) вести армию из \(s\) в \(t\).
+
+    \subsection{Варенье}\label{ux432ux430ux440ux435ux43dux44cux435}
+
+В ряд стоят \(n\) пустых банок из-под варенья. Вместительность \(i\)-й
+банки равна \(v_i\) грамм.
+
+Карлсон наполняет эти банки вареньем в \(m\) этапов. На каждом этапе он
+выбирает числа \(l\), \(r\), \(x\) и \(y\), а затем пролетает над
+банками с \(l\) по \(r\), выполняя следующие операции: в банку номер
+\(l\) он добавляет \(x\) грамм варенья, в банку номер \((l + 1)\) ---
+\((x + y)\) грамм варенья, в банку номер \((l + 2)\) --- \((x + 2y)\), и
+так далее до \(r\)-той банки, в которую он положит \(x + y(r - l)\)
+грамм варенья.
+
+Малышу хочется определить для каждой банки наименьший номер операции,
+после которой она станет полной.
+
+\(n, m \leq 10^5\)
+
+    \subsection{Лабиринт}\label{ux43bux430ux431ux438ux440ux438ux43dux442}
+
+Серёжа потерялся в лабиринте \(n \times m\). Каждая клетка либо
+свободна, либо стена. Все крайние клетки --- стены. Вам известно, где
+находится выход из лабиринта, но не известно, где находится Серёжа.
+Составьте для него последовательность направлений (вверх, вниз, влево,
+вправо) такую, после которой он окажется в клетке с выходом, вне
+зависимости от его стартовой позиции. Если вы прикажете ему идти в
+стену, то просто ничего не произойдёт.
+
+Придумайте любой полиномиальный алгоритм.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
