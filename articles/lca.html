@@ -13116,14 +13116,22 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1100;&#1096;&#1080;&#1081;-&#1086;&#1073;&#1097;&#1080;&#1081;-&#1087;&#1088;&#1077;&#1076;&#1086;&#1082;">&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1100;&#1096;&#1080;&#1081; &#1086;&#1073;&#1097;&#1080;&#1081; &#1087;&#1088;&#1077;&#1076;&#1086;&#1082;<a class="anchor-link" href="#&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1100;&#1096;&#1080;&#1081;-&#1086;&#1073;&#1097;&#1080;&#1081;-&#1087;&#1088;&#1077;&#1076;&#1086;&#1082;">&#182;</a></h1>
+<h1 id="&#1050;&#1086;&#1088;&#1085;&#1077;&#1074;&#1099;&#1077;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;">&#1050;&#1086;&#1088;&#1085;&#1077;&#1074;&#1099;&#1077; &#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;<a class="anchor-link" href="#&#1050;&#1086;&#1088;&#1085;&#1077;&#1074;&#1099;&#1077;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1100;&#1103;">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Деревом</strong> называется связный граф из $n-1$ рёбер и $n$ вершин. Дерево называется <strong>корневым</strong>, если оно ориентированно, и из какой-то (единственной) вершины можно попасть во все остальные — такая вершина называется корнем.</p>
+<p>Дерево называется <em>корневым</em>, если оно ориентированно и из какой-то вершины можно попасть во все остальные — такая вершина единственная, и она называется <em>корнем</em>.</p>
+<p>Примеры корневых деревьев:</p>
+<ul>
+<li>наследование классов в языках программирования (если множественное наследование запрещено),</li>
+<li>дерево факторизации числа на простые (в общем случае не уникальное),</li>
+<li>иерархия в какой-нибудь компании,</li>
+<li>просто множество как-то вложенных объектов (ссылка на крысу-роботягу).</li>
+</ul>
+<p>Сегодня мы поговорим о разных задачах на корневых деревьях. Они все бесполезны в реальной жизни, но очень красивые, и поэтому часто встречаются на олимпиадах.</p>
 
 </div>
 </div>
@@ -13131,7 +13139,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Примеры корневых деревьев: наследование классов в языках программирования (если множественное наследование запрещено), иерархия в какой-нибудь компании.</p>
+<p><img src="https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/master/img/LCA_Euler.png" alt="dfs"></p>
 
 </div>
 </div>
@@ -13139,52 +13147,25 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>У каждой вершины, кроме корня, есть ровно один родитель, поэтому очень часто дерево представляют в виде списка родителей для каждой вершины.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Для очень многих задач на деревья требуется находить наименьшего общего предка. Эта задача называется LCA (англ. Least Common Ancestor). Мы рассмотрим два способа, как это делать в онлайн.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Тривиально (за линию на каждый запрос) это делается так:</p>
+<h2 id="&#1053;&#1072;&#1087;&#1086;&#1084;&#1080;&#1085;&#1072;&#1085;&#1080;&#1077;:-DFS">&#1053;&#1072;&#1087;&#1086;&#1084;&#1080;&#1085;&#1072;&#1085;&#1080;&#1077;: DFS<a class="anchor-link" href="#&#1053;&#1072;&#1087;&#1086;&#1084;&#1080;&#1085;&#1072;&#1085;&#1080;&#1077;:-DFS">&#182;</a></h2><p>Посчитаем для каждой вершины времена входа ($tin$) и выхода ($tout$) из неё во время эйлерова прохода.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[0]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="n">p</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="nb">int</span> <span class="n">tin</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tout</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="nb">int</span> <span class="n">p</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tin</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tout</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
 <span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
 <span class="n">void</span> <span class="n">dfs</span> <span class="p">(</span><span class="nb">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">++</span><span class="p">;</span>
     <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
         <span class="n">dfs</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
-    <span class="n">tout</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">++</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="nb">bool</span> <span class="n">ancestor</span> <span class="p">(</span><span class="nb">int</span> <span class="n">v</span><span class="p">,</span> <span class="nb">int</span> <span class="n">u</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tin</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">tin</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tout</span><span class="p">[</span><span class="n">v</span><span class="p">];</span>
-<span class="p">}</span>
-
-<span class="nb">int</span> <span class="n">lca</span> <span class="p">(</span><span class="nb">int</span> <span class="n">a</span><span class="p">,</span> <span class="nb">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="o">!</span>ancestor<span class="o">(</span>a, b<span class="o">))</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">a</span><span class="p">];</span>
-    <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+    <span class="n">tout</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13196,17 +13177,65 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1044;&#1074;&#1086;&#1080;&#1095;&#1085;&#1099;&#1077;-&#1087;&#1086;&#1076;&#1098;&#1077;&#1084;&#1099;">&#1044;&#1074;&#1086;&#1080;&#1095;&#1085;&#1099;&#1077; &#1087;&#1086;&#1076;&#1098;&#1077;&#1084;&#1099;<a class="anchor-link" href="#&#1044;&#1074;&#1086;&#1080;&#1095;&#1085;&#1099;&#1077;-&#1087;&#1086;&#1076;&#1098;&#1077;&#1084;&#1099;">&#182;</a></h1>
+<p>У этих массивов много полезных свойств:</p>
+<ul>
+<li>Вершина $u$ является предком $v$ $\iff tin_v \in [tin_u, tout_u) $. Эту проверку можно делать за константу.</li>
+<li>В $tin$ есть все числа из промежутка от 0 до $n-1$. У каждой вершины — свой номер.</li>
+<li>Размер поддерева вершины $v$ (включая саму вершину) равен $tout_v - tin_v$.</li>
+<li>Если ввести нумерацию вершин, соответствующую $tin$-ам, то поддерево вершины — всегда какой-то промежуток в этой нумерации.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1100;&#1096;&#1080;&#1081;-&#1086;&#1073;&#1097;&#1080;&#1081;-&#1087;&#1088;&#1077;&#1076;&#1086;&#1082;">&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1100;&#1096;&#1080;&#1081; &#1086;&#1073;&#1097;&#1080;&#1081; &#1087;&#1088;&#1077;&#1076;&#1086;&#1082;<a class="anchor-link" href="#&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1100;&#1096;&#1080;&#1081;-&#1086;&#1073;&#1097;&#1080;&#1081;-&#1087;&#1088;&#1077;&#1076;&#1086;&#1082;">&#182;</a></h2><blockquote><p>Дано дерево $T$. Требуется отвечать на запросы нахождения наименьшего общего предка вершин $u_i$ и $v_i$, то есть вершины $w$, которая лежит на пути от корня до $u_i$, на пути от корня до $v_i$, и при этом самую глубокую (нижнюю) из всех таких.</p>
+</blockquote>
+<p>По-английский эта задача называется <em>Least Common Ancestor</em>. Есть много разных способов её решать, и мы рассмотрим основные.</p>
+<p><img src="http://homepages.kcbbs.gen.nz/tonyg/pictures/least-common-ancestor.png" alt="lca"></p>
+<p>Для лучшего понимания — тривиально (за линейное время) это можно делать так:</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[0]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">//</span> <span class="n">помимо</span> <span class="n">массивов</span> <span class="n">и</span> <span class="n">функций</span> <span class="n">из</span> <span class="n">предыдущего</span> <span class="n">примера</span>
-<span class="nb">int</span> <span class="n">up</span><span class="p">[</span><span class="n">maxn</span><span class="p">][</span><span class="n">logn</span><span class="p">];</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">bool</span> <span class="n">a</span> <span class="p">(</span><span class="nb">int</span> <span class="n">u</span><span class="p">,</span> <span class="nb">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">tin</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tout</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">lca</span> <span class="p">(</span><span class="nb">int</span> <span class="n">u</span><span class="p">,</span> <span class="nb">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span>ancestor<span class="o">(</span>u, v<span class="o">))</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+    <span class="k">return</span> <span class="n">u</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="LCA:-&#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1099;&#1077;-&#1087;&#1086;&#1076;&#1098;&#1077;&#1084;&#1099;">LCA: &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1099;&#1077; &#1087;&#1086;&#1076;&#1098;&#1077;&#1084;&#1099;<a class="anchor-link" href="#LCA:-&#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1099;&#1077;-&#1087;&#1086;&#1076;&#1098;&#1077;&#1084;&#1099;">&#182;</a></h2><p>Предпосчитаем для каждой вершины её 1-го предка, 2-го предка, 4-го, и т.д. Сохраним это всё в двумерном массиве <code>up</code> размера $n \times \lceil \log n \rceil$ — столько точно хватит. В <code>up[v][d]</code> будет храниться предок вершины $v$ на расстоянии $2^d$, а если такой вершины не существует — то корень.</p>
+<p>Такой препроцессинг можно выполнить за $O(n \log n)$, используя тот факт, что предок на расстоянии $2^{d+1}$ — это предок на расстоянии $2^d$ предка на расстоянии $2^d$:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="n">up</span><span class="p">[</span><span class="n">maxn</span><span class="p">][</span><span class="n">logn</span><span class="p">];</span>
 
 <span class="n">void</span> <span class="n">dfs</span> <span class="p">(</span><span class="nb">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">logn</span><span class="p">;</span> <span class="n">l</span><span class="o">++</span><span class="p">)</span>
@@ -13218,8 +13247,32 @@ div#notebook {
     <span class="p">}</span>
     <span class="n">tout</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">++</span><span class="p">;</span>
 <span class="p">}</span>
+</pre></div>
 
-<span class="nb">int</span> <span class="n">lca</span> <span class="p">(</span><span class="nb">int</span> <span class="n">v</span><span class="p">,</span> <span class="nb">int</span> <span class="n">u</span><span class="p">)</span> <span class="p">{</span>
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Пусть поступил очередной запрос — пара вершин $(u, v)$:</p>
+<ul>
+<li>Проверим, не является ли одна вершина предком другой — в таком случае она и является результатом.</li>
+<li>Иначе, пользуясь массивом <code>up</code>, будем подниматься по предкам одной из них, пока не найдём самую высокую вершину, которая ещё не является предком другой. Следующая за ней будет искомым LCA.</li>
+</ul>
+<p>Подробнее про второй пункт. Пусть $L = \lceil \log n \rceil$. Присвоим $i = L$. Будем уменьшать эту переменную на единицу, пока <code>up[v][i]</code> не станет предком $u$. Когда это произошло, двигаем указатель на $2^i$-го предка $v$, и продолжаем дальше. Мы можем это делать, потому что два раза прыгать — бессмысленно.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="n">lca</span> <span class="p">(</span><span class="nb">int</span> <span class="n">v</span><span class="p">,</span> <span class="nb">int</span> <span class="n">u</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span> <span class="k">return</span> <span class="n">v</span><span class="p">;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="k">return</span> <span class="n">u</span><span class="p">;</span>
     <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">logn</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span><span class="o">--</span><span class="p">)</span>
@@ -13237,7 +13290,26 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1057;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077;-&#1082;-RMQ">&#1057;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077; &#1082; RMQ<a class="anchor-link" href="#&#1057;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077;-&#1082;-RMQ">&#182;</a></h1>
+<h3 id="&#1040;&#1089;&#1080;&#1084;&#1087;&#1090;&#1086;&#1090;&#1080;&#1082;&#1072;">&#1040;&#1089;&#1080;&#1084;&#1087;&#1090;&#1086;&#1090;&#1080;&#1082;&#1072;<a class="anchor-link" href="#&#1040;&#1089;&#1080;&#1084;&#1087;&#1090;&#1086;&#1090;&#1080;&#1082;&#1072;">&#182;</a></h3><p>Препроцессинг — $O(n \log n)$, как размер массива <code>up</code>, каждый элемент которого вычисляется за константу.</p>
+<p>Ответ на запрос — $O(\log n)$, потому что по сути мы делаем один бинпоиск.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1047;&#1072;&#1087;&#1088;&#1086;&#1089;&#1099;-&#1085;&#1072;-&#1087;&#1091;&#1090;&#1103;&#1093;">&#1047;&#1072;&#1087;&#1088;&#1086;&#1089;&#1099; &#1085;&#1072; &#1087;&#1091;&#1090;&#1103;&#1093;<a class="anchor-link" href="#&#1047;&#1072;&#1087;&#1088;&#1086;&#1089;&#1099;-&#1085;&#1072;-&#1087;&#1091;&#1090;&#1103;&#1093;">&#182;</a></h2><p>Пусть нас вместо LCA спрашивают, например, о минимуме на пути (на всех рёбрах записаны какие-то числа).</p>
+<p>Мы можем использовать метод двоичных подъемов, храня минимум на пути до предка вместе с самим предком.</p>
+<p>Аналогичным образом можно считать сумму, <code>gcd</code>, полиномиальный хэш и много других странных функций на пути, но только в статичном случае (т. е. когда у нас нет обновлений).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1057;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077;-&#1082;-RMQ">&#1057;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077; &#1082; RMQ<a class="anchor-link" href="#&#1057;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077;-&#1082;-RMQ">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -13245,21 +13317,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Другая идея — это пройтись dfs-ом и выписать два массива: глубины вершин и их номера.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>Теперь, у нас есть запрос: найти LCA от вершин $a$ и $b$. Пусть мы посетили $a$ первой, тогда посмотрим на момент, когда мы из нее вышли и на момент, когда впервые вошли в $b$. Где-то по пути мы должны были прийти в наименьший общий предок, потому что путь от $a$ до $b$ в дереве единственный. Где-то на этом массиве выписанных глубин и будет LCA — на той позиции, где глубина минимальная.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>Получается, что можно свести задачу к RMQ на массиве глубин — для этого можно задействавать какую-нибудь структуру, например ДО.</p>
 
 </div>
@@ -13268,35 +13326,31 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1056;&#1072;&#1079;&#1088;&#1077;&#1078;&#1077;&#1085;&#1085;&#1072;&#1103;-&#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;">&#1056;&#1072;&#1079;&#1088;&#1077;&#1078;&#1077;&#1085;&#1085;&#1072;&#1103; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1088;&#1077;&#1078;&#1077;&#1085;&#1085;&#1072;&#1103;-&#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;">&#182;</a></h1>
+<h3 id="&#1056;&#1072;&#1079;&#1088;&#1077;&#1078;&#1077;&#1085;&#1085;&#1072;&#1103;-&#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;">&#1056;&#1072;&#1079;&#1088;&#1077;&#1078;&#1077;&#1085;&#1085;&#1072;&#1103; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1088;&#1077;&#1078;&#1077;&#1085;&#1085;&#1072;&#1103;-&#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Помимо, ДО есть более крутая структура, позволяющая отвечать на запрос минимума за O(1). Подробнее в соответствующей статье.</p>
+<p>Помимо ДО, есть более крутая структура, позволяющая отвечать на запрос минимума за O(1). Подробнее в <a href="http://sereja.me/a/sparse-table">соответствующей статье</a>.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[0]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Примечание и интересное размышление: LCA сводится к RMQ, но не наоборот. На самом деле, существует алгоритм, и даже несколько, которые решают LCA быстрее, чем за $O(\log n)$ на запрос. Но из этого не следует, что можно с такой же асимптотикой решать RMQ. Подробнее смотрите алгоритм Фараха-Колтона-Бендера. У него линейная асимптотика, но очень плохая константа, поэтому на контестах писать его не надо. Это так, для общего образования.</p>
+<h2 id="&#1040;-&#1085;&#1072;&#1086;&#1073;&#1086;&#1088;&#1086;&#1090;-&#1084;&#1086;&#1078;&#1085;&#1086;?*">&#1040; &#1085;&#1072;&#1086;&#1073;&#1086;&#1088;&#1086;&#1090; &#1084;&#1086;&#1078;&#1085;&#1086;?*<a class="anchor-link" href="#&#1040;-&#1085;&#1072;&#1086;&#1073;&#1086;&#1088;&#1086;&#1090;-&#1084;&#1086;&#1078;&#1085;&#1086;?*">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>интересный с теоретической точки зрения факт: LCA сводится к RMQ, но не наоборот.</p>
+<p>На самом деле, существует алгоритм, и даже несколько, которые решают LCA быстрее, чем за $O(\log n)$ на запрос. Но из этого не следует, что можно с такой же асимптотикой решать RMQ.</p>
+<p>Подробнее смотрите алгоритм Фараха-Колтона-Бендера. У него линейная асимптотика, но очень плохая константа, поэтому на контестах писать его не надо. Это так, для общего образования.</p>
 
 </div>
 </div>
