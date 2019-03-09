@@ -13157,15 +13157,15 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="nb">int</span> <span class="n">p</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tin</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tout</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="nb">int</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">p</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tin</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tout</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
-<span class="n">void</span> <span class="n">dfs</span> <span class="p">(</span><span class="nb">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="nf">dfs</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">++</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
         <span class="n">dfs</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
-    <span class="n">tout</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span> <span class="o">//</span> <span class="n">при</span> <span class="n">выходе</span> <span class="n">из</span> <span class="n">вершины</span> <span class="n">можно</span> <span class="n">тоже</span> <span class="n">счётчик</span> <span class="n">увеличить</span><span class="p">,</span> <span class="n">но</span> <span class="n">автор</span> <span class="n">не</span> <span class="n">хочет</span> 
+    <span class="n">tout</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span> <span class="c1">// при выходе из вершины можно тоже счётчик увеличить, но автор не хочет </span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13229,12 +13229,12 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">bool</span> <span class="n">a</span> <span class="p">(</span><span class="nb">int</span> <span class="n">u</span><span class="p">,</span> <span class="nb">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">bool</span> <span class="nf">a</span> <span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="n">tin</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tout</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
 <span class="p">}</span>
 
-<span class="nb">int</span> <span class="n">lca</span> <span class="p">(</span><span class="nb">int</span> <span class="n">u</span><span class="p">,</span> <span class="nb">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="o">!</span>ancestor<span class="o">(</span>u, v<span class="o">))</span>
+<span class="kt">int</span> <span class="nf">lca</span> <span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">ancestor</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
         <span class="n">u</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
     <span class="k">return</span> <span class="n">u</span><span class="p">;</span>
 <span class="p">}</span>
@@ -13259,13 +13259,13 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="n">up</span><span class="p">[</span><span class="n">maxn</span><span class="p">][</span><span class="n">logn</span><span class="p">];</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">up</span><span class="p">[</span><span class="n">maxn</span><span class="p">][</span><span class="n">logn</span><span class="p">];</span>
 
-<span class="n">void</span> <span class="n">dfs</span> <span class="p">(</span><span class="nb">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">logn</span><span class="p">;</span> <span class="n">l</span><span class="o">++</span><span class="p">)</span>
+<span class="kt">void</span> <span class="nf">dfs</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">logn</span><span class="p">;</span> <span class="n">l</span><span class="o">++</span><span class="p">)</span>
         <span class="n">up</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">up</span><span class="p">[</span><span class="n">up</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">]][</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
     <span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">++</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
         <span class="n">up</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
         <span class="n">dfs</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
     <span class="p">}</span>
@@ -13296,11 +13296,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="n">lca</span> <span class="p">(</span><span class="nb">int</span> <span class="n">v</span><span class="p">,</span> <span class="nb">int</span> <span class="n">u</span><span class="p">)</span> <span class="p">{</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="nf">lca</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">u</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span> <span class="k">return</span> <span class="n">v</span><span class="p">;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="k">return</span> <span class="n">u</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">logn</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span><span class="o">--</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span>ancestor<span class="o">(</span>up<span class="o">[</span>v<span class="o">][</span>l<span class="o">]</span>, u<span class="o">))</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">logn</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span><span class="o">--</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ancestor</span><span class="p">(</span><span class="n">up</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">l</span><span class="p">],</span> <span class="n">u</span><span class="p">))</span>
             <span class="n">v</span> <span class="o">=</span> <span class="n">up</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">l</span><span class="p">];</span>
     <span class="k">return</span> <span class="n">up</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
 <span class="p">}</span>
@@ -13335,15 +13335,15 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="n">get_min</span> <span class="p">(</span><span class="nb">int</span> <span class="n">v</span><span class="p">,</span> <span class="nb">int</span> <span class="n">u</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">inf</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">logn</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span><span class="o">--</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span>ancestor<span class="o">(</span>up<span class="o">[</span>v<span class="o">][</span>l<span class="o">]</span>, u<span class="o">))</span>
-            <span class="n">v</span> <span class="o">=</span> <span class="n">up</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">l</span><span class="p">],</span> <span class="n">ans</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">mn</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">l</span><span class="p">]);</span>
-    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">logn</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span><span class="o">--</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span>ancestor<span class="o">(</span>up<span class="o">[</span>u<span class="o">][</span>l<span class="o">]</span>, v<span class="o">))</span>
-            <span class="n">u</span> <span class="o">=</span> <span class="n">up</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">l</span><span class="p">],</span> <span class="n">ans</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">mn</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">l</span><span class="p">]);</span>
-    <span class="k">return</span> <span class="nb">min</span><span class="p">({</span><span class="n">ans</span><span class="p">,</span> <span class="n">mn</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">mn</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">]})</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="nf">get_min</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">u</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">inf</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">logn</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span><span class="o">--</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ancestor</span><span class="p">(</span><span class="n">up</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">l</span><span class="p">],</span> <span class="n">u</span><span class="p">))</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">up</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">l</span><span class="p">],</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">mn</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">l</span><span class="p">]);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">logn</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span><span class="o">--</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ancestor</span><span class="p">(</span><span class="n">up</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">l</span><span class="p">],</span> <span class="n">v</span><span class="p">))</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">up</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">l</span><span class="p">],</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">mn</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">l</span><span class="p">]);</span>
+    <span class="k">return</span> <span class="n">min</span><span class="p">({</span><span class="n">ans</span><span class="p">,</span> <span class="n">mn</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">mn</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">]})</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13401,7 +13401,7 @@ $$O(\frac{2 n}{\log n} \log \frac{2 n}{\log n}) = O(\frac{2 n}{\log n} (\log 2n 
 <p>Не-блочная часть хоть и маленькая, но мы всё же заявили, что будем обрабатывать запросы за константу, и сдержим свое слово. Мы возмем левую не-блочуню часть запроса и возьмем оттуда маску — это можно сделать за константу. Тогда минимум на не-блочной части — это минимум на левом блочном элементе минум минимум на не-блочной маски, которую мы предпосчитали.</p>
 <p>Чуть более подробно и с реализацией (автор это никогда не кодил и вам не советует) можно почитать <a href="http://e-maxx.ru/algo/lca_linear">у Емакса</a>.</p>
 <p>Впрочем, этот алгоритм на практике использовать нецелесообразно: у него слишком большая константа. Слишком много чего нужно считать, чтобы выкинуть этот логарифм из асимптотики.</p>
-<p>Важный вывод такой: RMQ более общая задача, чем LCA.</p>
+<p>Важный вывод такой: RMQ более общая задача, чем LCA. <strong>UPD: это неправда, я глупый.</strong></p>
 
 </div>
 </div>

@@ -13153,31 +13153,37 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">const</span> <span class="nb">int</span> <span class="n">maxn</span><span class="p">;</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">maxn</span><span class="p">;</span>
 
-<span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="nb">int</span> <span class="n">mt</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="nb">bool</span> <span class="n">used</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// будем хранить только рёбра из левой доли в правую</span>
+<span class="kt">int</span> <span class="n">mt</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// с какой вершиной сматчена вершина правой доли (-1, если ни с какой)</span>
+<span class="kt">bool</span> <span class="n">used</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// вспомогательный массив для поиска пути dfs-ом</span>
 
-<span class="nb">bool</span> <span class="n">dfs</span> <span class="p">(</span><span class="nb">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// dfs возвращает, можно ли найти путь из вершины v</span>
+<span class="c1">// в какую-нибудь вершину правой доли</span>
+<span class="c1">// если можно, то ещё и проводит чередование</span>
+<span class="kt">bool</span> <span class="nf">dfs</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">used</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
-    <span class="n">used</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="n">used</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
+        <span class="c1">// если вершина свободна, то можно сразу с ней соединиться</span>
+        <span class="c1">// если она занята, то с нейможно соединиться только тогда,</span>
+        <span class="c1">// когда из её текущей пары можно найти какую-нибудь другую вершину</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">mt</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">||</span> <span class="n">dfs</span><span class="p">(</span><span class="n">mt</span><span class="p">[</span><span class="n">u</span><span class="p">]))</span> <span class="p">{</span>
             <span class="n">mt</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
-            <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+            <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
 <span class="p">}</span>
 
 
-<span class="o">//</span> <span class="n">где</span><span class="o">-</span><span class="n">то</span> <span class="n">в</span> <span class="n">main</span><span class="p">:</span>
+<span class="c1">// где-то в main:</span>
 
-<span class="n">memset</span><span class="p">(</span><span class="n">mt</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">mt</span><span class="p">));</span>
-<span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">memset</span><span class="p">(</span><span class="n">used</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">mt</span><span class="p">));</span>
+<span class="n">memset</span><span class="p">(</span><span class="n">mt</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">mt</span><span class="p">));</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">memset</span><span class="p">(</span><span class="n">used</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">mt</span><span class="p">));</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
         <span class="n">cnt</span><span class="o">++</span><span class="p">;</span>
 <span class="p">}</span>
@@ -13207,14 +13213,30 @@ div#notebook {
 <ul>
 <li><p>Eго можно жадно инициализировать (просто заранее пройтись по вершинам левой доли и сматчить их со свободной вершиной правой, если она есть).</p>
 </li>
-<li><p>можно не заполнять нулями на каждой итерации массив <code>used</code>, а использовать следующий трюк: хранить в нём вместо булева флага версию последнего изменения, а конкретно -- номер итерации, на которой это значение стало <code>true</code>. Если этот номер меньше текущего номера итерации, то мы можем воспринимать это значение как <code>false</code>.  В каком-то смысле это позволяет эмулировать очищение массива за константу.</p>
-</li>
-<li><p>Иногда графы какого-то специального вида, и это работает лучше.</p>
+<li><p>Можно не заполнять нулями на каждой итерации массив <code>used</code>, а использовать следующий трюк: хранить в нём вместо булева флага версию последнего изменения, а конкретно -- номер итерации, на которой это значение стало <code>true</code>. Если этот номер меньше текущего номера итерации, то мы можем воспринимать это значение как <code>false</code>.  В каком-то смысле это позволяет эмулировать очищение массива за константу.</p>
 </li>
 <li><p>Очень часто граф приходит из какой-то другой задачи, природа которой накладывает ограничения на его вид. Например, в задачах на решетках (когда есть двумерный массив, и соседние клетки связаны друг с другом) граф двудольный, но степень каждой вершины маленькая, и граф имеет очень специфичную структуру, и на нём алгоритм Куна работает быстрее, чем ожидается из формулы $n \times m$. Контрпримеры в таких задачах на самом деле почти всегда можно сгенерировать, но авторы редко так заморачиваются.</p>
 </li>
 </ul>
 <p>Вообще говоря, увлекаться ускорением алгоритма Куна не стоит — существует более асимптотически быстрый алгоритм. Задача нахождения максимального паросочетания — частный случай задачи о максимальном потоке, и  если применить <a href="http://e-maxx.ru/algo/dinic">алгоритм Диница</a> к двудольным графам с единичной пропускной способностью, то выясняется, что работать он будет за $O(n \sqrt m)$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1055;&#1086;&#1082;&#1088;&#1099;&#1090;&#1080;&#1077;-&#1087;&#1091;&#1090;&#1103;&#1084;&#1080;-DAG-&#1072;">&#1055;&#1086;&#1082;&#1088;&#1099;&#1090;&#1080;&#1077; &#1087;&#1091;&#1090;&#1103;&#1084;&#1080; DAG-&#1072;<a class="anchor-link" href="#&#1055;&#1086;&#1082;&#1088;&#1099;&#1090;&#1080;&#1077;-&#1087;&#1091;&#1090;&#1103;&#1084;&#1080;-DAG-&#1072;">&#182;</a></h2><p>Сводить задачи к поиску максимального паросочетания обычно не очень трудно, но в некоторых случаях самому додуматься сложно. Разберём одну такую известную задачу. Дан ориентированный ациклический граф $G$ (англ. <em>directed acyclic graph</em>). Требуется покрыть его наименьшим числом путей, то есть найти наименьшее множество простых путей, где каждая вершина принадлежит ровно одному пути.</p>
+<p>Построим соответствующие изначальному графу $G$ два двудольных графа $H$ и $\overline{H}$ следующим образом:</p>
+<ul>
+<li>В каждой доле графа $H$ будет по $n$ вершин. Обозначим их через $a_i$ и $b_i$ соответственно.</li>
+<li>Для каждого ребра $(i, j)$ исходного графа $G$ проведём соответствующее ребро $(a_i, b_j)$ в графе $H$.</li>
+<li>Теперь из графа $H$ сделаем граф $\overline{H}$, добавив обратное ребро $(b_i, a_i)$ для каждого $i$.</li>
+</ul>
+<p>Если мы рассмотрим любой путь $v_1, v_2, \ldots, v_k$ в исходном графе $G$, то в графе $\overline{H}$ ему будет соответствовать путь $a_{v_1}, b_{v_2}, a_{v_2}, b_{v_3}, \ldots, a_{v_{k-1}}, b_{v_k}$. Обратное тоже верно: любой путь, начинающийся в левой доле $\overline{H}$ и заканчивающийся в правой будет соответствовать какому-то пути в $G$.</p>
+<p>Итак, есть взаимно однозначное соответствие между путями в $G$ и путями $\overline{H}$, идущими из левой доли в правую. Заметим, что любой такой путь в $\overline{H}$ — это паросочетание в $H$ (напомним, это $\overline{H}$ без обратных рёбер). Получается, любому пути из $G$ можно поставить в соответствие паросочетание в $H$, и наоборот. Более того, непересекающимся путям в $G$ соответствуют непересекающиеся паросочетания в $H$.</p>
+<p>Заметим, что если есть $p$ непересекающихся путей, покрывающих все $n$ вершин графа, то они вместе содержат $r = n - p$ рёбер. Отсюда получаем, что чтобы минимизировать число путей $p$, мы должны максимизировать число рёбер $r$ в них.</p>
+<p>Мы теперь можем свести задачу к нахождению максимального паросочетания в двудольном графе $H$. После нахождения этого паросочетания мы должны преобразовать его в набор путей в $G$. Это делается тривиальным алгоритмом: возьмем $a_1$, посмотрим, с какой $n_k$ она соединена, посмотрим на $a_k$ и так далее. Некоторые вершины могут остаться ненасыщенными — в таком случае в ответ надо добавить пути нулевой длины из каждой из этих вершин.</p>
 
 </div>
 </div>

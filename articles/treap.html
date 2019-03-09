@@ -13149,12 +13149,12 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Таким образом, декартово дерево — это одновременно <em>бинарное дерево</em> по $x$ и <em>куча</em>.по $y$. Поэтому ему придумали много альтернативных названий:</p>
+<p>Таким образом, декартово дерево — это одновременно <em>бинарное дерево</em> по $x$ и <em>куча</em> по $y$. Поэтому ему придумали много альтернативных названий:</p>
 <ul>
 <li>Дерамида (дерево + пирамида)</li>
 <li>ПиВо (пирамида + дерево)</li>
 <li>КуРево (куча + дерево)</li>
-<li>treap (tree + heap)</li>
+<li>Treap (tree + heap)</li>
 </ul>
 
 </div>
@@ -13235,10 +13235,10 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">struct</span> <span class="n">Node</span> <span class="p">{</span>
-    <span class="nb">int</span> <span class="n">key</span><span class="p">,</span> <span class="n">prior</span><span class="p">;</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="k">struct</span> <span class="n">Node</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">key</span><span class="p">,</span> <span class="n">prior</span><span class="p">;</span>
     <span class="n">Node</span> <span class="o">*</span><span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">Node</span> <span class="p">(</span><span class="nb">int</span> <span class="n">_key</span><span class="p">)</span> <span class="p">{</span> <span class="n">key</span> <span class="o">=</span> <span class="n">_key</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">rand</span><span class="p">();</span> <span class="p">}</span>
+    <span class="n">Node</span> <span class="p">(</span><span class="kt">int</span> <span class="n">_key</span><span class="p">)</span> <span class="p">{</span> <span class="n">key</span> <span class="o">=</span> <span class="n">_key</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">rand</span><span class="p">();</span> <span class="p">}</span>
 <span class="p">};</span>
 </pre></div>
 
@@ -13270,9 +13270,9 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Node</span><span class="o">*</span> <span class="n">merge</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="n">Node</span> <span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span>l<span class="o">)</span> <span class="k">return</span> r<span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span>r<span class="o">)</span> <span class="k">return</span> l<span class="p">;</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">Node</span><span class="o">*</span> <span class="nf">merge</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="n">Node</span> <span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">l</span><span class="p">)</span> <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">prior</span> <span class="o">&gt;</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">prior</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">l</span><span class="o">-&gt;</span><span class="n">r</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
         <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
@@ -13303,19 +13303,19 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">*</span><span class="p">,</span> <span class="n">Node</span><span class="o">*&gt;</span> <span class="n">Pair</span><span class="p">;</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="k">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">*</span><span class="p">,</span> <span class="n">Node</span><span class="o">*&gt;</span> <span class="n">Pair</span><span class="p">;</span>
 
-<span class="n">Pair</span> <span class="n">split</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="nb">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span>p<span class="o">)</span> <span class="k">return</span> <span class="o">{</span><span class="m">0</span>, <span class="m">0</span><span class="o">}</span><span class="p">;</span>
+<span class="n">Pair</span> <span class="nf">split</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span> <span class="k">return</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">key</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">Pair</span> <span class="n">q</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
-        <span class="n">p</span><span class="o">-&gt;</span><span class="n">r</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">first</span><span class="p">;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">second</span><span class="p">};</span>
+        <span class="n">p</span><span class="o">-&gt;</span><span class="n">r</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="n">second</span><span class="p">};</span>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
         <span class="n">Pair</span> <span class="n">q</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
-        <span class="n">p</span><span class="o">-&gt;</span><span class="n">l</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">second</span><span class="p">;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">q</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">p</span><span class="p">};</span>
+        <span class="n">p</span><span class="o">-&gt;</span><span class="n">l</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">q</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">p</span><span class="p">};</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -13339,12 +13339,12 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Node</span> <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">Node</span> <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
-<span class="n">void</span> <span class="n">insert</span> <span class="p">(</span><span class="nb">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="nf">insert</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">Pair</span> <span class="n">q</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
-    <span class="n">Node</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Node</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">merge</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">second</span><span class="p">));</span>
+    <span class="n">Node</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">merge</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="n">second</span><span class="p">));</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13367,9 +13367,9 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">struct</span> <span class="n">Node</span> <span class="p">{</span>
-    <span class="nb">int</span> <span class="n">val</span><span class="p">,</span> <span class="nb">sum</span><span class="p">;</span>
-    <span class="o">//</span> <span class="o">...</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="k">struct</span> <span class="n">Node</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">val</span><span class="p">,</span> <span class="n">sum</span><span class="p">;</span>
+    <span class="c1">// ...</span>
 <span class="p">};</span>
 </pre></div>
 
@@ -13392,10 +13392,10 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">void</span> <span class="nb">sum</span> <span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">v</span> <span class="err">?</span> <span class="n">v</span><span class="o">-&gt;</span><span class="nb">sum</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
-<span class="o">//</span> <span class="n">обращаться</span> <span class="n">по</span> <span class="n">пустому</span> <span class="n">указателю</span> <span class="n">нельзя</span> <span class="o">--</span> <span class="n">выдаст</span> <span class="n">ошибку</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">void</span> <span class="nf">sum</span> <span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">v</span> <span class="o">?</span> <span class="n">v</span><span class="o">-&gt;</span><span class="nl">sum</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+<span class="c1">// обращаться по пустому указателю нельзя -- выдаст ошибку</span>
 
-<span class="n">void</span> <span class="n">upd</span> <span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="n">v</span><span class="o">-&gt;</span><span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">;</span> <span class="p">}</span>
+<span class="kt">void</span> <span class="nf">upd</span> <span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="n">sum</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">;</span> <span class="p">}</span>
 </pre></div>
 
     </div>
@@ -13416,15 +13416,15 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Node</span><span class="o">*</span> <span class="n">merge</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="n">Node</span> <span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="o">...</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="p">{</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">Node</span><span class="o">*</span> <span class="nf">merge</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="n">Node</span> <span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">if</span> <span class="p">(...)</span> <span class="p">{</span>
         <span class="n">l</span><span class="o">-&gt;</span><span class="n">r</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
         <span class="n">upd</span><span class="p">(</span><span class="n">l</span><span class="p">);</span>
         <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
-        <span class="o">//</span> <span class="o">...</span>
+        <span class="c1">// ...</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -13439,17 +13439,17 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">*</span><span class="p">,</span> <span class="n">Node</span><span class="o">*&gt;</span> <span class="n">Pair</span><span class="p">;</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="k">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">*</span><span class="p">,</span> <span class="n">Node</span><span class="o">*&gt;</span> <span class="n">Pair</span><span class="p">;</span>
 
-<span class="n">Pair</span> <span class="n">split</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="nb">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="o">...</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="p">{</span>
-        <span class="o">//</span> <span class="o">...</span>
+<span class="n">Pair</span> <span class="nf">split</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">if</span> <span class="p">(...)</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
         <span class="n">upd</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">second</span><span class="p">};</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="n">second</span><span class="p">};</span>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
-        <span class="o">//</span> <span class="o">...</span>
+        <span class="c1">// ...</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -13472,11 +13472,11 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="nb">sum</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span><span class="p">,</span> <span class="nb">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="nf">sum</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">Pair</span> <span class="n">rq</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
-    <span class="n">Pair</span> <span class="n">lq</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">rq</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span>
-    <span class="nb">int</span> <span class="n">res</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">second</span><span class="p">);</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">lq</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">merge</span><span class="p">(</span><span class="n">lq</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="n">rq</span><span class="o">.</span><span class="n">second</span><span class="p">));</span>
+    <span class="n">Pair</span> <span class="n">lq</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">rq</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">lr</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">lq</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">merge</span><span class="p">(</span><span class="n">lq</span><span class="p">.</span><span class="n">second</span><span class="p">,</span> <span class="n">rq</span><span class="p">.</span><span class="n">second</span><span class="p">));</span>
     <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
@@ -13508,11 +13508,11 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">struct</span> <span class="n">Node</span> <span class="p">{</span>
-    <span class="nb">int</span> <span class="n">key</span><span class="p">,</span> <span class="n">prior</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="o">//</span>              <span class="o">^</span> <span class="n">размер</span> <span class="n">поддерева</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="k">struct</span> <span class="n">Node</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">key</span><span class="p">,</span> <span class="n">prior</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="c1">//              ^ размер поддерева</span>
     <span class="n">Node</span> <span class="o">*</span><span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">Node</span> <span class="p">(</span><span class="nb">int</span> <span class="n">_key</span><span class="p">)</span> <span class="p">{</span> <span class="n">key</span> <span class="o">=</span> <span class="n">_key</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">rand</span><span class="p">();</span> <span class="p">}</span>
+    <span class="n">Node</span> <span class="p">(</span><span class="kt">int</span> <span class="n">_key</span><span class="p">)</span> <span class="p">{</span> <span class="n">key</span> <span class="o">=</span> <span class="n">_key</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">rand</span><span class="p">();</span> <span class="p">}</span>
 <span class="p">};</span>
 </pre></div>
 
@@ -13534,9 +13534,9 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="n">size</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">v</span> <span class="err">?</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">size</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="nf">size</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">v</span> <span class="o">?</span> <span class="n">v</span><span class="o">-&gt;</span><span class="nl">size</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
 
-<span class="n">void</span> <span class="n">upd</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">size</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="n">size</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">);</span> <span class="p">}</span>
+<span class="kt">void</span> <span class="nf">upd</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">size</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="n">size</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">);</span> <span class="p">}</span>
 </pre></div>
 
     </div>
@@ -13558,22 +13558,22 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">*</span><span class="p">,</span> <span class="n">Node</span><span class="o">*&gt;</span> <span class="n">Pair</span><span class="p">;</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="k">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">*</span><span class="p">,</span> <span class="n">Node</span><span class="o">*&gt;</span> <span class="n">Pair</span><span class="p">;</span>
 
-<span class="n">Pair</span> <span class="n">split</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="nb">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span>p<span class="o">)</span> <span class="k">return</span> <span class="o">{</span><span class="m">0</span>, <span class="m">0</span><span class="o">}</span><span class="p">;</span>
+<span class="n">Pair</span> <span class="nf">split</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span> <span class="k">return</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">Pair</span> <span class="n">q</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">,</span> <span class="n">k</span> <span class="o">-</span> <span class="n">size</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-        <span class="o">//</span>                   <span class="o">^</span> <span class="n">правый</span> <span class="n">сын</span> <span class="n">ничего</span> <span class="n">не</span> <span class="n">знает</span> <span class="n">количество</span> <span class="n">вершин</span> <span class="n">слева</span> <span class="n">от</span> <span class="n">него</span>
-        <span class="n">p</span><span class="o">-&gt;</span><span class="n">r</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">first</span><span class="p">;</span>
+        <span class="c1">//                   ^ правый сын ничего не знает количество вершин слева от него</span>
+        <span class="n">p</span><span class="o">-&gt;</span><span class="n">r</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
         <span class="n">upd</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">second</span><span class="p">};</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="n">second</span><span class="p">};</span>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
         <span class="n">Pair</span> <span class="n">q</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
-        <span class="n">p</span><span class="o">-&gt;</span><span class="n">l</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">second</span><span class="p">;</span>
+        <span class="n">p</span><span class="o">-&gt;</span><span class="n">l</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
         <span class="n">upd</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">q</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">p</span><span class="p">};</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">q</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">p</span><span class="p">};</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -13603,11 +13603,11 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Node</span><span class="o">*</span> <span class="n">ctrlx</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span><span class="p">,</span> <span class="nb">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">Node</span><span class="o">*</span> <span class="nf">ctrlx</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">Pair</span> <span class="n">q1</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
-    <span class="n">Pair</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">q2</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">q1</span><span class="o">.</span><span class="n">second</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">q2</span><span class="o">.</span><span class="n">second</span><span class="p">;</span>
+    <span class="n">Pair</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">q1</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">q2</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">q1</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">q2</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13621,9 +13621,9 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">void</span> <span class="n">ctrlv</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">,</span> <span class="nb">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">void</span> <span class="nf">ctrlv</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">Pair</span> <span class="n">q</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">merge</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">second</span><span class="p">));</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">merge</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="n">second</span><span class="p">));</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13653,9 +13653,9 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">struct</span> <span class="n">Node</span> <span class="p">{</span>
-    <span class="nb">bool</span> <span class="n">rev</span><span class="p">;</span>
-    <span class="o">//</span> <span class="o">...</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="k">struct</span> <span class="n">Node</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="n">rev</span><span class="p">;</span>
+    <span class="c1">// ...</span>
 <span class="p">};</span>
 </pre></div>
 
@@ -13677,7 +13677,7 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">void</span> <span class="n">push</span> <span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">void</span> <span class="nf">push</span> <span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">rev</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">swap</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">,</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">);</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">)</span>
@@ -13708,11 +13708,11 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">void</span> <span class="n">reverse</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span><span class="p">,</span> <span class="nb">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">void</span> <span class="nf">reverse</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">Pair</span> <span class="n">q1</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
-    <span class="n">Pair</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-    <span class="n">q2</span><span class="o">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">rev</span> <span class="o">^=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">q2</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">merge</span><span class="p">(</span><span class="n">q2</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="n">q1</span><span class="o">.</span><span class="n">second</span><span class="p">));</span>
+    <span class="n">Pair</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">q1</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+    <span class="n">q2</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">rev</span> <span class="o">^=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">q2</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">merge</span><span class="p">(</span><span class="n">q2</span><span class="p">.</span><span class="n">second</span><span class="p">,</span> <span class="n">q1</span><span class="p">.</span><span class="n">second</span><span class="p">));</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13735,14 +13735,14 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">auto</span> <span class="n">apply</span> <span class="p">(</span><span class="nb">int</span> <span class="n">l</span><span class="p">,</span> <span class="nb">int</span> <span class="n">r</span><span class="p">,</span> <span class="n">auto</span> <span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="k">auto</span> <span class="nf">apply</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="k">auto</span> <span class="n">f</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">Pair</span> <span class="n">q1</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
-    <span class="n">Pair</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-    <span class="n">q2</span><span class="o">.</span><span class="n">second</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">q2</span><span class="o">.</span><span class="n">second</span><span class="p">);</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">q2</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">merge</span><span class="p">(</span><span class="n">q2</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="n">q1</span><span class="o">.</span><span class="n">second</span><span class="p">));</span>
+    <span class="n">Pair</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">q1</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+    <span class="n">q2</span><span class="p">.</span><span class="n">second</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">q2</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">q2</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">merge</span><span class="p">(</span><span class="n">q2</span><span class="p">.</span><span class="n">second</span><span class="p">,</span> <span class="n">q1</span><span class="p">.</span><span class="n">second</span><span class="p">));</span>
 <span class="p">}</span>
 
-<span class="n">void</span> <span class="n">reverse</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="nf">reverse</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="n">v</span><span class="o">-&gt;</span><span class="n">rev</span> <span class="o">^=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
@@ -13766,7 +13766,7 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">apply</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">reverse</span><span class="p">);</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">apply</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">reverse</span><span class="p">);</span>
 </pre></div>
 
     </div>
@@ -13788,7 +13788,7 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">apply</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="p">[](</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">){</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">apply</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="p">[](</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">){</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="n">v</span><span class="o">-&gt;</span><span class="n">rev</span> <span class="o">^=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">});</span>
@@ -13827,7 +13827,7 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Node</span><span class="o">*</span> <span class="n">copy</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">new</span> <span class="n">Node</span><span class="p">(</span><span class="o">*</span><span class="n">v</span><span class="p">);</span> <span class="p">}</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">Node</span><span class="o">*</span> <span class="nf">copy</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="k">new</span> <span class="n">Node</span><span class="p">(</span><span class="o">*</span><span class="n">v</span><span class="p">);</span> <span class="p">}</span>
 </pre></div>
 
     </div>
@@ -13848,9 +13848,9 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Pair</span> <span class="n">split</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="nb">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">Pair</span> <span class="nf">split</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
-    <span class="o">//</span> <span class="o">...</span>
+    <span class="c1">// ...</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13880,15 +13880,15 @@ $$E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Node</span><span class="o">*</span> <span class="n">merge</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="n">Node</span> <span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span>l<span class="o">)</span> <span class="k">return</span> r<span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span>r<span class="o">)</span> <span class="k">return</span> l<span class="p">;</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">Node</span><span class="o">*</span> <span class="nf">merge</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="n">Node</span> <span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">l</span><span class="p">)</span> <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
     <span class="n">l</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">l</span><span class="p">),</span> <span class="n">r</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="n">size</span><span class="p">(</span><span class="n">r</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">(</span><span class="n">l</span><span class="p">))</span> <span class="p">{</span>
-        <span class="o">//</span> <span class="o">...</span>
+        <span class="c1">// ...</span>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
-        <span class="o">//</span> <span class="o">...</span>
+        <span class="c1">// ...</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
