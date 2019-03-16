@@ -13153,7 +13153,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-c++"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
 <span class="kt">int</span> <span class="n">s</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tin</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tout</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="kt">int</span> <span class="n">head</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// вершина, в которую «упирается» тяжелый путь, к которому принадлежит v</span>
+<span class="kt">int</span> <span class="n">head</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// «голова» тяжелого пути, которому принадлежит v</span>
 <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
 <span class="kt">void</span> <span class="nf">sizes</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
@@ -13172,7 +13172,7 @@ div#notebook {
     <span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">++</span><span class="p">;</span>
     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
         <span class="c1">// если это тяжелый ребенок -- его next нужно передать</span>
-        <span class="c1">// в противном случае он сам является головой</span>
+        <span class="c1">// в противном случае он сам является головой нового пути</span>
         <span class="n">head</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">==</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">?</span> <span class="n">head</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">:</span> <span class="n">u</span><span class="p">);</span>
         <span class="n">hld</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
     <span class="p">}</span>
