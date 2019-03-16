@@ -13139,9 +13139,9 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Большинство публичных реализаций HLD — это 120-150 строк кода. Мы же воспользуемся следую трюком, который сильно упростит нам жизнь. Перенумеруем вершины дерева так, что для каждого тяжелого пути все его вершины будут иметь последовательные номера. А именно, на этапе подсчёта размера поддеревьев, изменим список смежности</p>
-<p>Then you will have such array that subtree of correspond to segment and the path from to the last vertex in ascending heavy path from (which is ) will be subsegment which gives you the opportunity to process queries on pathes and subtrees simultaneously in the same segment tree.</p>
-<p><img width='450px' src='https://codeforces.com/predownloaded/be/01/be019bbaa15bbf621a0cf018b15e778c02aeb104.jpg'></p>
+<h2 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Большинство публичных реализаций HLD — это 120-150 строк кода. Мы же воспользуемся следующим трюком, который сильно упростит нам жизнь: перенумеруем вершины дерева так, что для каждого тяжелого пути все его вершины будут иметь последовательные номера.</p>
+<p>А именно, на этапе подсчёта размера поддеревьев, изменим список смежности каждой вершины так, чтобы в самом начале шел её «тяжелый» ребёнок. Тогда, если запустить обычный эйлеров обход графа, то <code>tin</code>-ы и будут нужной нумерацией, потому что в каждой вершине мы шли в своего тяжелого ребёнка в первую очередь.</p>
+<p>Теперь мы можем построить какую-нибудь структуру поверх массива размера $n$ (дерево отрезков) и при запросе к какому-нибудь тяжелому пути делать запрос к отрезку в структуре.</p>
 
 </div>
 </div>
@@ -13152,9 +13152,8 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-c++"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="kt">int</span> <span class="n">s</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tin</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tout</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="kt">int</span> <span class="n">rin</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// массив, обратный к tin</span>
-<span class="kt">int</span> <span class="n">next</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// вершина, в которую «упирается» тяжелый путь, к которому принадлежит v</span>
+<span class="kt">int</span> <span class="n">s</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tin</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">tout</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">head</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// вершина, в которую «упирается» тяжелый путь, к которому принадлежит v</span>
 <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
 <span class="kt">void</span> <span class="nf">sizes</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
@@ -13163,7 +13162,7 @@ div#notebook {
         <span class="n">sizes</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
         <span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="n">s</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">s</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]])</span>
-            <span class="c1">// &amp;u -- это ссылка, и её легально использовать при swap-е</span>
+            <span class="c1">// &amp;u -- это ссылка, так что её легально использовать при swap-е</span>
             <span class="n">swap</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -13172,7 +13171,9 @@ div#notebook {
     <span class="n">rin</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
     <span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">++</span><span class="p">;</span>
     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
-        <span class="n">next</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">==</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">?</span> <span class="n">next</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">:</span> <span class="n">u</span><span class="p">);</span>
+        <span class="c1">// если это тяжелый ребенок -- его next нужно передать</span>
+        <span class="c1">// в противном случае он сам является головой</span>
+        <span class="n">head</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">==</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">?</span> <span class="n">head</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">:</span> <span class="n">u</span><span class="p">);</span>
         <span class="n">hld</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="n">tout</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
@@ -13187,13 +13188,97 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1050;&#1072;&#1082;-&#1080;&#1084;-&#1088;&#1077;&#1096;&#1072;&#1090;&#1100;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#1050;&#1072;&#1082; &#1080;&#1084; &#1088;&#1077;&#1096;&#1072;&#1090;&#1100; &#1079;&#1072;&#1076;&#1072;&#1095;&#1080;<a class="anchor-link" href="#&#1050;&#1072;&#1082;-&#1080;&#1084;-&#1088;&#1077;&#1096;&#1072;&#1090;&#1100;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#182;</a></h2><p>Простейший пример задачи на HLD:</p>
-<blockquote><p>Дано дерево, каждой вершине которого приписано какое-то число. Поступают запросы двух типов:</p>
+<h2 id="&#1050;&#1072;&#1082;-&#1080;&#1084;-&#1088;&#1077;&#1096;&#1072;&#1090;&#1100;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#1050;&#1072;&#1082; &#1080;&#1084; &#1088;&#1077;&#1096;&#1072;&#1090;&#1100; &#1079;&#1072;&#1076;&#1072;&#1095;&#1080;<a class="anchor-link" href="#&#1050;&#1072;&#1082;-&#1080;&#1084;-&#1088;&#1077;&#1096;&#1072;&#1090;&#1100;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#182;</a></h2><p>Простейший пример задачи на HLD: дано дерево, каждой вершине которого приписано какое-то число, и поступают запросы двух типов:</p>
 <ol>
-<li>Узнать максимальное число на пути между $v_i$ и $u_i$.</li>
+<li>Узнать минимальное число на пути между $v_i$ и $u_i$.</li>
 <li>Изменить число у $v_i$-той вершины на $x_i$.</li>
 </ol>
-</blockquote>
+<p>Подвесим дерево за произвольную вершину и построим на нём HL-декомпозицию с деревом отрезков в качестве внутренней структуры. Его код мы приводить не будем и посчитаем, что оно реализовано примерно так же, как в <a href="http://sereja.me/a/segtree">соответствующей статье</a> и имеет методы <code>upd(k, x)</code> и <code>get_min(l, r)</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="n">val</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="n">segtree</span> <span class="nf">st</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>При операции обновления нам нужно просто обновить нужную ячейку в дереве отрезков:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">void</span> <span class="nf">upd</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">st</span><span class="p">.</span><span class="n">upd</span><span class="p">(</span><span class="n">tin</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Запрос минимума сложнее: нам нужно разбить исходный запрос на запросы к вертикальным путям.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">int</span> <span class="nf">ancestor</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">tin</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tin</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">tin</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tout</span><span class="p">[</span><span class="n">a</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">up</span> <span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">ans</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">ancestor</span><span class="p">(</span><span class="n">head</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">b</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">st</span><span class="p">.</span><span class="n">get_min</span><span class="p">(</span><span class="n">tin</span><span class="p">[</span><span class="n">head</span><span class="p">[</span><span class="n">a</span><span class="p">]],</span> <span class="n">tin</span><span class="p">[</span><span class="n">a</span><span class="p">]));</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">head</span><span class="p">[</span><span class="n">a</span><span class="p">]];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">get_min</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">inf</span><span class="p">;</span>
+    <span class="n">up</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">ans</span><span class="p">);</span>
+    <span class="n">up</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">ans</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ancestor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+        <span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">st</span><span class="p">.</span><span class="n">get_min</span><span class="p">(</span><span class="n">tin</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">tin</span><span class="p">[</span><span class="n">b</span><span class="p">]));</span>
+    <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src='https://codeforces.com/predownloaded/be/01/be019bbaa15bbf621a0cf018b15e778c02aeb104.jpg'></p>
 
 </div>
 </div>
