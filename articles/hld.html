@@ -13116,7 +13116,78 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Heavy-light-&#1076;&#1077;&#1082;&#1086;&#1084;&#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;">Heavy-light &#1076;&#1077;&#1082;&#1086;&#1084;&#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;<a class="anchor-link" href="#Heavy-light-&#1076;&#1077;&#1082;&#1086;&#1084;&#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;">&#182;</a></h1><p>Конспекта нет, но вы держитесь.</p>
+<h1 id="Heavy-light-&#1076;&#1077;&#1082;&#1086;&#1084;&#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;">Heavy-light &#1076;&#1077;&#1082;&#1086;&#1084;&#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;<a class="anchor-link" href="#Heavy-light-&#1076;&#1077;&#1082;&#1086;&#1084;&#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;">&#182;</a></h1><p>HL-декомпозиция — это мощный метод решения задач на запросы на путях, когда также есть запросы обновлений. Если запросов обновления нет, то лучше написать <a href="http://sereja.me/a/centroid">что-нибудь попроще</a>.</p>
+<p><img width='400px' src='http://i38.tinypic.com/6yjmvb.jpg'></p>
+<p><em><center>TODO: найти менее уродливую иллюстрацию</center></em></p>
+<p>Heavy-light декомпозицией корневого дерева называется результат следующего процесса: каждой вершины $v$ посмотрим на всех её непосредственных детей $u$, выберем среди них ребёнка $u_{max}$ (с самым большим размером поддерева) и назовём ребро $(v, u)$ <em>тяжелым</em> (heavy), а все остальные рёбра — <em>лёгкими</em> (light). При этом, если самых «тяжелых» детей будет больше одного, то выберем любого.</p>
+<p>Таким образом, дерево распалось на тяжелые и лёгкие рёбра. Докажем несколько полезных свойств такого разбиения.</p>
+<p><strong>Утверждение.</strong> Дерево разбивается на непересекающиеся пути из тяжелых рёбер.</p>
+<p><strong>Доказательство.</strong> В каждую вершину входит не более одного тяжелого ребра, и из каждой вершины исходит не более одного тяжелого ребра.</p>
+<p>Назовём <em>блоком</em> либо лёгкое ребро, либо вертикальный путь из тяжелых рёбер.</p>
+<p><strong>Утверждение.</strong> На любом вертикальном пути будет не более $O(\log n)$ блоков.</p>
+<p><strong>Доказательство</strong> разбивается на две части:</p>
+<ul>
+<li>Лёгких ребер на вертикальном пути будет не более $O(\log n)$: рассмотрим самую нижнюю вершину и будем идти по вертикальному пути снизу вверх. Каждый раз, когда мы переходим по лёгкому ребру, размер поддерева текущей вершины увеличивается в два раза, потому что если вершина связана с родителем лёгким ребром, то у него есть какой-то другой ребёнок, который не легче текущего.</li>
+<li>Непрерывных путей из тяжелых рёбер будет не более $O(\log n$: если это не конец или начало пути, то каждый такой путь окружают два лёгких ребра, а их всего $O(\log n)$.</li>
+</ul>
+<p><strong>Следствие.</strong> На любом пути будет не более $O(\log n)$ блоков.</p>
+<p>Ради этого мы всё и делали: теперь построим какую-нибудь структуру на каждом тяжелого пути (например, дерево отрезков), а при ответе на запрос (скажем, суммы на пути) разобъём его на $O(\log n)$ запросов либо к подотрезкам тяжелых путей, либо к лёгким рёбрам.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Воспользуемся следующим трюком, который нам сильно упростит реализацию. Перенумеруем все вершины так, чтобы их отрезки были в одном большом массиве.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">s</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+
+<span class="kt">void</span> <span class="nf">sizes</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span><span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
+        <span class="n">sizes</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+        <span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="n">s</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">sz</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">sz</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">swap</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">hld</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">in</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">rin</span><span class="p">[</span><span class="n">in</span><span class="p">[</span><span class="n">v</span><span class="p">]]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span><span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
+        <span class="n">nxt</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">==</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">?</span> <span class="n">nxt</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">:</span> <span class="n">u</span><span class="p">);</span>
+        <span class="n">dfs_hld</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">out</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1050;&#1072;&#1082;-&#1080;&#1084;-&#1088;&#1077;&#1096;&#1072;&#1090;&#1100;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#1050;&#1072;&#1082; &#1080;&#1084; &#1088;&#1077;&#1096;&#1072;&#1090;&#1100; &#1079;&#1072;&#1076;&#1072;&#1095;&#1080;<a class="anchor-link" href="#&#1050;&#1072;&#1082;-&#1080;&#1084;-&#1088;&#1077;&#1096;&#1072;&#1090;&#1100;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#182;</a></h2><p>Простейший пример задачи на HLD:</p>
+<blockquote><p>Дано дерево, каждой вершине которого приписано какое-то число. Поступают запросы двух типов:</p>
+<ol>
+<li>Узнать максимальное число на пути между $v_i$ и $u_i$.</li>
+<li>Изменить число у $v_i$-той вершины на $x_i$.</li>
+</ol>
+</blockquote>
 
 </div>
 </div>
