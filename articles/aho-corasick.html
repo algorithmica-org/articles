@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>index</title>
+<title>aho-corasick</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13116,49 +13116,222 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1080;&#1082;&#1072;">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1080;&#1082;&#1072;<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1080;&#1082;&#1072;">&#182;</a></h1><p>Здесь (временно) живут конспекты занятий, которые я последние полтора года готовил для разных курсов и школ — в основном, для второго курса <a href="http://algocode.ru/b/">Tinkoff Generation</a>.</p>
-<p>Более-менее готово:</p>
+<h1 id="&#1041;&#1086;&#1088;">&#1041;&#1086;&#1088;<a class="anchor-link" href="#&#1041;&#1086;&#1088;">&#182;</a></h1><p>Бор — это структура данных для компактного хранения строк.</p>
+<p>Он устроен в виде дерева, где на ребрах между вершинами написана символы, а некоторые вершины помечены терминальными. Бор хранит ровно те строки, которые получаются, если выписать подряд все буквы на путях от корня до терминальных вершин.</p>
+<p><img src="https://koenig-media.raywenderlich.com/uploads/2016/10/SwiftAlgClub_TrieData-trie-1.png" alt="trie"></p>
+<p>Бор можно удобно использовать для разных задач:</p>
 <ul>
-<li><a href="http://sereja.me/a/segtree">Дерево отрезков</a>: на указателях, динамическое, пересистентное</li>
-<li><a href="http://sereja.me/a/treap">Декартово дерево</a>: явное, неявное, персистентое</li>
-<li><a href="http://sereja.me/a/hashing">Полиномиальное хэширование</a> в задачах на строки</li>
-<li><a href="http://sereja.me/a/centroid">Центроидная декомпозиция</a></li>
-<li><a href="http://sereja.me/a/hld">Heavy-light декомпозиция</a></li>
-<li><a href="http://sereja.me/a/matching">Паросочетания</a>: алгоритм Куна, покрытие DAG-а, лемма Холла</li>
-<li><a href="http://sereja.me/a/fenwick">Дерево Фенвика</a>: устройство, многомерное дерево, бинпоиск по дереву</li>
-<li><a href="http://sereja.me/a/matroid">Матроиды</a>: алгоритм Радо-Эдмондса, расписания, паросочетания, линейная независимость</li>
-<li><a href="http://sereja.me/a/pollard">Ро-алгоритм Полларда</a></li>
-<li><a href="http://sereja.me/a/sparse-table">Sparse table</a></li>
-<li><a href="http://sereja.me/a/mincost-maxflow">Поток минимальной стоимости</a>: критерий оптимальности, потенциалы Джонсона, реализация за $O(mU)$</li>
-<li><a href="http://sereja.me/a/bitset">Битовое сжатие</a>: битсет, нахождение цикла длины 3, перемножение матриц, метод Гаусса</li>
-<li><a href="http://sereja.me/a/lca">Наименьший общий предок</a>: свойства tin и tout, двоичные подъемы, сведение к RMQ, алгоритм Фараха-Колтона и Бендера</li>
-<li><a href="http://sereja.me/a/bayans">Классные задачки</a>: пока что без решений</li>
+<li>Хранение строк — занимает гораздо меньше места, чем массив или сет строк.</li>
+<li><p>Сортировка строк — по бору можно пройтись dfs-ом и вывести все строки в лексикографическом порядке.</p>
+</li>
+<li><p>Сет строк — как мы увидим, в нем легко добавлять и удалять слова, а также проверять, если ли слово в бореи.</p>
+</li>
 </ul>
-<p>Не очень готово:</p>
-<ul>
-<li><a href="http://sereja.me/a/strings">Поиск строки в строке</a>: префикс-функция, z-функция</li>
-<li><a href="http://sereja.me/a/suffix-array">Суффиксный массив</a></li>
-<li><a href="http://sereja.me/a/geometry">Геометрия</a>: скалярное и векторное произведение, пересечение прямых, классы в C++</li>
-<li><a href="http://sereja.me/a/dp-optimizations">Оптимизации ДП</a>: Кнут, разделяй-и-властвуй, Convex Hull Trick</li>
-<li><a href="http://sereja.me/a/mst">Остовные деревья</a>: алгоритм Прима и Крускала</li>
-<li><a href="http://sereja.me/a/reciprocal">Обратное по модулю</a></li>
-<li><a href="http://sereja.me/a/annealing">Метод отжига</a></li>
-<li><a href="http://sereja.me/a/stress-test">Стресс-тестирование</a></li>
-<li><a href="http://sereja.me/a/trie">Бор</a></li>
-<li><a href="http://sereja.me/a/aho-corasick">Ахо-Корасик</a></li>
-</ul>
-<p>Вообще не готово:</p>
-<ul>
-<li><a href="http://sereja.me/a/linalg">Линейная алгебра</a>: линейные операторы, матрицы, применения к динамике, метод Гаусса</li>
-<li><a href="http://sereja.me/a/probability">Теорвер</a></li>
-<li>Выпуклые оболочки</li>
-<li>Разделяй-и-властвуй</li>
-<li>Теория информации</li>
-</ul>
-<p>Спасибо Косте Амеличеву, Глебу Лобанову, Ване Клигунову, Диме Дубровину, Маше Тряпицыной, Шелхонову Булату, Саше Мамаеву, Андрею Гаркавому, Тёме Рябову, Андрею Чулкову, Максу Деб Натху и много кому ещё за фидбэк и указания на ошибки и неточности.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Бор состоит из ссылающихся друг на друга вершин. В вершине обычно хранится такая информация:</p>
+<ul>
+<li>терминальная ли вершина,</li>
+<li>ссылки на детей,</li>
+<li>возможно, какая-нибудь дополнительная зависящая от задачи информация о слове, если вершина терминальная. Например, количество таких слов — так можно реализовать мультисет.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">Vertex</span> <span class="p">{</span>
+    <span class="n">Vertex</span><span class="o">*</span> <span class="n">to</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+    <span class="kt">bool</span> <span class="n">terminal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">Vertex</span> <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vertex</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Чтобы добавить слово в бор, нужно пройти от корня по символам слова. Если перехода по для очередного символа нет — создать его, иначе пройти по уже существующему. Последнюю вершину нужно пометить терминальной.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">void</span> <span class="nf">add_string</span> <span class="p">(</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">char</span> <span class="nl">c</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">c</span> <span class="o">-=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> 
+            <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vertex</span><span class="p">();</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">v</span><span class="o">-&gt;</span><span class="n">terminal</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Чтобы проверить, есть ли слово в боре, нужно пройти от корня по символам слова. Если в конце оказались в терминальной вершине — то есть. Если оказались в нетерминальной или когда-нибудь потребовалось пройтись по несуществущей ссылке — то есть.</p>
+<p>Удалить слово можно лениво, просто дойдя до него и убрав флаг терминальности.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="&#1050;&#1072;&#1082;-&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#1050;&#1072;&#1082; &#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1089;&#1089;&#1099;&#1083;&#1082;&#1080;<a class="anchor-link" href="#&#1050;&#1072;&#1082;-&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#182;</a></h3><p>Хранить ссылки на детей не обязательно в массиве. Возможно, наш алфавит большой — у нас тогда просто не хватит памяти инициализировать столько массивов, большинство из которых будут пустыми.</p>
+<p>В этом случае можно придумать какой-нибудь другой способ хранить отображение из символа в ссылку на вершину, например бинарном дереве (<code>map</code>) или хэш-таблице (<code>unordered_map</code>). Они будут работать дольше (но лишь в константу раз), но зато потребление памяти в них будет линейным. У <code>map</code>-а есть ещё одно преимущество, что он хранит ссылки уже отсортированными по символам — так можно отсортировать строки, например.</p>
+<p>Учитывайте, что писать бор можно по-разному, особенно когда решаете задачи с жестокими ограничениями.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077; &#1089;&#1089;&#1099;&#1083;&#1082;&#1080;<a class="anchor-link" href="#&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#182;</a></h2><p>TODO Когда-нибудь тут появится более подробное описание, а пока почитайте <a href="http://e-maxx.ru/algo/aho_corasick">какую-нибудь другую статью</a>.</p>
+<p>Суффиксная ссылка для вершины $v$ — это вершина, в которой оканчивается наидлиннейший собственный суффикс строки, соответствующей вершине $v$ (исключение: для корня бора суффиксная ссылка ведет в себя же).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1047;&#1072;&#1095;&#1077;&#1084;-&#1101;&#1090;&#1086;-&#1085;&#1091;&#1078;&#1085;&#1086;">&#1047;&#1072;&#1095;&#1077;&#1084; &#1101;&#1090;&#1086; &#1085;&#1091;&#1078;&#1085;&#1086;<a class="anchor-link" href="#&#1047;&#1072;&#1095;&#1077;&#1084;-&#1101;&#1090;&#1086;-&#1085;&#1091;&#1078;&#1085;&#1086;">&#182;</a></h2><blockquote><p>Пусть заданы $n$ <em>плохих</em> слов и большой текст $t$. Нужно найти суммарное количество их вхождений в этот текст.</p>
+</blockquote>
+<p>Добавим все плохие слова в бор, и будем считывать строку и с помощью суффиксных ссылок поддерживать самый длинный суффикс текущей строки, который принимает бор.</p>
+<p>Тогда, для конкретной позиции, мы можем быстро посчитать, какие плохие слова на нём заканчиваются — ровно те, по которым можно дойти по суффиксным ссылкам. Информацию о количестве таких слов можно посчитать заранее динамикой в графе из суффиксных ссылок.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Помимо суффиксных ссылок, нужно найти ещё <em>переходы</em>, чтобы поддерживать самый длинный суффикс.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*">&#182;</a></h2><p>Заметим, что всего суффиксных ссылок нужно найти $O(n)$, а переходов — $O(nk)$. Суффиксные ссылки и переходы можно быстро найти динамикой.</p>
+<p><strong>Ссылки</strong>. Мы можем сделать так: пройти на символ назад, а оттуда пройти по суффиксной ссылке, и уже оттуда вызвать переход.</p>
+<p><strong>Переходы</strong>. Вот к нашей строке прибавился символ — нужно найти самую длинную строку. Для этого можно откатываться по суффиксным ссылкам, пока не придем в вершину, из которой данный переход есть. Рано или поздно мы либо попадем в такую вершину, либо попадем в корень. Но можно поступить лениво, и просто откатиться на <em>одну</em> суффиксную ссылку и взять уже посчитанный переход оттуда.</p>
+<p><img src='https://www.parazitakusok.ru/images/item/5728/item_1109_1510080296_558.jpg' width='250px'></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">Vertex</span> <span class="p">{</span>
+    <span class="n">Vertex</span> <span class="o">*</span><span class="n">to</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="o">*</span><span class="n">go</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+    <span class="n">Vertex</span> <span class="o">*</span><span class="n">link</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">pch</span><span class="p">;</span>
+    <span class="n">Vertex</span> <span class="p">(</span><span class="kt">int</span> <span class="n">_pch</span><span class="p">,</span> <span class="n">Vertex</span> <span class="o">*</span><span class="n">_p</span><span class="p">)</span> <span class="p">{</span> <span class="n">pch</span> <span class="o">=</span> <span class="n">_pch</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">_p</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">Vertex</span> <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vertex</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">void</span> <span class="nf">add_string</span> <span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">char</span> <span class="nl">_c</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">c</span> <span class="o">-=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+            <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vertex</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Нам нужно объявить две функции, которые будут ссылаться друг на друга. В интерпретируемых языках (например, в питоне) можно просто объявить две функции, а вот C++ так не умеет — нужно сначала все объявить, а потом ссылаться.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="n">Vertex</span><span class="o">*</span> <span class="nf">go</span> <span class="p">(</span><span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">);</span>
+
+<span class="n">Vertex</span><span class="o">*</span> <span class="nf">link</span> <span class="p">(</span><span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="n">root</span> <span class="o">||</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">p</span> <span class="o">==</span> <span class="n">root</span><span class="p">)</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span> <span class="o">=</span> <span class="n">go</span><span class="p">(</span><span class="n">link</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">p</span><span class="p">),</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">pch</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">Vertex</span><span class="o">*</span> <span class="nf">go</span> <span class="p">(</span><span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="n">root</span><span class="p">)</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">go</span><span class="p">(</span><span class="n">link</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
     </div>
   </div>

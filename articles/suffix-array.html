@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>index</title>
+<title>suffix-array</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13116,46 +13116,110 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1080;&#1082;&#1072;">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1080;&#1082;&#1072;<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1080;&#1082;&#1072;">&#182;</a></h1><p>Здесь (временно) живут конспекты занятий, которые я последние полтора года готовил для разных курсов и школ — в основном, для второго курса <a href="http://algocode.ru/b/">Tinkoff Generation</a>.</p>
-<p>Более-менее готово:</p>
-<ul>
-<li><a href="http://sereja.me/a/segtree">Дерево отрезков</a>: на указателях, динамическое, пересистентное</li>
-<li><a href="http://sereja.me/a/treap">Декартово дерево</a>: явное, неявное, персистентое</li>
-<li><a href="http://sereja.me/a/hashing">Полиномиальное хэширование</a> в задачах на строки</li>
-<li><a href="http://sereja.me/a/centroid">Центроидная декомпозиция</a></li>
-<li><a href="http://sereja.me/a/hld">Heavy-light декомпозиция</a></li>
-<li><a href="http://sereja.me/a/matching">Паросочетания</a>: алгоритм Куна, покрытие DAG-а, лемма Холла</li>
-<li><a href="http://sereja.me/a/fenwick">Дерево Фенвика</a>: устройство, многомерное дерево, бинпоиск по дереву</li>
-<li><a href="http://sereja.me/a/matroid">Матроиды</a>: алгоритм Радо-Эдмондса, расписания, паросочетания, линейная независимость</li>
-<li><a href="http://sereja.me/a/pollard">Ро-алгоритм Полларда</a></li>
-<li><a href="http://sereja.me/a/sparse-table">Sparse table</a></li>
-<li><a href="http://sereja.me/a/mincost-maxflow">Поток минимальной стоимости</a>: критерий оптимальности, потенциалы Джонсона, реализация за $O(mU)$</li>
-<li><a href="http://sereja.me/a/bitset">Битовое сжатие</a>: битсет, нахождение цикла длины 3, перемножение матриц, метод Гаусса</li>
-<li><a href="http://sereja.me/a/lca">Наименьший общий предок</a>: свойства tin и tout, двоичные подъемы, сведение к RMQ, алгоритм Фараха-Колтона и Бендера</li>
-<li><a href="http://sereja.me/a/bayans">Классные задачки</a>: пока что без решений</li>
-</ul>
-<p>Не очень готово:</p>
-<ul>
-<li><a href="http://sereja.me/a/strings">Поиск строки в строке</a>: префикс-функция, z-функция</li>
-<li><a href="http://sereja.me/a/suffix-array">Суффиксный массив</a></li>
-<li><a href="http://sereja.me/a/geometry">Геометрия</a>: скалярное и векторное произведение, пересечение прямых, классы в C++</li>
-<li><a href="http://sereja.me/a/dp-optimizations">Оптимизации ДП</a>: Кнут, разделяй-и-властвуй, Convex Hull Trick</li>
-<li><a href="http://sereja.me/a/mst">Остовные деревья</a>: алгоритм Прима и Крускала</li>
-<li><a href="http://sereja.me/a/reciprocal">Обратное по модулю</a></li>
-<li><a href="http://sereja.me/a/annealing">Метод отжига</a></li>
-<li><a href="http://sereja.me/a/stress-test">Стресс-тестирование</a></li>
-<li><a href="http://sereja.me/a/trie">Бор</a></li>
-<li><a href="http://sereja.me/a/aho-corasick">Ахо-Корасик</a></li>
-</ul>
-<p>Вообще не готово:</p>
-<ul>
-<li><a href="http://sereja.me/a/linalg">Линейная алгебра</a>: линейные операторы, матрицы, применения к динамике, метод Гаусса</li>
-<li><a href="http://sereja.me/a/probability">Теорвер</a></li>
-<li>Выпуклые оболочки</li>
-<li>Разделяй-и-властвуй</li>
-<li>Теория информации</li>
-</ul>
-<p>Спасибо Косте Амеличеву, Глебу Лобанову, Ване Клигунову, Диме Дубровину, Маше Тряпицыной, Шелхонову Булату, Саше Мамаеву, Андрею Гаркавому, Тёме Рябову, Андрею Чулкову, Максу Деб Натху и много кому ещё за фидбэк и указания на ошибки и неточности.</p>
+<h1 id="&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1081;-&#1084;&#1072;&#1089;&#1089;&#1080;&#1074;">&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1081; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;<a class="anchor-link" href="#&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1081;-&#1084;&#1072;&#1089;&#1089;&#1080;&#1074;">&#182;</a></h1><p>Суффиксный массив, автомат и дерево обобщённо называют суффиксными структурами данных. Они применяются в множестве различных задач, встречающихся как на олимпиадах, так и на практике.</p>
+<p>Суффиксные структуры часто (но не всегда) взаимозаменяемые, и более того, конвертируются друг в друга за линейное время. Суффиксный массив — самый простой из них, поэтому мы с него и начнём.</p>
+<p><img width='300px' src='https://pp.userapi.com/c850424/v850424161/e50d3/8cE5bDbXRHk.jpg'></p>
+<p><em><center>«<a href='https://vk.com/al_feed.php?w=wall-174312931_1022'>Паблик с тупыми шутками про проганье</a>»</center></em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1052;&#1086;&#1090;&#1080;&#1074;&#1072;&#1094;&#1080;&#1103;">&#1052;&#1086;&#1090;&#1080;&#1074;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1052;&#1086;&#1090;&#1080;&#1074;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p><strong>Суффиксным массивом</strong> строки $s$ называется перестановка индексов начал её суффиксов, которая задаёт их порядок в порядке лексикографической сортировки. Иными словами, чтобы его построить, нужно выполнить сортировку всех суффиксов заданной строки.</p>
+<p><img src='http://alexbowe.s3.amazonaws.com/blog/mississippi-sa-sort.png'></p>
+<p><strong>Как это использовать.</strong> Пусть вы решили основать ООО «Ещё Один Поисковик», и чтобы получить финансирование, вы хотите сделат хоть что-то минимально работающие — просто научиться искать по ключевому слову документы, включающие его, а также позиции их вхождения (в 90-е это был бы уже довольно сильный MVP). Простыми алгоритмами (полиномиальными хэшами, z- и префикс-функцией и даже Ахо-Корасиком) это сделать быстро нельзя, а суффиксными структурами — можно.</p>
+<p>В случае с суффиксным массивом можно сделать следующее: найти бинарным поиском первый суффикс в суффиксном массиве, который меньше искомого слова, а также последний, который меньше. Все суффиксы между этими двумя будут включать искомую строку как префикс.</p>
+<p>Работать такой алгоритм будет за $O(|t| \log |s|)$, и позже это можно будет оптимизировать до $O(|t| + \log |s|)$, что является одним из самых оптимальных алгоритмов поиска.</p>
+<p>Теперь научимся его строить.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077;-&#1079;&#1072;-$O(n-\log^2-n)$">&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077; &#1079;&#1072; $O(n \log^2 n)$<a class="anchor-link" href="#&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077;-&#1079;&#1072;-$O(n-\log^2-n)$">&#182;</a></h2><p>Для удобства мы допишем в конец строки какой-нибудь символ, который лексикографически меньше любого другого, и будем выполнять сортировку не суффиксов, а циклических сдвигов. Строки мы, соответственно, тоже будем рассматривать циклические. Для стандартной ASCII обычно выбирают либо «$» либо «#», либо просто нулевой символ, если это c-string (в языке Си все строки и так заканчиваются нулевым символом). Легко убедиться, что сортировка таких циклических сдвигов эквивалентна сортировке суффиксов — можно просто убрать всё, что идёт после доллара.</p>
+<p>Мы могли бы просто взять перестановку от $0$ до $n$, написать компаратор, который сравнивает соответствующие суффиксы, и скормить это в <code>std::sort</code>, что будет работать за $O(n^2 \log n)$, потому что внутреннее сравнение работает за $O(n)$. Однако, если сравнивать суффиксы <a href="http://sereja.me/a/hashing">хэшами</a>, то уже тут можно получить $O(n \log^2 n)$. Но это не самый быстрый и удобный алгоритм.</p>
+<p>Наш алгоритм будет состоять из $\lceil \log n \rceil$ этапов. На $k$-том этапе мы будем рассматривать циклические подстроки длины $2^k$. На последнем этапе мы отсортируем строки длины $\geq n$ (это легально — они ведь циклические), и мы получим нужный суффиксный массив.</p>
+<p>Заметим, что, в отличие сортировки суффиксов, сортировка подстрок не всегда однозначная — они могут быть одинаковыми. Поэтому на каждой фазе алгоритм помимо перестановки $p$ индексов циклических подстрок мы будем поддерживать для каждой циклической подстроки, начинающейся в позиции $i$ с длиной 2^k, номер $c_i$ класса эквивалентности, которому эта подстрока принадлежит (давать их будем таким образом, чтобы они сохраняли порядок: меньшим подстрокам соответствуют меньшие $c_i$). Количество классов эквивалентности будем хранить в переменной <code>cls</code> (изначально она равна количеству различных символов).</p>
+<p>Пример: $s = aaba$. Этапов будет 3: для подстрок длины 1, 2 и 4.</p>
+$$
+   p_0 = (0, 1, 3, 2) \;\;\; c_0 = (0, 0, 1, 0)
+\\ p_1 = (0, 3, 1, 2) \;\;\; c_1 = (0, 1, 2, 0)
+\\ p_2 = (3, 0, 1, 2) \;\;\; c_2 = (1, 2, 3, 0)
+$$<p>Как настоящие программисты, мы нумеруем этапы с нуля, поэтому на нулевом этапе мы отсортируем строки длины $2^0 = 1$, то есть просто символы. Это мы сделаем сортировкой подсчётом.</p>
+<p>Следующие этапы нужно проводить, используя информацию с предыдущих. Можем снова создать перестановку и применить к ней <code>std::sort</code> со своим компаратором.</p>
+<p>Как быстро сравнить две подстроки? Мы можем использовать $c_i$ — каждой строке длины $2^k$ сопоставить биграмму (строку из двух символов), а именно строка $s[i..i+2^k-1]$ с точки зрения сортировки будет эквивалентна паре $(c_i, c_{i+2^{k-1}})$. Соответственно, можно просто написать компаратор, который смотрит только на эти пары, и работает за $O(1)$. Однако, это всё ещё будет работать за $O(n \log^2 n)$, потому что каждый этап будет работать за $O(n \log n$).</p>
+<p><strong>Оптимизация до $O(n \log n)$</strong>. Сортировка слиянием оптимальна только тогда, когда мы ничего не знаем про сортиремые значения — в нашем случае это не так. Воспользуемся <strong>цифровой сортировкой</strong> — сначала отсортируем биграммы по второму символу, а потом по первому. Все вторые элементы уже упорядочены (массив $p$ с предыдущего этапа). Теперь, чтобы упорядочить их по первому, нам надо просто от каждого элемента в $p$ отнять $2^{k-1}$. Таким образом, можно проводить этап за $O(n)$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="c1">// строка -- это последовательность чисел от 1 до размера алфавита</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">suffix_array</span> <span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">s</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">// добавляем нулевой символ в конец строки</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1">// вспомогательная переменная: счётчик для сортировки </span>
+        <span class="n">cls</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// количество классов эквивалентности</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">c</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">p</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    
+    <span class="n">map</span><span class="o">&lt;</span> <span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">t</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">t</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    
+    <span class="c1">// «нулевой» этап</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">x</span> <span class="p">:</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">second</span><span class="p">)</span>
+            <span class="n">c</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">cls</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="n">cnt</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">;</span>
+        <span class="n">cls</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// пока все суффиксы не стали уникальными</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">cls</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">l</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">(</span><span class="n">cls</span><span class="p">);</span>  <span class="c1">// массив для сортировки подсчётом</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">_c</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>  <span class="c1">// новые классы эквивалентности</span>
+        <span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">_cls</span> <span class="o">=</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// новое количество классов</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">d</span><span class="o">+</span><span class="n">n</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">;</span>
+            <span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">cls</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// если суффикс начинает новый класс эквивалентности</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">c</span><span class="p">[(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">d</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">]</span> <span class="o">!=</span> <span class="n">c</span><span class="p">[(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">d</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">])</span>
+                    <span class="n">_cls</span><span class="o">++</span><span class="p">;</span>
+                <span class="n">_c</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">_cls</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+                <span class="n">p</span><span class="p">[</span><span class="n">cnt</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="n">c</span> <span class="o">=</span> <span class="n">_c</span><span class="p">;</span>
+        <span class="n">cls</span> <span class="o">=</span> <span class="n">_cls</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1053;&#1072;&#1080;&#1073;&#1086;&#1083;&#1100;&#1096;&#1080;&#1077;-&#1086;&#1073;&#1097;&#1080;&#1077;-&#1087;&#1088;&#1077;&#1092;&#1080;&#1082;&#1089;&#1099;">&#1053;&#1072;&#1080;&#1073;&#1086;&#1083;&#1100;&#1096;&#1080;&#1077; &#1086;&#1073;&#1097;&#1080;&#1077; &#1087;&#1088;&#1077;&#1092;&#1080;&#1082;&#1089;&#1099;<a class="anchor-link" href="#&#1053;&#1072;&#1080;&#1073;&#1086;&#1083;&#1100;&#1096;&#1080;&#1077;-&#1086;&#1073;&#1097;&#1080;&#1077;-&#1087;&#1088;&#1077;&#1092;&#1080;&#1082;&#1089;&#1099;">&#182;</a></h2><p>Для многих применений очень часто требуется искать длину общих префиксов строк. Например, просто чтобы сравнить две подстроки, мы можем найти их общий префикс и посмотреть на следующий символ — так же, как мы <a href="http://sereja.me/a/hashing">делали</a> с хэшами.</p>
 
 </div>
 </div>
