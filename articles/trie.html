@@ -13216,122 +13216,14 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077; &#1089;&#1089;&#1099;&#1083;&#1082;&#1080;<a class="anchor-link" href="#&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#182;</a></h2><p>TODO Когда-нибудь тут появится более подробное описание, а пока почитайте <a href="http://e-maxx.ru/algo/aho_corasick">какую-нибудь другую статью</a>.</p>
-<p>Суффиксная ссылка для вершины $v$ — это вершина, в которой оканчивается наидлиннейший собственный суффикс строки, соответствующей вершине $v$ (исключение: для корня бора суффиксная ссылка ведет в себя же).</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1047;&#1072;&#1095;&#1077;&#1084;-&#1101;&#1090;&#1086;-&#1085;&#1091;&#1078;&#1085;&#1086;">&#1047;&#1072;&#1095;&#1077;&#1084; &#1101;&#1090;&#1086; &#1085;&#1091;&#1078;&#1085;&#1086;<a class="anchor-link" href="#&#1047;&#1072;&#1095;&#1077;&#1084;-&#1101;&#1090;&#1086;-&#1085;&#1091;&#1078;&#1085;&#1086;">&#182;</a></h2><blockquote><p>Пусть заданы $n$ <em>плохих</em> слов и большой текст $t$. Нужно найти суммарное количество их вхождений в этот текст.</p>
+<h2 id="&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077; &#1089;&#1089;&#1099;&#1083;&#1082;&#1080;<a class="anchor-link" href="#&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#182;</a></h2><blockquote><p>Пусть заданы $n$ <em>плохих</em> слов и большой текст $t$. Нужно найти суммарное количество их вхождений в этот текст.</p>
 </blockquote>
-<p>Добавим все плохие слова в бор, и будем считывать строку и с помощью суффиксных ссылок поддерживать самый длинный суффикс текущей строки, который принимает бор.</p>
-<p>Тогда, для конкретной позиции, мы можем быстро посчитать, какие плохие слова на нём заканчиваются — ровно те, по которым можно дойти по суффиксным ссылкам. Информацию о количестве таких слов можно посчитать заранее динамикой в графе из суффиксных ссылок.</p>
+<p>Эту и много других задач помогают решать <em>суффиксные ссылки</em>. Суффиксная ссылка для вершины $v$ — это вершина, которой соответствует наидлиннейший суффикс строки, соответствующей вершине $v$, и присутствующий в боре. Будем считать, что мы их умеем быстро находить.</p>
+<p>Добавим все плохие слова в бор. Будем считывать строку и с помощью суффиксных ссылок поддерживать самый длинный суффикс текущей строки, который принимает бор. Тогда, для конкретной позиции, мы можем быстро посчитать, какие плохие слова на нём заканчиваются — ровно те, до которых можно дойти по суффиксным ссылкам (по определению, суффиксная ссылка ведёт в наидлиннейший суффикс, присутствующий в боре). Информацию о количестве таких слов можно посчитать заранее динамикой в графе из суффиксных ссылок.</p>
+<p>Алгоритм Ахо-Корасик позволяет строить суффиксные ссылки для произвольного бора за $O(nk)$, где $n$ и $k$ это суммарный размер строк и размер алфавита соответственно. Его описание вынесенов в <a href="http://sereja.me/a/aho-corasick">отдельную статью</a>.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Помимо суффиксных ссылок, нужно найти ещё <em>переходы</em>, чтобы поддерживать самый длинный суффикс.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;*">&#182;</a></h2><p>Заметим, что всего суффиксных ссылок нужно найти $O(n)$, а переходов — $O(nk)$. Суффиксные ссылки и переходы можно быстро найти динамикой.</p>
-<p><strong>Ссылки</strong>. Мы можем сделать так: пройти на символ назад, а оттуда пройти по суффиксной ссылке, и уже оттуда вызвать переход.</p>
-<p><strong>Переходы</strong>. Вот к нашей строке прибавился символ — нужно найти самую длинную строку. Для этого можно откатываться по суффиксным ссылкам, пока не придем в вершину, из которой данный переход есть. Рано или поздно мы либо попадем в такую вершину, либо попадем в корень. Но можно поступить лениво, и просто откатиться на <em>одну</em> суффиксную ссылку и взять уже посчитанный переход оттуда.</p>
-<p><img src='https://www.parazitakusok.ru/images/item/5728/item_1109_1510080296_558.jpg' width='250px'></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
-
-<span class="k">struct</span> <span class="n">Vertex</span> <span class="p">{</span>
-    <span class="n">Vertex</span> <span class="o">*</span><span class="n">to</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="o">*</span><span class="n">go</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-    <span class="n">Vertex</span> <span class="o">*</span><span class="n">link</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">pch</span><span class="p">;</span>
-    <span class="n">Vertex</span> <span class="p">(</span><span class="kt">int</span> <span class="n">_pch</span><span class="p">,</span> <span class="n">Vertex</span> <span class="o">*</span><span class="n">_p</span><span class="p">)</span> <span class="p">{</span> <span class="n">pch</span> <span class="o">=</span> <span class="n">_pch</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">_p</span><span class="p">;</span> <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="n">Vertex</span> <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vertex</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="kt">void</span> <span class="nf">add_string</span> <span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">char</span> <span class="nl">_c</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">c</span> <span class="o">-=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
-            <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vertex</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Нам нужно объявить две функции, которые будут ссылаться друг на друга. В интерпретируемых языках (например, в питоне) можно просто объявить две функции, а вот C++ так не умеет — нужно сначала все объявить, а потом ссылаться.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="n">Vertex</span><span class="o">*</span> <span class="nf">go</span> <span class="p">(</span><span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">);</span>
-
-<span class="n">Vertex</span><span class="o">*</span> <span class="nf">link</span> <span class="p">(</span><span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="n">root</span> <span class="o">||</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">p</span> <span class="o">==</span> <span class="n">root</span><span class="p">)</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-        <span class="k">else</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span> <span class="o">=</span> <span class="n">go</span><span class="p">(</span><span class="n">link</span><span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">p</span><span class="p">),</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">pch</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">link</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">Vertex</span><span class="o">*</span> <span class="nf">go</span> <span class="p">(</span><span class="n">Vertex</span> <span class="o">*</span><span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
-        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="n">root</span><span class="p">)</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-        <span class="k">else</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">go</span><span class="p">(</span><span class="n">link</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">c</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">go</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
-<span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
     </div>
   </div>

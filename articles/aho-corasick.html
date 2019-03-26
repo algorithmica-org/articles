@@ -13116,108 +13116,14 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1041;&#1086;&#1088;">&#1041;&#1086;&#1088;<a class="anchor-link" href="#&#1041;&#1086;&#1088;">&#182;</a></h1><p>Бор — это структура данных для компактного хранения строк.</p>
-<p>Он устроен в виде дерева, где на ребрах между вершинами написана символы, а некоторые вершины помечены терминальными. Бор хранит ровно те строки, которые получаются, если выписать подряд все буквы на путях от корня до терминальных вершин.</p>
-<p><img src="https://koenig-media.raywenderlich.com/uploads/2016/10/SwiftAlgClub_TrieData-trie-1.png" alt="trie"></p>
-<p>Бор можно удобно использовать для разных задач:</p>
-<ul>
-<li>Хранение строк — занимает гораздо меньше места, чем массив или сет строк.</li>
-<li><p>Сортировка строк — по бору можно пройтись dfs-ом и вывести все строки в лексикографическом порядке.</p>
-</li>
-<li><p>Сет строк — как мы увидим, в нем легко добавлять и удалять слова, а также проверять, если ли слово в бореи.</p>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<a class="anchor-link" href="#&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;">&#182;</a></h2><p>Бор состоит из ссылающихся друг на друга вершин. В вершине обычно хранится такая информация:</p>
-<ul>
-<li>терминальная ли вершина,</li>
-<li>ссылки на детей,</li>
-<li>возможно, какая-нибудь дополнительная зависящая от задачи информация о слове, если вершина терминальная. Например, количество таких слов — так можно реализовать мультисет.</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
-
-<span class="k">struct</span> <span class="n">Vertex</span> <span class="p">{</span>
-    <span class="n">Vertex</span><span class="o">*</span> <span class="n">to</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-    <span class="kt">bool</span> <span class="n">terminal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="n">Vertex</span> <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vertex</span><span class="p">();</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Чтобы добавить слово в бор, нужно пройти от корня по символам слова. Если перехода по для очередного символа нет — создать его, иначе пройти по уже существующему. Последнюю вершину нужно пометить терминальной.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="kt">void</span> <span class="nf">add_string</span> <span class="p">(</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">char</span> <span class="nl">c</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">c</span> <span class="o">-=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> 
-            <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vertex</span><span class="p">();</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">to</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="n">v</span><span class="o">-&gt;</span><span class="n">terminal</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Чтобы проверить, есть ли слово в боре, нужно пройти от корня по символам слова. Если в конце оказались в терминальной вершине — то есть. Если оказались в нетерминальной или когда-нибудь потребовалось пройтись по несуществущей ссылке — то есть.</p>
-<p>Удалить слово можно лениво, просто дойдя до него и убрав флаг терминальности.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1050;&#1072;&#1082;-&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#1050;&#1072;&#1082; &#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1089;&#1089;&#1099;&#1083;&#1082;&#1080;<a class="anchor-link" href="#&#1050;&#1072;&#1082;-&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#182;</a></h3><p>Хранить ссылки на детей не обязательно в массиве. Возможно, наш алфавит большой — у нас тогда просто не хватит памяти инициализировать столько массивов, большинство из которых будут пустыми.</p>
-<p>В этом случае можно придумать какой-нибудь другой способ хранить отображение из символа в ссылку на вершину, например бинарном дереве (<code>map</code>) или хэш-таблице (<code>unordered_map</code>). Они будут работать дольше (но лишь в константу раз), но зато потребление памяти в них будет линейным. У <code>map</code>-а есть ещё одно преимущество, что он хранит ссылки уже отсортированными по символам — так можно отсортировать строки, например.</p>
-<p>Учитывайте, что писать бор можно по-разному, особенно когда решаете задачи с жестокими ограничениями.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077; &#1089;&#1089;&#1099;&#1083;&#1082;&#1080;<a class="anchor-link" href="#&#1057;&#1091;&#1092;&#1092;&#1080;&#1082;&#1089;&#1085;&#1099;&#1077;-&#1089;&#1089;&#1099;&#1083;&#1082;&#1080;">&#182;</a></h2><p>TODO Когда-нибудь тут появится более подробное описание, а пока почитайте <a href="http://e-maxx.ru/algo/aho_corasick">какую-нибудь другую статью</a>.</p>
-<p>Суффиксная ссылка для вершины $v$ — это вершина, в которой оканчивается наидлиннейший собственный суффикс строки, соответствующей вершине $v$ (исключение: для корня бора суффиксная ссылка ведет в себя же).</p>
+<h1 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1040;&#1093;&#1086;-&#1050;&#1086;&#1088;&#1072;&#1089;&#1080;&#1082;">&#182;</a></h1><p>Пусть дан набор строк в алфавите размера $k$ суммарной длины $n$. Алгоритм Ахо-Корасик за $O(nk)$ времени и памяти строит <a href="http://sereja.me/a/trie">бор</a> для этого набора строк, а затем по этому бору строит автомат, который может использоваться в различных строковых задачах — например, нахождения всех вхождений каждой строки из данного набора в произвольный текст за линейное время.</p>
+<p>Алгоритм был назван по имени создателей — Альфред Ахо и Маргарет Корасик.</p>
+<p><img width='100%' src='https://www.fishingsib.ru/files/image/1articles/2017/10/10/4.jpg'></p>
+<blockquote><p>Пусть заданы $n$ <em>плохих</em> слов и большой текст $t$. Нужно найти суммарное количество их вхождений в этот текст.</p>
+</blockquote>
+<p>Эту и много других задач помогают решать <em>суффиксные ссылки</em>. Суффиксная ссылка для вершины $v$ — это вершина, которой соответствует наидлиннейший суффикс строки, соответствующей вершине $v$, и присутствующий в боре. Будем считать, что мы их умеем быстро находить.</p>
+<p>Добавим все плохие слова в бор. Будем считывать строку и с помощью суффиксных ссылок поддерживать самый длинный суффикс текущей строки, который принимает бор. Тогда, для конкретной позиции, мы можем быстро посчитать, какие плохие слова на нём заканчиваются — ровно те, до которых можно дойти по суффиксным ссылкам (по определению, суффиксная ссылка ведёт в наидлиннейший суффикс, присутствующий в боре). Информацию о количестве таких слов можно посчитать заранее динамикой в графе из суффиксных ссылок.</p>
+<p>Алгоритм Ахо-Корасик позволяет строить суффиксные ссылки для произвольного бора за $O(nk)$, где $n$ и $k$ это суммарный размер строк и размер алфавита соответственно. Его описание вынесенов в <a href="http://sereja.me/a/aho-corasick">отдельную статью</a>.</p>
 
 </div>
 </div>
