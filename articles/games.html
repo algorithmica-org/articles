@@ -13130,9 +13130,83 @@ $$ f_k = \lnot f_{k-1} \lor \lnot f_{k-2} \lor \lnot f_{k-3} = \lnot (f_{k-1} \l
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Любую игру можно описать в виде графа (возможно, бесконечного) <em>состояний игры</em>, между которыми есть переходы. Игроки поочередно выбирают, по какому переходу пройти. Некоторые состояния в этом графе помечены как <em>терминальные</em></p>
+<h2 id="&#1048;&#1075;&#1088;&#1099;-&#1085;&#1072;-&#1075;&#1088;&#1072;&#1092;&#1072;&#1093;">&#1048;&#1075;&#1088;&#1099; &#1085;&#1072; &#1075;&#1088;&#1072;&#1092;&#1072;&#1093;<a class="anchor-link" href="#&#1048;&#1075;&#1088;&#1099;-&#1085;&#1072;-&#1075;&#1088;&#1072;&#1092;&#1072;&#1093;">&#182;</a></h2><p>Любую игру можно описать в виде графа (возможно, бесконечного) <em>состояний игры</em>, между которыми есть переходы. Игроки поочередно выбирают, по какому переходу пройти. Некоторые состояния в этом графе помечены как <em>терминальные</em></p>
 <p>Состояние называется <em>выигрышным</em>, если игрок, начинающий в нём, побеждает, и <em>проигрышным</em> в противном случае. В графе могут быть циклы, и иногда обоим игрокам выгодно по ним ходить. Например, в шахматах бывают ситуации, когда выгодно повторение ходов (сама игра при этом всё равно не может длиться бесконечно, потому что троекратное повторение позиции приводит к ничье — подобные правила есть в большинстве стратегических игр). Вершины, принадлежащие к таким «выгодным» циклам, назовём ничейными.</p>
-<p>Подобные игры — где чтобы сделать одному игроку лучше, другому нужно сделать на столько же хуже — называют <em>играми с нулевой суммой</em> (почему такое название — ниже прочитаете). Они почти всегда решаются определенным видом динамики на графе, который называется <em>ретроанализом</em>.</p>
+<p>Подобные игры — где чтобы сделать одному игроку лучше, нужно сделать другому на столько же хуже — называют <em>играми с нулевой суммой</em> (почему такое название и что такое игры с ненулевой суммой — ниже прочитаете). Они почти всегда решаются определенным видом динамики на графе, который называется <em>ретроанализом</em>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1056;&#1077;&#1090;&#1088;&#1086;&#1072;&#1085;&#1072;&#1083;&#1080;&#1079;">&#1056;&#1077;&#1090;&#1088;&#1086;&#1072;&#1085;&#1072;&#1083;&#1080;&#1079;<a class="anchor-link" href="#&#1056;&#1077;&#1090;&#1088;&#1086;&#1072;&#1085;&#1072;&#1083;&#1080;&#1079;">&#182;</a></h2><p>Обобщим пример со спичками и сформулируем несколько условий выгрышности:</p>
+<ul>
+<li>Все переходы из состояния ведут в проигрышные вершины.</li>
+</ul>
+<p>Критерий проигрышности:</p>
+<ul>
+<li>Все переходы ведут в выгрышные состояния</li>
+</ul>
+<p>Мы уже имеем играть в ациклические игры — раз циклов нет, значит точно нет и ничейных вершин, и можно просто пойти с конца: пройтись bfs-ом по графу,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// списки смежности прямого и обратного графа</span>
+<span class="kt">int</span> <span class="n">win</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span> <span class="c1">// выгрышность вершины;</span>
+<span class="c1">// по умолчанию все кроме терминальных считаются проигрышными, пока не найдётся переход в другую проигрышную</span>
+
+<span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="p">{</span><span class="cm">/* нужно заранее добавить сюда все терминальные вершины*/</span><span class="p">};</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+    <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        <span class="c1">// если вершина проигрышная, что все её родители выигрышные</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">win</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+            <span class="n">win</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="c1">// если же вершина выигрышная, то никто в неё всё равно не захочет ходить</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Как обычно это бывает с динамиками, иногда проще написать рекурсивный подсчёт динамики, а не итеративный. Именно такую реализацию мы будем считать каноничной, потому что она в дальнейшем позволит делать отсечения:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Но что делать, когда есть циклы?</p>
+<p>Критерий ничейности</p>
+<p>Как по произвольному (конечному) графу определить, какие из его вершин являются выигрышными, проигрышными или ничейными?</p>
 
 </div>
 </div>
@@ -13197,14 +13271,14 @@ $$ f_k = \lnot f_{k-1} \lor \lnot f_{k-2} \lor \lnot f_{k-3} = \lnot (f_{k-1} \l
 <div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">win</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="n">win</span> <span class="o">=</span> <span class="p">[</span><span class="n">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>
 <span class="n">win</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">win</span><span class="p">)):</span>
-    <span class="n">win</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># состояние по умолчанию проигрышное</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">-</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">win</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">win</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># но если есть переход в проигрышное, то оно выигрышное</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">len</span><span class="p">(</span><span class="n">win</span><span class="p">))</span><span class="o">:</span>
+    <span class="n">win</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="err">#</span> <span class="err">состояние</span> <span class="err">по</span> <span class="err">умолчанию</span> <span class="err">проигрышное</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="n">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">-</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="n">and</span> <span class="n">win</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="o">:</span>
+            <span class="n">win</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="err">#</span> <span class="err">но</span> <span class="err">если</span> <span class="err">есть</span> <span class="err">переход</span> <span class="err">в</span> <span class="err">проигрышное</span><span class="p">,</span> <span class="err">то</span> <span class="err">оно</span> <span class="err">выигрышное</span>
+<span class="n">print</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
 </pre></div>
 
     </div>
