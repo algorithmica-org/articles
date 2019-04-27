@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>linalg</title>
+<title>convex-hulls</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13116,36 +13116,15 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103;-&#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;-&#1074;-&#1086;&#1083;&#1080;&#1084;&#1087;&#1080;&#1072;&#1076;&#1085;&#1086;&#1084;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080;">&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103; &#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072; &#1074; &#1086;&#1083;&#1080;&#1084;&#1087;&#1080;&#1072;&#1076;&#1085;&#1086;&#1084; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080;<a class="anchor-link" href="#&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103;-&#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;-&#1074;-&#1086;&#1083;&#1080;&#1084;&#1087;&#1080;&#1072;&#1076;&#1085;&#1086;&#1084;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080;">&#182;</a></h1>
+<h1 id="&#1047;&#1072;&#1076;&#1072;&#1095;&#1080;-&#1085;&#1072;-&#1084;&#1085;&#1086;&#1075;&#1086;&#1091;&#1075;&#1086;&#1083;&#1100;&#1085;&#1080;&#1082;&#1080;">&#1047;&#1072;&#1076;&#1072;&#1095;&#1080; &#1085;&#1072; &#1084;&#1085;&#1086;&#1075;&#1086;&#1091;&#1075;&#1086;&#1083;&#1100;&#1085;&#1080;&#1082;&#1080;<a class="anchor-link" href="#&#1047;&#1072;&#1076;&#1072;&#1095;&#1080;-&#1085;&#1072;-&#1084;&#1085;&#1086;&#1075;&#1086;&#1091;&#1075;&#1086;&#1083;&#1100;&#1085;&#1080;&#1082;&#1080;">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Определение</strong>. Функция $f: \mathbb{R}^n \to \mathbb{R}^m$ называется <em>линейной</em>, если для неё выполнено</p>
-<ol>
-<li>$ f(x+y) = f(x) + f(y) $</li>
-<li>$ f(ax) = a f(x), \; a \in R $</li>
-</ol>
-<p>Примеры:</p>
-<ul>
-<li>$ f(x) = 0 $</li>
-<li>$ f(x) = x $</li>
-<li>$ f(x) = 2 x_1 - 2 x_2 - 8 x_3 $ (из $\mathbb{R}^3$ в $\mathbb{R}$)</li>
-<li>$ f(x) = (x, -x, 0) $ (из $\mathbb{R}$ в $\mathbb{R}^3$)</li>
-</ul>
-<p>Линейная алгебра занимается изучением линейных функций. Некоторые полезные свойства:</p>
-<ul>
-<li>Сумма линейных функций — линейная функция.</li>
-<li>Сумма коммутативна: $f+g = g+f$)</li>
-<li>Сумма ассоциативна: $(f+g)+h = f+(g+h)$</li>
-<li>Композиция $f(g(x)) = (f \circ g)(x)$ линейных функций — линейная функция.</li>
-<li>Композция ассоциативна: $(f \circ g) \circ h = f \circ (g \circ h) = f \circ g \circ h$.</li>
-<li>Композиция в общем случае не коммутативна.<br>
-Пример: $f = (-x_2, x_1)$ — поворот точки на плоскости на прямой угол, $g = (x_1, 0)$ — проекция на $Ox$. Почти для всех точек порядок этих операций важен.</li>
-</ul>
-<p>Все свойства можно вывести лишь из этих двух пунктов в определении.</p>
+<p>Очень часто геометрические задачи на контестах - это задачи на многоугольники. Некоторые из таких задач мы уже обсудили на предыдущих занятиях. Так мы уже обсудили задачу проверки многоугольника на выпуклость и научились находить площадь многоугольника. Напомним, что такое полярный угол.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/1/13/Polar_graph_paper.svg" alt="alt text"></p>
 
 </div>
 </div>
@@ -13153,30 +13132,16 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1063;&#1090;&#1086;-&#1090;&#1072;&#1082;&#1086;&#1077;-&#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072;?">&#1063;&#1090;&#1086; &#1090;&#1072;&#1082;&#1086;&#1077; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072;?<a class="anchor-link" href="#&#1063;&#1090;&#1086;-&#1090;&#1072;&#1082;&#1086;&#1077;-&#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072;?">&#182;</a></h2><p>Можно показать, что любую линейную функцию $f: \mathbb{R}^n \to \mathbb{R}^m$ можно представить в таком виде:</p>
-$$
-f(x) =
-\begin{pmatrix}
-a_{11} x_1 + a_{12} x_2 + \ldots + a_{1n} x_n \\
-a_{21} x_1 + a_{22} x_2 + \ldots + a_{2n} x_n \\
-\ldots \\
-a_{m1} x_1 + a_{m2} x_2 + \ldots + a_{mn} x_n \\
-\end{pmatrix}
-$$<p><em>Матрицы</em> ввели просто как очень компактную запись этих коэффициентов $a_{ij}$.</p>
-$$
-A =
-\begin{pmatrix}
-a_{11} &amp; a_{12} &amp; \ldots &amp; a_{1n} \\
-a_{21} &amp; a_{22} &amp; \ldots &amp; a_{2n} \\
-\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-a_{m1} &amp; a_{m2} &amp; \ldots &amp; a_{mn} \\
-\end{pmatrix}
-$$<p>Каждой линейной функции из $\mathbb{R}^n$ в $\mathbb{R}^m$ соответствует какая-то матрица размера $m \times n$ (первое строки, второе столбцы), и наоборот.</p>
-<p>Элемент на пересечении $i$-го строки и $j$-го столбца будем обозначать $A_{ij}$. Не перепутайте.</p>
-<p>Пусть функции $f$ соответствует матрица $A$, а функции $g$ — $B$. Тогда композиции $h = f \circ g$ будет соответствовать <em>произведение</em> $C$ матриц $A$ и $B$, определяемое так:</p>
-$$ C = AB: C_{ij} = \sum_{i=1}^{k} A_{ik} B_{kj} $$<p>Эту формулу может быть весьма сложно понять. TODO: мнемоника.</p>
-<p>Исходное выражение для $f(x)$ теперь можно компактно записать как $f(x) = Ax$ вместо $m$ уравнений с $n$ слагаемыми в каждом.</p>
-<p>К матрицам <strong>не</strong> нужно относиться как к табличкам, в которых стоят какие-то числа. Каждой матрице соответствует какая-то линейная функция, как-то преобразующая вектора. Центральными объектами линала являются именно линейные функции, а не они.</p>
+<h1 id="&#1042;&#1099;&#1087;&#1091;&#1082;&#1083;&#1099;&#1077;-&#1086;&#1073;&#1086;&#1083;&#1086;&#1095;&#1082;&#1080;">&#1042;&#1099;&#1087;&#1091;&#1082;&#1083;&#1099;&#1077; &#1086;&#1073;&#1086;&#1083;&#1086;&#1095;&#1082;&#1080;<a class="anchor-link" href="#&#1042;&#1099;&#1087;&#1091;&#1082;&#1083;&#1099;&#1077;-&#1086;&#1073;&#1086;&#1083;&#1086;&#1095;&#1082;&#1080;">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Выпуклое множество</strong> - такое множество точек, что все точки отрезка, образуемого любыми двумя точками данного множества, также принадлежат данному множеству</p>
+<p><strong>Выпуклая оболочка фигуры</strong> - такое выпуклое множество точек, что все точки фигуры также лежат в нем.</p>
+<p><strong>Минимальная выпуклая оболочка фигуры</strong> - это минимальная по площади выпуклая оболочка.</p>
 
 </div>
 </div>
@@ -13184,14 +13149,9 @@ $$ C = AB: C_{ij} = \sum_{i=1}^{k} A_{ik} B_{kj} $$<p>Эту формулу мо
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Из-за такого взаимно однозначного соотношения все свойства линейных функций переносятся и на матрицы:</p>
-<ul>
-<li>Сумма матриц $A$ и $B$ — матрица $C = A+B: C_{ij} = A_{ij} + B_{ij}$.</li>
-<li>Сумма коммутативна: $A+B = B+A$)</li>
-<li>Сумма ассоциативна: $(A+B)+C = A+(B+C)$</li>
-<li>Умножение ассоциативно: $(AB)C = A(BC) = ABC$.</li>
-<li>Умножение в общем случае не коммутативно.</li>
-</ul>
+<p><img src="http://informatics.letovo.ru/geom/Volgin_Asatrian/images/vup.png" alt="alt text"></p>
+<p><img src="http://grafika.me/files/les_screens/convex_1.png" alt="alt text"></p>
+<p><img src="https://2.bp.blogspot.com/-JngZWPM7wig/WlRz58cIMHI/AAAAAAAADGA/Pyhfngs_GKQMkb9B2_kqZJRQ5ZLEzrVMQCK4BGAYYCw/s1600/convexhullex.jpg" alt="alt text"></p>
 
 </div>
 </div>
@@ -13199,76 +13159,157 @@ $$ C = AB: C_{ij} = \sum_{i=1}^{k} A_{ik} B_{kj} $$<p>Эту формулу мо
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Пример</strong>: матрица поворота в 2d.</p>
-$$
-\begin{pmatrix}
-\cos \alpha &amp; -\sin \alpha \\
-\sin \alpha &amp; \cos \alpha \\
-\end{pmatrix}
-$$
+<p>Дано множество точек, требуется построить его минимальную выпуклую оболочку :</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Пример</strong>: матрица проецирования на $Ox$ в 3d.</p>
-$$
-\begin{pmatrix}
-1 &amp; 0 &amp; 0 \\
-0 &amp; 0 &amp; 0 \\
-0 &amp; 0 &amp; 0 \\
-\end{pmatrix}
-$$
+<h2 id="&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077;-&#1079;&#1072;-$O(nh)$">&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077; &#1079;&#1072; $O(nh)$<a class="anchor-link" href="#&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077;-&#1079;&#1072;-$O(nh)$">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Пример</strong>: матрица «свапни $x$ и $y$».</p>
-$$
-\begin{pmatrix}
-0 &amp; 1 \\
-1 &amp; 0 \\
-\end{pmatrix}
-$$
+<h3 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1044;&#1078;&#1072;&#1088;&#1074;&#1080;&#1089;&#1072;(&#1084;&#1077;&#1090;&#1086;&#1076;-&#1079;&#1072;&#1074;&#1086;&#1088;&#1072;&#1095;&#1080;&#1074;&#1072;&#1085;&#1080;&#1103;-&#1087;&#1086;&#1076;&#1072;&#1088;&#1082;&#1072;)">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1044;&#1078;&#1072;&#1088;&#1074;&#1080;&#1089;&#1072;(&#1084;&#1077;&#1090;&#1086;&#1076; &#1079;&#1072;&#1074;&#1086;&#1088;&#1072;&#1095;&#1080;&#1074;&#1072;&#1085;&#1080;&#1103; &#1087;&#1086;&#1076;&#1072;&#1088;&#1082;&#1072;)<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1044;&#1078;&#1072;&#1088;&#1074;&#1080;&#1089;&#1072;(&#1084;&#1077;&#1090;&#1086;&#1076;-&#1079;&#1072;&#1074;&#1086;&#1088;&#1072;&#1095;&#1080;&#1074;&#1072;&#1085;&#1080;&#1103;-&#1087;&#1086;&#1076;&#1072;&#1088;&#1082;&#1072;)">&#182;</a></h3><p>Давайте выберем какую-то точку, которая гарантированно попадет в минимальную выпуклую оболочкуо, например обычно берут нижнюю и если таких несколько, то самую левую из них. Теперь давайте по одной набирать точки, как бы заворачивая нашу выпуклую оболочку(отсюда и название). Как же нам найти следующую точку в выпуклую оболочку, давайте пройдемся по точкам, которые мы еще не взяли в МВО и среди них выберем с минимальным полярным углом.</p>
+<p><img src="http://neerc.ifmo.ru/wiki/images/b/b3/Graham1.png" alt="alt text"></p>
+<p>Корректность алгоритма легко доказывается по индукции, так как на первом шагу мы выбрали точку, точно лежащую в МВО, а на i, взяли такую точку, что все остальные лежат в нужной нам стороне.</p>
+<p>Асимптотика  : для каждой точки выпуклой оболочки мы из всех оставшихся точек будем искать оптимальную - что будет работать за h(размер выпуклой оболочки) * n</p>
+<h3 id="&#1042;&#1072;&#1078;&#1085;&#1086;-&#1087;&#1086;&#1084;&#1085;&#1080;&#1090;&#1100;,-&#1095;&#1090;&#1086;-&#1080;&#1084;&#1077;&#1085;&#1085;&#1086;-$O(hn)$,-&#1072;-&#1085;&#1077;-$O(n^2)$,-&#1090;&#1072;&#1082;-&#1082;&#1072;&#1082;-&#1089;&#1091;&#1097;&#1077;&#1089;&#1090;&#1074;&#1091;&#1102;&#1090;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;-&#1085;&#1072;-&#1101;&#1090;&#1086;">&#1042;&#1072;&#1078;&#1085;&#1086; &#1087;&#1086;&#1084;&#1085;&#1080;&#1090;&#1100;, &#1095;&#1090;&#1086; &#1080;&#1084;&#1077;&#1085;&#1085;&#1086; $O(hn)$, &#1072; &#1085;&#1077; $O(n^2)$, &#1090;&#1072;&#1082; &#1082;&#1072;&#1082; &#1089;&#1091;&#1097;&#1077;&#1089;&#1090;&#1074;&#1091;&#1102;&#1090; &#1079;&#1072;&#1076;&#1072;&#1095;&#1080; &#1085;&#1072; &#1101;&#1090;&#1086;<a class="anchor-link" href="#&#1042;&#1072;&#1078;&#1085;&#1086;-&#1087;&#1086;&#1084;&#1085;&#1080;&#1090;&#1100;,-&#1095;&#1090;&#1086;-&#1080;&#1084;&#1077;&#1085;&#1085;&#1086;-$O(hn)$,-&#1072;-&#1085;&#1077;-$O(n^2)$,-&#1090;&#1072;&#1082;-&#1082;&#1072;&#1082;-&#1089;&#1091;&#1097;&#1077;&#1089;&#1090;&#1074;&#1091;&#1102;&#1090;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;-&#1085;&#1072;-&#1101;&#1090;&#1086;">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span> <span class="n">base</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">mas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">mas</span><span class="p">[</span><span class="n">base</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">mas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">mas</span><span class="p">[</span><span class="n">base</span><span class="p">]</span><span class="o">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">mas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">mas</span><span class="p">[</span><span class="n">base</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">convex_hull</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">base</span><span class="p">);</span>
+<span class="n">point</span> <span class="n">first</span> <span class="o">=</span> <span class="n">mas</span><span class="p">[</span><span class="n">base</span><span class="p">];</span>
+<span class="n">point</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
+<span class="n">point</span> <span class="n">prev</span> <span class="o">=</span> <span class="n">point</span><span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">first</span><span class="o">.</span><span class="n">y</span><span class="p">);</span>
+<span class="n">do</span> <span class="p">{</span>
+    <span class="n">double</span> <span class="n">minCosAngle</span> <span class="o">=</span> <span class="mf">1e9</span><span class="p">;</span> <span class="o">//</span> <span class="n">чем</span> <span class="n">больше</span> <span class="n">угол</span><span class="p">,</span> <span class="n">тем</span> <span class="n">меньше</span> <span class="n">его</span> <span class="n">косинус</span>
+    <span class="n">double</span> <span class="n">maxLen</span> <span class="o">=</span> <span class="mf">1e9</span><span class="p">;</span>
+    <span class="nb">int</span> <span class="nb">next</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">double</span> <span class="n">curCosAngle</span> <span class="o">=</span> <span class="n">CosAngle</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="n">cur</span><span class="p">,</span> <span class="n">mas</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Less</span><span class="p">(</span><span class="n">curCosAngle</span><span class="p">,</span><span class="n">minCosAngle</span><span class="p">))</span> <span class="p">{</span><span class="o">//</span><span class="n">если</span> <span class="n">меньше</span> <span class="n">сразу</span> <span class="n">меняем</span>
+            <span class="nb">next</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="n">minCosAngle</span> <span class="o">=</span> <span class="n">curCosAngle</span><span class="p">;</span>
+            <span class="n">maxLen</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">cur</span><span class="p">,</span> <span class="n">mas</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">Equal</span><span class="p">(</span><span class="n">curCosAngle</span><span class="p">,</span> <span class="n">minCosAngle</span><span class="p">))</span> <span class="p">{</span><span class="o">//</span> <span class="n">смотрим</span> <span class="n">по</span> <span class="n">длине</span>
+            <span class="n">double</span> <span class="n">curLen</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">cur</span><span class="p">,</span><span class="n">mas</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">More</span><span class="p">(</span><span class="n">curLen</span><span class="p">,</span><span class="n">maxLen</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nb">next</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+                <span class="n">maxLen</span> <span class="o">=</span> <span class="n">curLen</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">prev</span> <span class="o">=</span> <span class="n">cur</span><span class="p">;</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">mas</span><span class="p">[</span><span class="nb">next</span><span class="p">];</span>
+    <span class="n">convex_hull</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="nb">next</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">cur</span> <span class="o">!=</span> <span class="n">first</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077;-&#1079;&#1072;-$O(n-\log-n)$">&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077; &#1079;&#1072; $O(n \log n)$<a class="anchor-link" href="#&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077;-&#1079;&#1072;-$O(n-\log-n)$">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Напишем класс, который реализует матричное умножение.</p>
+<h3 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1043;&#1088;&#1101;&#1093;&#1077;&#1084;&#1072;">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1043;&#1088;&#1101;&#1093;&#1077;&#1084;&#1072;<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1043;&#1088;&#1101;&#1093;&#1077;&#1084;&#1072;">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Алгоритм Грэхема базируется на следующей идее: Давайте не искать следующую точку каждый раз, а сделаем так, чтобы у нас всегда была оптимальная точка и мы могли бы просто ее достать и проверить.</p>
+<p>В прошлом алгоритме мы искали точку, оптимальную по полярному углу, тогда давайте сейчас сразу отсортируем точки по полярному углу и сразу возьмем две первые точки в МВО.</p>
+<p>Теперь будем делать следующий алгоритм, пока все точки не будут просмотрены :</p>
+<p>1) Возьмем первую из отсортированных точек.</p>
+<p>2) Проверем последние три точки из взятых, если они образуют правый поворот, то удалим предпоследнюю точку</p>
+<p>Сделать это можно, например, стеком. Код есть ниже.</p>
+<p><img src="https://cdn.turkaramamotoru.com/ru/algoritm-grehema-4131.jpg" alt="alt text"></p>
+<p>Асимптотика : Мы просмотрим одну точку и либо удалим ее, либо оставим, то есть сам поиск МВО работает за линейное время, но мы еще делаем сортировку, а $\rightarrow$ алгоритм работает за  $O(n\log(n))$, при этом его корректность вытекает из предыдущего алгоритма.</p>
+<p>Красивая визуализация - <a href="https://visualgo.net/en/convexhull">https://visualgo.net/en/convexhull</a></p>
+<p>красивое видео - <a href="https://www.youtube.com/watch?v=BTgjXwhoMuI">https://www.youtube.com/watch?v=BTgjXwhoMuI</a>
+.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="k">struct</span> <span class="n">matrix</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">t</span><span class="p">[];</span>
-    <span class="n">matrix</span> <span class="p">(</span><span class="kt">int</span> <span class="n">_n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_m</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">_n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">_m</span><span class="p">;</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">);</span>
-        <span class="n">memset</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">t</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="kt">int</span><span class="p">[]</span> <span class="k">operator</span><span class="p">[]</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="o">*</span><span class="n">m</span><span class="p">];</span>
-    <span class="p">}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">struct</span> <span class="n">Point</span> <span class="p">{</span>
+    <span class="nb">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">Point</span> <span class="n">operator</span> <span class="o">-</span><span class="p">(</span><span class="n">Point</span> <span class="n">a</span><span class="p">,</span> <span class="n">Point</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">a</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">y</span><span class="p">};</span>
 <span class="p">}</span>
 
-<span class="n">matrix</span> <span class="k">operator</span><span class="o">*</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">,</span> <span class="n">matrix</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">matrix</span> <span class="n">c</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">n</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">m</span><span class="p">);</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">.</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">m</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">.</span><span class="n">m</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
-                <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
-     <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
+<span class="nb">int</span> <span class="n">operator</span> <span class="o">*</span> <span class="p">(</span><span class="n">Point</span> <span class="n">a</span><span class="p">,</span> <span class="n">Point</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">operator</span> <span class="o">^</span><span class="p">(</span><span class="n">Point</span> <span class="n">a</span><span class="p">,</span> <span class="n">Point</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">bool</span> <span class="n">cw</span><span class="p">(</span><span class="n">Point</span> <span class="n">a</span><span class="p">,</span> <span class="n">Point</span> <span class="n">b</span><span class="p">,</span> <span class="n">Point</span> <span class="n">c</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">bool</span> <span class="n">ccw</span><span class="p">(</span><span class="n">Point</span> <span class="n">a</span><span class="p">,</span> <span class="n">Point</span> <span class="n">b</span><span class="p">,</span> <span class="n">Point</span> <span class="n">c</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">sort</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">p2</span><span class="p">),</span> <span class="n">comp</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span> <span class="n">s</span><span class="p">;</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">min_ind</span><span class="p">]);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">p2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">vect</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span><span class="p">])</span> <span class="o">^</span>
+               <span class="n">vect</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">p2</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">pop_back</span><span class="p">();</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">p2</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13280,63 +13321,51 @@ $$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1082;&#1072;">&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1082;&#1072;<a class="anchor-link" href="#&#1044;&#1080;&#1085;&#1072;&#1084;&#1080;&#1082;&#1072;">&#182;</a></h2><p>Некоторые динамики можно выразить в терминах матричного умножения.</p>
-<p>Расмотрим конкретный пример — Фибоначчи. Ну а чем не динамика?</p>
-
+<h3 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1069;&#1085;&#1076;&#1088;&#1102;">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1069;&#1085;&#1076;&#1088;&#1102;<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1069;&#1085;&#1076;&#1088;&#1102;">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-$$
-\begin{pmatrix}
-f_{n+1} \\
-f_{n+2} \\
-\end{pmatrix}
-=
-\begin{pmatrix}
-0+f_{n+1} \\
-f_{n}+f_{n+1} \\
-\end{pmatrix}
-=
-\begin{pmatrix}
-0 &amp; 1 \\
-1 &amp; 1 \\
-\end{pmatrix}
-\begin{pmatrix}
-f_{n} \\
-f_{n+1} \\
-\end{pmatrix}
-$$
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Обозначим за $A$ эту матрицу перехода. Чтобы посчитать $n$-е число Фибоначчи, нужно применить $n$ раз эту матрицу к вектору $(f_0, f_1) = (0, 1)$.</p>
-<p>Вспомним, что умножение коммутативно. Значит, мы можем применить бинарное возведение в степень к матрицам:</p>
-$$ A^8 = A^{2^{2^{2}}} = ((AA)(AA))((AA)(AA)) $$<p>Это будет работать за $O(n^3 \log n)$. Мы делаем $O(n^3)$ операций для одного умножения, а всего их нужно сделать $O(\log n)$. Кстати, наука знает и <a href="https://en.wikipedia.org/wiki/Strassen_algorithm">более быстрые</a> способы перемножить матрицы, но на контестах они не нужны.</p>
+<p>Алгоритм Эндрю опирается на то, что вещественные числа не точны и предлагает поменять компаратор и строить не одну выпуклую оболочку, а две :</p>
+<p>Давайте выберем самую нижнюю и самую правую точку, затем отсортируем точки по самому простому из возможных компараторов, теперь будем строить две оболочки от самой правой точки и самой левой, в итоге мы получим верхнюю и нижнюю части выпуклой оболочки</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[0]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="n">matrix</span> <span class="nf">binpow</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">matrix</span> <span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-        <span class="n">p</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">bool</span> <span class="n">comp</span><span class="p">(</span><span class="n">Point</span> <span class="n">a</span><span class="p">,</span> <span class="n">Point</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">b</span><span class="o">.</span><span class="n">y</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">b</span><span class="o">.</span><span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">sort</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">comp</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span> <span class="n">up</span><span class="p">,</span> <span class="n">down</span><span class="p">;</span>
+    <span class="n">up</span><span class="o">.</span><span class="n">pb</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="n">down</span><span class="o">.</span><span class="n">pb</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="n">Point</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">back</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">cw</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">p2</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">up</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="o">!</span>cw<span class="o">(</span>up<span class="o">[</span>up.size<span class="o">()</span> - <span class="m">2</span><span class="o">]</span>, up<span class="o">[</span>up.size<span class="o">()</span> - <span class="m">1</span><span class="o">]</span>, p<span class="o">[</span>i<span class="o">]))</span> <span class="o">{</span>
+                <span class="n">up</span><span class="o">.</span><span class="n">pop_back</span><span class="p">();</span>
+            <span class="p">}</span>
+            <span class="n">up</span><span class="o">.</span><span class="n">pb</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">ccw</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">p2</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">down</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="o">!</span>ccw<span class="o">(</span>down<span class="o">[</span>down.size<span class="o">()</span> - <span class="m">2</span><span class="o">]</span>, down<span class="o">[</span>down.size<span class="o">()</span> - <span class="m">1</span><span class="o">]</span>, p<span class="o">[</span>i<span class="o">]))</span> <span class="o">{</span>
+                <span class="n">down</span><span class="o">.</span><span class="n">pop_back</span><span class="p">();</span>
+            <span class="p">}</span>
+            <span class="n">down</span><span class="o">.</span><span class="n">pb</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13348,14 +13377,7 @@ $$ A^8 = A^{2^{2^{2}}} = ((AA)(AA))((AA)(AA)) $$<p>Это будет работ�
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Единичной называется матрица, у которой единицы стоят на главной диагонали. Обозначение: $I$.</p>
-$$
-\begin{vmatrix}
-1 &amp; 0 &amp; 0 \\
-0 &amp; 1 &amp; 0 \\
-0 &amp; 0 &amp; 1 \\
-\end{vmatrix}
-$$<p>В плане умножения она действительно ведет себя как единица: $AI = A = IA$. В коде она используется вместо единицы.</p>
+<h3 id="&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1063;&#1077;&#1085;&#1072;">&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1063;&#1077;&#1085;&#1072;<a class="anchor-link" href="#&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;-&#1063;&#1077;&#1085;&#1072;">&#182;</a></h3><p>Также существует алгоритм, объединяющий Джарвиса и Грэхема(Эндрю) и работающий за $O(n\log(h))$, но он разбираться не будет</p>
 
 </div>
 </div>
@@ -13363,150 +13385,7 @@ $$<p>В плане умножения она действительно веде
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>В общем случае, линейная рекуррента $f_n = a_1 f_{n-1} + a_2 f_{n-2} + \ldots + a_k f_{n-k}$ имеет такую матрицу перехода:</p>
-\begin{pmatrix}
-0 &amp; 1 &amp; 0 &amp; \ldots &amp; 0 \\
-0 &amp; 0 &amp; 1 &amp; \ldots &amp; 0 \\
-\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-0 &amp; 0 &amp; 0 &amp; \ldots &amp; 1 \\
-a_k &amp; a_{k-1} &amp; a_{k-2} &amp; \ldots &amp; a_1 \\
-\end{pmatrix}
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1052;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072;-&#1089;&#1084;&#1077;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080;">&#1052;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072; &#1089;&#1084;&#1077;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080;<a class="anchor-link" href="#&#1052;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072;-&#1089;&#1084;&#1077;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080;">&#182;</a></h2><p>У перемножения матриц смежности есть комбинаторный смысл — количество способов попасть из вершины $a$ в вершину $b$ за определенное количество переходов. Иными словами, (G^n)_{ab} будет равно количеству способов попасть из $a$ в $b$, используя ровно $n$ переходов.</p>
-<p>Когда нам нужна только информация, можно ли дойти из $a$ в $b$ (количество способов не важно), то решение можно ускорить (см. <a href="http://sereja.me/a/bitset#%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BD%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BC%D0%B0%D1%82%D1%80%D0%B8%D1%86">Битсет</a>).</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1054;&#1073;&#1086;&#1073;&#1097;&#1077;&#1085;&#1080;&#1103;">&#1054;&#1073;&#1086;&#1073;&#1097;&#1077;&#1085;&#1080;&#1103;<a class="anchor-link" href="#&#1054;&#1073;&#1086;&#1073;&#1097;&#1077;&#1085;&#1080;&#1103;">&#182;</a></h2><p>Всё, что мы сказали, на самом деле работает не только для действительных чисел. Например, ту же логику можно применить для чисел.</p>
-<p>Полями и кольцами в общей алгебры называют множества, на которых определены какие-то операции для которых выполняются особые свойства. Например есть поле комплексных чисел, или кольцо многочленов, или кольцо вычетов по модулю два.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1054;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1080;&#1090;&#1077;&#1083;&#1100;">&#1054;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1080;&#1090;&#1077;&#1083;&#1100;<a class="anchor-link" href="#&#1054;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1080;&#1090;&#1077;&#1083;&#1100;">&#182;</a></h2><p><em>Определителем</em> кадратной матрицы $A$ называется такое выражение:</p>
-$$ \det A = |A| = \ldots $$<p></p>
-<p>Где $\epsilon$ — чётность числа инверсий в перестановке ($-1$ или $+1$). То есть, чтобы его посчитать «в лоб», нужно перебрать все перестановки элементов, взять соответствующие элементы со столбцов и добавить в сумму с нужным знаком. Например:</p>
-$$
-\begin{vmatrix}
-a &amp; b \\
-c &amp; d \\
-\end{vmatrix}
-=
-ad - bc
-$$<p>У него есть куча полезных свойств. Например, если определитель матрицы равен нулю, то соответствующая система не решается. Определитель произведения равен произведению определителей, и так далее. Много полезных (особенно для доказательств) свойств, которые рассказываются в университетских программах, но на них мы не будем останавливаться.</p>
-<p>В двумерном случае его значение равно ориентированной площади (проверьте — сравните с формулой для векторного произведения). Для трехмерного — объему, в общем случае это какой-то «гипер-объем». Доказывать это утверждение мы не будем.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1041;&#1072;&#1079;&#1080;&#1089;">&#1041;&#1072;&#1079;&#1080;&#1089;<a class="anchor-link" href="#&#1041;&#1072;&#1079;&#1080;&#1089;">&#182;</a></h2><p>Базисом множества называется набор векторов, через который можно выразить все вектора этого множества и только их.</p>
-<p>Базисы есть не только в линейной алгебре. Например, $\{1, x, x^2\}$ является базисом всех квадратных трёхчленов. Или $\{\neg, \land, \lor\}$ является базисом всех логических выражений (то есть всё можно выразить через И, ИЛИ и НЕ). В произвольном языке программирования можно выделить какой-то набор команд, через который можно будет написать всё что угодно, и он тоже в этом смысле будет базисом.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1052;&#1077;&#1090;&#1086;&#1076;-&#1050;&#1088;&#1072;&#1084;&#1077;&#1088;&#1072;-&#1080;-easy-&#1087;&#1077;&#1088;&#1077;&#1089;&#1077;&#1095;&#1077;&#1085;&#1080;&#1077;-&#1087;&#1088;&#1103;&#1084;&#1099;&#1093;">&#1052;&#1077;&#1090;&#1086;&#1076; &#1050;&#1088;&#1072;&#1084;&#1077;&#1088;&#1072; &#1080; easy &#1087;&#1077;&#1088;&#1077;&#1089;&#1077;&#1095;&#1077;&#1085;&#1080;&#1077; &#1087;&#1088;&#1103;&#1084;&#1099;&#1093;<a class="anchor-link" href="#&#1052;&#1077;&#1090;&#1086;&#1076;-&#1050;&#1088;&#1072;&#1084;&#1077;&#1088;&#1072;-&#1080;-easy-&#1087;&#1077;&#1088;&#1077;&#1089;&#1077;&#1095;&#1077;&#1085;&#1080;&#1077;-&#1087;&#1088;&#1103;&#1084;&#1099;&#1093;">&#182;</a></h2><p>Пусть нам надо пересечь две прямые.</p>
-$$
-\begin{cases}
-a_1 x + b_1 y + c_1 = 0
-a_2 x + b_2 y + c_2 = 0
-\end{cases}
-$$<p>Это то же самое, что найти такие коэффициенты $x$ и $y$, что</p>
-$$ x \vec{a} + y \vec{b} = -\vec{c} $$<p>Площадь параллелограмма, натянутого на $\vec{a}$ и $\vec{b}$, равна векторному произведению, или детерминанту.</p>
-<p>По сути, нам нужно выразить $c$ в другом базисе. Давайте спроецируем её на $a$.</p>
-<p>Аналогично, напрягите воображение и спроецируйте эту точку в $n$-мерном пространстве. Это уже сложно, да?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="*&#1057;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077;-&#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1099;">*&#1057;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077; &#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1099;<a class="anchor-link" href="#*&#1057;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077;-&#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1099;">&#182;</a></h2><p>Очень часто у матриц есть <em>собственные вектора</em> -- те, которые не меняют направление.</p>
-<p>$ Av = k v $, где $k \neq 0$.</p>
-<p>$ Av - kv = (A-kI)v = 0 $. Это означает</p>
-<p>Вообще, собственные вектора в линейной алгебре имеют почти такое же значение, как простые числа в арифметике.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1057;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099;-&#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1081;-&#1080;-&#1084;&#1077;&#1090;&#1086;&#1076;-&#1043;&#1072;&#1091;&#1089;&#1089;&#1072;">&#1057;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099; &#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1081; &#1080; &#1084;&#1077;&#1090;&#1086;&#1076; &#1043;&#1072;&#1091;&#1089;&#1089;&#1072;<a class="anchor-link" href="#&#1057;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099;-&#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1081;-&#1080;-&#1084;&#1077;&#1090;&#1086;&#1076;-&#1043;&#1072;&#1091;&#1089;&#1089;&#1072;">&#182;</a></h2><p>Иногда встречаются задачи, требующие решения системы линейных уравнений. Очень большая часть из них на самом деле над полем $\mathbb{Z}_2$ — то есть все числа по модулю 2. К примеру: есть $n$ переключателей лампочек, каждый активированный переключатель меняет состояние (включает или выключает) какого-то подмножества из $n$ лампочек. Известно состояние всех лампочек, нужно восстановить состояние переключаетелей.</p>
-<p>Нас по сути просят решить следующую систему:</p>
-$$
-\begin{cases}
-a_{11} x_1 + a_{12} x_2 + \ldots + a_{1n} x_n \equiv b_1 \pmod 2\\
-a_{21} x_1 + a_{22} x_2 + \ldots + a_{2n} x_n \equiv b_2 \pmod 2\\
-\ldots \\
-a_{n1} x_1 + a_{n2} x_2 + \ldots + a_{nn} x_n \equiv b_n \pmod 2
-\end{cases}
-$$<p>Здесь $x$ — состояния переключателей, $b$ — состояния лампочек, $A$ — информация о том, влияет ли переключатель на лампочку.</p>
-<p>Метод Крамера неоптимален — там $O(n^4)$ операций.</p>
-<p>В таком случае можно значительно ускорить и упростить обычный метод Гаусса:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-c++"><pre><span></span><span class="n">t</span> <span class="nf">gauss</span> <span class="p">(</span><span class="n">matrix</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">int</span> <span class="n">nonzero</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
-                <span class="n">nonzero</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
-        <span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">nonzero</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">!=</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
-                <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">^=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="n">t</span> <span class="n">x</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">^</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
-    <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Код находит вектор $x$ из уравнения $Ax = b$ при условии, что решение существует и единственно. Для простоты кода, предполагается, что вектор $b$ приписан справа к матрице $A$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Часто эту систему нужно решить по модулю 2. Тогда код значительно упрощается и ускоряется (опять же, см. <a href="http://sereja.me/a/bitset#%D0%93%D0%B0%D1%83%D1%81%D1%81">Битсет</a>).</p>
+<h1 id="&#1047;&#1072;&#1076;&#1072;&#1095;&#1080;">&#1047;&#1072;&#1076;&#1072;&#1095;&#1080;<a class="anchor-link" href="#&#1047;&#1072;&#1076;&#1072;&#1095;&#1080;">&#182;</a></h1><p>1) Базовые задачи - достаточно простые, например найти длину забора, чтобы ограничить многоугольник и подобные, но есть достаточно интересные задачи, в которых выпуклая оболочка неочевидна, например следующая : Даны $n$ пунктов в городе и $n$ почтальонов, для каждого пункта известно расстояние от почты $c_{i}$. Требуется каждому пункту доставить почту, $i$-ый почтальон просит $a_{i}$ монет, чтобы проснуться  и $b_{i}$, чтобы проехать один километр, требуется для каждого пункта сказать, кто доставит почту наиболее выгодно. (Подсказка : $a_{i} + b_{i} * c_{j}$ - это прямая и стоимость доставки от $i$ почтальона к $j$ пункту).</p>
 
 </div>
 </div>
