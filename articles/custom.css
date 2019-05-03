@@ -12,26 +12,28 @@
     border: none;
     background: white;
     box-shadow: none;
-    max-width: 850px;
+    max-width: 820px;
     margin-top: -50px;
 }
 
 h1, h2, h3 {
+    font-family: 'Garamond', serif;
     margin-top: 10px !important;
 }
 
 body {
-    font-family: 'Garamond', serif;
+    font-family: 'Times New Roman', serif;
 }
 
 div#notebook {
-    font-size: 22px;
-    line-height: 30px;
+    font-size: 17px;
+    line-height: 28px;
+    color:grey!important;
 }
 
 code, pre {
     font-family: 'Inconsolata', monospace;
-    font-size: 16px !important;
+    font-size: 14px !important;
 }
 
 p, li {
@@ -108,4 +110,3 @@ a[href^='https://www.topcoder.com/']:before {
 .MathJax_Display {
     padding-top: 10px;
 }
-
