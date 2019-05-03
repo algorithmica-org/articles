@@ -34,11 +34,9 @@ code, pre {
     font-size: 16px !important;
 }
 
-/*
-p {
+p, li {
     text-align: justify !important;
 }
-*/
 
 ul {
     margin-top:10px!important;
