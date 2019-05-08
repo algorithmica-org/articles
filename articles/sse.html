@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>bayans</title>
+<title>sse</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13116,460 +13116,391 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#1050;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077;-&#1080;&#1076;&#1077;&#1081;&#1085;&#1099;&#1077;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#1050;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077; &#1080;&#1076;&#1077;&#1081;&#1085;&#1099;&#1077; &#1079;&#1072;&#1076;&#1072;&#1095;&#1080;<a class="anchor-link" href="#&#1050;&#1088;&#1072;&#1089;&#1080;&#1074;&#1099;&#1077;-&#1080;&#1076;&#1077;&#1081;&#1085;&#1099;&#1077;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1080;">&#182;</a></h1><p>Везде, где не указано — время работы $O(n)$, а если есть конкретные числа, то TL 1 секунда.</p>
-<p>Задачи идут в порядке вспоминания, то есть в весьма рандомном.</p>
+<h1 id="Streaming-SIMD-Extensions">Streaming SIMD Extensions<a class="anchor-link" href="#Streaming-SIMD-Extensions">&#182;</a></h1><p>This is</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1086;&#1087;&#1091;&#1075;&#1072;&#1080;">&#1055;&#1086;&#1087;&#1091;&#1075;&#1072;&#1080;<a class="anchor-link" href="#&#1055;&#1086;&#1087;&#1091;&#1075;&#1072;&#1080;">&#182;</a></h2><p>Вам нужно передать 64 байт некоторой информации. Для этого у вас есть 320 специально обученных попугаев, каждый из которых может запомнить число от 0 до 255. Все попугаи рано или поздно долетают до точки назначения и сообщают свой байт, но, возможно, не в том порядке, в котором были выпущены. Попугаи внешне неразличимы.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1052;&#1080;&#1085;&#1080;&#1084;&#1091;&#1084;-&#1080;-&#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1091;&#1084;">&#1052;&#1080;&#1085;&#1080;&#1084;&#1091;&#1084; &#1080; &#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1091;&#1084;<a class="anchor-link" href="#&#1052;&#1080;&#1085;&#1080;&#1084;&#1091;&#1084;-&#1080;-&#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1091;&#1084;">&#182;</a></h2><p>Даны 68 камней разного веса. Требуется за 100 операций взвешивания определить самый лёгкий и самый тяжелый.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1077;&#1088;&#1077;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072;">&#1055;&#1077;&#1088;&#1077;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072;<a class="anchor-link" href="#&#1055;&#1077;&#1088;&#1077;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072;">&#182;</a></h2><p>Есть перестановка из 64 элементов. Вы можете спрашивать, какие элементы находятся на заданном множестве позиций (вам сообщается список элементов в произвольном порядке). Восстановите перестановку за 6 запросов.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1042;&#1099;&#1087;&#1091;&#1082;&#1083;&#1072;&#1103;-&#1086;&#1073;&#1086;&#1083;&#1086;&#1095;&#1082;&#1072;">&#1042;&#1099;&#1087;&#1091;&#1082;&#1083;&#1072;&#1103; &#1086;&#1073;&#1086;&#1083;&#1086;&#1095;&#1082;&#1072;<a class="anchor-link" href="#&#1042;&#1099;&#1087;&#1091;&#1082;&#1083;&#1072;&#1103;-&#1086;&#1073;&#1086;&#1083;&#1086;&#1095;&#1082;&#1072;">&#182;</a></h2><p>Требуется отвечать на 2 типа запросов:</p>
-<ol>
-<li>Добавить точку в выпуклую оболочку.</li>
-<li>Проверить, лежит ли точка внутри выпуклой оболочки.</li>
-</ol>
-<p>Обе операции онлайн за $O(\log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1077;&#1089;&#1089;&#1080;&#1103;">&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103; &#1087;&#1088;&#1086;&#1075;&#1088;&#1077;&#1089;&#1089;&#1080;&#1103;<a class="anchor-link" href="#&#1043;&#1077;&#1086;&#1084;&#1077;&#1090;&#1088;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103;-&#1087;&#1088;&#1086;&#1075;&#1088;&#1077;&#1089;&#1089;&#1080;&#1103;">&#182;</a></h2><p>Найдите способ посчитать $\frac{1-a^n}{1-a}$ по произвольному модулю за $O(\log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1086;&#1082;&#1077;&#1084;&#1086;&#1085;&#1099;">&#1055;&#1086;&#1082;&#1077;&#1084;&#1086;&#1085;&#1099;<a class="anchor-link" href="#&#1055;&#1086;&#1082;&#1077;&#1084;&#1086;&#1085;&#1099;">&#182;</a></h2><p>В турнире участвуют 1024 видов покемонов. Вы, будучи экспертом по покемонам, знаете, кто кого может победить. Иначе говоря, вам полностью известен граф-<em>турнир</em> из 1024 вершин и $1023 \times 1022 : 2$ рёбер, в котором каждые две вершины соединены ровно одним ориентированным ребром, определяющим победителя в возможном поединке. Обратите внимание, что из $a \to b$ и $b \to c$ не следует, что $a \to c$.</p>
-<p>У вас есть 10 покеболов. Составьте команду из 10 покемонов такую, что для каждого из 1024 типов покемонов в вашей команде найдется покемон, побеждающий его. Считайте, что в битве одинаковых покемонов побеждает ваш.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1057;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1082;&#1072;">&#1057;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1082;&#1072;<a class="anchor-link" href="#&#1057;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1082;&#1072;">&#182;</a></h2><p>Можно ли отсортировать</p>
-<ul>
-<li>5 камней за 8 взвешиваний?</li>
-<li>5 камней за 7 взвешиваний?</li>
-<li>20 камней за 60 взвешиваний?</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1058;&#1086;&#1095;&#1082;&#1080;-&#1074;-&#1082;&#1088;&#1091;&#1075;&#1077;">&#1058;&#1086;&#1095;&#1082;&#1080; &#1074; &#1082;&#1088;&#1091;&#1075;&#1077;<a class="anchor-link" href="#&#1058;&#1086;&#1095;&#1082;&#1080;-&#1074;-&#1082;&#1088;&#1091;&#1075;&#1077;">&#182;</a></h2><p>Даны $n$ точек, равномерно распределенных в единичном круге с центром в начале координат. Предложите алгоритм, который за $O(n)$ в среднем сортирует их по удаленности от начала координат.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1047;&#1072;&#1084;&#1082;&#1085;&#1091;&#1090;&#1099;&#1077;-&#1083;&#1086;&#1084;&#1072;&#1085;&#1099;&#1077;">&#1047;&#1072;&#1084;&#1082;&#1085;&#1091;&#1090;&#1099;&#1077; &#1083;&#1086;&#1084;&#1072;&#1085;&#1099;&#1077;<a class="anchor-link" href="#&#1047;&#1072;&#1084;&#1082;&#1085;&#1091;&#1090;&#1099;&#1077;-&#1083;&#1086;&#1084;&#1072;&#1085;&#1099;&#1077;">&#182;</a></h2><p>Даны две замкнутые несамопересекающиеся ломаные. Определите, можно ли перевести их друг в друга с помощью параллельного переноса, поворотов и гомотетии?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1053;&#1077;&#1091;&#1073;&#1099;&#1074;&#1072;&#1102;&#1097;&#1080;&#1081;-&#1084;&#1072;&#1089;&#1089;&#1080;&#1074;">&#1053;&#1077;&#1091;&#1073;&#1099;&#1074;&#1072;&#1102;&#1097;&#1080;&#1081; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;<a class="anchor-link" href="#&#1053;&#1077;&#1091;&#1073;&#1099;&#1074;&#1072;&#1102;&#1097;&#1080;&#1081;-&#1084;&#1072;&#1089;&#1089;&#1080;&#1074;">&#182;</a></h2><p>Дан массив из $n$ целых чисел. Требуется за $2n$ операций «прибавить к одному элементу любой другой» сделать его неубывающим.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1063;&#1105;&#1090;&#1085;&#1099;&#1081;-&#1094;&#1080;&#1082;&#1083;">&#1063;&#1105;&#1090;&#1085;&#1099;&#1081; &#1094;&#1080;&#1082;&#1083;<a class="anchor-link" href="#&#1063;&#1105;&#1090;&#1085;&#1099;&#1081;-&#1094;&#1080;&#1082;&#1083;">&#182;</a></h2><p>Дан неориентированный граф. Определите, есть ли в нём простой цикл чётной длины.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="$k$-&#1072;&#1103;-&#1087;&#1086;&#1088;&#1103;&#1076;&#1082;&#1086;&#1074;&#1072;&#1103;-&#1089;&#1090;&#1072;&#1090;&#1080;&#1089;&#1090;&#1080;&#1082;&#1072;">$k$-&#1072;&#1103; &#1087;&#1086;&#1088;&#1103;&#1076;&#1082;&#1086;&#1074;&#1072;&#1103; &#1089;&#1090;&#1072;&#1090;&#1080;&#1089;&#1090;&#1080;&#1082;&#1072;<a class="anchor-link" href="#$k$-&#1072;&#1103;-&#1087;&#1086;&#1088;&#1103;&#1076;&#1082;&#1086;&#1074;&#1072;&#1103;-&#1089;&#1090;&#1072;&#1090;&#1080;&#1089;&#1090;&#1080;&#1082;&#1072;">&#182;</a></h2><p>Дан массив из $n$ целых чисел. Найдите его $k$-й наименьший элемент за $O(n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1044;&#1086;&#1084;&#1080;&#1085;&#1080;&#1088;&#1091;&#1102;&#1097;&#1080;&#1081;-&#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;">&#1044;&#1086;&#1084;&#1080;&#1085;&#1080;&#1088;&#1091;&#1102;&#1097;&#1080;&#1081; &#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;<a class="anchor-link" href="#&#1044;&#1086;&#1084;&#1080;&#1085;&#1080;&#1088;&#1091;&#1102;&#1097;&#1080;&#1081;-&#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;">&#182;</a></h2><p>Дан массив из $n$ элементов. Требуется ответить на $m$ запросов, есть ли на отрезке $[l, r]$ <em>доминирующий</em> элемент — тот, который встречается на нём хотя бы $\frac{r-l}{2}$ раз. Время работы $O((n+m) \log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1072;&#1079;&#1088;&#1091;&#1096;&#1077;&#1085;&#1080;&#1077;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1072;">&#1056;&#1072;&#1079;&#1088;&#1091;&#1096;&#1077;&#1085;&#1080;&#1077; &#1076;&#1077;&#1088;&#1077;&#1074;&#1072;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1088;&#1091;&#1096;&#1077;&#1085;&#1080;&#1077;-&#1076;&#1077;&#1088;&#1077;&#1074;&#1072;">&#182;</a></h2><p>Дано корневое дерево. Каждую итерацию выбирается вершина (равновероятно из всех оставшихся), и удаляется всё поддерево, соответствующее этой вершине. Найти, сколько ходов в среднем будет продолжаться этот процесс, то есть матожидание номера итерации, на которой будет удалён корень дерева.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="$k$-&#1099;&#1081;-&#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;-&#1085;&#1072;-&#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1077;">$k$-&#1099;&#1081; &#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090; &#1085;&#1072; &#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1077;<a class="anchor-link" href="#$k$-&#1099;&#1081;-&#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;-&#1085;&#1072;-&#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1077;">&#182;</a></h2><p>Дан массив из $n$ целых чисел. Требуется ответить на $m$ запросов $k$-ой порядковой статистики на произвольном отрезке. Время работы $O((n+m) \log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1056;&#1072;&#1079;&#1083;&#1080;&#1095;&#1085;&#1099;&#1077;-&#1095;&#1080;&#1089;&#1083;&#1072;-&#1085;&#1072;-&#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1077;">&#1056;&#1072;&#1079;&#1083;&#1080;&#1095;&#1085;&#1099;&#1077; &#1095;&#1080;&#1089;&#1083;&#1072; &#1085;&#1072; &#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1077;<a class="anchor-link" href="#&#1056;&#1072;&#1079;&#1083;&#1080;&#1095;&#1085;&#1099;&#1077;-&#1095;&#1080;&#1089;&#1083;&#1072;-&#1085;&#1072;-&#1086;&#1090;&#1088;&#1077;&#1079;&#1082;&#1077;">&#182;</a></h2><p>Дан массив из $n$ целых чисел. Требуется ответить на $m$ запросов количества различных элементов на произвольном отрезке. Время работы $O(m\sqrt{n})$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1060;&#1080;&#1079;&#1082;&#1091;&#1083;&#1100;&#1090;&#1091;&#1088;&#1072;">&#1060;&#1080;&#1079;&#1082;&#1091;&#1083;&#1100;&#1090;&#1091;&#1088;&#1072;<a class="anchor-link" href="#&#1060;&#1080;&#1079;&#1082;&#1091;&#1083;&#1100;&#1090;&#1091;&#1088;&#1072;">&#182;</a></h2><p>Зачёт по физкультуре в одном институте ставится по количеству посещений, поэтому важно знать, сколько учебных дней осталось до конца семестра (особенно когда напропускал пары). Семестр длится $m$ дней. Деканат последовательно издает $n$ приказов двух типов:</p>
-<ol>
-<li>Объявить все дни с $l$ по $r$ выходными (физру закрывать нельзя)</li>
-<li>Объявить все дни с $l$ по $r$ учебными (физру закрывать можно)</li>
-</ol>
-<p>При этом приказ может частично отменить действие предыдущих приказов.</p>
-<p>После каждого приказа нужно посчитать суммарное число учебных дней в семестре. Асимптотика $O(n \log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1053;&#1091;&#1083;&#1077;&#1074;&#1072;&#1103;-&#1089;&#1091;&#1084;&#1084;&#1072;">&#1053;&#1091;&#1083;&#1077;&#1074;&#1072;&#1103; &#1089;&#1091;&#1084;&#1084;&#1072;<a class="anchor-link" href="#&#1053;&#1091;&#1083;&#1077;&#1074;&#1072;&#1103;-&#1089;&#1091;&#1084;&#1084;&#1072;">&#182;</a></h2><p>Дано  мультимножество из $n$ целых чисел. Найдите любое его подмножество, сумма чисел которого делится на $n$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1052;&#1077;&#1090;&#1072;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1072;">&#1052;&#1077;&#1090;&#1072;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1072;<a class="anchor-link" href="#&#1052;&#1077;&#1090;&#1072;-&#1079;&#1072;&#1076;&#1072;&#1095;&#1072;">&#182;</a></h2><p>В задаче дана произвольная строка, по которой известным только авторам способом генерируется ответ yes/no. В задаче 100 тестов. У вас есть 20 попыток. В качестве фидбэка вам доступны вердикты на каждом тесте. Вердикта всего два: OK (ответ совпал) и WA. Попытки поделить на ноль, выделить терабайт памяти и подобное тоже считаются как WA. «Решите» задачу.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1053;&#1080;&#1090;&#1086;&#1095;&#1082;&#1072;">&#1053;&#1080;&#1090;&#1086;&#1095;&#1082;&#1072;<a class="anchor-link" href="#&#1053;&#1080;&#1090;&#1086;&#1095;&#1082;&#1072;">&#182;</a></h2><p>В плоскую доску вбили $n$ гвоздей радиуса $r$, причём так, что соответствующие точки на плоскости образуют вершины выпуклого многоугольника. На эти гвозди натянули ниточку, причём ниточка «огибает» по кругу гвозди. Найдите длину ниточки, то есть периметр этого многоугольника с учётом закругления.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1077;&#1083;&#1100;&#1084;&#1077;&#1085;&#1080;">&#1055;&#1077;&#1083;&#1100;&#1084;&#1077;&#1085;&#1080;<a class="anchor-link" href="#&#1055;&#1077;&#1083;&#1100;&#1084;&#1077;&#1085;&#1080;">&#182;</a></h2><p>Компания друзей захотела сделать заготовки для пельменей из огромного прямоугольного куска теста. Для этого в ход пошли всевозможные предметы округлой формы: стаканы, кружки, кострюли… В итоге тесто было разделено $n$ возможно пересекающимися окружностями произвольных радиусов и центров. Нам интересно посчитать, сколько получилось заготовок, то есть на сколько кусков распалось тесто. Асимптотика $O(n^2 \log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1054;&#1090;-&#1085;&#1091;&#1083;&#1103;-&#1076;&#1086;-&#1077;&#1076;&#1080;&#1085;&#1080;&#1094;&#1099;">&#1054;&#1090; &#1085;&#1091;&#1083;&#1103; &#1076;&#1086; &#1077;&#1076;&#1080;&#1085;&#1080;&#1094;&#1099;<a class="anchor-link" href="#&#1054;&#1090;-&#1085;&#1091;&#1083;&#1103;-&#1076;&#1086;-&#1077;&#1076;&#1080;&#1085;&#1080;&#1094;&#1099;">&#182;</a></h2><p>Дан следующий код:</p>
+<pre><code>processor   : 0
+vendor_id   : GenuineIntel
+cpu family  : 6
+model       : 158
+model name  : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping    : 10
+microcode   : 0x96
+cpu MHz     : 945.615
+cache size  : 9216 KB
+physical id : 0
+siblings    : 12
+core id     : 0
+cpu cores   : 6
+apicid      : 0
+initial apicid  : 0
+fpu     : yes
+fpu_exception   : yes
+cpuid level : 22
+wp      : yes
+flags       : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs        : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips    : 4416.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 39 bits physical, 48 bits virtual
+power management:</code></pre>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">x</span> <span class="o">+=</span> <span class="n">random</span><span class="p">()</span>
+<div class=" highlight hl-c++"><pre><span></span><span class="o">!</span><span class="n">cat</span> <span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="n">cpuinfo</span> <span class="o">|</span> <span class="n">less</span> <span class="o">-</span><span class="mi">20</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 3422.395
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 0
+cpu cores	: 6
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 3702.863
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 1
+cpu cores	: 6
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 3556.265
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 2
+cpu cores	: 6
+apicid		: 4
+initial apicid	: 4
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 3512.268
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 3
+cpu cores	: 6
+apicid		: 6
+initial apicid	: 6
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 4
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 3642.787
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 4
+cpu cores	: 6
+apicid		: 8
+initial apicid	: 8
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 5
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 3136.167
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 5
+cpu cores	: 6
+apicid		: 10
+initial apicid	: 10
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 6
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 3535.684
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 0
+cpu cores	: 6
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 7
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 2251.174
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 1
+cpu cores	: 6
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 8
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 2202.563
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 2
+cpu cores	: 6
+apicid		: 5
+initial apicid	: 5
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 9
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 2413.537
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 3
+cpu cores	: 6
+apicid		: 7
+initial apicid	: 7
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 10
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 1974.963
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 4
+cpu cores	: 6
+apicid		: 9
+initial apicid	: 9
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 11
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+stepping	: 10
+microcode	: 0x96
+cpu MHz		: 3336.891
+cache size	: 9216 KB
+physical id	: 0
+siblings	: 12
+core id		: 5
+cpu cores	: 6
+apicid		: 11
+initial apicid	: 11
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
+bogomips	: 4416.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Требуется посчитать матожидание <code>x</code>.</p>
-<p>(<code>random</code> в питоне возвращает случайное действительное число от 0 до 1.)</p>
+</div>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1083;&#1086;&#1097;&#1072;&#1076;&#1100;">&#1055;&#1083;&#1086;&#1097;&#1072;&#1076;&#1100;<a class="anchor-link" href="#&#1055;&#1083;&#1086;&#1097;&#1072;&#1076;&#1100;">&#182;</a></h2><p>Дан единичный квадрат и 100 кругов. Нужно посчитать площадь квадрата, которую покрывают эти круги, с ошибкой менее 1%.</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1054;&#1082;&#1088;&#1091;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080;">&#1054;&#1082;&#1088;&#1091;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080;<a class="anchor-link" href="#&#1054;&#1082;&#1088;&#1091;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080;">&#182;</a></h2><p>Имеется окружность радиуса $R$, назовём её <em>внешней</em>. Внутри неё лежит окружность радиуса $r &lt; R$ и соприкасается с ней. Дальше строятся бесконечное число окружностей по следующему правилу: $k$-я окружность должна</p>
-<ul>
-<li>соприкасаться с <em>внешней</em>,</li>
-<li>соприкасаться с предыдущей (($k-1$)-ой),</li>
-<li>иметь при этом максимальный радиус.</li>
-</ul>
-<p>Найдите (выведите формулу за $O(1)$) радиус $k$-й такой окружности.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1041;&#1083;&#1077;&#1092;">&#1041;&#1083;&#1077;&#1092;<a class="anchor-link" href="#&#1041;&#1083;&#1077;&#1092;">&#182;</a></h2><p>Катя и Серёжа играют в игру. У Кати есть $n$ карт, у Серёжи — $m$. Одна дополнительная карта лежит на столе рубашкой вверх. Назовём её <em>особой</em>. Цель игроков — её отгадать. Все $n+m+1$ карт различны, игроки изначально знают только свои карты. Игроки ходят по очереди, начинает Катя. Игрок в свой ход может:</p>
-<ul>
-<li>Попытаться угадать <em>особую</em> карту. Если получилось угадать, то игрок победил, иначе проиграл. В любом случае, игра на этом заканчивается.</li>
-<li>Назвать любую карту из колоды. Если у соперника есть такая карта — он обязан показать ее и вывести из игры. Если же у него нет такой карты — он сообщает об этом.</li>
-</ul>
-<p>С какой вероятностью выиграет Катя при оптимальной игре обоих игроков? Асимптотика $O(nm)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1044;&#1086;&#1089;&#1090;&#1080;&#1078;&#1080;&#1084;&#1086;&#1089;&#1090;&#1100;">&#1044;&#1086;&#1089;&#1090;&#1080;&#1078;&#1080;&#1084;&#1086;&#1089;&#1090;&#1100;<a class="anchor-link" href="#&#1044;&#1086;&#1089;&#1090;&#1080;&#1078;&#1080;&#1084;&#1086;&#1089;&#1090;&#1100;">&#182;</a></h2><p>Дан ориентированный граф без кратных рёбер. Для всех пар вершин $u$ и $v$ определите, можно ли дойти из $u$ в $v$. Вершин меньше 2000.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1053;&#1091;&#1084;&#1080;&#1079;&#1084;&#1072;&#1090;">&#1053;&#1091;&#1084;&#1080;&#1079;&#1084;&#1072;&#1090;<a class="anchor-link" href="#&#1053;&#1091;&#1084;&#1080;&#1079;&#1084;&#1072;&#1090;">&#182;</a></h2><p>Есть $n$ жадных коллекционеров монет, которые согласны меняться, только если взамен монеты, которых у них более одной, они получают монету, которых у них нет вовсе. Всего есть $k$ типов монет. Известно количество монет каждого типа у каждого коллекционера и у коллекционера Серёжи. Серёжа хочет максимизировать количество различных монет у него путем обмена с жадными коллекционерами. Считайте, что жадные коллекционеры не меняются между собой.</p>
-<p>Придумайте любой полиномиальный алгоритм.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1088;&#1080;&#1085;&#1094;&#1077;&#1089;&#1089;&#1072;">&#1055;&#1088;&#1080;&#1085;&#1094;&#1077;&#1089;&#1089;&#1072;<a class="anchor-link" href="#&#1055;&#1088;&#1080;&#1085;&#1094;&#1077;&#1089;&#1089;&#1072;">&#182;</a></h2><p>В некотором королевстве жила принцесса. Она была настольно прекрасна, что каждый юноша в королевстве хотел жениться на ней. Принцесса была привередлива, поэтому твердо решила выйти замуж только за самого красивого юношу в государстве.</p>
-<p>Она составила список из $n$ самых красивых юношей и вызывает их каждый день в случайном порядке. После того, как к ней приходит очередной юноша, она принимает решение: либо выйти за него замуж, либо нет. Если она выходит за него замуж, то она все равно просматривает всех остальных, чтобы убедиться, что он действительно самый красивый. Если это так, то они живут долго и счастливо. Если нет (если она вышла замуж не за самого красивого, либо не вышла замуж вообще), то принцесса покончит жизнь самоубийством.</p>
-<p>У принцессы очень хорошая память, поэтому она может сравнивать красоту очередного юноши со всеми предыдущими, а также у неё тонкий вкус, поэтому никакие двое юношей не являются для неё одинаково красивыми.</p>
-<p>Помогите принцессе разработать стратегую, которая максимизирует вероятность того, что она выйдет замуж за наиболее красивого юношу.</p>
-<p>Асимптотика $O(n^2)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1057;&#1087;&#1080;&#1088;&#1072;&#1083;&#1100;">&#1057;&#1087;&#1080;&#1088;&#1072;&#1083;&#1100;<a class="anchor-link" href="#&#1057;&#1087;&#1080;&#1088;&#1072;&#1083;&#1100;">&#182;</a></h2><p>Определим спираль $(2n+1) \times (2n+1)$ как матрицу следующего вида:</p>
-$$
-\begin{matrix}
-21 &amp; 22 &amp; 23 &amp; 24 &amp; 25 \\
-20 &amp; 7 &amp;  8 &amp;  9 &amp; 10 \\
-19 &amp; 6 &amp;  1 &amp;  2 &amp; 11 \\
-18 &amp; 5 &amp;  4 &amp;  3 &amp; 12 \\
-17 &amp; 16 &amp; 15 &amp; 14 &amp; 13 \\
-\end{matrix}
-$$
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Ваша задача — рассчитать ответы на $q$ запросов суммы чисел в произвольной прямоугольной области (по модулю $10^9+7$).</p>
-<p>$q \leq 100$, $n \leq 10^9$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1086;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;-&#1083;&#1072;&#1073;&#1080;&#1088;&#1080;&#1085;&#1090;">&#1055;&#1086;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081; &#1083;&#1072;&#1073;&#1080;&#1088;&#1080;&#1085;&#1090;<a class="anchor-link" href="#&#1055;&#1086;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;-&#1083;&#1072;&#1073;&#1080;&#1088;&#1080;&#1085;&#1090;">&#182;</a></h2><p>Группа из $n$ туристов гуляет в бесконечном лабиринте. Лабиринт имеет форму треугольника Серпинского: клетка $(x, y)$ свободна, только если <code>x &amp; y == 0</code>.</p>
-<p><img src="https://image.ibb.co/cSs7H7/Screenshot_from_2018_03_31_16_34_58.png" alt=""></p>
-<p>Туристы устали блуждать по лабиринту и хотят встретиться в какой-нибудь свободной клетке, сумма расстояний от всех туристов до которой наименьшая. Туристы за один ход могут передвигаться вверх, вниз, влево и вправо по свободным клеткам.</p>
-<p>$n \leq 10^5$, изначальные координаты туристов до $10^9$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1053;&#1080;&#1084;&#1085;&#1099;&#1077;-&#1087;&#1086;&#1076;&#1084;&#1085;&#1086;&#1078;&#1077;&#1089;&#1090;&#1074;&#1072;">&#1053;&#1080;&#1084;&#1085;&#1099;&#1077; &#1087;&#1086;&#1076;&#1084;&#1085;&#1086;&#1078;&#1077;&#1089;&#1090;&#1074;&#1072;<a class="anchor-link" href="#&#1053;&#1080;&#1084;&#1085;&#1099;&#1077;-&#1087;&#1086;&#1076;&#1084;&#1085;&#1086;&#1078;&#1077;&#1089;&#1090;&#1074;&#1072;">&#182;</a></h2><p>Есть множество $A$, состоящее из $n$ чисел от 0 до $2^{32}-1$. Требуется выбрать его подмножество $B \subseteq A$ максимальной суммы такое, что нельзя выбрать его подмножество $C \subseteq B$ такое, что ним на кучках соответствующего размера — проигрышный. Асимптотика $O(n \log n)$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1041;&#1072;&#1083;&#1072;&#1085;&#1089;-&#1089;&#1090;&#1077;&#1087;&#1077;&#1085;&#1077;&#1081;">&#1041;&#1072;&#1083;&#1072;&#1085;&#1089; &#1089;&#1090;&#1077;&#1087;&#1077;&#1085;&#1077;&#1081;<a class="anchor-link" href="#&#1041;&#1072;&#1083;&#1072;&#1085;&#1089;-&#1089;&#1090;&#1077;&#1087;&#1077;&#1085;&#1077;&#1081;">&#182;</a></h2><p>Дан неориентированный граф. Требуется ориентировать каждое ребро так, чтобы максимизировать число вершин, у которых степень исхода равна степени захода.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1044;&#1074;&#1072;-&#1087;&#1091;&#1090;&#1080;">&#1044;&#1074;&#1072; &#1087;&#1091;&#1090;&#1080;<a class="anchor-link" href="#&#1044;&#1074;&#1072;-&#1087;&#1091;&#1090;&#1080;">&#182;</a></h2><p>Дан ориентированный граф. Найдите два непересекающихся по рёбрам пути из $s$ в $t$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1055;&#1100;&#1103;&#1085;&#1080;&#1094;&#1072;">&#1055;&#1100;&#1103;&#1085;&#1080;&#1094;&#1072;<a class="anchor-link" href="#&#1055;&#1100;&#1103;&#1085;&#1080;&#1094;&#1072;">&#182;</a></h2><p>Пьяница стоит на числовой прямой в точке 0. Каждую секунду он делает единичный шаг вправо (в сторону увеличения координат) с вероятностью $p$ и влево с вероятностью $1-p$. С какой вероятностью он когда-либо окажется в точке с отрицательной координатой?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1050;&#1089;&#1086;&#1088;&#1086;&#1074;&#1099;&#1081;-&#1088;&#1102;&#1082;&#1079;&#1072;&#1082;">&#1050;&#1089;&#1086;&#1088;&#1086;&#1074;&#1099;&#1081; &#1088;&#1102;&#1082;&#1079;&#1072;&#1082;<a class="anchor-link" href="#&#1050;&#1089;&#1086;&#1088;&#1086;&#1074;&#1099;&#1081;-&#1088;&#1102;&#1082;&#1079;&#1072;&#1082;">&#182;</a></h2><p>Дан массив из $10^5$ целых чисел от $0$ до $(2^{30}-1)$. Найти количество различных подпоследовательностей этого массива, <code>xor</code>-сумма которых равна заданному числу $x$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1048;&#1074;&#1072;&#1085;-&#1057;&#1091;&#1089;&#1072;&#1085;&#1080;&#1085;">&#1048;&#1074;&#1072;&#1085; &#1057;&#1091;&#1089;&#1072;&#1085;&#1080;&#1085;<a class="anchor-link" href="#&#1048;&#1074;&#1072;&#1085;-&#1057;&#1091;&#1089;&#1072;&#1085;&#1080;&#1085;">&#182;</a></h2><p>Польская армия хочет добраться из поселения $s$ в поселение $t$. Ей руководят два гетмана — Камиль и Матеуш.</p>
-<ul>
-<li>Камиль руководит армией днём и водит армию по <em>дорогам</em>.</li>
-<li>Матеуш руководит армией ночью и совершает маневры по <em>секретным тропам</em>. </li>
-</ul>
-<p>Каждый гетман перед маршем спрашивает дорогу у Ивана Сусанина. Иван хочет задержать наступление польских войск.</p>
-<p>Карта дорог известна Камилю. Аналогично, карта секретных троп известна Матеушу.
-Поэтому Ивану не удастся их так просто обмануть — он должен каждый раз выбрать переход так, что минимальное расстояние между поселением $t$ и войском по соответствующей карте строго уменьшилось.</p>
-<p>Вы знаете карту дорог и троп вместе с их длинами. Помогите Ивану как можно дольше (желательно, бесконечно) вести армию из $s$ в $t$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1042;&#1072;&#1088;&#1077;&#1085;&#1100;&#1077;">&#1042;&#1072;&#1088;&#1077;&#1085;&#1100;&#1077;<a class="anchor-link" href="#&#1042;&#1072;&#1088;&#1077;&#1085;&#1100;&#1077;">&#182;</a></h2><p>В ряд стоят $n$ пустых банок из-под варенья. Вместительность $i$-й банки равна $v_i$ грамм.</p>
-<p>Карлсон наполняет эти банки вареньем в $m$ этапов. На каждом этапе он выбирает числа $l$, $r$, $x$ и $y$, а затем пролетает над банками с $l$ по $r$, выполняя следующие операции: в банку номер $l$ он добавляет $x$ грамм варенья, в банку номер $(l + 1)$ — $(x + y)$ грамм варенья, в банку номер $(l + 2)$ — $(x + 2y)$, и так далее до $r$-той банки, в которую он положит $x + y(r - l)$ грамм варенья.</p>
-<p>Малышу хочется определить для каждой банки наименьший номер операции, после которой она станет полной.</p>
-<p>$n, m \leq 10^5$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1051;&#1072;&#1073;&#1080;&#1088;&#1080;&#1085;&#1090;">&#1051;&#1072;&#1073;&#1080;&#1088;&#1080;&#1085;&#1090;<a class="anchor-link" href="#&#1051;&#1072;&#1073;&#1080;&#1088;&#1080;&#1085;&#1090;">&#182;</a></h2><p>Серёжа потерялся в лабиринте $n \times m$. Каждая клетка либо свободна, либо стена. Все крайние клетки — стены. Вам известно, где находится выход из лабиринта, но не известно, где находится Серёжа. Составьте для него последовательность направлений (вверх, вниз, влево, вправо) такую, после которой он окажется в клетке с выходом, вне зависимости от его стартовой позиции. Если вы прикажете ему идти в стену, то просто ничего не произойдёт.</p>
-<p>Придумайте любой полиномиальный алгоритм.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#1054;&#1073;&#1077;&#1079;&#1100;&#1103;&#1085;&#1072;">&#1054;&#1073;&#1077;&#1079;&#1100;&#1103;&#1085;&#1072;<a class="anchor-link" href="#&#1054;&#1073;&#1077;&#1079;&#1100;&#1103;&#1085;&#1072;">&#182;</a></h2><p>Дана строка из $10^5$ символов латинского алфавита. Обезьяна нажимает случайные клавиши на клавиатуре (одну из 26 букв), пока не наберёт её целиком, то есть пока исходная подстрока не станет подстрокой набранной строки. Какое ожидание числа нажатых клавиш перед тем, как это произойдёт?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1054;&#1078;&#1080;&#1076;&#1072;&#1085;&#1080;&#1077;-&#1084;&#1080;&#1085;&#1080;&#1084;&#1091;&#1084;&#1072;">&#1054;&#1078;&#1080;&#1076;&#1072;&#1085;&#1080;&#1077; &#1084;&#1080;&#1085;&#1080;&#1084;&#1091;&#1084;&#1072;<a class="anchor-link" href="#&#1054;&#1078;&#1080;&#1076;&#1072;&#1085;&#1080;&#1077;-&#1084;&#1080;&#1085;&#1080;&#1084;&#1091;&#1084;&#1072;">&#182;</a></h3><p>Даны $n$ случайных величин, равномерно распределенных на отрезках $[l_i, r_i]$ — у каждой величины свой отрезок. Найдите математическое ожидание минимума этих случайных величин.</p>
-<p>Придумайте любой точный полиномиальный алгоритм.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#1064;&#1091;&#1084;&#1085;&#1099;&#1081;-&#1082;&#1089;&#1086;&#1088;">&#1064;&#1091;&#1084;&#1085;&#1099;&#1081; &#1082;&#1089;&#1086;&#1088;<a class="anchor-link" href="#&#1064;&#1091;&#1084;&#1085;&#1099;&#1081;-&#1082;&#1089;&#1086;&#1088;">&#182;</a></h3><p>Загадано некое число $x$. Вы можете делать запросы следующего типа: назвать число $y$ и получить в ответ <strong>число единичных битов</strong> в ксор-сумме $x$, $y$ и $m$, где $m$ это случайно сгенерированная маска, в которой каждый бит имеет вероятность $p = \frac15$ быть единичным, то есть каждый бит $x \oplus y$ заменяется на противоположный с вероятностью $y$, и вам возвращается количество единичных битов. Для ясности:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="c1"># ...</span>
-
-<span class="k">def</span> <span class="nf">mask</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span>
-            <span class="n">r</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">**</span><span class="n">i</span>
-    <span class="k">return</span> <span class="n">r</span>
-
-<span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span> <span class="o">^</span> <span class="n">y</span> <span class="o">^</span> <span class="n">mask</span><span class="p">())</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Ваша задача — отгадать число, используя не более 10000 попыток.</p>
-
-</div>
-</div>
 </div>
     </div>
   </div>
