@@ -1,3 +1,0 @@
-# Algorithmica.org
-
-test
