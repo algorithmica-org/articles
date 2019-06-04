@@ -1,0 +1,11 @@
+before_script:
+  sudo apt-get install pandoc
+script:
+  build.sh
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+    branch: master<Paste>
