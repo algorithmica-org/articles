@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="/pandoc.css" type="text/css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="быстрое-умножение">Быстрое умножение</h1>
+<p>В конце 50-х годов, а быстрое преобразование Фурье только изобрели, но использовали только «по назначению» (для обработки сигналов, а не для умножения чисел).</p>
+<p><a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%BB%D0%BC%D0%BE%D0%B3%D0%BE%D1%80%D0%BE%D0%B2,_%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9_%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87">Андрей Колмогоров</a> и несколько других пионеров компьютер саенса выдвинули «гипотезу <span class="math">\(n^2\)</span>» — что . Основания на то были — шумеры научились умножать в «в столбик» (сложение <span class="math">\(n\)</span> <span class="math">\(n\)</span>-значиных чисел) как минимум четыре тысячи лет назад, и за это время никто ничего быстрее не придумал.</p>
+<p>Колмогоров уже собрал научный семинар с повесткой дня «давайте это всё уже докажем», на котором его аспирант. Аспиранта звали Анатолий Карацуба.</p>
+<p>Алгоритм Карацубы имеет довольно значимое место в истории науки.</p>
+<p>{M(n)=O(n^{2}).} M(n)=O(n^{2}). У Колмогорова была гипотеза, что нижняя оценка для {M(n)} M(n) при любом методе умножения есть также величина порядка {n^{2}} n^{2}. На правдоподобность «гипотезы {n^{2}} n^{2}» указывал тот факт, что метод умножения «в столбик» известен не менее четырёх тысячелетий (например, этим методом пользовались шумеры), и если бы был более быстрый метод умножения, то он, вероятно, уже был бы найден. Однако, в 1960 году Анатолий Карацуба[4][5][6][7] нашёл новый метод умножения двух n-значных чисел с оценкой сложности {M(n)=O(n^{<em>{2}3})} M(n)=O(n^{{</em>{2}3}}) и тем самым опроверг «гипотезу {n^{2}} n^{2}».</p>
+<p>(Быстрое преобразование Фурье тогда уже изобрели, но к умножению чисел применять ещё не додумались.)</p>
+<p>Можно представить себе какого-то грозного японца.</p>
+<h2 id="мастер-теорема">Мастер-теорема</h2>
+<p>Алгоритм Карацубы основывается на парадигме «разделяй-и-властвуй». Чтобы понять, почему его асимптотика именно такая, нам понадобится более мощная теорема, которая говорит об асимптотике большого класса «разделяек».</p>
+<p><strong>Мастер-теорема.</strong> Пусть имеется рекуррента:</p>
+<p><span class="math">\[ T(n) = \begin{cases}
+a T(\frac{n}{b}) + \Theta(n^c), &amp; n &gt; n_0
+\\ \Theta(1),                   &amp; n \leq n_0
+\end{cases} \]</span></p>
+<p>Тогда:</p>
+<ul>
+<li><strong>A.</strong> Если <span class="math">\(c &gt; \log_b a\)</span>, то <span class="math">\(T(n) = \Theta(n^c)\)</span>.</li>
+<li><strong>B.</strong> Если <span class="math">\(c = \log_b a\)</span>, то <span class="math">\(T(n) = \Theta(n^c \log n)\)</span>.</li>
+<li><strong>C.</strong> Если <span class="math">\(c &lt; \log_b a\)</span>, то <span class="math">\(T(n) = \Theta(n^{\log_b a})\)</span>.</li>
+</ul>
+<hr />
+<p><img width='600px' src='http://sereja.me/f/img/master-theorem.png'></p>
+<hr />
+<p><strong>Доказательство.</strong> Рассмотрим «дерево рекурсии» этого соотношения. В нём будет <span class="math">\(log_b n\)</span> уровней. На <span class="math">\(k\)</span>-том уровне будет <span class="math">\(a^k\)</span> вершин, каждая из которых будет стоить <span class="math">\((\frac{n}{b^k})^c\)</span> операций. Просуммируем значения во всех вершинах по всем уровням:</p>
+<p><span class="math">\[ T(n) = \sum_{k=0}^{\log_b n} a^k (\frac{n}{b^k})^c = n^c \sum_{k=0}^{\log_b n} (\frac{a}{b^c})^k \]</span></p>
+<ul>
+<li><strong>A.</strong> Если <span class="math">\(c &gt; \log_b a\)</span>, то <span class="math">\(\sum (\frac{a}{b^с})^k\)</span> это сумма убывающей геометрической прогрессии, которая не зависит от <span class="math">\(n\)</span> и просто равна какой-то константе. Значит, <span class="math">\(T(n) = \Theta(n^c)\)</span>.</li>
+<li><strong>B.</strong> Если <span class="math">\(c = \log_b a\)</span>, то <span class="math">\[\sum_{k=0}^{\log_b n} (\frac{a}{b^c})^k = \sum_{k=0}^{\log_b n} 1^k = \Theta(n^c \log_b n)\]</span></li>
+<li><strong>C.</strong> Если <span class="math">\(c &lt; \log_b a\)</span>, то так как сумма прогрессии асимптотически эквивалентна своему старшему элементу,</li>
+</ul>
+<p><span class="math">\[ n^c \sum_{k=0}^{\log_b n} (\frac{a}{b^c})^k = \Theta(n^c (\frac{a}{b^c})^{\log_b n}) = \Theta(n^c \cdot \frac{a^{\log_b n}}{n^c}) = \Theta(a^{\log_b n}) = \Theta(n^{\log_b a}) \]</span></p>
+<p>Для более точных оценок асимптотики «мерджа» теорема ничего не говорит работает. Например, если мердж занимает <span class="math">\(O(n)\)</span></p>
+<h2 id="алгоритм-карацубы">Алгоритм Карацубы</h2>
+<p>Алгоритм Карацубы сводит задачу умножения двух чисел длины <span class="math">\(n\)</span> к возведению <span class="math">\(n\)</span>-значного числа в квадрат.</p>
+<p>Зачем нам возведение в квадрат, если мы хотим умножать числа? Оказывается, это эквивалентные задачи.</p>
+<h2 id="развитие-идеи">Развитие идеи</h2>
+<p>То же самое можно применить матрицам.</p>
+<p>Чемпионат идёт на пятые знаки после запятой. Возможность или невозможность умножения чисел за <span class="math">\(O(n^{1+\epsilon})\)</span> для произвольного <span class="math">\(\epsilon\)</span> ещё никто не доказал.</p>
+</body>
+</html>
