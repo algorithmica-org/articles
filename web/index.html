@@ -1,1 +1,14 @@
-some custom index file
+<script>
+    var userLang = navigator.language || navigator.userLanguage;
+    switch(userLang){
+        case 'ru-RU':
+        case 'uk-UA':
+        case 'be-BY':
+            window.location.href = 'ru/';
+            break;
+        default:
+            window.location.href = 'ru/';
+            //window.location.href = 'en/';
+            break;
+    }
+</script>
