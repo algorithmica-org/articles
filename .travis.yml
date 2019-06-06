@@ -7,6 +7,6 @@ deploy:
   github_token: $GITHUB_TOKEN
   keep_history: true
   local_dir: web
-  tqdn: algorithmica.org
+  fqdn: algorithmica.org
   on:
     branch: master
