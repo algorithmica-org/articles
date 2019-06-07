@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="поток-минимальной-стоимости">Поток минимальной стоимости</h1>
+<p>Рассмотрим ориентированный граф <span class="math inline">\(G = (V, E)\)</span> с истоком <span class="math inline">\(s\)</span> и стоком <span class="math inline">\(t\)</span>, в котором у каждого ребра <span class="math inline">\((u, v)\)</span> задана целая стоимость <span class="math inline">\(w_{uv}\)</span> и целая положительная пропускная способность <span class="math inline">\(c_{uv}\)</span>. Требуется найти максимальный поток, стоимость которого минимальна:</p>
+<p><span class="math display">\[ \sum_{(u, v) \in E} f_{uv} \to \max \]</span> <span class="math display">\[ \sum_{(u, v) \in E} f_{uv} w_{uv} \to \min \]</span></p>
+<p>Заметим, что рёбра отрицательной стоимости по условию возможны. Мы дополнительно предполагаем, что циклов отрицательного веса нет.</p>
+<p>Модифицируем сеть, добавив стандартным образом обратные рёбра, позволяющие «отменять» операции: для каждого ребра <span class="math inline">\((u, v)\)</span> добавим <span class="math inline">\((v, u)\)</span>, для которого <span class="math inline">\(c_{vu} = 0\)</span> и <span class="math inline">\(w_{vu} = -w_{uv}\)</span>. Напомним, что остаточной сетью называется граф из рёбер, остаточная пропускная способность которых ненулевая (<span class="math inline">\(c_{uv}-f_{uv} &gt; 0\)</span>).</p>
+<h2 id="критерий-оптимальности">Критерий оптимальности</h2>
+<p>Если в остаточной сети нет циклов отрицательного веса, то поток оптимален (и наоборот).</p>
+<p><strong>Доказательство:</strong></p>
+<p><span class="math inline">\(\rightarrow\)</span> Рассмотрим произвольный неоптимальный поток <span class="math inline">\(f\)</span> и оптимальный поток <span class="math inline">\(f^*\)</span>. Рассмотрим разность <span class="math inline">\(f^*-f\)</span>. Она является циркуляцией, а любая циркуляция может быть разложена на сумму простых циклов. Хотя бы один из этих циклов будет иметь отрицательную стоимость, так как стоимость <span class="math inline">\(f^*\)</span> меньше стоимости <span class="math inline">\(f\)</span>, что противоречит предположению.</p>
+<p><span class="math inline">\(\leftarrow\)</span> Пусть цикл существует, тогда мы можем пропустить поток по этому циклу и получить поток меньшей стоимости.</p>
+<h3 id="отмена-циклов">Отмена циклов</h3>
+<p>Этот критерий сразу даёт нам относительно простой алгоритм: найдем какой-нибудь максимальный поток и будем «отменять» циклы отрицательного веса в остаточной цепи, пока такие циклы существуют. Искать цикл нам придётся не более <span class="math inline">\(mUC\)</span> раз где <span class="math inline">\(U\)</span> — величина потока, <span class="math inline">\(C\)</span> — максимальная пропускная способность ребра. Этой величиной ограничен модуль минимальной стоимости ответа, а каждый отмененный цикл уменьшает ответ хотя бы на единицу.</p>
+<p>Если искать цикл алгоритмом Форда-Беллмана, то асимптотика алгоритма составит <span class="math inline">\(O(m^2nUC)\)</span> (предполагая, что какой-нибудь максимальный поток мы уже нашли).</p>
+<h2 id="дополняющие-пути">Дополняющие пути</h2>
+<p>Вспомним общий алгоритм поиска максимального потока, основанный на теореме Форда-Фалкерсона: найти какой-нибудь дополняющий путь, пропустить по нему поток и модифицировать сеть, снова найти дополняющий путь и так далее, пока путь из истока в сток существует. Что будет, если мы каждый раз будем искать не произвольный путь, а путь минимальной стоимости? Утверждается, что такой алгоритм найдет максимальный поток минимальной стоимости.</p>
+<p><strong>Утверждеие.</strong> Алгоритм не создает в остаточной сети циклов отрицательного веса.</p>
+<p>Изначально в остаточной сети нет циклов отрицательного веса. Мы нашли минимальный путь из <span class="math inline">\(s\)</span> в <span class="math inline">\(t\)</span> и модифицировали сеть, возможно добавив какие-то обратные рёбра. Могли ли из-за этих рёбер появиться циклы отрицательного веса? Пусть какое-нибудь обратное ребро <span class="math inline">\((v, u)\)</span> находится в цикле отрицательного веса. Тогда есть путь Из <span class="math inline">\(u\)</span> в <span class="math inline">\(v\)</span> стоимости меньше, чем <span class="math inline">\(w_{uv}\)</span>. Но такое не могло произойти: если бы такой путь существовал, то на этапе поиска дополняющего пути мы выбрали бы его вместо ребра <span class="math inline">\((u, v)\)</span>.</p>
+<p>Для поиска дополняющего пути можно использовать алгоритм Форда-Беллмана. Асимптотика в данном случае составит <span class="math inline">\(O(nmU)\)</span> — искать каждый дополняющий путь мы будем не более <span class="math inline">\(U\)</span> раз.</p>
+<p>Почему мы не использовали алгоритм Дейкстры? Проблема в рёбрах отрицательного веса. Даже если в исходном графе их нет, они могут в процессе алгоритма появиться как обратные. Покажем, как изменить веса рёбер так, чтобы они стали неотрицательными, но информация о кратчайших путях не утратилась. Но, оказывается, есть способ это пофиксить: дать каждой вершине так называемый «потенциал», который будет учитываться при пересчете стоимостей ребер.</p>
+<h2 id="потенциалы-джонсона">Потенциалы Джонсона</h2>
+<p>Потенциалом вершины <span class="math inline">\(v\)</span> будем называть расстояние <span class="math inline">\(d_v\)</span> от вершины <span class="math inline">\(s\)</span>. Рассмотрим граф из всех достижимых вершин и тех же рёбер, только с изменёнными весами:</p>
+<p><span class="math display">\[ w_{uv}&#39; = w_{uv} + d_u - d_v \]</span></p>
+<p><strong>Утверждение 1</strong>. Веса всех рёбер графа неотрицательные.</p>
+<p><strong>Доказательство.</strong> Пусть вес какого-то ребра <span class="math inline">\((u, v)\)</span> отрицателен, то есть <span class="math inline">\(w_{uv}&#39; = w_{uv} + d_u - d_v &lt; 0\)</span>. Тогда <span class="math inline">\(d_u + w_{uv} &lt; d_v\)</span>, и нарушилось неравенство треугольника: почему мы тогда не использовали ребро <span class="math inline">\((u, v)\)</span>, когда искали кратчайший путь до <span class="math inline">\(v\)</span>?</p>
+<p>Аналогично можно показать, что рёбра на кратчайших путях из <span class="math inline">\(s\)</span> имеют нулевую стоимость. Заметим, что стоимость <em>обратных</em> рёбер на кратчайших путях тоже будет нулевой: <span class="math display">\[ w_{vu}&#39; = w_{vu} + d_v - d_u = -w_{uv} - d_u + d_v = -(w_{uv}) = 0 \]</span></p>
+<p><strong>Утверждение 2</strong>. Кратчайшие пути между любыми вершинами остались кратчайшими.</p>
+<p><strong>Доказательство</strong>. Распишем новую стоимость пути из <span class="math inline">\(a\)</span> в <span class="math inline">\(z\)</span>.</p>
+<p><span class="math display">\[
+\begin{align}
+w_{ab}&#39; + \ldots + w_{yz}&#39;
+&amp;= (w_{ab} + \ldots + w_{yz}) + (d_a + \ldots + d_y) - (d_b + \ldots + d_z)
+\\&amp;= (w_{ab} + \ldots + w_{yz}) + d_a - d_z
+\end{align}
+\]</span></p>
+<p>Получаем, что стоимость всех путей из <span class="math inline">\(a\)</span> в <span class="math inline">\(z\)</span> лишь изменилась на константу.</p>
+<p>Более того, если мы добавим или удалим некоторые рёбра из графа, потенциалы тоже никак не повлияют на кратчайшие пути.</p>
+<p>Заметьте, что в доказательстве мы не использовали то, что <span class="math inline">\(d_v\)</span> — кратчайшие расстояния. Это вообще могут быть произвольные числа.</p>
+<p><strong>Утверждение 3</strong>. Когда мы проталкиваем поток вдоль кратчайшего пути, удаляя ребра и возможно добавляя обратные, веса в изменённом графе тоже остались корректными (все рёбра неотрицательного веса и все кратчайшие пути остались кратчайшими).</p>
+<p><strong>Доказательство</strong>. Все добавленные обратные рёбра на кратчайшем пути будут иметь нулевую стомость (утверждение 1), а добавления или удаления рёбер на кратчайшие пути не повлияли (утверждение 2).</p>
+<h2 id="итоговый-алгоритм">Итоговый алгоритм</h2>
+<ul>
+<li>Модифицируем сеть, добавивив обратные рёбра.</li>
+<li>Если в исходном графе есть рёбра отрицательного веса (но нет циклов отрицательного веса), то посчитать изначальные потенциалы (расстояния) алгоритмом Форда-Беллмана. Иначе достаточно положить потенциалы изначально равными нулю.</li>
+<li>Пока максимальный поток не найден:</li>
+<li><ul>
+<li>Посчитать алгоритмом Дейкстры кратчайшие расстояния от <span class="math inline">\(s\)</span>, используя для веса формулу с потенциалами, записать их в <span class="math inline">\(d\)</span>.</li>
+</ul></li>
+<li><ul>
+<li>Протолкнуть максимально возможный поток вдоль кратчайшего пути <span class="math inline">\(s \leadsto t\)</span>, обновить остаточную сеть.</li>
+</ul></li>
+</ul>
+<h3 id="асимптотика">Асимптотика</h3>
+<p>Алгоритм работает за <span class="math inline">\(O(U m \log n)\)</span> или <span class="math inline">\(O(U n^2)\)</span> в случае плотных графов.</p>
+<p>В наиболее популярных задачах рёбра обычно с единичной пропускной способностью, и <span class="math inline">\(U \leq n\)</span> или <span class="math inline">\(U \leq m\)</span>. Например, в задаче о назначениях (паросочетание минимального веса) <span class="math inline">\(U = n\)</span> и алгоритм работает за <span class="math inline">\(O(n^3)\)</span>, что совпадает с асимптикой венгерского алгоритма.</p>
+<h3 id="реализация">Реализация</h3>
+<p>Решение задачи о назначениях за <span class="math inline">\(O(n^3)\)</span>. Используется алгоритм Дейкстры для плотных графов (без приоритетной очереди — каждую итерацию ищем минимум за линию).</p>
+<ul>
+<li><code>cost</code>, <code>cap</code> — параметры сети</li>
+<li><code>pot</code> — потенциалы</li>
+<li><code>par</code> — предок вершины в алгоритме Дейкстры (нужен для проталкивания потока)</li>
+<li><code>d</code> — временный массив для алгоритма Дейкстры, куда будут записаны новые расстояния</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">int</span> maxn = <span class="dv">305</span>, inf = <span class="fl">1e9</span>;
+
+<span class="dt">int</span> n;
+<span class="dt">int</span> cost[maxn][maxn], cap[maxn][maxn];
+<span class="dt">int</span> d[maxn], pot[maxn], par[maxn];
+
+<span class="dt">bool</span> dijkstra (<span class="dt">int</span> s, <span class="dt">int</span> t) {
+    used[maxn] = {<span class="dv">0</span>};
+
+    fill(d, d+n, inf);
+    d[s] = <span class="dv">0</span>;
+
+    <span class="kw">while</span> (<span class="dv">1</span>) {
+        <span class="dt">int</span> v = <span class="dv">-1</span>;
+        <span class="kw">for</span> (<span class="dt">int</span> u = <span class="dv">0</span>; u &lt; n; u++)
+            <span class="kw">if</span> (!used[u] &amp;&amp; (v == <span class="dv">-1</span> &amp;&amp; d[u] &lt; d[v]))
+                v = u;
+        <span class="kw">if</span> (v == <span class="dv">-1</span> || d[v] == inf)
+            <span class="kw">break</span>;
+        used[v] = <span class="dv">1</span>;
+        <span class="kw">for</span> (<span class="dt">int</span> u = <span class="dv">0</span>; u &lt; n; u++) {
+            <span class="dt">int</span> w = cost[v][u] + pot[v] - pot[u];
+            <span class="kw">if</span> (cap[v][u] &amp;&amp; d[u] &gt; d[v] + w) {
+                d[u] = d[v] + w;
+                par[u] = v;
+            }
+        }
+    }
+
+    <span class="kw">return</span> d[t] &lt; inf;
+}
+
+<span class="dt">int</span> mincost_maxflow (<span class="dt">int</span> s, <span class="dt">int</span> t) {
+    <span class="dt">int</span> ans = <span class="dv">0</span>;
+    <span class="kw">while</span> (dijkstra(s, t)) {
+        memcpy(pot, d, <span class="kw">sizeof</span>(d));
+        <span class="dt">int</span> delta = inf;
+        <span class="kw">for</span> (<span class="dt">int</span> v = t; v != s; v = par[v])
+            delta = min(delta, cap[par[v]][v]);
+        <span class="kw">for</span> (<span class="dt">int</span> v = t; v != s; v = par[v]) {
+            cap[par[v]][v] -= delta;
+            cap[v][par[v]] += delta;
+            ans += cost[par[v]][v]*delta;
+        }
+    }
+    <span class="kw">return</span> ans;
+}</code></pre></div>
+</body>
+</html>

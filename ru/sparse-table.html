@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="разреженная-таблица">Разреженная таблица</h1>
+<ul>
+<li>Нужна для нахождения минимума на отрезке за <span class="math inline">\(O(1)\)</span> с препроцессингом за <span class="math inline">\(O(n \log n)\)</span> с малой константой.</li>
+<li>Обновления не поддерживает (static RMQ).</li>
+<li>Так как LCA эквивалентна RMQ, может быть применена в разных задачах на деревья.</li>
+<li>Её можно строить на ходу. Это может быть полезно при подсчете всяких динамик (см. последний Всерос).</li>
+<li>Требует <span class="math inline">\(O(n \log n)\)</span> памяти.</li>
+<li>Также можно считать, например, gcd на отрезке за сложность одного gcd, но в основном её используют для RMQ.</li>
+</ul>
+<p>Определим разреженную таблицу как двумерный массив размера <span class="math inline">\(n \times\log n\)</span>:</p>
+<p><span class="math display">\[
+t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1} \}
+\]</span></p>
+<p>Идея такая: считаем минимум на каждом отрезке длины <span class="math inline">\(2^k\)</span>.</p>
+<p>Такой массив можно посчитать за его размер: <span class="math inline">\(t[i][k] = \min(t[i][k-1], t[i+2^{k-1}][k-1])\)</span>. Считать его можно как итерируясь как по i, так и по k, причём какой-то из этих вариантов в несколко раз быстрее из-за кэширования.</p>
+<p>Имея таком массив, мы можем в принципе для любого отрезка быстро посчитать минимум на нём. Нужно заметить, что у любого отрезка имеется два отрезка длины степени двойки, которые пересекаются, и, главное, покрывают его и только его целиком. Значит, мы можем просто взять минимум из значений, которые соответствуют этим отрезкам.</p>
+<div class="figure">
+<img src="https://neerc.ifmo.ru/wiki/images/7/75/SparseTableRMQ.png" />
+
+</div>
+<p>Последняя деталь: для того, чтобы константа на запрос стала настоящей, вместо функции log нужно предпосчитать массив округленных вниз логарифмов.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> a[maxn], lg[maxn], mx[maxn][logn];
+
+<span class="dt">int</span> rmq (<span class="dt">int</span> l, <span class="dt">int</span> r) {
+    <span class="dt">int</span> t = lg[r-l<span class="dv">+1</span>];
+    <span class="kw">return</span> min(mx[l][t], mx[r-(<span class="dv">1</span>&lt;&lt;t)<span class="dv">+1</span>][t]);
+}
+
+<span class="co">// Это считается уже где-то в первых строчках main:</span>
+
+<span class="kw">for</span> (<span class="dt">int</span> l = <span class="dv">1</span>; l &lt; logn; l++)
+    <span class="kw">for</span> (<span class="dt">int</span> i = (<span class="dv">1</span>&lt;&lt;l); i &lt; maxn; i++)
+        lg[i] = l;
+
+<span class="kw">for</span> (<span class="dt">int</span> i = n<span class="dv">-1</span>; i &gt;= <span class="dv">0</span>; i--) {
+    mx[i][<span class="dv">0</span>] = a[i];
+    <span class="kw">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn<span class="dv">-1</span>; l++)
+        mx[i][l<span class="dv">+1</span>] = max(mx[i][l], mx[i+(<span class="dv">1</span>&lt;&lt;l)][l]);
+}</code></pre></div>
+<h2 id="d-static-rmq">2d Static RMQ</h2>
+<p>Эту структуру тоже можно обобщить на б<em>о</em>льшие размерности. Пусть мы хотим посчитать RMQ на подквадратах. Тогда вместо массива <code>t[i][k]</code> у нас будет массив <code>t[i][j][k]</code>, в котором вместо минимума на отрезах будет храниться минимум на <em>квадратах</em> тех же степеней двоек. Получение минимума на произвольном квадрате тогда уже распадется на четыре минимума на квадратах длины <span class="math inline">\(2^k\)</span>.</p>
+<p>В общем же случае от нас просят минимум тоже на прямоугольниках. Тогда делаем предподсчет, аналогичный предыдущему случаю, только теперь тут будет <span class="math inline">\(O(n \log^d n)\)</span> памяти и времени на предподсчет.</p>
+</body>
+</html>

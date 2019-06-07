@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="обратный-элемент-по-модулю">Обратный элемент по модулю</h1>
+<p>Часто в задачах требуется посчитать что-то по простому модулю (чаще всего <span class="math inline">\(10^9 + 7\)</span>). Это делают для того, чтобы участникам не приходилось использовать длинную арифметику, и они могли сосредоточиться на самой задаче.</p>
+<p>Обычные арифметические операции выполняются не сильно сложнее — просто нужно брать модули и заботиться о переполнении. Например:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">c = (a + b) % mod;
+c = (mod + a - b) % mod;
+c = a * b % mod;</code></pre></div>
+<p>Но вот с делением возникают проблемы — мы не можем просто взять и поделить. Пример: <span class="math inline">\(\frac{8}{2} = 4\)</span>, но <span class="math inline">\(\frac{8 \% 5 = 3}{2 \% 5 = 2} \neq 4\)</span>.</p>
+<p>Нужно найти некоторый элемент, который будет себя вести как <span class="math inline">\(\frac{1}{a} = a^{-1}\)</span>, и вместо «деления» домножать на него. Назовем такой элемент обратным.</p>
+<h2 id="способ-1-бинарное-возведение-в-степень">Способ 1: бинарное возведение в степень</h2>
+<p>Если модуль <span class="math inline">\(p\)</span> простой, то решением будет <span class="math inline">\(a^{-1} \equiv a^{p-2}\)</span>. Это следует из малой теоремы Ферма:</p>
+<p><strong>Теорема.</strong> <span class="math inline">\(a^p \equiv a \pmod p\)</span> для всех <span class="math inline">\(a\)</span>, не делящихся на <span class="math inline">\(p\)</span>.</p>
+<p><strong>Доказательство</strong>. (для понимания несущественно, можно пропустить)</p>
+<p><span class="math display">\[
+\begin{align}
+a^p &amp;= (\underbrace{1+1+\ldots+1+1}_\text{$a$ раз})^p
+\\  &amp;= \sum_{x_1+x_2+\ldots+x_a = p} P(x_1, x_2, \ldots, x_a) &amp; \text{(раскладываем по определению)}
+\\  &amp;= \sum_{x_1+x_2+\ldots+x_a = p} \frac{p!}{x_1! x_2! \ldots x_a!} &amp; \text{(какие слагаемые не делятся на $p$?)}
+\\  &amp;\equiv P(p, 0, \ldots, 0) + \ldots + P(0, 0, \ldots, p) &amp; \text{(все остальные не убьют $p$ в знаменателе)}
+\\  &amp;= a
+\end{align}
+\]</span></p>
+<p>Здесь <span class="math inline">\(P(x_1, x_2, \ldots, x_n) = \frac{k}{\prod (x_i!)}\)</span> это мультиномиальный коеффициент — количество раз, которое элемент <span class="math inline">\(a_1^{x_1} a_2^{x_2} \ldots a_n^{x_n}\)</span> появится при раскрытии скобки <span class="math inline">\((a_1 + a_2 + \ldots + a_n)^k\)</span>.</p>
+<p>Теперь два раза «поделим» наш результат на <span class="math inline">\(a\)</span>.</p>
+<p><span class="math display">\[ a^p \equiv a \implies a^{p-1} \equiv 1 \implies a^{p-2} \equiv a^{-1} \]</span></p>
+<p>Получается, что <span class="math inline">\(a^{p-2}\)</span> ведет себя как <span class="math inline">\(a^{-1}\)</span>, что нам по сути и нужно. Посчитать <span class="math inline">\(a^{p-2}\)</span> можно за <span class="math inline">\(O(\log p)\)</span> бинарным возведением в степень.</p>
+<p>Приведем код, который позволяет считает <span class="math inline">\(C_n^k\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> t[maxn]; <span class="co">// факториалы, можно предподситать простым циклом</span>
+
+<span class="co">// бинарное возведение в степень</span>
+<span class="dt">int</span> bp (<span class="dt">int</span> a, <span class="dt">int</span> n) {
+    <span class="dt">int</span> res = <span class="dv">1</span>;
+    <span class="kw">while</span> (n) {
+        <span class="kw">if</span> (n &amp; <span class="dv">1</span>) res = res * a % mod;
+        a = a * a % mod;
+        n &gt;&gt;= <span class="dv">1</span>;
+    }
+    <span class="kw">return</span> res;
+}
+
+<span class="co">// находит обратный элемент как a^(p-2)</span>
+<span class="dt">int</span> inv (<span class="dt">int</span> x) {
+    <span class="kw">return</span> bp(x, mod<span class="dv">-2</span>);
+}
+
+<span class="dt">int</span> c (<span class="dt">int</span> n, <span class="dt">int</span> k) {
+    <span class="kw">return</span> t[n] * inv(t[k]) % mod * inv(t[n-k]) % mod;
+}</code></pre></div>
+<h2 id="способ-2-диофантово-уравнение">Способ 2: диофантово уравнение</h2>
+<p>Диофантовыми уравнениями называют такие штуки:</p>
+<p><span class="math display">\[ ax + by = 1 \]</span></p>
+<p>Требуется решить их в целых числах, то есть <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> известны, и нужно найти такие целые (возможно, отрицательные) <span class="math inline">\(x\)</span> и <span class="math inline">\(y\)</span>, чтобы равенство выполнялось. Решают такие вещи расширенным алгоритмом Евклида. TODO: описать, как он работает.</p>
+<p>Подставим в качестве <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> соответственно <span class="math inline">\(a\)</span> и <span class="math inline">\(m\)</span></p>
+<p><span class="math display">\[ ax + my = 1 \]</span></p>
+<p>Одним из решений уравнения и будет <span class="math inline">\(a^{-1}\)</span>, потому что если взять уравнение по модулю <span class="math inline">\(m\)</span>, то получим</p>
+<p><span class="math display">\[ ax + by = 1 \iff ax \equiv 1 \iff x \equiv a^{-1} \pmod m \]</span></p>
+<p>Преимущества этого метода над возведением в степень: * Если обратное существует, то оно найдется даже если модуль не простой. Способ с бинарным возведением тоже можно заставить работать с произвольным модулем, но это будет намного труднее. * Алгоритм проще выполнять руками.</p>
+<p>Сам автор почти всегда использует возведение в степень.</p>
+<h2 id="почему-1097">Почему <span class="math inline">\(10^9+7\)</span>?</h2>
+<ol style="list-style-type: decimal">
+<li>Это выражение довольно легко вбивать (<code>1e9+7</code>).</li>
+<li>Простое число.</li>
+<li>Достаточно большое.</li>
+<li><code>int</code> не переполняется при сложении.</li>
+<li><code>long long</code> не переполняется при умножении.</li>
+</ol>
+<p>Кстати, <span class="math inline">\(10^9 + 9\)</span> обладает теми же свойствами. Иногда используют и его.</p>
+<h2 id="предподсчёт-обратных-факториалов-за-линейное-время">Предподсчёт обратных факториалов за линейное время</h2>
+<p>Пусть нам нужно зачем-то посчитать все те же <span class="math inline">\(C_n^k\)</span>, но для больших <span class="math inline">\(n\)</span> и <span class="math inline">\(k\)</span>, поэтому асимптотика <span class="math inline">\(O(n \log m)\)</span> нас не устроит. Оказывается, мы можем сразу предподсчитать все обратные ко всем факториалам.</p>
+<p>Если у нас уже написан <code>inv</code>, то нам не жалко потратить <span class="math inline">\(O(\log m)\)</span> операций, посчитав <span class="math inline">\(m!^{-1}\)</span>.</p>
+<p>После этого мы будем считать <span class="math inline">\((m-1)!^{-1}\)</span> как <span class="math inline">\(m!^{-1} m = \frac{1}{1 \cdot 2 \cdot \ldots \cdot (m-1)}\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> f[maxn];
+f[<span class="dv">0</span>] = <span class="dv">1</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; maxn; i++)
+    f[i] = i*f[i<span class="dv">-1</span>] % mod;
+
+<span class="dt">int</span> r[maxn];
+r[maxn<span class="dv">-1</span>] = inv(f[maxn<span class="dv">-1</span>])
+<span class="kw">for</span> (<span class="dt">int</span> i = maxn<span class="dv">-1</span>; i &gt;= <span class="dv">1</span>; i--)
+    r[i<span class="dv">-1</span>] = r[i]*i % mod;</code></pre></div>
+<p>TODO: техника с сайта емакса.</p>
+</body>
+</html>

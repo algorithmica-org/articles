@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="факторизация-за-osqrt4n">Факторизация за <span class="math inline">\(O(\sqrt[4]{n})\)</span></h1>
+<p>Наука умеет раскладывать целые числа на множители за <span class="math inline">\(O(n^\frac{1}{4})\)</span>. Алгоритм рандомизированный, поэтому нам сначала понадобится один факт из теорвера.</p>
+<h2 id="парадокс-дней-рождений">Парадокс дней рождений</h2>
+<p>Пусть <span class="math inline">\(f(n, d)\)</span> это вероятность того, что в группе из <span class="math inline">\(n\)</span> человек ни у кого не совпали дни рождения. Будем считать, что дни рождения распределены независимо и равномерно в промежутке от <span class="math inline">\(1\)</span> до <span class="math inline">\(d\)</span>.</p>
+<p><span class="math display">\[f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}{d})\]</span></p>
+<p>Попытаемся оценить <span class="math inline">\(f\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+  \begin{aligned}
+    e^x &amp; = 1 + x + \frac{x^2}{2!} + \ldots &amp; \text{(ряд Тейлора для экспоненты)} \\
+    &amp; \simeq 1 + x &amp; \text{(аппроксимация для $|x| \ll 1$)} \\
+    e^{-\frac{n}{d}} &amp; \simeq 1 - \frac{n}{d} &amp; \text{(подставим $\frac{n}{d} \ll 1$)} \\
+    f(n, d) &amp; \simeq e^{-\frac{1}{d}} \times e^{-\frac{2}{d}} \times \ldots \times e^{-\frac{n-1}{d}} &amp; \\
+    &amp; = e^{-\frac{n(n-1)}{2d}} &amp; \\
+    &amp; \simeq e^{-\frac{n^2}{2d}} &amp; \\
+  \end{aligned}
+\end{align}
+\]</span></p>
+<p>Из формулы более-менее понятно, что вероятность <span class="math inline">\(\frac{1}{2}\)</span> достигается при <span class="math inline">\(n \approx \sqrt{d}\)</span> и в этой точке изменяется быстро. Для самого алгоритма нам понадобится следующее:</p>
+<p><strong>Утверждение</strong>. В мультимножество нужно добавить <span class="math inline">\(O(\sqrt{n})\)</span> случайных чисел от 1 до n, чтобы какие-то два совпали.</p>
+<p>Если вы не доверяете математике, посмотрите на графики:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt
+<span class="op">%</span>matplotlib inline
+
+<span class="im">import</span> seaborn <span class="im">as</span> sns
+sns.<span class="bu">set</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> f(n, d):
+    p <span class="op">=</span> <span class="dv">1</span>
+    <span class="cf">for</span> x <span class="op">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):
+        p <span class="op">*=</span> <span class="dv">1</span><span class="op">-</span>x<span class="op">/</span>d
+    <span class="cf">return</span> p
+
+<span class="kw">def</span> g(n, d):
+    <span class="cf">return</span> <span class="fl">2.71</span><span class="op">**</span>(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> n<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> d)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">exact <span class="op">=</span> [f(n, <span class="dv">365</span>) <span class="cf">for</span> n <span class="op">in</span> <span class="bu">range</span>(<span class="dv">40</span>)]
+approx <span class="op">=</span> [g(n, <span class="dv">365</span>) <span class="cf">for</span> n <span class="op">in</span> <span class="bu">range</span>(<span class="dv">40</span>)]
+plt.plot(exact)
+plt.plot(approx)
+plt.show()</code></pre></div>
+<div class="figure">
+<img src="pollard_files/pollard_7_0.png" alt="png" />
+<p class="caption">png</p>
+</div>
+<p>На графике две линии, если не видно, — аппроксимация настолько хороша. Чтобы продемонстрировать <span class="math inline">\(n \approx \sqrt{d}\)</span>, построим такую же для больших чисел и перейдём в логарифмический масштаб.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">approx <span class="op">=</span> [g(n, <span class="dv">10</span><span class="op">**</span><span class="dv">10</span>) <span class="cf">for</span> n <span class="op">in</span> <span class="bu">range</span>(<span class="dv">10</span><span class="op">**</span><span class="dv">6</span>)]
+plt.xscale(<span class="st">&#39;log&#39;</span>)
+plt.plot(approx)
+plt.show()</code></pre></div>
+<div class="figure">
+<img src="pollard_files/pollard_9_0.png" alt="png" />
+<p class="caption">png</p>
+</div>
+<h2 id="rho-алгоритм-полларда"><span class="math inline">\(\rho\)</span>-алгоритм Полларда</h2>
+<p>Итак, мы хотим факторизовать число <span class="math inline">\(n\)</span>. Предположим, что <span class="math inline">\(n = p q\)</span> и <span class="math inline">\(p \approx q\)</span>. Понятно, что труднее случая, наверное, нет. Алгоритм итеративно ищет наименьший делитель и сводит задачу к как минимум в два раза меньшей.</p>
+<p>Возьмём произвольную «достаточно случайную» с точки зрения ТЧ функцию. Например <span class="math inline">\(f(x) = (x+1)^2 \mod n\)</span>.</p>
+<p>Как выглядит граф, в котором из вершины есть единственное ребро <span class="math inline">\(x \to f(x)\)</span>? Такой граф называется <em>функциональным</em>. Если в нём нарисовать «траекторию» произвольного элемента, — какой-то путь, превращающийся в цикл, — то получится что-то похожее на букву <span class="math inline">\(\rho\)</span> (ро). Алгоритм из-за этого так и назван.</p>
+<p>Рассмотрим траекторию какого-нибудь элемента <span class="math inline">\(x_0\)</span>: {<span class="math inline">\(x_0\)</span>, <span class="math inline">\(f(x_0)\)</span>, <span class="math inline">\(f(f(x_0))\)</span>, <span class="math inline">\(\ldots\)</span>}. Теперь сделаем из неё новую последовательность, взяв каждый элемент по модулю <span class="math inline">\(p\)</span> — наименьшего из простых делителей <span class="math inline">\(n\)</span>.</p>
+<p><strong>Утверждение</strong>. Ожидаемая длина цикла в этой последовательности <span class="math inline">\(O(\sqrt[4]{n})\)</span>.</p>
+<p><em>Доказательство:</em> так как <span class="math inline">\(p\)</span> — меньший делитель, то <span class="math inline">\(p \leq \sqrt{n}\)</span>. Теперь просто подставим в предыдущее утверждение: в множество нужно добавить <span class="math inline">\(O(\sqrt{p}) = O(\sqrt[4]{n})\)</span> элементов, чтобы какие-то два совпали, а значит последовательность зациклилась.</p>
+<p>Если мы найдём цикл в такой последовательности (то есть такие <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span>, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0)\)</span>), то мы можем восстановить какой-то делитель <span class="math inline">\(n\)</span>, а именно <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n)\)</span> — это число меньше <span class="math inline">\(n\)</span> и делится на <span class="math inline">\(p\)</span>.</p>
+<p>Алгоритм по сути находит цикл в этой последовательности, используя для этого стандартный алгоритм («черепаха и заяц»): будем поддерживать два удаляющиеся друг от друга указателя <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> (<span class="math inline">\(i = 2j\)</span>) и проверять, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0) \pmod p\)</span>, что эквивалентно проверке <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n) &gt; 1\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> math <span class="im">import</span> gcd
+<span class="im">from</span> random <span class="im">import</span> randint</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> find_divisor(n, seed <span class="op">=</span> <span class="dv">1</span>, f <span class="op">=</span> <span class="kw">lambda</span> x: (x<span class="dv">+1</span>)<span class="op">**</span><span class="dv">2</span>):
+    x <span class="op">=</span> y <span class="op">=</span> seed
+    d <span class="op">=</span> <span class="dv">1</span>
+    <span class="cf">while</span> d <span class="op">==</span> <span class="dv">1</span>:
+        x <span class="op">=</span> f(f(x)) <span class="op">%</span> n
+        y <span class="op">=</span> f(y) <span class="op">%</span> n
+        d <span class="op">=</span> gcd(<span class="bu">abs</span>(x<span class="op">-</span>y), n)
+    <span class="cf">return</span> d</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">n <span class="op">=</span> <span class="dv">3</span><span class="op">*</span><span class="dv">5</span><span class="op">*</span><span class="dv">7</span> <span class="co"># = 105</span>
+<span class="bu">print</span>([find_divisor(n, seed<span class="op">=</span>i) <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(n)])</code></pre></div>
+<pre><code>[3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3]</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">n <span class="op">=</span> (<span class="dv">10</span><span class="op">**</span><span class="dv">9+7</span>)<span class="op">*</span>(<span class="dv">10</span><span class="op">**</span><span class="dv">9+9</span>)
+<span class="bu">print</span>([find_divisor(n, seed<span class="op">=</span>randint(<span class="dv">1</span>, n)) <span class="cf">for</span> _ <span class="op">in</span> <span class="bu">range</span>(<span class="dv">20</span>)])</code></pre></div>
+<pre><code>[1000000007, 1000000009, 1000000009, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009]</code></pre>
+<p>Так как алгоритм рандомизированный, при полной реализации нужно учитывать разные детали. Например, что иногда делитель не находится (нужно запускать несколько раз), или что при попытке факторизовать простое число он будет работать за <span class="math inline">\(O(\sqrt{n})\)</span> (нужно добавить отсечение по времени).</p>
+<h2 id="разное">Разное</h2>
+<p>Формально, мы показали, что алгоритм работает за <span class="math inline">\(O(\sqrt[4]{n} \log n)\)</span> за счёт поиска <span class="math inline">\(\gcd\)</span>, но сложной теорией чисел можно доказать, что этого логарифма в асимптотике на самом деле нет.</p>
+<p>Пародокс дней рождения также можно использовать при подсчёте вероятности коллизии при хэшировании. Хороший модуль должен быть не менее квадрата количества хэшей, а чего-то вроде <span class="math inline">\(5 n^2\)</span> уже почти всегда достаточно.</p>
+</body>
+</html>

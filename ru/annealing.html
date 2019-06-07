@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="метод-отжига">Метод отжига</h1>
+<ul>
+<li>Эвристический метод глобальной оптимизации</li>
+<li>Работает с дискретными функциями в предположении, что у близких «точек» близкое значение, и есть что-то типа градиента</li>
+<li>Очень простой в написании</li>
+<li>Никаких гарантий нет, но хорошо работает на практике</li>
+<li>Метод настолько мощный, что иногда им можно сдать задачи, у которых автором предполагалось адекватное решение (пример: <a href="http://codeforces.com/contest/745/submission/23067030">Ильдар Гайнуллин сдает отжигом div2E на динамику по подмножествам</a>)</li>
+</ul>
+<div class="figure">
+<img src="https://camo.githubusercontent.com/574bf26bf301827efaa18748440fa77fab8c5a4f/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f642f64352f48696c6c5f436c696d62696e675f776974685f53696d756c617465645f416e6e65616c696e672e676966" />
+
+</div>
+<h2 id="постановка-задачи">Постановка задачи</h2>
+<p>Имеется некоторая функция <span class="math inline">\(f(x)\)</span>, которую мы хотим минимизировать.</p>
+<p>Наука решать эту задачу в общем случае не умеет, и вряд ли когда-либо научится.</p>
+<p>TODO: описание алгоритма, физическая аналогия, конструирование гладких функций</p>
+<p>При решении конкретной задачи нужно менять только функцию <code>fitness</code> и, возможно, параметры алгоритма.</p>
+<h2 id="ферзи">Ферзи</h2>
+<p>Рассмотрим такую задачу: дана шахматная доска <span class="math inline">\(n \times n\)</span> и <span class="math inline">\(n\)</span> ферзей. Нужно расставить их так, чтобы они не били друг друга.</p>
+<p>Будем кодировать состояние перестановкой чисел от <span class="math inline">\(1\)</span> до <span class="math inline">\(n\)</span>. Такое представление кодирует не все состояния, но оно точно не учитывает те, где ферзи бьют друг друга по вертикали или горизонтали.</p>
+<p>Выберем такую функцию: fitness(p) = число пар ферзей, которые бьют друг друга.</p>
+<p>Важная деталь: скорость одной итерации прямо пропорционально скорости работы <code>fitness</code>, поэтому очень важно реализовать её эффективно. Конкретно здесь её можно реализовать за <span class="math inline">\(O(n^2)\)</span> (используется в коде для наглядности), <span class="math inline">\(O(n)\)</span> и даже <span class="math inline">\(O(1)\)</span>.</p>
+<p>Мы будем использовать <code>python</code>, потому что в нём удобнее строить графики. Эквивалентный код на C++ приведена сразу после.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> random
+
+<span class="co"># Эти библиотеки будут нужны, чтобы рисовать графики:</span>
+<span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt
+<span class="op">%</span>matplotlib inline
+
+<span class="im">import</span> seaborn <span class="im">as</span> sns
+sns.<span class="bu">set</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> fitness(p):
+    s <span class="op">=</span> <span class="dv">0</span>
+    <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(<span class="bu">len</span>(p)):
+        d <span class="op">=</span> <span class="dv">1</span>
+        <span class="cf">for</span> j <span class="op">in</span> <span class="bu">range</span>(i):
+            <span class="cf">if</span> <span class="bu">abs</span>(i<span class="op">-</span>j) <span class="op">==</span> <span class="bu">abs</span>(p[i]<span class="op">-</span>p[j]): <span class="co"># ферзи стоят на одной диагонали</span>
+                d <span class="op">=</span> <span class="dv">0</span>
+        s <span class="op">+=</span> d
+    <span class="cf">return</span> s</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">n <span class="op">=</span> <span class="dv">100</span> <span class="co"># кол-во ферзей</span>
+k <span class="op">=</span> <span class="dv">1000</span> <span class="co"># кол-во итераций</span>
+p <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(n)) <span class="co"># исходная перестановка</span>
+
+scores <span class="op">=</span> []
+
+t <span class="op">=</span> <span class="dv">1</span>
+<span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(k):
+    <span class="co"># уменьшаем температуру</span>
+    t <span class="op">*=</span> <span class="fl">0.99</span> <span class="co"># этот параметр лучше перебрать руками</span>
+    
+    <span class="co"># копируем перестановку и делаем небольшое изменение</span>
+    q <span class="op">=</span> p[:]
+    a, b <span class="op">=</span> random.sample(<span class="bu">range</span>(n), <span class="dv">2</span>)
+    q[a], q[b] <span class="op">=</span> q[b], q[a]
+    
+    <span class="co"># считаем разницу fitness и решаем, нужно ли переходить в новое состояние</span>
+    d <span class="op">=</span> fitness(q) <span class="op">-</span> fitness(p)
+    <span class="cf">if</span> d <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">or</span> random.random() <span class="op">&lt;</span> math.exp(d<span class="op">/</span>t):
+        p <span class="op">=</span> q[:]
+    scores <span class="op">+=</span> [fitness(q)]
+
+<span class="bu">print</span>(<span class="st">&#39;Best score:&#39;</span>, <span class="bu">max</span>(scores))
+plt.plot(scores)
+plt.show()</code></pre></div>
+<pre><code>Best score: 95</code></pre>
+<div class="figure">
+<img src="annealing_files/annealing_11_1.png" alt="png" />
+<p class="caption">png</p>
+</div>
+<p>Примерно эквивалентный код на C++:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">const <span class="bu">int</span> n <span class="op">=</span> <span class="dv">100</span>, k <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span>
+
+<span class="bu">int</span> f(vector<span class="op">&lt;</span><span class="bu">int</span><span class="op">&gt;</span> p) {
+    <span class="bu">int</span> s <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>
+    <span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++</span>) {
+        <span class="bu">int</span> d <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>
+        <span class="cf">for</span> (<span class="bu">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> i<span class="op">;</span> j<span class="op">++</span>)
+            <span class="cf">if</span> <span class="bu">abs</span>(i<span class="op">-</span>j) <span class="op">==</span> <span class="bu">abs</span>(p[i]<span class="op">-</span>p[j]):
+                d <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>
+        s <span class="op">+=</span> d<span class="op">;</span>
+    }
+    <span class="cf">return</span> s<span class="op">;</span>
+}
+
+double rnd() { <span class="cf">return</span> double(rand()) <span class="op">/</span> RAND_MAX<span class="op">;</span> }
+
+<span class="bu">int</span> main() {
+
+    <span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++</span>)
+        v[i] <span class="op">=</span> i<span class="op">;</span>
+
+    <span class="bu">int</span> ans <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>
+
+    double t <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>
+    <span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> k<span class="op">;</span> i<span class="op">++</span>) {
+        t <span class="op">*=</span> <span class="fl">0.99</span><span class="op">;</span>
+        vector<span class="op">&lt;</span><span class="bu">int</span><span class="op">&gt;</span> u <span class="op">=</span> v<span class="op">;</span>
+        swap(u[rand()<span class="op">%</span>n], u[rand()<span class="op">%</span>n])<span class="op">;</span>
+        <span class="bu">int</span> val <span class="op">=</span> f(u)<span class="op">;</span>
+        <span class="cf">if</span> (val <span class="op">&gt;</span> ans <span class="op">||</span> rnd() <span class="op">&lt;</span> exp((val<span class="op">-</span>ans)<span class="op">/</span>t))
+            v <span class="op">=</span> u, ans <span class="op">=</span> val<span class="op">;</span>
+        <span class="cf">if</span> (ans <span class="op">==</span> n) <span class="cf">break</span><span class="op">;</span>
+    }
+
+    <span class="cf">for</span> (<span class="bu">int</span> x : v)
+        cout <span class="op">&lt;&lt;</span> x<span class="dv">+1</span> <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span>
+
+    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span>
+}</code></pre></div>
+</body>
+</html>

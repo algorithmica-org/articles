@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="алгоритм-ахо-корасик">Алгоритм Ахо-Корасик</h1>
+<p>Пусть дан набор строк в алфавите размера <span class="math inline">\(k\)</span> суммарной длины <span class="math inline">\(n\)</span>. Алгоритм Ахо-Корасик за <span class="math inline">\(O(nk)\)</span> времени и памяти строит <a href="http://sereja.me/a/trie">бор</a> для этого набора строк, а затем по этому бору строит автомат, который может использоваться в различных строковых задачах — например, нахождения всех вхождений каждой строки из данного набора в произвольный текст за линейное время.</p>
+<p>Алгоритм был назван именами создателей — Альфреда Ахо и Маргарет Корасик.</p>
+<p><img width='100%' src='https://www.fishingsib.ru/files/image/1articles/2017/10/10/4.jpg'></p>
+<p>Автор специализируется на компьютерной лингвистике и когда-то работал над созданием разговорного интеллекта — этот модуль назывался «Болталка», говорящая на произвольные темы.</p>
+<blockquote>
+<p>Пусть заданы <span class="math inline">\(n\)</span> <em>плохих</em> слов и большой текст <span class="math inline">\(t\)</span>. Нужно найти суммарное количество их вхождений в этот текст.</p>
+</blockquote>
+<p>Эту и много других задач помогают решать <em>суффиксные ссылки</em>. Суффиксная ссылка для вершины <span class="math inline">\(v\)</span> — это вершина, которой соответствует наидлиннейший суффикс строки, соответствующей вершине <span class="math inline">\(v\)</span>, и присутствующий в боре. Будем считать, что мы их умеем быстро находить.</p>
+<p>Добавим все плохие слова в бор. Будем считывать строку и с помощью суффиксных ссылок поддерживать самый длинный суффикс текущей строки, который принимает бор. Тогда, для конкретной позиции, мы можем быстро посчитать, какие плохие слова на нём заканчиваются — ровно те, до которых можно дойти по суффиксным ссылкам (по определению, суффиксная ссылка ведёт в наидлиннейший суффикс, присутствующий в боре). Информацию о количестве таких слов можно посчитать заранее динамикой в графе из суффиксных ссылок.</p>
+<p>Алгоритм Ахо-Корасик позволяет строить суффиксные ссылки для произвольного бора за <span class="math inline">\(O(nk)\)</span>, где <span class="math inline">\(n\)</span> и <span class="math inline">\(k\)</span> это суммарный размер строк и размер алфавита соответственно. Его описание вынесенов в <a href="http://sereja.me/a/aho-corasick">отдельную статью</a>.</p>
+<h2 id="зачем-это-нужно">Зачем это нужно</h2>
+<blockquote>
+<p>Пусть заданы <span class="math inline">\(n\)</span> <em>плохих</em> слов и большой текст <span class="math inline">\(t\)</span>. Нужно найти суммарное количество их вхождений в этот текст.</p>
+</blockquote>
+<p>Добавим все плохие слова в бор, и будем считывать строку и с помощью суффиксных ссылок поддерживать самый длинный суффикс текущей строки, который принимает бор.</p>
+<p>Тогда, для конкретной позиции, мы можем быстро посчитать, какие плохие слова на нём заканчиваются — ровно те, по которым можно дойти по суффиксным ссылкам. Информацию о количестве таких слов можно посчитать заранее динамикой в графе из суффиксных ссылок.</p>
+<p>Помимо суффиксных ссылок, нужно найти ещё <em>переходы</em>, чтобы поддерживать самый длинный суффикс.</p>
+<h2 id="алгоритм-ахо-корасик-1">Алгоритм Ахо-Корасик*</h2>
+<p>Заметим, что всего суффиксных ссылок нужно найти <span class="math inline">\(O(n)\)</span>, а переходов — <span class="math inline">\(O(nk)\)</span>. Суффиксные ссылки и переходы можно быстро найти динамикой.</p>
+<p><strong>Ссылки</strong>. Мы можем сделать так: пройти на символ назад, а оттуда пройти по суффиксной ссылке, и уже оттуда вызвать переход.</p>
+<p><strong>Переходы</strong>. Вот к нашей строке прибавился символ — нужно найти самую длинную строку. Для этого можно откатываться по суффиксным ссылкам, пока не придем в вершину, из которой данный переход есть. Рано или поздно мы либо попадем в такую вершину, либо попадем в корень. Но можно поступить лениво, и просто откатиться на <em>одну</em> суффиксную ссылку и взять уже посчитанный переход оттуда.</p>
+<p><img src='https://www.parazitakusok.ru/images/item/5728/item_1109_1510080296_558.jpg' width='250px'></p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">int</span> k = <span class="dv">26</span>;
+
+<span class="kw">struct</span> Vertex {
+    Vertex *to[k] = {<span class="dv">0</span>}, *go[k] = {<span class="dv">0</span>};
+    Vertex *link = <span class="dv">0</span>, *p;
+    <span class="dt">int</span> pch;
+    Vertex (<span class="dt">int</span> _pch, Vertex *_p) { pch = _pch, p = _p; }
+};
+
+Vertex *root = <span class="kw">new</span> Vertex(<span class="dv">-1</span>, <span class="dv">0</span>);</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> add_string (string s) {
+    Vertex *v = root;
+    <span class="kw">for</span> (<span class="dt">char</span> _c : s) {
+        c -= <span class="st">&#39;a&#39;</span>;
+        <span class="kw">if</span> (!v-&gt;to[c])
+            v-&gt;to[c] = <span class="kw">new</span> Vertex(c, v);
+        v = v-&gt;to[c];
+    }
+}</code></pre></div>
+<p>Нам нужно объявить две функции, которые будут ссылаться друг на друга. В интерпретируемых языках (например, в питоне) можно просто объявить две функции, а вот C++ так не умеет — нужно сначала все объявить, а потом ссылаться.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Vertex* go (Vertex *v, <span class="dt">int</span> c);
+
+Vertex* link (Vertex *v) {
+    <span class="kw">if</span> (!v-&gt;link) {
+        <span class="kw">if</span> (v == root || v-&gt;p == root) v-&gt;link = root;
+        <span class="kw">else</span> v-&gt;link = go(link(v-&gt;p), v-&gt;pch);
+    }
+    <span class="kw">return</span> v-&gt;link;
+}
+
+Vertex* go (Vertex *v, <span class="dt">int</span> c) {
+    <span class="kw">if</span> (!v-&gt;go[c]) {
+        <span class="kw">if</span> (v-&gt;to[c]) v-&gt;go[c] = v-&gt;to[c];
+        <span class="kw">else</span> <span class="kw">if</span> (v == root) v-&gt;go[c] = root;
+        <span class="kw">else</span> v-&gt;go[c] = go(link(v), c);
+    }
+    <span class="kw">return</span> v-&gt;go[c];
+}</code></pre></div>
+</body>
+</html>

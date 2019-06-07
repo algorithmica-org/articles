@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="алгоритмика">Алгоритмика</h1>
+<h3 id="структуры-данных">Структуры данных</h3>
+<ul>
+<li><a href="http://sereja.me/a/segtree">Дерево отрезков</a> отложенные операции, динамическое, персистентное</li>
+<li><a href="http://sereja.me/a/treap">Декартово дерево</a> treap, дерамида, неявный ключ, персистентное</li>
+<li><a href="http://sereja.me/a/fenwick">Дерево Фенвика</a> многомерное дерево Фенвика, бинпоиск по дереву Фенвика</li>
+<li><a href="http://sereja.me/a/sparse-table">Разреженная таблица</a> sparse table, static RMQ</li>
+<li><a href="http://sereja.me/a/bitset">Битовое сжатие</a> битовые операции, std::bitset, перемножение матриц, метод Гаусса</li>
+</ul>
+<h3 id="общие-техники">Общие техники</h3>
+<ul>
+<li><p>Корневая декомпозиция: она где-то есть</p></li>
+<li><p><a href="http://sereja.me/a/karatsuba">Алгоритм Карацубы</a>: введение в разделяй-и-властвуй, мастер-теорема</p></li>
+</ul>
+<h3 id="дискретная-математика">Дискретная математика</h3>
+<ul>
+<li><p><a href="http://sereja.me/a/reciprocal">Модулярная арифметика</a> теорема Ферма, нахождение обратного по модулю, бинарное возведение в степень, диофантово уравнение, применения в комбинаторике, предподсчёт обратных факториалов за линейное время</p></li>
+<li><p><a href="http://sereja.me/a/pollard">Ро-алгоритм Полларда</a> парадокс дней рождений, факторизация за <span class="math inline">\(O(\sqrt[4] n)\)</span></p></li>
+<li><p><a href="http://sereja.me/a/matroid">Матроиды</a> алгоритм Радо-Эдмондса, расписания, паросочетания, линейная независимость</p></li>
+</ul>
+<h3 id="графы">Графы</h3>
+<ul>
+<li><p><a href="http://sereja.me/a/mst">Остовные деревья</a> алгоритм Прима, алгоритм Крускала</p></li>
+<li><p>[Паросочетания](<a href="http://sereja.me/a/matching" class="uri">http://sereja.me/a/matching</a> алгоритм Куна, покрытие ациклического орграфа, лемма Холла</p></li>
+</ul>
+<h3 id="потоки">Потоки</h3>
+<ul>
+<li><a href="http://sereja.me/a/mincost-maxflow">Поток минимальной стоимости</a> критерий оптимальности, отмена потока, потенциалы Джонсона, «дейкстра с потенциалами»</li>
+</ul>
+<h3 id="деревья">Деревья</h3>
+<ul>
+<li><p>[Наименьший общий предок](<a href="http://sereja.me/a/lca" class="uri">http://sereja.me/a/lca</a> LCA, двоичные подъемы, сведение LCA к RMQ, алгоритм Фараха-Колтона и Бендера</p></li>
+<li><p><a href="http://sereja.me/a/centroid">Центроидная декомпозиция</a></p></li>
+<li><p><a href="http://sereja.me/a/hld">Heavy-light декомпозиция</a></p></li>
+</ul>
+<h3 id="строки">Строки</h3>
+<ul>
+<li><p><a href="http://sereja.me/a/hashing">Полиномиальное хэширование</a> хэши, парадокс дней рождений, хранение строк в декартовом дереве</p></li>
+<li><p><a href="http://sereja.me/a/strings">Поиск строки в строке</a> префикс-функция, z-функция</p></li>
+<li><p><a href="http://sereja.me/a/trie">Бор</a></p></li>
+<li><p><a href="http://sereja.me/a/aho-corasick">Ахо-Корасик</a></p></li>
+<li><p><a href="http://sereja.me/a/suffix-array">Суффиксный массив</a> построение за <span class="math inline">\(O(n \log n)\)</span>, LCP</p></li>
+</ul>
+<h3 id="динамическое-программирование">Динамическое программирование</h3>
+<ul>
+<li><a href="http://sereja.me/a/dp-optimizations">Пересчёт динамики по слоям</a> оптимизация Кнута, разделяй-и-властвуй, Convex Hull Trick, дискретный метод Лагранжа</li>
+</ul>
+<h3 id="оптимизация">Оптимизация</h3>
+<ul>
+<li><a href="http://sereja.me/a/annealing">Метод отжига</a> задача о ферзях</li>
+</ul>
+<h3 id="разное">Разное</h3>
+<ul>
+<li><a href="http://sereja.me/a/stress-test">Стресс-тестирование</a></li>
+</ul>
+<h3 id="теория-игр">Теория игр</h3>
+<ul>
+<li><a href="http://sereja.me/a/games">Теория игр</a>: эту статью определенно надо распилить на несколько</li>
+</ul>
+<h3 id="высшая-математика">Высшая математика</h3>
+<ul>
+<li><p><a href="http://sereja.me/a/linalg">Линейная алгебра</a> линейные операторы, матрицы, применения к динамике, метод Гаусса</p></li>
+<li><p><a href="http://sereja.me/a/probability">Теорвер</a></p></li>
+</ul>
+<h3 id="геометрия">Геометрия</h3>
+<ul>
+<li><p><a href="http://sereja.me/a/geometry">Ликбез по вычислительной геометрии</a> скалярное и векторное произведение, пересечение прямых, классы в C++</p></li>
+<li><p>Выпуклые оболочки: они где-то есть</p></li>
+</ul>
+</body>
+</html>

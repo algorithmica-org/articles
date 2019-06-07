@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="центроидная-декомпозиция">Центроидная декомпозиция</h1>
+<p>Центроидная декомпозиция — обобщение метода «разделяй-и-властвуй» на деревья (массив можно представить бамбуком, так что это действительно обобщение). Обычно её используют для решения двух типов задач: «сколько есть путей с такими-то свойствами» и «есть ли такое-то свойство у этого пути».</p>
+<p>Иногда вместо неё можно написать <a href="http://sereja.me/a/hld">Heavy-light декомпозицию</a> (чуть сложнее) или метод переливаний (чуть проще).</p>
+<div class="figure">
+<img src="https://tanujkhattar.files.wordpress.com/2016/01/1.jpg?w=700" />
+
+</div>
+<p><strong>Определение</strong>. <em>Центром</em> или <em>цетроидом</em> (англ. <em>centroid</em>) дерева будем называть вершину, при удалении которой размеры оставшихся компонент будут не более <span class="math inline">\(\frac{n}{2}\)</span>.</p>
+<p>Выясняется, что центр всегда существует — это следует из алгоритма его поиска:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> s[maxn];
+
+<span class="dt">int</span> sizes (<span class="dt">int</span> v) {
+    s[v] = <span class="dv">1</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> u : g[v])
+        <span class="co">// для простоты считаем, что дерево корневое</span>
+        s[v] += sizes(u);
+    <span class="kw">return</span> s[v];
+}
+
+<span class="co">// второй параметр -- размер дерева</span>
+<span class="dt">int</span> centroid (<span class="dt">int</span> v, <span class="dt">int</span> n) {
+    <span class="kw">for</span> (<span class="dt">int</span> u : g[v])
+        <span class="kw">if</span> (s[u] &gt; n/<span class="dv">2</span>)
+            <span class="kw">return</span> centroid(u, n);
+    <span class="kw">return</span> v;
+}</code></pre></div>
+<p><strong>Утверждение.</strong> <code>centroid</code> действительно находит цетроид.</p>
+<p><strong>Доказательство:</strong></p>
+<ul>
+<li><code>centroid</code> вернет вершину, у которой размеры всех детей не больше <span class="math inline">\(\frac{n}{2}\)</span> (это явно проверяется в <code>if</code>-е).</li>
+<li>Мы пришли в эту вершину, когда её размер был больше <span class="math inline">\(\frac{n}{2}\)</span>, а это значит, что в «обратном» направлении есть не более <span class="math inline">\(n - (\frac{n}{2}+1) = \frac{n}{2}-1\)</span> вершин.</li>
+<li>Значит, размеры всех соседей не больше половины <span class="math inline">\(n\)</span>, и алгоритм корректен.</li>
+</ul>
+<p>Иногда центров два (пример: 1-<strong>2-3</strong>-4), тогда алгоритм вернёт «нижний» центроид.</p>
+<p><strong>Определение</strong>. <em>Центроидной декомпозицией</em> будем называть рекурсивный процесс «выделить центроид, удалить, запуститься от компонент».</p>
+<p><strong>Определение</strong>. <em>Компонентой центроида</em> будем называть множество вершин, достижимых из центроида непосредственно перед его удалением.</p>
+<p>Заметим, что в конце всё дерево будет удалено, а значит каждая вершина ровно один раз побывала центроидом своей компоненты.</p>
+<p>Теперь поймём, зачем мы всё это делали.</p>
+<p><strong>Утверждение.</strong> Каждая вершина входит в <span class="math inline">\(O(\log n)\)</span> компонент.</p>
+<p><strong>Доказательство.</strong> Центроид разбивает дерево на компоненты в хотя бы два раза меньшего размера. Значит, никакая вершина не может «выжить» более <span class="math inline">\(\lceil \log_2 n \rceil\)</span> разделений.</p>
+<p><strong>Следствие.</strong> Центроидная декомпозиция (см. определение выше) работает за <span class="math inline">\(O(n \log n)\)</span>.</p>
+<p><strong>Утверждение.</strong> Для любого пути <span class="math inline">\(a \leadsto b\)</span> есть единственный центроид <span class="math inline">\(c\)</span>, в чьей компоненте были и <span class="math inline">\(a\)</span>, и <span class="math inline">\(b\)</span>.</p>
+<p><strong>Доказательство.</strong> Каждая вершина когда-то была центроидом. Какая-то из вершин на пути была центроидом первой, и она навсегда разъединила <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>.</p>
+<p>Это очень важные выводы. Получается, что в процессе центроидной декомпозиции и для каждого простого пути будет ровно одна ситуация, когда этот путь содержится в какой-то компоненте и проходит через центроид. Ровно в этот момент мы можем обработать какой-то запрос, пользуясь техникой, похожей на метод переливаний.</p>
+<h2 id="подсчет-путей-с-заданным-свойством">Подсчет путей с заданным свойством</h2>
+<p>Рассмотрим конкретный пример: подсчёт путей заданной длины.</p>
+<p>Вмешаемся в процесс центроиднодной декомпозиции: для каждого центроида перед его удалением будем прибавлять к ответу число интересующих нас путей, которые проходят через этот центроид.</p>
+<p>Количество таких путей можно посчитать за размер текущей компоненты: заведём массив <code>d</code>, в котором будем хранить количество вершин на каждом расстоянии от 0 до размера компоненты. Подвесим наше дерево-компоненту за центроид и будем запускать от его непосредственных детей <code>dfs</code>, который будет возвращать временный массив <code>t</code> — список глубин вершин в этом поддереве. Мы можем пройтись по каждому значению <code>x</code> в нём и добавить к ответу <code>d[l-x]</code>, а затем добавить все значения из <code>t</code> в <code>d</code>. Можно убедиться, что таким образом каждый интересующий нас путь будет учтён ровно один раз.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> l = <span class="dv">179</span>; <span class="co">// нужная нам длина</span>
+<span class="dt">int</span> ans = <span class="dv">0</span>;
+
+<span class="co">// нам лень явно удалять вершины: заведем массив used -- была ли вершина удалена</span>
+<span class="dt">bool</span> used[maxn];
+<span class="dt">int</span> s[maxn]; <span class="co">// размеры поддеревьев</span>
+
+<span class="dt">void</span> sizes (<span class="dt">int</span> v, <span class="dt">int</span> p) {
+    s[v] = <span class="dv">1</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> u : g[v])
+        <span class="kw">if</span> (u != p &amp;&amp; !used[u])
+            sizes(u, v), s[v] += s[u];
+}
+
+<span class="dt">int</span> centroid (<span class="dt">int</span> v, <span class="dt">int</span> p, <span class="dt">int</span> n) {
+    <span class="kw">for</span> (<span class="dt">int</span> u : g[v])
+        <span class="kw">if</span> (u != p &amp;&amp; !used[u] &amp;&amp; s[u] &gt; n/<span class="dv">2</span>)
+            <span class="kw">return</span> centroid(u, v, n);
+    <span class="kw">return</span> v;
+}
+
+<span class="co">// записывает в t[] глубины вершин</span>
+<span class="dt">void</span> dfs (<span class="dt">int</span> v, <span class="dt">int</span> p, <span class="dt">int</span> d, vector&lt;<span class="dt">int</span>&gt; &amp;t) {
+    t.push_back(d);
+    <span class="kw">for</span> (<span class="dt">int</span> u : g[v])
+        <span class="kw">if</span> (u != p &amp;&amp; !used[u])
+            dfs(u, v, d + <span class="dv">1</span>, t);
+} 
+
+<span class="dt">void</span> solve (<span class="dt">int</span> v) {
+    <span class="co">/* &lt;единственный зависящий от конкретной задачи код&gt; */</span>
+    size(v);
+    vector&lt;<span class="dt">int</span>&gt; d(s[v], <span class="dv">0</span>);
+    d[<span class="dv">0</span>] = <span class="dv">1</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> u : g[v]) {
+        <span class="kw">if</span> (!used[u]) {
+            vector&lt;<span class="dt">int</span>&gt; t;
+            dfs(u, v, <span class="dv">1</span>, t);
+            <span class="kw">for</span> (<span class="dt">int</span> x : t)
+                <span class="kw">if</span> (x &lt;= l)
+                    ans += d[l-x];
+            <span class="kw">for</span> (<span class="dt">int</span> x : t)
+                d[x]++;
+        }
+    }
+    <span class="co">/* &lt;/единственный зависящий от конкретной задачи код&gt; */</span>
+
+    used[v] = <span class="dv">1</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> u : g[v])
+        <span class="kw">if</span> (!used[u])
+            solve(centroid(u, v, s[u]/<span class="dv">2</span>));
+}</code></pre></div>
+<p><strong>Асимптотика</strong> <span class="math inline">\(O(n \log n)\)</span>, потому что на каждую из <span class="math inline">\(O(n)\)</span> верщин мы потратим <span class="math inline">\(O(1)\)</span> операций на каждом из <span class="math inline">\(O(\log n)\)</span> «уровней» центроидной декомпозиции.</p>
+<h2 id="запросы-на-путях-offline">Запросы на путях — offline</h2>
+<p>Мы находим всё, что нам надо, сразу после того, как получили новую компоненту. Если у нас есть список запросов «посчитать что-то на пути», то мы часто можем обработать их в offline.</p>
+<p>А именно, мы можем хранить вместе с вершиной список относящихся к ней ещё не отвеченных запросов. Этот список мы будем просматривать во время обработки очередной компоненты, и если центроид лежит на этом запросе, то мы ответим на этот запрос и удалим его из списка, а в обратном случае просто проигнорируем.</p>
+<p>Например, при запросах суммы на пути, мы можем насчитать во внутреннем <code>dfs</code> для каждой вершины сумму на пути от её текущего центроида, и если при обработке текущей компоненты встретим вторую вершину запроса, в какой-то другой ветке, то просто возьмем её сумму и уже посчитанной суммой на пути до первой вершины.</p>
+<p>Таким образом, каждый запрос будет просмотрен <span class="math inline">\(O(\log n)\)</span> раз, пока не будет удален, и асимптотика составит <span class="math inline">\(O(q \log n + n \log n)\)</span>.</p>
+<h2 id="запросы-на-путях-online">Запросы на путях — online</h2>
+<p>Альтернативно, можно сначала «построить» центроидную декомпозицию, а потом отвечать на запросы.</p>
+<p>Пусть мы хотим посчитать отвечать на запросы минимума на путях и не знаем, как решать LCA двоичными подъемами. Создадим двумерный массив <code>centroid[][]</code> размера <span class="math inline">\(n \times \log n\)</span>, в котором для каждой вершины будем хранить <span class="math inline">\(O(\log n)\)</span> центроидов, в чьи компоненты она когда-то входила. Помимо этого, в таком же массиве будем хранить информацию, которая нам будем нужна для ответа на запросы — в данном случае для каждой пары вершина-центроид будем хранить минимум на соответствующем пути.</p>
+<p>Тогда, при ответе на запрос, мы за <span class="math inline">\(O(\log n)\)</span> или даже <span class="math inline">\(O(\log \log n)\)</span> операций находим центроид на нужном нам пути (первые сколько-то значений <code>centroid[v]</code> и <code>centroid[u]</code> будут совпадать — нас интересует последнее) и берём в качестве ответа минимум от минимумов на двух путях до центроида.</p>
+<h2 id="асимптотика-при-более-долгих-пересчётах">Асимптотика при более долгих пересчётах</h2>
+<p>TODO: сослаться на мастер-теорему</p>
+<p>Представим, что мы написали «мердж» (ту часть, которая отвечает за ответ на запросы или подсчёт путей, идущих через центроид) не за линейное время, а за <span class="math inline">\(O(n \log n)\)</span> (например, где-то использовав <code>set</code>). Сильно ли это хуже по времени?</p>
+<p>Возьмем худший случай — когда каждый раз компонента разбивается на две равные части.</p>
+<p><img width='500px' src='https://www.cs.cornell.edu/courses/cs3110/2012sp/lectures/lec20-master/images/Lec19-diagram1.png'></p>
+<p>Оценим сверху, сколько всего выполняется операций, рассмотрев дерево рекурсии нашего алгоритма и просуммировав каждый уровень:</p>
+<p><span class="math display">\[ \sum_{k=0}^{\log n} \frac{n}{2^k} \log \frac{n}{2^k}
+\leq \sum_{k=0}^{\log n} \frac{n}{2^k} \log n
+= n \log n \sum_{k=0}^{\log n} \frac{1}{2^k}
+&lt; 2 n \log n
+= O(n \log n) \]</span></p>
+<p>Получается, что мы можем «мердж» в центроидной декомпозиции писать и за <span class="math inline">\(O(n \log n)\)</span> — как, впрочем, и во всех остальных «разделяйках».</p>
+</body>
+</html>

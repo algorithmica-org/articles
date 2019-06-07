@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="дерево-отрезков">Дерево отрезков</h1>
+<p><strong>Замечание</strong>. Почти везде мы будем использовать полуинтервалы — обозначаемые как <span class="math inline">\([l, r)\)</span> — вместо отрезков. Несмотря на контринтуитивность, это немного упростит код и вообще является хорошей практикой в программировании, подобно нумерации с нуля.</p>
+<p><strong>Дерево отрезков</strong> — очень мощная и гибкая структура данных, позволяющая быстро отвечать на самые разные запросы на отрезках.</p>
+<p>Рассмотрим конкретную задачу:</p>
+<blockquote>
+<p>Дан массив <span class="math inline">\(a\)</span> из <span class="math inline">\(n\)</span> целых чисел, нужно уметь отвечать на запросы двух типов:</p>
+</blockquote>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li>Изменить значение в ячейке (т. е. отреагировать на присвоение <code>a[k] = x</code>).</li>
+<li>Вывести сумму элементов <span class="math inline">\(a_i\)</span> на отрезке с <span class="math inline">\(l\)</span> по <span class="math inline">\(r\)</span>.</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>Оба запроса нужно обрабатывать за время <span class="math inline">\(O(\log n)\)</span>.</p>
+</blockquote>
+<p>Чтобы решить задачу, сделаем с исходным массивом следующие манипуляции:</p>
+<p>Посчитаем сумму всего массива и где-нибудь запишем. Потом разделим его пополам и посчитаем сумму на половинах и тоже где-нибудь запишем. Каждую половину потом разделим пополам ещё раз, и так далее, пока не придём к отрезкам длины 1.</p>
+<p>Эту последовательность разбиений можно представить в виде дерева. Корень этого дерева соответствует отрезку <span class="math inline">\([0, n)\)</span>, а каждая вершина (не считая листьев) имеет ровно двух сыновей, которые тоже соответствуют каким-то отрезкам. Отсюда и название — «дерево отрезков».</p>
+<div class="figure">
+<img src="http://i.imgur.com/GGBmcEP.png" alt="alt text" />
+<p class="caption">alt text</p>
+</div>
+<p>Строить его можно рекурсивной функцией: * Если вершина является листом, взять в качестве суммы значение соответствующей ячейки. * Если вершина является отрезком, разделить его на два и в качестве суммы взять сумму его детей.</p>
+<h2 id="разные-свойства">Разные свойства</h2>
+<p>Высота такого дерева есть величина <span class="math inline">\(\Theta(\log n)\)</span>: на каждом новом уровне длина отрезка уменьшается вдвое. Этот факт будет ключевым для оценки асимптотики.</p>
+<p>Более того, любой полуинтервал разбивается на <span class="math inline">\(O(\log n)\)</span> неперекрывающихся полуинтервалов, соответствующих в вершинам дерева: с каждого уровня нам достаточно не более двух отрезков.</p>
+<p>Дерево также содержит менее <span class="math inline">\(2n\)</span> вершин: первый уровень дерева отрезков содержит одну вершину (корень), второй уровень — в худшем случае две вершины, на третьем уровне в худшем случае будет четыре вершины, и так далее, пока число вершин не достигнет <span class="math inline">\(n\)</span>. Таким образом, число вершин в худшем случае оценивается суммой <span class="math inline">\(n + \frac{n}{2} + \frac{n}{4} + \frac{n}{8} + \ldots + 1 &lt; 2n\)</span>. Значит, оно линейное по памяти.</p>
+<p>При <span class="math inline">\(n\)</span>, отличных от степеней двойки, не все уровни дерева отрезков будут полностью заполнены. Например, при <span class="math inline">\(n=3\)</span> левый сын корня есть отрезок <span class="math inline">\([0, 2)\)</span>, имеющий двух потомков, в то время как правый сын корня — отрезок <span class="math inline">\([2, 3)\)</span>, являющийся листом.</p>
+<h2 id="ок-как-это-нам-поможет">Ок, как это нам поможет?</h2>
+<p>Опишем теперь, как с помощью такой структуры решить задачу.</p>
+<p><strong>Запрос обновления</strong>. Нам нужно обновить значения в вершинах таким образом, чтобы они соответствовали новому значению <span class="math inline">\(a[k] = x\)</span>.</p>
+<p>Изменим все вершины, в суммах которых участвует <span class="math inline">\(k\)</span>-тый элемент. Их будет <span class="math inline">\(\Theta(\log n)\)</span> — по одной с каждого уровня.</p>
+<p>Это можно реализовать как рекурсивную функцию: ей передаётся текущая вершина дерева отрезков, и эта функция выполняет рекурсивный вызов от одного из двух своих сыновей (от того, который содержит <span class="math inline">\(k\)</span>-ый элемент в своём отрезке), а после этого — пересчитывает значение суммы в текущей вершине точно таким же образом, как мы это делали при построении дерева отрезков.</p>
+<p><strong>Запрос суммы</strong>. Мы знаем, что во всех вершинах лежат корректные значения.</p>
+<p>Сделаем тоже рекурсивную функцию, рассмотрев три случая:</p>
+<ul>
+<li>Если отрезок вершины лежит целиком в отрезке запроса, то вернуть записанную в ней сумму.</li>
+<li>Если отрезки вершины и запроса не пересекаются, то вернуть 0.</li>
+<li>Иначе разделиться рекурсивно на 2 и вернуть сумму этой функции от обоих детей.</li>
+</ul>
+<p>Чтобы разобраться, почему это работает за <span class="math inline">\(O(\log n)\)</span>, нужно оценить количество «интересных» отрезков — тех, которые порождают новые вызовы рекурсии. Это будут только те, которые содержат границу запросов — остальные сразу завершатся. Обе границы отрезка содержатся в <span class="math inline">\(O(\log n)\)</span> отрезках, а значит и итоговая асимптотика будет такая же.</p>
+<h2 id="ликбез-по-c">Ликбез по C++</h2>
+<p>Наша реализация будет на указателях. Никто не говорит, что она самая лучшая (см. раздел «Другие реализации»), но она самая понятная. Вам может поначалу показаться, что она слишком сложная, но позже вы поймёте её преимущества.</p>
+<p>Но сначала нам нужно рассказать про объектно-ориентированное программирование и некоторые фишки C++. Если вы их уже знаете, то можете пропускать этот раздел.</p>
+<p>Объект — это сущность, которой можно посылать сообщения и которая может на них реагировать, используя свои данные. Инкапсулировать логику в объекты на самом деле очень удобно. Дереву отрезков не важно знать, как устроен окружающий мир, а миру не важно, как внутри устроено дерево отрезков — это просто какая-то структура, которая умеет делать нужные операции за <span class="math inline">\(O(\log n)\)</span>.</p>
+<p>В C++ есть два способа объявлять классы (объект — это экземпляр класса): через <code>struct</code> и через <code>class</code>. Их основное отличие в том, что по умолчанию в <code>class</code> все поля приватные — к ним нет прямого доступа снаружи. Это нужно для дополнительной защиты, чтобы в крупных промышленных проектах никто случайно ничего не поломал, но на олимпиадах это не очень актуально.</p>
+<p>У классов есть поля (переменные) и методы (функции, привязанные к объектам). Среди них есть особые, например <strong>конструктор</strong> — он вызывается при создании объекта. Чтобы объявить конструктор класса в C++, нужно объявить внутри него метод с тем же названием, что и у самого класса.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> A {
+    <span class="dt">int</span> param1, param2; <span class="co">// тут можно что-то хранить</span>
+    <span class="dt">char</span> param3 = <span class="st">&#39;k&#39;</span>;
+    A (<span class="dt">int</span> var) {
+        <span class="co">// эта часть называется конструктором</span>
+        <span class="co">// ...</span>
+    }
+    <span class="dt">void</span> do_something () {
+        <span class="co">// это какой-то другой метод</span>
+        <span class="co">// ...</span>
+    }
+}; <span class="co">// &lt;- не забудьте точку с запятой</span></code></pre></div>
+<p>Другое важное понятие — указатель. Память можно представлять как просто очень большой массив. На самом деле, когда мы создаем какой-то объект, отдельная программа (<em>аллокатор</em>) выделяет место в массиве (<em>оперативной памяти</em>) под этот объект и возвращает позицию (<em>указатель</em>) на место в этом массиве.</p>
+<p>Указатели нам нужны для того, чтобы хранить ссылки на детей. Имея указатель на объект, можно делать всё то же, что и имея сам объект, только синтаксис немного поменяется:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">A x(<span class="dv">179</span>);
+x.do_something();
+x.param1 = <span class="dv">57</span>;
+
+A *y = <span class="kw">new</span> A(<span class="dv">42</span>); <span class="co">// new возвращает адрес, по которому можно найти объект</span>
+y-&gt;do_something();
+y.param3 = <span class="st">&#39;!&#39;</span>;</code></pre></div>
+<p>Кстати, вы не задумывались, почему мы перешли с 32-битных процессоров на 64-битные? Каждый указатель ссылается на байт — более точный адрес менеджер памяти выделять не умеет. Поэтому 32-битный компьютер умеет работать только с не более, чем <span class="math inline">\(2^{32}\)</span> байтами памяти — ровно 4 гигабайта — что с какого-то момента начало нехватать. Большинство операций — это операции с памятью, и размерность повысили именно из-за этого, а не чтобы операции с <code>long long</code> быстрее считались</p>
+<h2 id="реализация">Реализация</h2>
+<p>Общий план реализации любых структур данных: 1. Полностью понять все <em>инварианты</em> — как должна выглядеть структура, какие значения должны принимать поля, etc. 2. Формально описать, что должны делать методы и за какую асимптотику. 3. Решить много отдельных задач, реализуя методы, не нарушающие инварианты.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> segtree {
+    <span class="dt">int</span> lb, rb; <span class="co">// левые и правые границы отрезков</span>
+    <span class="dt">int</span> sum = <span class="dv">0</span>; <span class="co">// сумма на текущем отрезке</span>
+    segtree *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;
+    segtree (<span class="dt">int</span> _lb, <span class="dt">int</span> _rb) {
+        lb = _lb, rb = _rb;
+        <span class="kw">if</span> (lb + <span class="dv">1</span> &lt; rb) {
+            <span class="co">// если не лист, создаем детей</span>
+            <span class="dt">int</span> t = (lb + rb) / <span class="dv">2</span>;
+            l = <span class="kw">new</span> segtree(lb, t);
+            r = <span class="kw">new</span> segtree(t, rb);
+        }
+    }
+    <span class="dt">void</span> add (<span class="dt">int</span> k, <span class="dt">int</span> x) {
+        sum += x;
+        <span class="kw">if</span> (l) {
+            <span class="kw">if</span> (k &lt; l-&gt;rb)
+                l-&gt;add(k, x);
+            <span class="kw">else</span>
+                r-&gt;add(k, x);
+        }
+    }
+    <span class="dt">int</span> get_sum (<span class="dt">int</span> lq, <span class="dt">int</span> rq) {
+        <span class="kw">if</span> (lb &gt;= lq &amp;&amp; rb &lt;= rq)
+            <span class="co">// если мы лежим полностью в отрезке запроса, вывести сумму</span>
+            <span class="kw">return</span> sum;
+        <span class="kw">if</span> (max(lb, lq) &gt;= min(rb, rq))
+            <span class="co">// если мы не пересекаемся с отрезком запроса, вывести ноль</span>
+            <span class="kw">return</span> <span class="dv">0</span>;
+        <span class="co">// иначе всё сложно -- запускаемся от детей и пусть они там сами решают</span>
+        <span class="kw">return</span> l-&gt;get_sum(lq, rq) + r-&gt;get_sum(lq, rq);
+    }
+};</code></pre></div>
+<blockquote>
+<p>Посчитать число беспорядков в перестановке из <span class="math inline">\(n\)</span> элементов (беспорядок или инверсия — это пара чисел <span class="math inline">\(i &lt; j\)</span>, для которых <span class="math inline">\(p_i &gt; p_j\)</span>).</p>
+</blockquote>
+<p>Эта задача решается просто, если уметь писать сортировку слиянием вручную. Но мы пойдем по другому пути. Создадим ДО для суммы на <span class="math inline">\(n\)</span> элементов, изначально заполненное нулями. Теперь будем проходить по этому массиву слева направа. Когда обрабатываем очередное число <span class="math inline">\(x\)</span>, будем делать две вещи: * Запросим сумму от <span class="math inline">\(k\)</span> до <span class="math inline">\(n\)</span> в ДО. * Добавим единичку в <span class="math inline">\(k\)</span>-тую позицию в ДО.</p>
+<p>Так мы для каждой инверсии учтём её, когда запросим сумму для её правого элемента. Таким образом, мы решили эту задачу за <span class="math inline">\(O(n \log n)\)</span> запросов.</p>
+<blockquote>
+<p>Даны <span class="math inline">\(n\)</span> точек на плоскости с целыми координатами от 1до <span class="math inline">\(n\)</span>. Требуется ответить на <span class="math inline">\(m\)</span> запросов количества точек на прямоугольнике.</p>
+</blockquote>
+<p>Ответим на все запросы в оффлайн, используя метод сканирующей прямой:</p>
+<ul>
+<li>Разобьем запросы суммы на прямоугольнике на два запроса суммы на префиксах — сумма на прямоугольнике <span class="math inline">\([x_1, x_2] \times [y_1, y_2]\)</span> равна сумме на прямоугольнике <span class="math inline">\([0, x_2] \times [y_1, y_2]\)</span> минус сумма на прямоугольнике <span class="math inline">\([0, x_1] \times [y_1, y_2]\)</span>.</li>
+<li>Отсортируем теперь все точки и префиксные запросы по их <span class="math inline">\(x\)</span>. При этом, если у точки и запроса одинаковый <span class="math inline">\(x\)</span>, то точка должна идти раньше.</li>
+<li>Пройдёмся по ним в таком порядке и будем решать задачу для одномерной суммы: у нас есть операция «сделать +1 в <span class="math inline">\(y_i\)</span>» и «вывести сумму с <span class="math inline">\(y_1\)</span> по <span class="math inline">\(y_2\)</span>».</li>
+</ul>
+<h2 id="отложенные-операции">Отложенные операции</h2>
+<p>Пусть теперь наш запрос обновления — это присвоение значения <span class="math inline">\(x\)</span> всем элементам некоторого отрезка <span class="math inline">\([l, r)\)</span>, а не только одному.</p>
+<p>Мы не хотим спускаться до каждого элемента, где меняется сумма — их может быть очень много. Мы схитрим, и при запросе присваивания будем, по возможности, помечать некоторые вершины, что они и все их дети «покрашены» в какое-то число. Непосредственно спускаться до листьев мы не будем.</p>
+<p>Например, если пришел запрос «присвой число <span class="math inline">\(x\)</span> на всем массиве», то мы вообще фактических присвоений делать не будем — только оставим пометку в корне дерева, что оно покрашено.</p>
+<p>Когда нам позже понадобятся правильные значения таких вершин и их детей, мы будем делать «проталкивание» информации из текущей вершины в её сыновей: если метка стоит, пересчитаем сумму текущего отрезка и передадим эту метку сыновьям. Когда нам потом понадобятся сыновья, мы будем делать то же самое. Подобная операция будет гарантировать корректность данных в вершине ровно к тому моменту, когда они нам понадобятся.</p>
+<p>Понятно, что от использования таких «запаздывающих» обновлений асимптотика никак не уходшается, и мы можем всё так же решить задачу за <span class="math inline">\(O(n \log n)\)</span>.</p>
+<p>При реализации создадим вспомогательную функцию <code>push</code>, которая будет производить проталкивание информации из этой вершины в обоих её сыновей. Вызывать её стоит в самом начале обработки любого запроса — тогда она гарантирует, что в текущей вершине и её сыновьях все значения корректны.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> segtree {
+    <span class="dt">int</span> lb, rb;
+    <span class="dt">int</span> sum = <span class="dv">0</span>, assign = <span class="dv">-1</span>;
+    segtree *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;
+    segtree (<span class="dt">int</span> _lb, <span class="dt">int</span> _rb) {
+        lb = _lb, rb = _rb;
+        <span class="kw">if</span> (lb + <span class="dv">1</span> &lt; rb) {
+            <span class="dt">int</span> t = (lb + rb) / <span class="dv">2</span>;
+            l = <span class="kw">new</span> segtree(lb, t);
+            r = <span class="kw">new</span> segtree(t, rb);
+        }
+    }
+    <span class="dt">void</span> push () {
+        <span class="kw">if</span> (assign != <span class="dv">-1</span>) {
+            sum = (rb-lb) * assign;
+            <span class="kw">if</span> (l) { <span class="co">// если дети есть</span>
+                l-&gt;assign = assign;
+                r-&gt;assign = assign;
+            }
+        }
+        assign = <span class="dv">-1</span>;
+    }
+    <span class="dt">void</span> upd (<span class="dt">int</span> lq, <span class="dt">int</span> rq, <span class="dt">int</span> x) {
+        push();
+        <span class="kw">if</span> (lq &lt;= lb &amp;&amp; rb &lt;= rq)
+            assign = x;
+        <span class="kw">else</span> <span class="kw">if</span> (l &amp;&amp; max(lb, lq) &lt; min(rb, rq)) {
+            <span class="co">// если есть дети и отрезок запроса хоть как-то пересекается с нашим</span>
+            l-&gt;upd(lq, rq, x);
+            r-&gt;upd(lq, rq, x);
+            <span class="co">// ...дальше они сами разберутся</span>
+        }
+    }
+    <span class="dt">int</span> get_sum (<span class="dt">int</span> lq, <span class="dt">int</span> rq) {
+        push();
+        <span class="kw">if</span> (lb &gt;= lq &amp;&amp; rb &lt;= rq)
+            <span class="kw">return</span> sum;
+        <span class="kw">if</span> (max(lb, lq) &gt;= min(rb, rq))
+            <span class="kw">return</span> <span class="dv">0</span>;
+        <span class="kw">return</span> l-&gt;get_sum(lq, rq) + r-&gt;get_sum(lq, rq);
+    }
+};</code></pre></div>
+<p>По-английски эта техника называется <em>lazy propagation</em>. <strong>Очень важно научиться её писать</strong> — она часто встречается на олимпиадах.</p>
+<p>Идея «давайте будем всё делать в последний момент» применима не только в ДО, но и в других структурах <s>и в реальной жизни</s>.</p>
+<h2 id="динамическое-построение">Динамическое построение</h2>
+<p>А что, если у нас все индексы лежать не от в пределах <span class="math inline">\(10^5\)</span>, а, например, <span class="math inline">\(10^9\)</span>. Все асимптотики нас по прежнему устраивают (<span class="math inline">\(\log_2 10^6 \approx 20\)</span>, <span class="math inline">\(\log_2 10^9 \approx 30\)</span>), кроме этапа построения.</p>
+<p>Можно решить эту проблему так: откажемся от явного создания всех вершин дерева изначально. Изначально создадим только лишь корень, а остальные вершины будем создавать на ходу, когда в них потребуется записать что-то не дефолтное — как в lazy propagation.</p>
+<p>Реализовать это можно так же, как и с <code>push</code>-ем: в начале всех методов будем проверять, что дети-вершины созданы, и создавать их, если это не так.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> segtree {
+    <span class="dt">int</span> lb, rb;
+    <span class="dt">int</span> sum = <span class="dv">0</span>;
+    segtree *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;
+    segtree (<span class="dt">int</span> _lb, <span class="dt">int</span> _rb) {
+        lb = _lb, rb = _rb;
+        <span class="co">// а тут ничего нет</span>
+    }
+    <span class="dt">void</span> extend () {
+        <span class="kw">if</span> (!l &amp;&amp; lb + <span class="dv">1</span> &lt; rb) {
+            <span class="dt">int</span> t = (lb + rb) / <span class="dv">2</span>;
+            l = <span class="kw">new</span> segtree(lb, t);
+            r = <span class="kw">new</span> segtree(t, rb);
+        }
+    }
+    <span class="dt">void</span> add (<span class="dt">int</span> k, <span class="dt">int</span> x) {
+        extend();
+        sum += x;
+        <span class="kw">if</span> (l) {
+            <span class="kw">if</span> (k &lt; l-&gt;rb)
+                l-&gt;add(k, x);
+            <span class="kw">else</span>
+                r-&gt;add(k, x);
+        }
+    }
+    <span class="dt">int</span> get_sum (<span class="dt">int</span> lq, <span class="dt">int</span> rq) {
+        <span class="kw">if</span> (lb &gt;= lq &amp;&amp; rb &lt;= rq)
+            <span class="kw">return</span> sum;
+        <span class="kw">if</span> (max(lb, lq) &gt;= min(rb, rq))
+            <span class="kw">return</span> <span class="dv">0</span>;
+        extend();
+        <span class="kw">return</span> l-&gt;get_sum(lq, rq) + r-&gt;get_sum(lq, rq);
+    }
+};</code></pre></div>
+<p>Но вообще, в большинстве случаев, использовать динамическое построение — это как стрелять из пушки по воробьям. Если все запросы известны заранее, то их координаты можно просто сжать перед обработкой запросов. Автор обычно делает это так:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">vector&lt;<span class="dt">int</span>&gt; compress (vector&lt;<span class="dt">int</span>&gt; a) {
+    vector&lt;<span class="dt">int</span>&gt; b = a;
+    sort(b.begin(), b.end());
+    b.erase(unique(b.begin(), b.end()), b.end());
+    <span class="kw">for</span> (<span class="dt">int</span> &amp;x : a) 
+        x = <span class="dt">int</span>(lower_bound(b.begin(), b.end(), x) - b.begin());
+    <span class="kw">return</span> a;
+}</code></pre></div>
+<h2 id="персистентность">Персистентность</h2>
+<p>Структуры данных называют <strong>персистентными</strong>, если их можно быстро «откатить» до произвольного предыдущего состояния.</p>
+<p>Известны персистентные версии многих структур: стэка, очереди, СНМ, ДО. В случае со структурами данных на ссылках есть следующий общий подход: во всех методах, меняющих значения в вершинах, будем копировать ссылки на детей перед тем, как в них переходить и что-либо менять. Таким образом, мы всегда будем делать копию вершины перед тем, как что-либо менять в ней самой или её потомках. Вершины в момент <span class="math inline">\(t\)</span> никогда не будут ссылаться на вершины, измененные после этого, и поэтому ничего не сломается.</p>
+<p>У персистентных структур есть один минус: они обычно требуют больше памяти. В случае ДО мы будем создавать <span class="math inline">\(O(\log n)\)</span> новых вершин на запрос, что означает общее потребление памяти <span class="math inline">\(O(m \log n)\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> segtree {
+    <span class="dt">int</span> lb, rb;
+    <span class="dt">int</span> sum = <span class="dv">0</span>;
+    segtree *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;
+    segtree (<span class="dt">int</span> _lb, <span class="dt">int</span> _rb) {
+        lb = _lb, rb = _rb;
+        <span class="kw">if</span> (lb != rb) {
+            <span class="dt">int</span> t = (lb + rb) / <span class="dv">2</span>;
+            l = <span class="kw">new</span> segtree(lb, t);
+            r = <span class="kw">new</span> segtree(t, rb);
+        }
+    }
+    <span class="dt">void</span> copy () {
+        <span class="kw">if</span> (l) {
+            l = <span class="kw">new</span> segtree(l);
+            r = <span class="kw">new</span> segtree(r);
+        }
+    }
+    <span class="dt">void</span> add (<span class="dt">int</span> k, <span class="dt">int</span> x) {
+        copy();
+        sum += x;
+        <span class="kw">if</span> (l) {
+            <span class="kw">if</span> (k &lt; l-&gt;rb) l-&gt;add(k, x);
+            <span class="kw">else</span> r-&gt;add(k, x);
+        }
+    }
+    <span class="dt">int</span> get_sum (<span class="dt">int</span> lq, <span class="dt">int</span> rq) {
+        <span class="co">// этот метод ничего не меняет -- он и так хороший</span>
+        <span class="kw">if</span> (lq &lt;= lb &amp;&amp; rb &lt;= rq)
+            <span class="kw">return</span> sum;
+        <span class="kw">if</span> (max(lb, lq) &gt;= min(rb, rq))
+            <span class="kw">return</span> <span class="dv">0</span>;
+        <span class="kw">return</span> l-&gt;get_sum(lq, rq) + r-&gt;get_sum(lq, rq);
+    }
+};</code></pre></div>
+<blockquote>
+<p>Даны <span class="math inline">\(n\)</span> точек на плоскости. Нужно <em>в онлайн</em> ответить на <span class="math inline">\(q\)</span> запросов суммы на прямоугольнике.</p>
+</blockquote>
+<p>Если бы можно было отвечать в оффлайн, мы бы воспользовались методом сканирующей прямой — но так делать мы не можем. Вместо этого мы будем таким же образом добавлять точки в порядке увеличения <span class="math inline">\(x_i\)</span> и декомпозировать запрос суммы на два, но при ответе на эти запросы мы будем доставать соответствующую версию ДО, которую мы получили, обработав нужное количество точек. Таким образом, можно отвечать на запросы в онлайн, но с <span class="math inline">\(O(n \log n)\)</span> памяти.</p>
+<blockquote>
+<p>Дан отрезок из <span class="math inline">\(n\)</span> чисел от 1 до <span class="math inline">\(n\)</span>. Требуется ответить на <span class="math inline">\(q\)</span> запросов <span class="math inline">\(k\)</span>-той порядковой статистики на подотрезке.</p>
+</blockquote>
+<p>Сделаем такой стандартный препроцессинг: пройдёмся с персистентным деревом отрезков для суммы по массиву. Когда будем обрабатывать элемент <span class="math inline">\(k\)</span>, добавим единицу к <span class="math inline">\(k\)</span>-ому элементу.</p>
+<p>Дальше определим <em>разность деревьев</em> как дерево отрезков, которое соответствует разности массивов. Заметим, что он неотрицательный. Его можно получить неявно, спускаясь одновременно в двух ДО и вместо <code>sum</code> использовать везде <code>sum_r</code> - <code>sum_l</code>.</p>
+<p>Что будет находиться в разности <span class="math inline">\(r\)</span>-го и <span class="math inline">\(l\)</span>-го дерева? Там будут количества вхождений чисел на этом отрезке. В таком ДО не составить труда сделать спуск, который находит последнюю позицию, у которой сумма на соответствующем префиксе не превышает <span class="math inline">\(k\)</span> — она и будет ответом.</p>
+<blockquote>
+<p>Дан массив из <span class="math inline">\(n\)</span> элементов. Требуется ответить на <span class="math inline">\(m\)</span> запросов, есть ли на отрезке <span class="math inline">\([l, r]\)</span> доминирующий элемент — тот, который встречается на нём хотя бы <span class="math inline">\(\frac{r-l}{2}\)</span> раз.</p>
+</blockquote>
+<p>У этой задачи есть удивительно простое решение — взять около 100 случайных элементов и каждый проверить, является ли он доминирующим (это можно проверить за <span class="math inline">\(O(\log n)\)</span>, посчитав для каждого значения отсортированный список позиций, на которых он встречается, и сделав два бинпоиска). Вероятность ошибки в худшем случае равна <span class="math inline">\(\frac{1}{2^{100}}\)</span>, и ей на практике можно пренебречь.</p>
+<p>Но проверять 100 сэмплов — долго. Можно построить такое же ДО, как в прошлой задаче, и решать задачу «найти число, большее <span class="math inline">\(\frac{n}{2}\)</span> в массиве на <span class="math inline">\(n\)</span> элементов». Это тоже будет спуском по ДО: каждый раз идём в того сына, где сумма больше. Если в листе, куда мы пришли, значение больше нужного, возврашаем <code>true</code>, иначе <code>false</code>.</p>
+<h2 id="другие-реализации">Другие реализации</h2>
+<p>Эта реализация проста и легко расширяема, но весьма медленная и неэффективная по памяти. Есть альтернативы:</p>
+<p><strong>На массивах</strong>. Можно ввести несложную нумерацию вершин, позволяющую при спуске в ребёнка пересчитывать его номер. Это позволит не хранить границы текущего отрезка. Подробнее у <a href="http://e-maxx.ru/algo/segment_tree">Емакса</a>.</p>
+<p><strong>«ДО снизу»</strong>. Можно делать все операции итеративно — так получится раз в 7 быстрее, но писать что-либо нетривиальное (например, массовые операции) так будет намного труднее. Подробнее смотрите в одном посте с <a href="https://codeforces.com/blog/entry/18051">CodeForces</a>.</p>
+<h2 id="задачи">Задачи</h2>
+<ul>
+<li><a href="https://informatics.msk.ru/mod/statements/view3.php?id=33853&amp;chapterid=752#1">Первый контест</a> — на базовые операции.</li>
+<li>Второй контест — на отложенные операции.</li>
+<li><a href="https://codeforces.com/group/g92L0id9Yb/contest/228565">Дополнительный контест</a> — на динамическое построение и персистентность.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="supercomputing-for-the-masses">Supercomputing for the Masses</h1>
+<p>This is an html-rendered Jupyter notebook. If you want to do the exercises right here, open it in <a href="">Colab</a> or <a href="">download</a> and edit it locally. In former case, you need to complete a little quest and install CUDA and PyCuda, its Python binding. On a Debian-based machine, this will probably be enough: * <code>apt-get install nvidia-cuda-dev nvidia-cuda-toolkit</code> * <code>pip install pycuda</code></p>
+<p>Prerequisites: basic knowledge of Python and C, basic algorithms, and generally how computers work.</p>
+<h2 id="subtlties-of-the-moores-law">Subtlties of the Moore's law</h2>
+<p>Here is a graph that roughly represents what is happening in the CPU world:</p>
+<p><img width='600px' src='https://www.karlrupp.net/wp-content/uploads/2015/06/35years.png'></p>
+<p><strong>Moore's law</strong> is the observation that the number of transistors in a microprocessor doubles about every two years. This roughly means that the performance doubles too.</p>
+<p>You can see that around 2005 there became a shift in design .</p>
+<p>The cores are more or less independent.</p>
+<p>Modern GPUs appeared in early 2000s. They exploit the specific area they operate.</p>
+<p>There are physical limitations to the speed of a core.</p>
+<p>One solid one: the speed of light. You at least need the time for electromagnetic wave (this is light too) to pass from one side of the motherboard to another.</p>
+<p>Some of them have</p>
+<p>The default free GPUs available on Google Colab are <a href="https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/tesla-t4/t4-tensor-core-datasheet-951643.pdf">rather powerfull</a>. Author has no idea why Google does this, but this is awesome.</p>
+<h2 id="why-multiprocessing">Why multiprocessing?</h2>
+<p>Clock frequencies — for example, Intel Core i7 can have. This gives an upper bound</p>
+<p>There are two types of</p>
+<h2 id="general-purpose-gpu">General-purpose GPU</h2>
+<p>There was a period in time when hedge funds hired computer graphics guys from game companies because of their computing skills.</p>
+<p>There are several.</p>
+<p>This is like with Windows and Linux.</p>
+<p>We will stick with CUDA, because it more spread, especially in fields where noone cares, like deep learning.</p>
+<h2 id="heterogineous-computing">Heterogineous computing</h2>
+<p>CUDA programming involves running code on two different platforms concurrently: a host system with one or more CPUs and one or more GPUs.</p>
+<h2 id="differences-from-cpus">Differences from CPUs</h2>
+<h3 id="threads">Threads</h3>
+<p>Threads on a CPU are generally heavyweight entities. The operating system must swap threads on and off CPU execution channels to provide multithreading capability. Context switches are therefore slow and expensive.</p>
+<p>By comparison, threads on GPUs are extremely lightweight. In a typical system, thousands of threads are queued up for work — in warps of 32 threads each. If the GPU must wait on one warp of threads, it simply begins executing work on another. Because separate registers are allocated to all active threads, no swapping of registers or other state need occur when switching among GPU threads. Resources stay allocated to each thread until it completes its execution.</p>
+<p>In short, CPU cores are designed to minimize latency for one or two threads at a time each, whereas GPUs are designed to handle a large number of concurrent, lightweight threads in order to maximize throughput.</p>
+<h3 id="memory">Memory</h3>
+<p>The host system and the device each have their own distinct attached physical memories. As the host and device memories are separated by the PCI Express (PCIe) bus, items in the host memory must occasionally be communicated across the bus to the device memory or vice versa as described in What Runs on a CUDA-Enabled Device?</p>
+<p>You can easily dump 98% of performance of you think this way.</p>
+<h2 id="installing-pycuda">Installing PyCUDA</h2>
+<p>CUDA is available for many languages.</p>
+<p>Nice documentation can be found here: https://documen.tician.de/pycuda/index.html</p>
+<p>If you are on Colab, go to Runtime -&gt; Change runtime type -&gt; Hardware accelerator and set it to &quot;GPU&quot;.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># you may want to clear the output of this cell after installation</span>
+<span class="im">from</span> IPython.display <span class="im">import</span> clear_output
+ 
+<span class="co"># this might take a while</span>
+<span class="op">!</span>pip install pycuda
+
+clear_output()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> numpy <span class="im">as</span> np
+
+<span class="im">from</span> pycuda.compiler <span class="im">import</span> SourceModule
+<span class="im">import</span> pycuda.driver <span class="im">as</span> drv
+<span class="im">import</span> pycuda.autoinit</code></pre></div>
+<h2 id="the-basics">The basics</h2>
+<p>Let's start with a simple example and then dive deeper.</p>
+<h2 id="kernels">Kernels</h2>
+<p>Just like C or C++, except that you use some custom built-in functions and specifiers.</p>
+<p>CUDA is pretty much like normal C, except that you can specify some functions to be run as. Depending on implementation, the workflow goes as follows:</p>
+<p>You need to think of your computer as a heterogenious machine: there is host data and device data.</p>
+<ul>
+<li>You move input data to device memory.</li>
+<li>You run some computation on device.</li>
+<li>You retrieve back this data.</li>
+</ul>
+<p>In fact, kernel runs are concurrent — you program does not block until kernel run is complete. Newer devices can even run multiple kernels concurrently this way and wait for their results.</p>
+<h2 id="the-famous-a-b-problem">The famous <span class="math inline">\(A + B\)</span> problem</h2>
+<p>For testing and coordination with host, we will use <strong>NumPy</strong> package. If you don't have it, install it: <code>pip install numpy</code>.</p>
+<p>NumPy is a package for linear algebra and array manupulation in Python. It is written in C and is very efficient, but runs solely on CPU, so we will benchmark against it.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># lets generate our test data: two float arrays filled with something random</span>
+a <span class="op">=</span> numpy.random.randn(<span class="dv">100</span>).astype(<span class="st">&#39;float32&#39;</span>)
+b <span class="op">=</span> numpy.random.randn(<span class="dv">100</span>).astype(<span class="st">&#39;float32&#39;</span>)
+<span class="co"># the type needs to be specified in this case, because randn&#39;s default type is float64, but CUDA knows nothing about it</span>
+
+<span class="co"># we need to create space where kernel should write its answers to</span>
+dest <span class="op">=</span> numpy.zeros_like(a)
+
+<span class="co"># this is the kernel itself</span>
+mod <span class="op">=</span> SourceModule(<span class="st">&quot;&quot;&quot;</span>
+<span class="st">    __global__ void add(float *dest, float *a, float *b) {</span>
+<span class="st">        const int i = threadIdx.x;</span>
+<span class="st">        dest[i] = a[i] + b[i];</span>
+<span class="st">    }</span>
+<span class="st">&quot;&quot;&quot;</span>)
+
+<span class="co"># you need to specify the source code, and PyCUDA will compile it</span>
+add_kernel <span class="op">=</span> mod.get_function(<span class="st">&quot;add&quot;</span>)
+
+add_kernel(
+    drv.Out(dest),  <span class="co"># specifies that this memory should be accessible for writing</span>
+    drv.In(a),  <span class="co"># specifies this should be accessible for reading</span>
+    drv.In(b),
+    block<span class="op">=</span>(<span class="dv">100</span>,<span class="dv">1</span>,<span class="dv">1</span>)  <span class="co"># we&#39;ll talk about it in a minute</span>
+)
+
+<span class="cf">assert</span> np.allclose(dest, a <span class="op">+</span> b), <span class="st">&#39;WA&#39;</span>  <span class="co"># checks that these are equal</span>
+<span class="bu">print</span>(<span class="st">&#39;OK&#39;</span>)</code></pre></div>
+<pre><code>  File &quot;&lt;ipython-input-27-afc857479fe4&gt;&quot;, line 19
+    %%time
+    ^
+SyntaxError: invalid syntax</code></pre>
+<h3 id="memory-management">Memory management</h3>
+<p>In CUDA C API, you need to allocate memory explicitly. So this is actually really nice.</p>
+<p>There is also <code>drv.InOut</code> function, which makes it available for both reading and writing, but we won't use it in this tutorial because we need to test our code too.</p>
+<p>Most of the operations here are memory operations, so measuring performance here is useless. Don't worry, we will get to more complex examples soon enough.</p>
+<p>GPUs have very specific operations. However, in case of NVIDIA GPUs managing it is quite simple: the cards have <em>compute capabilities</em> (1.0, 1.1, 1.2, 1.3, 2.0, etc.) and all features added at capability <span class="math inline">\(x\)</span> is also available at later versions. These can be checked at run-time or compile-time.</p>
+<p>You can check differences in this Wikipedia article: https://en.wikipedia.org/wiki/CUDA#Version_features_and_specifications</p>
+<h2 id="synchronization">Synchronization</h2>
+<p><strong>Reduction</strong> is any array-wise operation.</p>
+<p>Assume the following problem:</p>
+<h2 id="dynamic-programming">Dynamic programming</h2>
+<p>Consider the following recurrence:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co">## Problem: dynamic programming</span></code></pre></div>
+<h2 id="work-vs.-latency">Work vs. Latency</h2>
+<p>We actually think about both work and step complexity now.</p>
+<p>Some tasks, especially in cryptography, cannot be parallelized. But some can.</p>
+<h2 id="summing-arrays-in-olog-n-time">Summing arrays in <span class="math inline">\(O(\log n)\)</span> time</h2>
+<p>Assume we want to perform some associative (i. e. <span class="math inline">\(A*(B*C) = (A*B)*C\)</span>) operation on an array of <span class="math inline">\(n\)</span> elements. Say, sum it up.</p>
+<p>Normally, we would do that with a simple loop:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">float</span> s = <span class="dv">0</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {
+     s += a[i]; 
+}</code></pre></div>
+<p>Its computation graphs looks like this:</p>
+<p><img width='400px' src='https://www.elemarjr.com/wp-content/uploads/2018/03/sequential_sum.png'></p>
+<p>This is optimal in terms of work complexity, but not in terms of step complexity: it's <span class="math inline">\(O(n)\)</span>. We may want something that is a bit worse in terms of work complexity, but can be parallelized.</p>
+<p>Let's try this divide-and-conquer approach:</p>
+<p><img width='400px' src='https://www.elemarjr.com/wp-content/uploads/2018/03/parallel_sum.png'></p>
+<p>Now it's still <span class="math inline">\(O(n)\)</span> work complexity (you actually need exactly the same number of additions), but this is <span class="math inline">\(O(\log n)\)</span> step complexity.</p>
+<p>When you unroll the recursion from top to bottom, you will see that to get each required value,</p>
+<p><img width='400px' src='http://i.stack.imgur.com/Uehc3.png'></p>
+<h2 id="reducing-small-arrays">Reducing small arrays</h2>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">a <span class="op">=</span> numpy.random.randn(<span class="dv">2048</span>).astype(<span class="st">&#39;float32&#39;</span>)
+
+mod <span class="op">=</span> SourceModule(<span class="st">&quot;&quot;&quot;</span>
+<span class="st">    __global__ void sum(float *dest, float *a, float *b) {</span>
+<span class="st">        const int i = threadIdx.x;</span>
+<span class="st">        // for l from 0 to logn:</span>
+<span class="st">        //   __sync_threads()</span>
+<span class="st">        //   if the thread is active</span>
+<span class="st">        //     sum two elements into where they belong</span>
+<span class="st">        // a[0] should containt the needed sum</span>
+<span class="st">    }</span>
+<span class="st">&quot;&quot;&quot;</span>)
+
+sum_kernel <span class="op">=</span> mod.get_function(<span class="st">&quot;sum&quot;</span>)
+
+add_kernel(
+    drv.InOut(a),
+    block<span class="op">=</span>(<span class="dv">1024</span>,<span class="dv">1</span>,<span class="dv">1</span>)
+)
+
+<span class="cf">assert</span> np.allclose(dest, a <span class="op">+</span> b), <span class="st">&#39;WA&#39;</span>  <span class="co"># checks that these are equal</span>
+<span class="bu">print</span>(<span class="st">&#39;OK&#39;</span>)</code></pre></div>
+<h2 id="warps-and-thread-blocks">Warps and thread blocks</h2>
+<p>Threads are bandled in groups of 32. All threads in a group must be either waiting or performing the same operation. This is caused by architectural difficulties.</p>
+<p><img width='300px' src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Block-thread.svg/1920px-Block-thread.svg.png'></p>
+<p>You can actually do the same stuff with 2d and 3d indexing — weird, right?</p>
+<h2 id="atomics">Atomics</h2>
+<h2 id="reducing-big-arrays">Reducing big arrays</h2>
+<h2 id="reducing-very-big-arrays">Reducing very big arrays</h2>
+<p>Now, things get harder. It's time to tell how exactly GPU parallelism works.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"></code></pre></div>
+<h2 id="dense-matrix-multiplication">Dense Matrix multiplication</h2>
+<p>Let's get to our first example where using GPUs actually makes sense: matrix multiplication.</p>
+<h2 id="sorting">Sorting</h2>
+<p>Our last (and hardest task) is to implement sorting.</p>
+<p>You might notice that we advocated divide-and-conquer approaches most of the time.</p>
+<p>It's true. They work. But we can't get an algorithm that works already.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># we&#39;ll use a deep learning library for benchmarking because I&#39;m not familiar with anything else </span>
+<span class="im">import</span> torch
+
+a <span class="op">=</span> torch.randn(<span class="dv">10</span><span class="op">**</span><span class="dv">8</span>)
+b <span class="op">=</span> a.cuda()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># this should run for ~15 secs</span>
+<span class="op">%</span>time c <span class="op">=</span> torch.sort(a)
+<span class="op">%</span>time c <span class="op">=</span> torch.sort(b)</code></pre></div>
+<pre><code>CPU times: user 15.2 s, sys: 177 µs, total: 15.2 s
+Wall time: 15.2 s
+CPU times: user 274 ms, sys: 237 ms, total: 511 ms
+Wall time: 511 ms</code></pre>
+<p>So, 30 times speedup. So, we now what we need to compete against.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">b.sort()</code></pre></div>
+<pre><code>(tensor([-5.4567, -5.3551, -5.3288,  ...,  5.3529,  5.4484,  5.4486],
+        device=&#39;cuda:0&#39;),
+ tensor([55083205,  8383169, 73705953,  ..., 79814161, 50474932, 27805828],
+        device=&#39;cuda:0&#39;))</code></pre>
+<p>There are two types of sorting algorithms: data-driven.</p>
+<p>The second can be represented and analuzed with sorting networks. Here is the one that we'll use, it's called bitonic sort.</p>
+<p><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/BitonicSort.svg/1686px-BitonicSort.svg.png'></p>
+<p>It has <span class="math inline">\(O(\log n)\)</span> stages, in total they have <span class="math inline">\(1 + 2 + 3 + \ldots + \log n = O(\log^2 n\)</span> blocks of comparisons that can't be parallelized and invonve every element of the array. So, in total it has <span class="math inline">\(O(n \log^ n)\)</span> work complexity, but <span class="math inline">\(O(\log^2 n)\)</span> step complexity, which is pretty sweet.</p>
+<p>It is actually not that hard to implement. To make it clear, here is a slow recursive Python implementation:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> bitonic_sort(a, up<span class="op">=</span><span class="va">False</span>):
+    <span class="cf">if</span> <span class="bu">len</span>(a) <span class="op">&lt;=</span> <span class="dv">1</span>:
+        <span class="cf">return</span> a
+    <span class="cf">else</span>: 
+        l <span class="op">=</span> bitonic_sort(x[:<span class="bu">len</span>(a) <span class="op">//</span> <span class="dv">2</span>], <span class="va">True</span>)
+        r <span class="op">=</span> bitonic_sort(x[<span class="bu">len</span>(a) <span class="op">//</span> <span class="dv">2</span>:], <span class="va">False</span>)
+        <span class="cf">return</span> bitonic_merge(first <span class="op">+</span> second, up)
+
+<span class="kw">def</span> bitonic_merge(a, up): 
+    <span class="co"># assume input a is bitonic, and sorted list is returned </span>
+    <span class="cf">if</span> <span class="bu">len</span>(a) <span class="op">==</span> <span class="dv">1</span>:
+        <span class="cf">return</span> a
+    <span class="cf">else</span>:
+        bitonic_compare(a, up)
+        l <span class="op">=</span> bitonic_merge(a[:<span class="bu">len</span>(a) <span class="op">//</span> <span class="dv">2</span>], up)
+        r <span class="op">=</span> bitonic_merge(a[<span class="bu">len</span>(a) <span class="op">//</span> <span class="dv">2</span>:], up)
+        <span class="cf">return</span> l <span class="op">+</span> r
+
+<span class="kw">def</span> bitonic_compare(a, up):
+    dist <span class="op">=</span> <span class="bu">len</span>(a) <span class="op">//</span> <span class="dv">2</span>
+    <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(dist):  
+        <span class="cf">if</span> (a[i] <span class="op">&gt;</span> a[i <span class="op">+</span> dist]) <span class="op">==</span> up:
+            a[i], a[i <span class="op">+</span> dist] <span class="op">=</span> a[i <span class="op">+</span> dist], x[i]  <span class="co"># this is how swap is done in Python</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">bitonic_sort([<span class="dv">57</span>, <span class="dv">179</span>, <span class="dv">42</span>, <span class="dv">17</span>, <span class="dv">300</span>, <span class="dv">111</span>])</code></pre></div>
+<pre><code>[300, 179, 111, 57, 42, 17]</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">a <span class="op">=</span> np.random.randn(<span class="dv">10</span><span class="op">**</span><span class="dv">8</span>).astype(<span class="st">&#39;float32&#39;</span>)</code></pre></div>
+<pre><code>---------------------------------------------------------------------------
+
+NameError                                 Traceback (most recent call last)
+
+&lt;ipython-input-27-58a927c14aae&gt; in &lt;module&gt;()
+----&gt; 1 a = np.random.randn(10**8).astype(&#39;float32&#39;)
+
+
+NameError: name &#39;np&#39; is not defined</code></pre>
+<h2 id="why-cuda">Why CUDA</h2>
+<p>Most of it still applicable.</p>
+<p>Again, GPU programming is very specific.</p>
+<p>SSE and tensor cores.</p>
+<h2 id="kernels-1">Kernels</h2>
+<p>Just like C or C++, except that you use some custom built-in functions and specifiers.</p>
+<p>CUDA is pretty much like normal C, except that you can specify some functions to be run as. Depending on implementation, the workflow goes as follows:</p>
+<p>You need to think of your computer as a heterogenious machine: there is host data and device data.</p>
+<ul>
+<li>You move input data to device memory.</li>
+<li>You run some computation on device.</li>
+<li>You retrieve back this data.</li>
+</ul>
+<p>In fact, kernel runs are concurrent — you program does not block until kernel run is complete. Newer devices can even run multiple kernels concurrently this way and wait for their results.</p>
+<p>What you need to understand about GPUs is that they are extremely specialised for their applications.</p>
+<p>Intrinsics for that.</p>
+<p>Now, a lot of value comes from cryptocurrency and deep learning. The latter relies on two specific operations: matrix multiplications for linear layers and convolutions for convolutional layers used in computer vision.</p>
+<p>First, they introduced &quot;multiply-accumulate&quot; operation (e. g. <code>x += y * z</code>) per 1 GPU clock cycle.</p>
+<p>Google uses Tensor Processing Units. Nobody really knows how they work (proprietary hardware that they rent, not sell).</p>
+<p>Each tensor core perform operations on small matrices with size 4x4. Each tensor core can perform 1 matrix multiply-accumulate operation per 1 GPU clock. It multiplies two fp16 matrices 4x4 and adds the multiplication product fp32 matrix (size: 4x4) to accumulator (that is also fp32 4x4 matrix).</p>
+<p>This is a lot of work per</p>
+<p>Well, you don't really need anything more precise than that for deep learning anyway.</p>
+<p>It is called mixed precision because input matrices are fp16 but multiplication result and accumulator are fp32 matrices.</p>
+<p>Probably, the proper name would be &quot;4x4 matrix cores&quot;, however NVIDIA marketing team decided to use &quot;tensor cores&quot;.</p>
+<p>So, see, this is not exactly fair comparison.</p>
+<p><img width='500px' src='https://static.seekingalpha.com/uploads/2018/8/11/275308-15340093003448672_origin.png'></p>
+*
+<center>
+You need to extend this graph just a little bit: last November, NVIDIA's stock dropped 30% following Bitcoin crash, so I wouldn't be so hopefull
+</center>
+<ul>
+<li></li>
+</ul>
+<p>down to int4 (16-valued, you heard correct)</p>
+<p>You need to know a lot of this specialised stuff to write efficient code. So this is a bad idea to write libraries from scratch.</p>
+<p>Anyway, for pedagogical and recreational reasons, today we will reinvent the wheel and do a matrix multiply.</p>
+<h2 id="reducing-an-array">Reducing an array</h2>
+<p>It seems to be simple: you just need to .</p>
+<p>What actually happens when you do <code>s += x</code>? This is not a single operation. Actually, four things happen:</p>
+<ol style="list-style-type: decimal">
+<li>Read <span class="math inline">\(x\)</span> into register</li>
+<li>Read <span class="math inline">\(s\)</span> into register</li>
+<li>Calculate <span class="math inline">\(s + x\)</span></li>
+<li>Write it back to wherever <span class="math inline">\(s\)</span> was initially</li>
+</ol>
+<p>Two threads may execute it in an interleaved fashion. Say thread A could get <span class="math inline">\(s\)</span>, but a nanosecond later thread B will be writing here, but thread A doesn't know about it and will re-write unchanged value.</p>
+<p>Note: Atomics to do that</p>
+<p>for small data types they are implemented on the hardware level and much more faster than that.</p>
+<p>std::atomic is introduced to handle atomic operations in multi-thread context. In multi-thread environment, when two threads operating on the same variable, you must be extra careful to avoid race conditions.</p>
+<h2 id="memory-types">Memory types</h2>
+<p>If all the various types of device memory were to race, here’s how the race would turn out:</p>
+<p>Register size (= machine word width) is 32 bits, but they also contain 64bit capability (otherwise having more than 4gb of memory would not be possible).</p>
+<ul>
+<li>1st place: <strong>Register memory</strong> <br> This is the data visible only to the thread that wrote it. It lasts only for the lifetime of that thread.</li>
+<li>2nd place: <strong>Shared Memory</strong> <br> Shared to all threads within thread block. Lasts only for the lifetime of that block. This type of memory allows communication (data sharing) between threads. This is why you should</li>
+<li>3rd place: <strong>Constant Memory</strong> <br></li>
+<li>4th: Texture Memory</li>
+<li>Tie for last place: Local Memory and Global Memory</li>
+</ul>
+<p>What you need to care for now is register</p>
+<p>For now, you need to care about differe</p>
+<p>Accessing global memory takes hundreds.</p>
+<h2 id="problem-dense-matrix-multiplication">Problem: dense matrix multiplication</h2>
+<p>A lot of these are actually sparse. You can do stuff with social network graphs or web graphs.</p>
+<p>Cool. But let's disapploint us for a bit:</p>
+</body>
+</html>

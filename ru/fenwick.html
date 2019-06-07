@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<div style="border: 1px solid #A7A; border-left: 7px solid rgb(204, 153, 204); padding: 6px; padding-left: 8px; padding-bottom: 6px; font-size: 14px; line-height: 1.5em">
+<p><img src='http://lurkmore.so/images/e/e1/Nohate.jpg' style='float: left; margin-right: 8px;'> <b>НЯ!</b> <br>Эта статья полна любви и обожания. <br>Возможно, стоит добавить <a href='http://neerc.ifmo.ru/wiki/index.php?title=%D0%9F%D0%B5%D1%80%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BD%D1%82%D0%BD%D1%8B%D0%B5_%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B_%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85'>ещё больше</a>?</p>
+</div>
+<h1 id="дерево-фенвика">Дерево Фенвика</h1>
+<p>Дерево Фенвика или бинарно индеквированное дерево (англ. <em>binary indexed tree</em>) — структура данных, которая на многих (но не всех) задачах заменяет собой дерево отрезков, но при этом работает в 3-4 раза быстрее, занимает минимально возможное количество памяти (столько же, скоько массив такой же длины), намного быстрее пишется и легче обобщается на большие размерности.</p>
+<h2 id="определение">Определение</h2>
+<p>Пусть дан массив <span class="math inline">\(a\)</span> длины <span class="math inline">\(n\)</span>. Деревом Фенвика будем называть массив <span class="math inline">\(t\)</span> той же длины, который объявим так:</p>
+<p><span class="math display">\[ t_i = \sum_{k=F(i)}^i a_k \]</span></p>
+<p>где <span class="math inline">\(F\)</span> это какая-то функцию, для которой выполнено <span class="math inline">\(F(i) \leq i\)</span>. Конкретно её определим потом.</p>
+<p>Когда нам нужна сумма на отрезке, мы будем сводить этот запрос к двум суммам на префиксе (<span class="math inline">\(sum(l, r) = sum(r) - sum(l-1)\)</span>), каждый из которых будем считать по этой формуле:</p>
+<p><span class="math display">\[ sum(k) = t_k + sum(F(k)-1) \]</span></p>
+<p>Когда мы изменяем <span class="math inline">\(k\)</span>-ю ячейку исходного массива, мы обновляем все <span class="math inline">\(t_i\)</span>, в которых учтена эта ячейка.</p>
+<p><span class="math inline">\(F\)</span> можно выбрать так, что и «спусков» при подсчете суммы, и интересных нам <span class="math inline">\(t_i\)</span> при обновлении будет будет <span class="math inline">\(O(\log n)\)</span>. Популярны две функции:</p>
+<ul>
+<li><span class="math inline">\(F_1(x) =\)</span> <code>x &amp; (x + 1)</code></li>
+<li><span class="math inline">\(F_2(x) =\)</span> <code>x - (x &amp; -x) + 1</code></li>
+</ul>
+<p>Первый вариант описан на викиконспектах и емаксе и поэтому более известен. Второй, как мы дальше увидим, более простой для запоминания и кодинга, а так же более гибкий — например, там можно делать бинпоиск по префиксным суммам. Его мы и будем использовать.</p>
+<p><strong>Disclaimer</strong>: наверное, меньше четверти умеющих писать эту структуру полностью понимают, как она работает. Анализ действительно весьма сложный, поэтому мы приведём его в конце, а пока абстрагируйтесь и примите на веру, что любой префикс разбивается на <span class="math inline">\(O(\log n)\)</span> отрезков вида <span class="math inline">\([F(i), i]\)</span>, и любой элемент входит в не более <span class="math inline">\(O(\log n)\)</span> таких отрезков.</p>
+<h2 id="реализация">Реализация</h2>
+<p>Из-за того, что <span class="math inline">\(F(0) = 1 &gt; 0\)</span> и поэтому <span class="math inline">\([0, F(0)]\)</span> не является корректным отрезком, нам будет удобнее хранить массив в 1-индексации и не использовать <span class="math inline">\(t_0\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> t[maxn];
+
+<span class="co">// возвращает сумму на префиксе</span>
+<span class="dt">int</span> sum (<span class="dt">int</span> r) {
+    <span class="dt">int</span> res = <span class="dv">0</span>;
+    <span class="kw">for</span> (; r &gt; <span class="dv">0</span>; r -= r &amp; -r)
+        res += t[r];
+    <span class="kw">return</span> res;
+}
+
+<span class="dt">int</span> sum (<span class="dt">int</span> l, <span class="dt">int</span> r) {
+    <span class="kw">return</span> sum(r) - sum(l<span class="dv">-1</span>);
+}
+
+<span class="co">// обновляет нужные t</span>
+<span class="dt">void</span> add (<span class="dt">int</span> k, <span class="dt">int</span> x) {
+    <span class="kw">for</span> (; k &lt;= n; k += k &amp; -k)
+        t[k] += x;
+}</code></pre></div>
+<p>Автор отмечает красивую симметрию в формулах <code>r += r &amp; -r</code> и <code>k -= k &amp; -k</code>, которой нет в «традиционной» версии.</p>
+<h2 id="многомерный-случай">Многомерный случай</h2>
+<blockquote>
+<p><span class="math inline">\(k\)</span>-мерное дерево Фенвика пишется в <span class="math inline">\((k+1)\)</span> строчку</p>
+</blockquote>
+<p>Нужно добавить всего одну такую же строчку в <code>sum</code>, <code>add</code>, а также при подсчете суммы на прямоугольнике вместо двух запросов к префиксным суммам использовать четыре.</p>
+<p><code>sum</code> перепишется следующим образом:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> sum (<span class="dt">int</span> r1, <span class="dt">int</span> r2) {
+    <span class="dt">int</span> res = <span class="dv">0</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> i = r1; i &gt; <span class="dv">0</span>; i -= i &amp; -i)
+        <span class="kw">for</span> (<span class="dt">int</span> j = r2; j &gt; <span class="dv">0</span>; j -= j &amp; -j)
+            ans += t[i][j];
+    <span class="kw">return</span> res;
+}</code></pre></div>
+<p>В <span class="math inline">\(k\)</span>-мерном случае, в соответствии с принципом включений-исключений, для запроса суммы нужно <span class="math inline">\(2^k\)</span> запросов суммы на префиксах.</p>
+<p>Если размерности больше, чем позволяет память, то можно вместо массива <code>t</code> использовать хэш-таблицу — так потенциально потребуется <span class="math inline">\(O(q \log^2 A)\)</span> памяти (<span class="math inline">\(A\)</span> — максимальная координата), но это всё равно один из самых безболезненных способов решать достаточно простые задачи на двумерные структуры. Автор в своё время таким образом <a href="https://pastebin.com/DPemaJeW">решил</a> какую-то задачу на 2d-сумму с USACO 2017.</p>
+<h2 id="бинпоиск">Бинпоиск</h2>
+<p>Оказывается, можно производить бинарный поиск (точнее, спуск) по префиксным суммам за <span class="math inline">\(O(\log n)\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// возвращает индекс, на котором сумма уже больше</span>
+<span class="dt">int</span> lower_bound (<span class="dt">int</span> s) {
+    <span class="dt">int</span> k = <span class="dv">0</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> l = logn; l &gt;= <span class="dv">0</span>; l--) {
+        <span class="kw">if</span> (k + (<span class="dv">1</span>&lt;&lt;l) &lt;= n &amp;&amp; t[k + (<span class="dv">1</span>&lt;&lt;l)] &lt; s) {
+            k += (<span class="dv">1</span>&lt;&lt;l);
+            s -= t[k];
+        }
+    }
+    <span class="kw">return</span> k;
+}</code></pre></div>
+<p>Если знать, что <span class="math inline">\(F(x)\)</span> удаляет последний бит <span class="math inline">\(x\)</span>, то принцип понятен: просто делаем спуск по бинарному дереву, как в ДО. Чем-то похоже на генерацию <span class="math inline">\(k\)</span>-го лексикографического комбинаторного объекта: пытаемся увеличить следующий символ всегда, когда это возможно.</p>
+<p>Отметим, что в «традиционной» индексации такое делать нельзя.</p>
+<h2 id="ограничения">Ограничения</h2>
+<p>Дерево Фенвика можно использовать, когда наша операция обратима, а также когда трюк с префиксными суммами работает. Это обычно простые операции типа суммы, <code>xor</code>, умножения по модулю (если гарантируется, что на этот модуль ничего не делится). Минимум и <code>gcd</code>, отложенные операции и персистентность прикрутить в общем случае уже не получится — тогда уже нужно писать ДО.</p>
+<h2 id="почему-работает">Почему работает</h2>
+<p>Итак, мы выбрали вариант с <span class="math inline">\(F(x)\)</span> = <code>x - (x &amp; -x) + 1</code>. Поймем, что означает <code>x &amp; -x</code>.</p>
+<p><strong>Лемма</strong>. <code>x &amp; -x</code> возвращает последний единичный бит в двоичной записи x.</p>
+<p><strong>Доказательство</strong> потребует знания, как в компьютерах хранятся целые числа. Чтобы процессор не сжигал лишние такты, проверяя знак числа при арифметических операциях, их хранят как бы по модулю <span class="math inline">\(2^k\)</span>, а первый бит отвечает за знак (0 для положительных и 1 для отрицательных). Поэтому когда мы хотим узнать, как выглядит отрицательное число, нужно его вычесть из нуля: <span class="math inline">\(-x = 0-x = 2^k-x\)</span>.</p>
+<p>Например,</p>
+<p><span class="math display">\[
+\begin{align}
+  \begin{aligned}
+    +90 = 2+8+16+64  &amp; = 0 \, 10110_2 \\
+    -90 = 00000_2 - 10110_2 &amp; = 1 \, 01010_2 \\
+    \implies (+90) \text{ &amp; } (-90) &amp; = 0 \, 00010_2 \\ 
+  \end{aligned}
+\end{align}
+\]</span></p>
+<p>Вернёмся к доказательству леммы. Когда мы вычитаем, мы идем справа налево. В ответе можно мысленно разделить на три блока: * Первые сколько-то (возможно, нисколько) нулей с конца ими же и останутся. * Потом, ровно на самом младшем единичном бите, мы «займём» много единиц, так что весь префикс станет единицами. В ответе на этом месте точно будет единица. Потом отменятся ровно те из них, которые были единицами в исходном числе.</p>
+<p>Делаем &amp;: в каком-то префиксе все биты будут противоположными, младший единичный бит останется, а на суффиксе все как было нулями, так и осталось. Выживет только этот самый младший единичный бит.</p>
+<p>Теперь сразу понятно, почему <code>sum</code> будет работать за логарифм — каждый раз мы делаем <code>x -= x &amp; -x</code>, то есть удаляем один бит.</p>
+<p>Теперь сложная (для понимания) часть — как делать add. Какие <span class="math inline">\(t_i\)</span> содержат <span class="math inline">\(k\)</span>-й элемент? Для них должно выполняться <code>i &gt;= k &gt; i - (i &amp; -i)</code>.</p>
+<p>Будем перебирать префиксы TODO</p>
+<p>Мы знаем, что <span class="math inline">\(t_i\)</span> вложены друг в друга. Минимальный подходящий <span class="math inline">\(i\)</span> равен <span class="math inline">\(k\)</span>. Какой следующий? Нам нужно для каждого <span class="math inline">\(i\)</span> уметь находить его непосредственного родителя.</p>
+<p>Можно представить дерево так: ячейка 2^k содержит все</p>
+<p>TODO: сначала объявить дерево как дерево и описать его структуру словами, а потом уже показывать реализацию.</p>
+<h2 id="название">Название</h2>
+<p>Потому что <span class="math inline">\(F\)</span> использует битовые операции, по-английски структура называется «Binary Indexed Tree».</p>
+<p>Почему дерево Фенвика — дерево? Тут нужно немного воображения. На самом деле BIT в общем случае — набор деревьев.</p>
+<p>Можно показать, что множества элементов, учтенных в <span class="math inline">\(t_i\)</span> и <span class="math inline">\(t_j\)</span>, либо не пересекаются, либо одно является подмножеством другого. Значит, между <span class="math inline">\(t_i\)</span> можно ввести отношение вложенности, и тогда дерево Фенвика можно представить как набор деревьев (не обязательно бинарных).</p>
+<p>В частном случае, когда длина массива равна <span class="math inline">\(2^k\)</span>, то дерево будет только одно.</p>
+</body>
+</html>

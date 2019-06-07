@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="ioi-upsolving-challenge">IOI Upsolving Challenge</h1>
+<p>https://contest.yandex.com/ioi/total</p>
+<p>Я решал их почти 2 года назад и уже не очень хорошо всё помню.</p>
+<h1 id="section">09-2</h1>
+<p>12 мая</p>
+<h3 id="медведь-миша">Медведь Миша</h3>
+<p>Можно сделать бинарный поиск по ответу: понятно, что дать фору медведю всегда можно. Когда мы проверяем очередное время, можно поддерживать текущие множества достижимых медведем и пчелами ячеек с помощью чего-то вроде двух параллельных bfs-ов. Работать такое будет за <span class="math inline">\(O(n^2 \log n)\)</span>.</p>
+<h3 id="регионы">Регионы</h3>
+<p>В ограничениях нам спалили важную идею: задачу можно просто решить в случае, если все регионы небольшие, а также в случае, если регионов немного. Обычно это означает, что решения можно объединить с помощью корневой эвристики.</p>
+<p>Назовем крупными регионы те, у которых больше 500 представителей, а остальные будем называть мелкими. Обрабатывать запросы будем так:</p>
+<ul>
+<li>Крупный -&gt; *: сделаем предподсчет для всех таких запросов, пройдясь dfs-ом по дереву и для каждой вершины из крупного региона добавив до 500 значений в прекальк</li>
+<li>Мелкий -&gt; *: для каждого региона заранее составим массив tin-ов его вершин; теперь можно для каждой вершины мелкого региона сделать бинпоиск по этому массиву, чтобы узнать, сколько вершин она покрывает, сумма этих чисел будет являться ответом на запрос</li>
+</ul>
+<p>Такое должно работать за <span class="math inline">\(O(n \sqrt{n \log n})\)</span>, и TL такое позволяет.</p>
+<h3 id="коммивояжёр">Коммивояжёр</h3>
+<p>Это на самом деле задача на подсчет динамики через ДО. Нужно моделировать события с конца, поддерживая (неявно) такую динамику: находимся здесь-то в такое-то время (по этому слою мы и будем пересчитывать), сколько денег можно отсюда заработать.</p>
+<p>Подумайте, какой вид будет иметь эта функция, если зафиксировать время.</p>
+<p>TODO</p>
+<h1 id="section-1">05-1</h1>
+<p>31 мая</p>
+<h3 id="сад">Сад</h3>
+<p>Тут вроде нужно насчитать динамику «какой оптимальный ответ, если нам нужно поставить ровно один участок на этом префиксном прямоугольнике», а дальше смерджить её. Но это не точно.</p>
+<h3 id="средняя-последовательность">Средняя последовательность</h3>
+<p>Понятно, что если зафиксировать какой-нибудь элемент последовательности, то остальные можно однозначно восстановить. Будем считывать среднюю последовательность и поддерживать множество возможных первых элементов, поочередно обрезая верхние и нижние границы:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> a = -inf, b = inf, _d = <span class="dv">0</span>, d = <span class="dv">0</span>, t;
+<span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++){
+    cin &gt;&gt; t;
+    _d = d;
+    d = <span class="dv">2</span>*t - d;
+    <span class="kw">if</span> (i % <span class="dv">2</span> == <span class="dv">0</span>)
+        b = min(b, (d-_d)/<span class="dv">2</span>);
+    <span class="kw">else</span>
+        a = max(a, (_d-d)/<span class="dv">2</span>);
+}
+
+cout &lt;&lt; max(b - a + <span class="dv">1</span>, <span class="dv">0ll</span>);</code></pre></div>
+<h3 id="польские-горки">Польские горки</h3>
+<p>По сути от нас просят обрабатывать запросы «присвоить всем элементам с <span class="math inline">\(l\)</span> по <span class="math inline">\(r\)</span> значение <span class="math inline">\(x\)</span>» и уметь находить (делать спуск) максимум префиксных сумм. Решается это с ДО с отложенными операциями. Конкретно, нам нужно хранить сумму на отрезке, максимум префиксных сумм и информацию, нужно ли проталкивать запрос дальше.</p>
+<h1 id="section-2">05-2</h1>
+<h3 id="прямоугольник">Прямоугольник</h3>
+<p>Я не шарю, как её нормально решать. Я помню, что два года назад анализировал числа Гранди для состояний и придумал какую-то битовую магию на 30 строк, а в разборе какая-то индукция была. Расскажите, пожалуйста.</p>
+</body>
+</html>

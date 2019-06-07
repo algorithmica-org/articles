@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<h1 id="хэширование-в-строковых-задачах">Хэширование в строковых задачах</h1>
+<p>Хэш — это какая-то функция, сопоставляющая объектам какого-то множества числовые значения из ограниченного промежутка.</p>
+<p>«Хорошая» хэш-функция: * Быстро считается — за линейное от размера объекта время; * Имеет не очень большие значения — влезающие в 64 бита; * «Детерминированно-случайная» — если хэш может принимать <span class="math inline">\(n\)</span> различных значений, то вероятность того, что хэши от двух случайных объектов совпадут, равна примерно <span class="math inline">\(\frac{1}{n}\)</span>.</p>
+<p>Обычно хэш-функция не является взаимно однозначной: одному хэшу может соответствовать много объектов. Такие функции называют <em>сюрьективными</em>.</p>
+<p>Для некоторых задач удобнее работать с хэшами, чем с самими объектами. Пусть даны <span class="math inline">\(n\)</span> строк длины <span class="math inline">\(m\)</span>, и нас просят <span class="math inline">\(q\)</span> раз проверять произвольные две на равенство. Вместо наивной проверки за <span class="math inline">\(O(q \cdot n \cdot m)\)</span>, мы можем посчитать хэши всех строк, сохранить, и во время ответа на запрос сравнивать два числа, а не две строки.</p>
+<div class="figure">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Hash_table_4_1_1_0_0_1_0_LL.svg/300px-Hash_table_4_1_1_0_0_1_0_LL.svg.png" alt="hash" />
+<p class="caption">hash</p>
+</div>
+<h2 id="применения-в-реальной-жизни">Применения в реальной жизни</h2>
+<ul>
+<li><strong>Чек-суммы</strong>. Простой и быстрый способ проверить целостность большого передаваемого файла — посчитать хэш-функцию на стороне отправителя и на стороне получателя и сравнить.</li>
+<li><strong>Хэш-таблица</strong>. Класс <code>unordered_set</code> из STL можно реализовать так: заведём <span class="math inline">\(n\)</span> изначально пустых односвязных списков. Возьмем какую-нибудь хэш-функцию <span class="math inline">\(f\)</span> с областью значений <span class="math inline">\([0, n)\)</span>. При обработке <code>.insert(x)</code> мы будем добавлять элемент <span class="math inline">\(x\)</span> в <span class="math inline">\(f(x)\)</span>-тый список. При ответе на <code>.find(x)</code> мы будем проверять, лежит ли <span class="math inline">\(x\)</span>-тый элемент в <span class="math inline">\(f(x)\)</span>-том списке. Благодаря «равномерности» хэш-функции, после <span class="math inline">\(k\)</span> добавлений ожидаемое количество сравнений будет равно <span class="math inline">\(\frac{k}{n}\)</span> = <span class="math inline">\(O(1)\)</span> при правильном выборе <span class="math inline">\(n\)</span>.</li>
+<li><strong>Мемоизация</strong>. В динамическом программировании нам иногда надо работать с состояниями, которые непонятно как кодировать, чтобы «разгладить» в массив. Пример: шахматные позиции. В таком случае нужно писать динамику рекурсивно и хранить подсчитанные значения в хэш-таблице, а для идентификации состояния использовать его хэш.</li>
+<li><strong>Проверка на изоморфизм</strong>. Если нам нужно проверить, что какие-нибудь сложные структуры (например, деревья) совпадают, то мы можем придумать для них хэш-функцию и сравнивать их хэши аналогично примеру со строками.</li>
+<li><strong>Криптография</strong>. Правильнее и безопаснее хранить хэши паролей в базе данных вместо самих паролей — хэш-функцию нельзя однозначно восстановить.</li>
+<li><strong>Поиск в многомерных пространствах</strong>. Детерминированный поиск ближайшей точки среди <span class="math inline">\(m\)</span> точек в <span class="math inline">\(n\)</span>-мерном пространстве быстро не решается. Однако можно придумать <a href="https://ru.wikipedia.org/wiki/Locality-sensitive_hashing">хэш-функцию, присваивающую лежащим рядом элементам одинаковые хэши</a>, и делать поиск только среди элементов с тем же хэшом, что у запроса.</li>
+</ul>
+<p>Хэшируемые объекты могут быть самыми разными: строки, изображения, графы, шахматные позиции, просто битовые файлы.</p>
+<p>Сегодня же мы остановимся на строках.</p>
+<h1 id="полиномиальное-хэширование">Полиномиальное хэширование</h1>
+<p><strong>Лайфхак</strong>: пока вы не выучили все детерминированные строковые алгоритмы, научитесь пользоваться хэшами.</p>
+<p>Будем считать, что строка — это последовательность чисел от <span class="math inline">\(1\)</span> до <span class="math inline">\(m\)</span> (размер алфавита). В C++ <code>char</code> это на самом деле тоже число, поэтому можно вычитать из символов минимальный код и кастовать в число: <code>int x = (int) (c - 'a' + 1)</code>.</p>
+<p>Определим <em>прямой полиномиальный хэш</em> строки как значение следующего многочлена:</p>
+<p><span class="math display">\[ h_f = (s_0 + s_1 k + s_2 k^2 + \ldots + s_n k^n) \mod p \]</span></p>
+<p>Здесь <span class="math inline">\(k\)</span> — произвольное число больше размера алфавита, а <span class="math inline">\(p\)</span> — достаточно большой модуль, вообще говоря, не обязательно простой.</p>
+<p>Его можно посчитать за линейное время, поддерживая переменную, равную нужной в данный момент степени <span class="math inline">\(k\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">int</span> k = <span class="dv">31</span>, mod = <span class="fl">1e9</span><span class="dv">+7</span>;
+
+string s = <span class="st">&quot;abacabadaba&quot;</span>;
+<span class="dt">long</span> <span class="dt">long</span> h = <span class="dv">0</span>, m = <span class="dv">1</span>;
+<span class="kw">for</span> (<span class="dt">char</span> c : s) {
+    <span class="dt">int</span> x = (<span class="dt">int</span>) (c - <span class="st">&#39;a&#39;</span> + <span class="dv">1</span>);
+    h = (h + m * x) % mod;
+    m = (m * k) % mod;
+}</code></pre></div>
+<p>Можем ещё определить <em>обратный полиномиальный хэш</em>:</p>
+<p><span class="math display">\[ h_b = (s_0 k^n + s_1 k^{n-1} + \ldots + s_n) \mod p \]</span></p>
+<p>Его преимущество в том, что можно написать на одну строчку кода меньше:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">long</span> <span class="dt">long</span> h = <span class="dv">0</span>;
+<span class="kw">for</span> (<span class="dt">char</span> c : s) {
+    <span class="dt">int</span> x = (<span class="dt">int</span>) (c - <span class="st">&#39;a&#39;</span> + <span class="dv">1</span>);
+    h = (h * k + x) % mod;
+}</code></pre></div>
+<p>Автору проще думать об обычных многочленах, поэтому он будет везде использовать прямой полиномиальный хэш и обозначать его просто буквой <span class="math inline">\(h\)</span>.</p>
+<h2 id="зачем-он-нужен">Зачем он нужен?</h2>
+<p>Используя тот факт, что хэш это значение многочлена, можно быстро пересчитывать хэш от результата выполнения многих строковых операций.</p>
+<p>Например, если нужно посчитать хэш от конкатенации строк <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> (т. е. <span class="math inline">\(b\)</span> приписали в конец строки <span class="math inline">\(a\)</span>), то можно просто хэш <span class="math inline">\(b\)</span> домножить на <span class="math inline">\(k^{|a|}\)</span> и сложить с хэшом <span class="math inline">\(a\)</span>:</p>
+<p><span class="math display">\[ h(ab) = h(a) + k^{|a|} \cdot h(b) \]</span></p>
+<p>Удалить префикс строки можно так:</p>
+<p><span class="math display">\[ h(b) = \frac{h(ab) - h(a)}{k^{|a|}} \]</span></p>
+<p>А суффикс — ещё проще:</p>
+<p><span class="math display">\[ h(a) = h(ab) - k^{|a|} \cdot h(b) \]</span></p>
+<p>В задачах нам часто понадобится домножать <span class="math inline">\(k\)</span> в какой-то степени, поэтому имеет смысл предпосчитать все нужные степени и сохранить в массиве:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span><span class="dv">+5</span>;
+
+<span class="dt">int</span> p[maxn];
+p[<span class="dv">0</span>] = <span class="dv">1</span>;
+
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; maxn; i++)
+    p[i] = (p[i<span class="dv">-1</span>] * k) % mod;</code></pre></div>
+<p>Как это использовать в реальных задачах? Пусть нам надо отвечать на запросы проверки на равенство произвольных подстрок одной большой строки. Подсчитаем значение хэш-функции для каждого префикса:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> h[maxn];
+h[<span class="dv">0</span>] = <span class="dv">0</span>; <span class="co">// h[k] -- хэш префикса длины k</span>
+
+<span class="co">// будем считать, что s это уже последовательность int-ов</span>
+
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) 
+    h[i<span class="dv">+1</span>] = (h[i] + p[i] * s[i]) % mod;</code></pre></div>
+<p>Теперь с помощью этих префиксных хэшей мы можем определить функцию, которая будет считать хэш на произвольном подотрезке:</p>
+<p><span class="math display">\[ h(s[l:r]) = \frac{h_r-h_l}{k^l} \]</span></p>
+<p>Деление по модулю воможно делать только при некоторых <code>k</code> и <code>mod</code> (а именно — при взаимно простых). В любом случае, писать его долго, и мы это делать не хотим.</p>
+<p>Для нашей задачи не важно получать именно полиномиальный хэш — главное, чтобы наша функция возвращала одинаковый многочлен от одинаковых подстрок. Вместо приведения к нулевой степени приведём многочлен к какой-нибудь достаточно большой — например, к <span class="math inline">\(n\)</span>-ной. Так проще — нужно будет домножать, а не делить.</p>
+<p><span class="math display">\[ \hat{h}(s[l:r]) = k^{n-l} (h_r-h_l) \]</span></p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> hash_substring (<span class="dt">int</span> l, <span class="dt">int</span> r) {
+    <span class="kw">return</span> (h[r<span class="dv">+1</span>] - h[l]) * p[n-l] % mod;
+}</code></pre></div>
+<p>Теперь мы можем просто вызывать эту функцию от двух отрезков и сравнивать числовое значение, отвечая на запрос за <span class="math inline">\(O(1)\)</span>.</p>
+<h3 id="упражнение">Упражнение</h3>
+<p>Напишите то же самое, но используя <em>обратный</em> полиномиальный хэш — этот способ тоже имеет право на существование, и местами он даже проще.</p>
+<h2 id="примеры-задач">Примеры задач</h2>
+<p><strong>Количество разных подстрок</strong>. Посчитаем хэши от всех подстрок за <span class="math inline">\(O(n^2)\)</span> и добавим их все в <code>std::set</code>. Чтобы получить ответ, просто вызовем <code>set.size()</code>.</p>
+<p><strong>Поиск подстроки в строке</strong>. Можно посчитать хэши от шаблона (строки, которую ищем) и пройтись «окном» размера шаблона по тексту, поддерживая хэш текущей подстроки. Если хэш какой-то из этих подстрок совпал с хэшом шаблона, то мы нашли нужную подстроку. Это называется алгоритмом Рабина-Карпа.</p>
+<p><strong>Сравнение строк</strong> (больше-меньше, а не только равенство). У любых двух строк есть какой-то общий префикс (возможно, пустой). Сделаем бинпоиск по его длине, а дальше сравним два символа, идущие за ним.</p>
+<p><strong>Палиндромность подстроки</strong>. Можно посчитать два массива — обратные хэши и прямые. Проверка на палиндром будет заключаться в сравнении значений <code>hash_substring()</code> на первом массиве и на втором.</p>
+<p><strong>Количество палиндромов</strong>. Можно перебрать центр палиндрома, а для каждого центра — бинпоиском его размер. Проверять подстроку на палиндромность мы уже умеем. Как и всегда в задачах на палиндромы, случаи четных и нечетных палиндромов нужно обрабатывать отдельно.</p>
+<h3 id="изменения-строки">Изменения строки*</h3>
+<p>Если для вас всё вышеперечисленное тривиально: можно делать много клёвых вещей, если «оборачивать» строки в <a href="http://sereja.me/a/treap">декартово дерево</a>. В вершине дерева можно хранить символ, а также хэш подстроки, соответствующей её поддереву. Чтобы поддерживать хэш, нужно просто добавить в <code>upd()</code> пересчёт хэша от конкатенации трёх строк — левого сына, своего собственного символа и правого сына.</p>
+<p>Имея такое дерево, мы можем обрабатывать запросы, связанные с изменением строки: удаление и вставка символа, перемещение и переворот подстрок, а если дерево персистентное — то и копирование подстрок. При запросе хэша подстроки нам, как обычно, нужно просто вырезать нужную подстроку и взять хэш, который будет лежать в вершине-корне.</p>
+<p>Если нам не нужно обрабатывать запросы вставки и удаления символов, а, например, только изменения, то можно использовать и дерево отрезков вместо декартова.</p>
+<h1 id="вероятность-ошибки-и-почему-это-всё-вообще-работает">Вероятность ошибки и почему это всё вообще работает</h1>
+<p>У алгоритмов, использующих хэширование, есть один неприятный недостаток: недетерминированность. Если мы сгенерируем бесконечное количество примеров, то когда-нибудь нам не повезет, и программа отработает неправильно. На CodeForces даже иногда случаются взломы решений, использующих хэширование — можно в оффлайне сгенерировать тест против конкретного решения.</p>
+<p>Событие, когда два хэша совпали, а не должны, называется <em>коллизией</em>. Пусть мы решаем задачу определения количества различных подстрок — мы добавляем в <code>set</code> <span class="math inline">\(O(n^2)\)</span> различных случайных значений в промежутке <span class="math inline">\([0, m)\)</span>. Понятно, что если произойдет коллизия, то мы какую-то строку не учтем и получим WA. Насколько большим следует делать <span class="math inline">\(m\)</span>, чтобы не бояться такого?</p>
+<h2 id="выбор-констант">Выбор констант</h2>
+<p>Практическое правило: если вам нужно хранить <span class="math inline">\(n\)</span> различных хэшей, то безопасный модуль — это число порядка <span class="math inline">\(10 \cdot n^2\)</span>. Обоснование — см. парадокс дней рождений.</p>
+<p>Не всегда такой можно выбрать один — если он будет слишком большой, будут происходить переполнения. Вместо этого можно брать два или даже три модуля и считать много хэшей параллельно.</p>
+<p>Можно также брать модуль <span class="math inline">\(2^{64}\)</span>. У него есть несколько преимуществ: * Он большой — второй модуль точно не понадобится. * С ним ни о каких переполнениях заботиться не нужно — если все хранить в <code>unsigned long long</code>, процессор сам автоматически сделает эти взятия остатков при переполнении. * С ним хэширование будет быстрее — раз переполнение происходит на уровне процессора, можно не выполнять долгую операцию <code>%</code>.</p>
+<p>Всё с этим модулем было прекрасно, пока не придумали <a href="http://codeforces.com/blog/entry/4898">тест против него</a>. Однако, его добавляют далеко не на все контесты — имейте это в виду.</p>
+<p>В выборе же <span class="math inline">\(k\)</span> ограничения не такие серьезные: * Она должна быть чуть больше размера словаря — иначе можно изменить две соседние буквы и получить коллизию. * Она должна быть взаимно проста с модулем — иначе в какой-то момент всё может занулиться.</p>
+<p>Главное — чтобы значения <span class="math inline">\(k\)</span> и модуля не знал человек, который генерирует тесты.</p>
+<h2 id="парадокс-дней-рождений">Парадокс дней рождений</h2>
+<blockquote>
+<p>В группе, состоящей из 23 или более человек, вероятность совпадения дней рождения хотя бы у двух людей превышает 50%.</p>
+</blockquote>
+<p>Более общее утверждение: в мультимножество нужно добавить <span class="math inline">\(\Theta(\sqrt{n})\)</span> случайных чисел от 1 до n, чтобы какие-то два совпали.</p>
+<p><strong>Первое доказательство</strong> (для любителей матана). Пусть <span class="math inline">\(f(n, d)\)</span> это вероятность того, что в группе из <span class="math inline">\(n\)</span> человек ни у кого не совпали дни рождения. Будем считать, что дни рождения распределены независимо и равномерно в промежутке от <span class="math inline">\(1\)</span> до <span class="math inline">\(d\)</span>.</p>
+<p><span class="math display">\[f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}{d})\]</span></p>
+<p>Попытаемся оценить <span class="math inline">\(f\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+  \begin{aligned}
+    e^x &amp; = 1 + x + \frac{x^2}{2!} + \ldots &amp; \text{(ряд Тейлора для экспоненты)} \\
+    &amp; \simeq 1 + x &amp; \text{(аппроксимация для $|x| \ll 1$)} \\
+    e^{-\frac{n}{d}} &amp; \simeq 1 - \frac{n}{d} &amp; \text{(подставим $\frac{n}{d} \ll 1$)} \\
+    f(n, d) &amp; \simeq e^{-\frac{1}{d}} \times e^{-\frac{2}{d}} \times \ldots \times e^{-\frac{n-1}{d}} &amp; \\
+    &amp; = e^{-\frac{n(n-1)}{2d}} &amp; \\
+    &amp; \simeq e^{-\frac{n^2}{2d}} &amp; \\
+  \end{aligned}
+\end{align}
+\]</span></p>
+<p>Из последнего выражения более-менее понятно, что вероятность <span class="math inline">\(\frac{1}{2}\)</span> достигается при <span class="math inline">\(n \approx \sqrt{d}\)</span> и в этой точке изменяется очень быстро.</p>
+<p><strong>Второе доказательство</strong> (для любителей теорвера). Введем <span class="math inline">\(\frac{n(n-1)}{2}\)</span> индикаторов — по одному для каждой пары людей <span class="math inline">\((i, j)\)</span> — каждый будет равен единице, если дни рождения совпали. Ожидание и вероятность каждого индикатора равна <span class="math inline">\(\frac{1}{d}\)</span>.</p>
+<p>Обозначим за <span class="math inline">\(X\)</span> число совпавших дней рождений. Его ожидание равно сумме ожиданий этих индикаторов, то есть <span class="math inline">\(\frac{n (n-1)}{2} \cdot \frac{1}{d}\)</span>.</p>
+<p>Отсюда понятно, что если <span class="math inline">\(d = \Theta(n^2)\)</span>, то ожидание равно константе, а если <span class="math inline">\(d\)</span> асимптотически больше или меньше, то <span class="math inline">\(X\)</span> стремится нулю или бесконечности соответственно.</p>
+<p><em>Примечание</em>: формально, из этого явно не следует, что вероятности тоже стремятся к 0 и 1.</p>
+<h3 id="бонус-мета-задача">Бонус: «мета-задача»</h3>
+<p>Дана произвольная строка, по которой известным только авторам задачи способом генерируется ответ yes/no. В задаче 100 тестов. У вас есть 20 попыток отослать решение. В качестве фидбэка вам доступны вердикты на каждом тесте. Вердиктов всего два: OK (ответ совпал) и WA. Попытки поделить на ноль, выделить терабайт памяти и подобное тоже считаются как WA.</p>
+<p>«Решите» задачу.</p>
+</body>
+</html>
