@@ -4,7 +4,17 @@
 
 @font-face {
     font-family: 'Inconsolata';
-    src: url(http://sereja.me/fonts/inconsolata.ttf);
+    src: url(fonts/inconsolata.ttf);
+}
+
+@font-face {
+    font-family: 'Garamond';
+    src: url(fonts/garamond.ttf);
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: url(fonts/opensans.ttf);
 }
 
 html {
@@ -59,7 +69,13 @@ img {
     display: none;
 }
 
+h1 {
+  text-align: center;
+  margin-bottom: 0.8em !important;
+}
+
 h1, h2, h3, h4, h5, h6 {
+  font-family: Garamond, serif;
   color: #111;
   line-height: 125%;
   margin-top: 1em;
@@ -195,15 +211,15 @@ img {
   vertical-align: middle;
 }
 
-figure {
+.figure {
   display: block;
   text-align: center;
   margin: 1em 0;
 }
 
-figure img {
+.figure img {
   border: none;
-  margin: 0 auto;
+  margin:  auto;
 }
 
 figcaption {
