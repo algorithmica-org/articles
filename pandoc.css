@@ -75,7 +75,7 @@ h1 {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: Garamond, serif;
+  font-family: 'Garamond', serif;
   color: #111;
   line-height: 125%;
   margin-top: 1em;
@@ -373,6 +373,7 @@ a[href^='http://e-maxx.ru']:before {
     background-size: 18px;
 }
 
+/*
 a[href^='https://algorithmica.org']:before {
     content: "";
     display: inline-block;
@@ -380,9 +381,10 @@ a[href^='https://algorithmica.org']:before {
     top: 4px;
     width: 20px;
     height: 20px;
-    background: url('http://e-maxx.ru/favicon.ico') no-repeat;
+    background: url('https://algorithmica.org/favicon.ico') no-repeat;
     background-size: 18px;
 }
+*/
 
 /* https://habrahabr.ru/favicon.ico */
 

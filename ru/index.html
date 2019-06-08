@@ -33,79 +33,43 @@
 <h1 id="алгоритмика">Алгоритмика</h1>
 <h3 id="структуры-данных">Структуры данных</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/segtree">Дерево отрезков</a>: отложенные операции, динамическое, персистентное</li>
-<li><a href="https://algorithmica.org/ru/treap">Декартово дерево</a>: treap, дерамида, неявный ключ, персистентное</li>
-<li><a href="https://algorithmica.org/ru/fenwick">Дерево Фенвика</a>: многомерное дерево Фенвика, бинпоиск по дереву Фенвика</li>
-<li><a href="https://algorithmica.org/ru/sparse-table">Разреженная таблица</a>: sparse table, static RMQ</li>
-<li><a href="https://algorithmica.org/ru/bitset">Битовое сжатие</a></li>
-<li><ul>
-<li>std::bitset</li>
-</ul></li>
-<li><p>Матричное умножение над <span class="math inline">\(Z_2\)</span></p></li>
-<li><p>Метод Гаусса</p></li>
+<li><a href="https://algorithmica.org/ru/segtree">Дерево отрезков</a></li>
+<li><a href="https://algorithmica.org/ru/treap">Декартово дерево</a></li>
+<li><a href="https://algorithmica.org/ru/fenwick">Дерево Фенвика</a></li>
+<li><a href="https://algorithmica.org/ru/sparse-table">Разреженная таблица</a> и задача static RMQ</li>
+<li><a href="https://algorithmica.org/ru/bitset">Битовое сжатие</a>, std::bitset, матричное умножение и метод Гаусса над <span class="math inline">\(Z_2\)</span></li>
 </ul>
 <h3 id="общие-техники">Общие техники</h3>
 <ul>
-<li><p>Корневая декомпозиция: она где-то есть</p></li>
-<li><p>Разделяй-и-властвуй:</p></li>
-<li><ul>
-<li>Мастер-теорема</li>
-</ul></li>
-<li><p><a href="https://algorithmica.org/ru/karatsuba">Алгоритм Карацубы</a></p></li>
+<li><p>Корневая эвристика</p></li>
+<li><p><a href="https://algorithmica.org/ru/karatsuba">Алгоритм Карацубы</a>, асимптотики «разделяй-и-властвуй» и мастер-теорема</p></li>
 </ul>
 <h3 id="дискретная-математика">Дискретная математика</h3>
 <ul>
-<li><p><a href="https://algorithmica.org/ru/reciprocal">Модулярная арифметика</a></p></li>
-<li><ul>
-<li>Малая теорема Ферма</li>
-</ul></li>
-<li><p>Нахождение обратного по модулю</p></li>
-<li><p>Бинарное возведение в степень</p></li>
-<li><p>Диофантово уравнение</p></li>
-<li><p>Предподсчёт обратных факториалов за линейное время</p></li>
-<li><p><a href="https://algorithmica.org/ru/pollard">Ро-алгоритм Полларда</a></p></li>
-<li><ul>
-<li>Парадокс дней рождений</li>
-</ul></li>
-<li><p>Факторизация целых чисел за <span class="math inline">\(O(\sqrt[4] n)\)</span></p></li>
-<li><p><a href="https://algorithmica.org/ru/matroid">Матроиды</a>: алгоритм Радо-Эдмондса, расписания, паросочетания, линейная независимость</p></li>
+<li><p><a href="https://algorithmica.org/ru/reciprocal">Модулярная арифметика</a>, малая теорема Ферма, нахождение обратного по модулю бинарным возведением в степень и алгоритмом Евклида, применения в комбинаторике</p></li>
+<li><p><a href="https://algorithmica.org/ru/pollard">Ро-алгоритм Полларда</a>, парадокс дней рождений и фаторизация целых чисел за <span class="math inline">\(O(\sqrt[4] n)\)</span></p></li>
+<li><p><a href="https://algorithmica.org/ru/matroid">Матроиды</a> и жадный алгоритм Радо-Эдмондса</p></li>
 </ul>
 <h3 id="графы">Графы</h3>
 <ul>
-<li><p><a href="https://algorithmica.org/ru/mst">Остовные деревья</a>: алгоритм Прима, алгоритм Крускала</p></li>
-<li><p>[Паросочетания](https://algorithmica.org/ru/matching](https://algorithmica.org/ru/matching): алгоритм Куна, покрытие ациклического орграфа, лемма Холла</p></li>
-</ul>
-<h3 id="потоки">Потоки</h3>
-<ul>
-<li><a href="https://algorithmica.org/ru/mincost-maxflow">Поток минимальной стоимости</a>: критерий оптимальности, отмена потока, потенциалы Джонсона, «дейкстра с потенциалами»</li>
-</ul>
-<h3 id="деревья">Деревья</h3>
-<ul>
-<li><p>[Наименьший общий предок](https://algorithmica.org/ru/lca](https://algorithmica.org/ru/lca): LCA, двоичные подъемы, сведение LCA к RMQ, алгоритм Фараха-Колтона и Бендера</p></li>
+<li><p><a href="https://algorithmica.org/ru/mst">Остовные деревья</a>, лемма о безопасном ребре, система непересекающихся множеств, алгоритмы Прима, Крускала и Борувки</p></li>
+<li><p>[Паросочетания](https://algorithmica.org/ru/matching](https://algorithmica.org/ru/matching), теорема Бержа, алгоритм Куна и лемма Холла</p></li>
+<li><p><a href="https://algorithmica.org/ru/mincost-maxflow">Поток минимальной стоимости</a>, критерий оптимальности потока, алгоритм отмены потока, потенциалы Джонсона и «Дейкстра с потенциалами»</p></li>
+<li><p>[Наименьший общий предок](https://algorithmica.org/ru/lca](https://algorithmica.org/ru/lca), двоичные подъемы, сведение LCA к RMQ, алгоритм Фараха-Колтона и Бендера</p></li>
 <li><p><a href="https://algorithmica.org/ru/centroid">Центроидная декомпозиция</a></p></li>
 <li><p><a href="https://algorithmica.org/ru/hld">Heavy-light декомпозиция</a></p></li>
 </ul>
 <h3 id="строки">Строки</h3>
 <ul>
-<li><p><a href="https://algorithmica.org/ru/hashing">Полиномиальное хэширование</a>: хэши, парадокс дней рождений, хранение строк в декартовом дереве</p></li>
-<li><p><a href="https://algorithmica.org/ru/strings">Поиск строки в строке</a>: префикс-функция, z-функция</p></li>
+<li><p><a href="https://algorithmica.org/ru/hashing">Полиномиальное хэширование</a>, парадокс дней рождений и хранение строк в декартовом дереве</p></li>
+<li><p><a href="https://algorithmica.org/ru/strings">Префикс- и z-функция</a>, поиск строки в строке</p></li>
 <li><p><a href="https://algorithmica.org/ru/trie">Бор</a></p></li>
-<li><p><a href="https://algorithmica.org/ru/aho-corasick">Ахо-Корасик</a></p></li>
-<li><p><a href="https://algorithmica.org/ru/suffix-array">Суффиксный массив</a></p></li>
-<li><ul>
-<li>Построение за <span class="math inline">\(O(n \log n)\)</span></li>
-</ul></li>
-<li><p>Наименьшие общие префиксы (LCP)</p></li>
+<li><p><a href="https://algorithmica.org/ru/aho-corasick">Алгоритм Ахо-Корасик</a></p></li>
+<li><p><a href="https://algorithmica.org/ru/suffix-array">Суффиксный массив</a>, построение за <span class="math inline">\(O(n \log n)\)</span>, наименьшие общие префиксы (LCP)</p></li>
 </ul>
 <h3 id="динамическое-программирование">Динамическое программирование</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/dp-optimizations">Пересчёт динамики по слоям</a></li>
-<li><ul>
-<li>Оптимизация Кнута</li>
-</ul></li>
-<li><p>Оптимизацпия динамики через «разделяй-и-властвуй»</p></li>
-<li><p>Convex Hull Trick</p></li>
-<li><p>Дискретный метод Лагранжа («лямбда-оптимизация»)</p></li>
+<li><a href="https://algorithmica.org/ru/dp-optimizations">Пересчёт динамики по слоям</a>, оптимизация Кнута, оптимизация через «разделяй-и-властвуй», Convex Hull Trick, дискретный метод Лагранжа («лямбда-оптимизация»)</li>
 </ul>
 <h3 id="оптимизация">Оптимизация</h3>
 <ul>
@@ -117,27 +81,17 @@
 </ul>
 <h3 id="теория-игр">Теория игр</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/games">Теория игр</a>: эту статью определенно надо распилить на несколько</li>
+<li><a href="https://algorithmica.org/ru/games">Теория игр</a>, игры на графах, ретроанализ, альфа-бета отсечение, ним, теория шпрага-гранди, игры с неполной информацией</li>
 </ul>
 <h3 id="высшая-математика">Высшая математика</h3>
 <ul>
-<li><p><a href="https://algorithmica.org/ru/linalg">Линейная алгебра</a></p></li>
-<li><ul>
-<li>Линейные операторы и матрицы</li>
-</ul></li>
-<li><p>Применения к динамике</p></li>
-<li><p>Метод Гаусса</p></li>
-<li><p><a href="https://algorithmica.org/ru/probability">Теорвер</a></p></li>
-<li><ul>
-<li>Математическое ожидание</li>
-</ul></li>
-<li><p>Дисперсия</p></li>
-<li><p>Линейность математического ожидания</p></li>
+<li><p><a href="https://algorithmica.org/ru/linalg">Линейная алгебра</a>, матрицы, матричное умножение и быстрое возведение в степень, применения к динамике, метод Гаусса</p></li>
+<li><p><a href="https://algorithmica.org/ru/probability">Теория вероятностей</a>, математическое ожидание, дисперсия, линейность математического ожидания, нормальное распределение и метод Монте-Карло</p></li>
 </ul>
 <h3 id="геометрия">Геометрия</h3>
 <ul>
-<li><p><a href="https://algorithmica.org/ru/geometry">Ликбез по вычислительной геометрии</a>: скалярное и векторное произведение, пересечение прямых, классы в C++</p></li>
-<li><p>Выпуклые оболочки: они где-то есть</p></li>
+<li><p><a href="https://algorithmica.org/ru/geometry">Ликбез по вычислительной геометрии</a>, скалярное и векторное произведение, пересечение прямых, классы в C++</p></li>
+<li><p>Выпуклые оболочки</p></li>
 </ul>
 </body>
 </html>
