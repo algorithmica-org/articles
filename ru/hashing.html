@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title></title>
+  <title>Хэширование в строковых задачах</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
 div.sourceCode { overflow-x: auto; }
@@ -64,6 +64,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <!-- /Yandex.Metrika counter -->
 </head>
 <body>
+<div id="header">
+<h1 class="title">Хэширование в строковых задачах</h1>
+</div>
 <h1 id="хэширование-в-строковых-задачах">Хэширование в строковых задачах</h1>
 <p>Хэш — это какая-то функция, сопоставляющая объектам какого-то множества числовые значения из ограниченного промежутка.</p>
 <p>«Хорошая» хэш-функция: * Быстро считается — за линейное от размера объекта время; * Имеет не очень большие значения — влезающие в 64 бита; * «Детерминированно-случайная» — если хэш может принимать <span class="math inline">\(n\)</span> различных значений, то вероятность того, что хэши от двух случайных объектов совпадут, равна примерно <span class="math inline">\(\frac{1}{n}\)</span>.</p>

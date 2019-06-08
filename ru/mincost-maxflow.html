@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title></title>
+  <title>Поток минимальной стоимости</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
 div.sourceCode { overflow-x: auto; }
@@ -64,6 +64,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <!-- /Yandex.Metrika counter -->
 </head>
 <body>
+<div id="header">
+<h1 class="title">Поток минимальной стоимости</h1>
+</div>
 <h1 id="поток-минимальной-стоимости">Поток минимальной стоимости</h1>
 <p>Рассмотрим ориентированный граф <span class="math inline">\(G = (V, E)\)</span> с истоком <span class="math inline">\(s\)</span> и стоком <span class="math inline">\(t\)</span>, в котором у каждого ребра <span class="math inline">\((u, v)\)</span> задана целая стоимость <span class="math inline">\(w_{uv}\)</span> и целая положительная пропускная способность <span class="math inline">\(c_{uv}\)</span>. Требуется найти максимальный поток, стоимость которого минимальна:</p>
 <p><span class="math display">\[ \sum_{(u, v) \in E} f_{uv} \to \max \]</span> <span class="math display">\[ \sum_{(u, v) \in E} f_{uv} w_{uv} \to \min \]</span></p>
