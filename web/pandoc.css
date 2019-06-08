@@ -55,6 +55,10 @@ img {
   max-width: 100%;
 }
 
+.title {
+    display: none;
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: #111;
   line-height: 125%;
