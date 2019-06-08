@@ -80,13 +80,13 @@ c = a * b % mod;</code></pre></div>
 <p><strong>Теорема.</strong> <span class="math inline">\(a^p \equiv a \pmod p\)</span> для всех <span class="math inline">\(a\)</span>, не делящихся на <span class="math inline">\(p\)</span>.</p>
 <p><strong>Доказательство</strong>. (для понимания несущественно, можно пропустить)</p>
 <p><span class="math display">\[
-\begin{align}
+\begin{aligned}
 a^p &amp;= (\underbrace{1+1+\ldots+1+1}_\text{$a$ раз})^p
 \\  &amp;= \sum_{x_1+x_2+\ldots+x_a = p} P(x_1, x_2, \ldots, x_a) &amp; \text{(раскладываем по определению)}
 \\  &amp;= \sum_{x_1+x_2+\ldots+x_a = p} \frac{p!}{x_1! x_2! \ldots x_a!} &amp; \text{(какие слагаемые не делятся на $p$?)}
 \\  &amp;\equiv P(p, 0, \ldots, 0) + \ldots + P(0, 0, \ldots, p) &amp; \text{(все остальные не убьют $p$ в знаменателе)}
 \\  &amp;= a
-\end{align}
+\end{aligned}
 \]</span></p>
 <p>Здесь <span class="math inline">\(P(x_1, x_2, \ldots, x_n) = \frac{k}{\prod (x_i!)}\)</span> это мультиномиальный коеффициент — количество раз, которое элемент <span class="math inline">\(a_1^{x_1} a_2^{x_2} \ldots a_n^{x_n}\)</span> появится при раскрытии скобки <span class="math inline">\((a_1 + a_2 + \ldots + a_n)^k\)</span>.</p>
 <p>Теперь два раза «поделим» наш результат на <span class="math inline">\(a\)</span>.</p>
@@ -122,7 +122,11 @@ a^p &amp;= (\underbrace{1+1+\ldots+1+1}_\text{$a$ раз})^p
 <p><span class="math display">\[ ax + my = 1 \]</span></p>
 <p>Одним из решений уравнения и будет <span class="math inline">\(a^{-1}\)</span>, потому что если взять уравнение по модулю <span class="math inline">\(m\)</span>, то получим</p>
 <p><span class="math display">\[ ax + by = 1 \iff ax \equiv 1 \iff x \equiv a^{-1} \pmod m \]</span></p>
-<p>Преимущества этого метода над возведением в степень: * Если обратное существует, то оно найдется даже если модуль не простой. Способ с бинарным возведением тоже можно заставить работать с произвольным модулем, но это будет намного труднее. * Алгоритм проще выполнять руками.</p>
+<p>Преимущества этого метода над возведением в степень:</p>
+<ul>
+<li>Если обратное существует, то оно найдется даже если модуль не простой. Способ с бинарным возведением тоже можно заставить работать с произвольным модулем, но это будет намного труднее.</li>
+<li>Алгоритм проще выполнять руками.</li>
+</ul>
 <p>Сам автор почти всегда использует возведение в степень.</p>
 <h2 id="почему-1097">Почему <span class="math inline">\(10^9+7\)</span>?</h2>
 <ol style="list-style-type: decimal">

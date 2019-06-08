@@ -117,12 +117,12 @@ t <span class="op">=</span> <span class="dv">1</span>
 <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(k):
     <span class="co"># уменьшаем температуру</span>
     t <span class="op">*=</span> <span class="fl">0.99</span> <span class="co"># этот параметр лучше перебрать руками</span>
-    
+
     <span class="co"># копируем перестановку и делаем небольшое изменение</span>
     q <span class="op">=</span> p[:]
     a, b <span class="op">=</span> random.sample(<span class="bu">range</span>(n), <span class="dv">2</span>)
     q[a], q[b] <span class="op">=</span> q[b], q[a]
-    
+
     <span class="co"># считаем разницу fitness и решаем, нужно ли переходить в новое состояние</span>
     d <span class="op">=</span> fitness(q) <span class="op">-</span> fitness(p)
     <span class="cf">if</span> d <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">or</span> random.random() <span class="op">&lt;</span> math.exp(d<span class="op">/</span>t):
@@ -133,10 +133,6 @@ t <span class="op">=</span> <span class="dv">1</span>
 plt.plot(scores)
 plt.show()</code></pre></div>
 <pre><code>Best score: 95</code></pre>
-<div class="figure">
-<img src="annealing_files/annealing_11_1.png" alt="png" />
-<p class="caption">png</p>
-</div>
 <p>Примерно эквивалентный код на C++:</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">const <span class="bu">int</span> n <span class="op">=</span> <span class="dv">100</span>, k <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span>
 

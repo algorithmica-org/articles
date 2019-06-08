@@ -69,7 +69,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <h1 id="корневые-деревья">Корневые деревья</h1>
 <p>Дерево называется <em>корневым</em>, если оно ориентированно и из какой-то вершины можно попасть во все остальные — такая вершина единственная, и она называется <em>корнем</em>.</p>
-<p>Примеры корневых деревьев: * наследование классов в языках программирования (если множественное наследование запрещено), * дерево факторизации числа на простые (в общем случае не уникальное), * иерархия в какой-нибудь компании, * просто множество как-то вложенных объектов (ссылка на крысу-роботягу).</p>
+<p>Примеры корневых деревьев:</p>
+<ul>
+<li>наследование классов в языках программирования (если множественное наследование запрещено),</li>
+<li>дерево факторизации числа на простые (в общем случае не уникальное),</li>
+<li>иерархия в какой-нибудь компании,</li>
+<li>просто множество как-то вложенных объектов (ссылка на крысу-роботягу).</li>
+</ul>
 <p>Сегодня мы поговорим о разных задачах на корневых деревьях. Они все бесполезны в реальной жизни, но очень красивые, и поэтому часто встречаются на олимпиадах.</p>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/master/img/LCA_Euler.png" alt="dfs" />
@@ -87,7 +93,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
         dfs(u);
     tout[v] = t; <span class="co">// при выходе из вершины можно тоже счётчик увеличить, но автор не хочет </span>
 }</code></pre></div>
-<p>У этих массивов много полезных свойств: * Вершина <span class="math inline">\(u\)</span> является предком <span class="math inline">\(v\)</span> $tin_v [tin_u, tout_u) $. Эту проверку можно делать за константу. * Два полуинтервала — <span class="math inline">\([tin_v, tout_v)\)</span> и <span class="math inline">\([tin_u, tout_u)\)</span> — либо не пересекаются, либо вложены один в другой. * В <span class="math inline">\(tin\)</span> есть все числа из промежутка от 0 до <span class="math inline">\(n-1\)</span>. У каждой вершины — свой номер. * Размер поддерева вершины <span class="math inline">\(v\)</span> (включая саму вершину) равен <span class="math inline">\(tout_v - tin_v\)</span>. * Если ввести нумерацию вершин, соответствующую <span class="math inline">\(tin\)</span>-ам, то поддерево вершины — всегда какой-то промежуток в этой нумерации.</p>
+<p>У этих массивов много полезных свойств:</p>
+<ul>
+<li>Вершина <span class="math inline">\(u\)</span> является предком <span class="math inline">\(v\)</span> <span class="math inline">\(\iff tin_v \in [tin_u, tout_u)\)</span>. Эту проверку можно делать за константу.</li>
+<li>Два полуинтервала — <span class="math inline">\([tin_v, tout_v)\)</span> и <span class="math inline">\([tin_u, tout_u)\)</span> — либо не пересекаются, либо вложены один в другой.</li>
+<li>В <span class="math inline">\(tin\)</span> есть все числа из промежутка от 0 до <span class="math inline">\(n-1\)</span>. У каждой вершины — свой номер.</li>
+<li>Размер поддерева вершины <span class="math inline">\(v\)</span> (включая саму вершину) равен <span class="math inline">\(tout_v - tin_v\)</span>.</li>
+<li>Если ввести нумерацию вершин, соответствующую <span class="math inline">\(tin\)</span>-ам, то поддерево вершины — всегда какой-то промежуток в этой нумерации.</li>
+</ul>
 <h2 id="запросы-на-поддеревьях">Запросы на поддеревьях</h2>
 <p>Последнее свойство на самом деле очень важное. Его можно использовать для обработки разных запросов на поддеревьях, сводя их к запросам на подотрезкам, которые уже можно решать стандартными методами — например, через ДО.</p>
 <blockquote>
@@ -121,7 +134,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     <span class="kw">return</span> u;
 }</code></pre></div>
 <h2 id="lca-двоичные-подъемы">LCA: двоичные подъемы</h2>
-<p>Предпосчитаем для каждой вершины её 1-го предка, 2-го предка, 4-го, и т.д. Сохраним это всё в двумерном массиве <code>up</code> размера <span class="math inline">\(n \times \lceil \log n \rceil\)</span> — столько точно хватит. В <code>up[v][d]</code> будет храниться предок вершины <span class="math inline">\(v\)</span> на расстоянии <span class="math inline">\(2^d\)</span>, а если такой вершины не существует — то корень.</p>
+<p>Предпосчитаем для каждой вершины её 1-го предка, 2-го предка, 4-го, и т.д. Сохраним это всё в двумерном массиве <code>up</code> размера <span class="math inline">\(n \times \lceil \log n \rceil\)</span> — столько точно хватит. В <code>up[v][d]</code> будет храниться предок вершины <span class="math inline">\(v\)</span> на расстоянии <span class="math inline">\(2^d\)</span>, а если такой вершины не существует — то корень.</p>
 <p>Такой препроцессинг можно выполнить за <span class="math inline">\(O(n \log n)\)</span>, используя тот факт, что предок на расстоянии <span class="math inline">\(2^{d+1}\)</span> — это предок на расстоянии <span class="math inline">\(2^d\)</span> предка на расстоянии <span class="math inline">\(2^d\)</span>:</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> up[maxn][logn];
 
@@ -135,7 +148,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     }
     tout[v] = t++;
 }</code></pre></div>
-<p>Пусть поступил очередной запрос — пара вершин <span class="math inline">\((u, v)\)</span>: * Проверим, не является ли одна вершина предком другой — в таком случае она и является результатом. * Иначе, пользуясь массивом <code>up</code>, будем подниматься по предкам одной из них, пока не найдём самую высокую вершину, которая ещё не является предком другой. Следующая за ней будет искомым LCA.</p>
+<p>Пусть поступил очередной запрос — пара вершин <span class="math inline">\((u, v)\)</span>:</p>
+<ul>
+<li>Проверим, не является ли одна вершина предком другой — в таком случае она и является результатом.</li>
+<li>Иначе, пользуясь массивом <code>up</code>, будем подниматься по предкам одной из них, пока не найдём самую высокую вершину, которая ещё не является предком другой. Следующая за ней будет искомым LCA.</li>
+</ul>
 <p>Подробнее про второй пункт. Пусть <span class="math inline">\(L = \lceil \log n \rceil\)</span>. Присвоим <span class="math inline">\(i = L\)</span>. Будем уменьшать эту переменную на единицу, пока <code>up[v][i]</code> не перестанет быть предком <span class="math inline">\(u\)</span> (указатель <code>up[v][i]</code> изначально будет корнем, а затем каждую итерацию спускаться на <span class="math inline">\(2^i\)</span>). Когда это произойдёт, подвинем указатель на <span class="math inline">\(2^i\)</span>-го предка <span class="math inline">\(v\)</span>, и продолжим дальше. Мы можем это делать, потому что два раза прыгать на {2^i} — можно один раз прыгнуть на <span class="math inline">\(2^{i+1}\)</span>.</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> lca (<span class="dt">int</span> v, <span class="dt">int</span> u) {
     <span class="kw">if</span> (a(v, u)) <span class="kw">return</span> v;

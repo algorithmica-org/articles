@@ -74,16 +74,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><span class="math display">\[f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}{d})\]</span></p>
 <p>Попытаемся оценить <span class="math inline">\(f\)</span>:</p>
 <p><span class="math display">\[
-\begin{align}
-  \begin{aligned}
+\begin{aligned}
     e^x &amp; = 1 + x + \frac{x^2}{2!} + \ldots &amp; \text{(ряд Тейлора для экспоненты)} \\
     &amp; \simeq 1 + x &amp; \text{(аппроксимация для $|x| \ll 1$)} \\
     e^{-\frac{n}{d}} &amp; \simeq 1 - \frac{n}{d} &amp; \text{(подставим $\frac{n}{d} \ll 1$)} \\
     f(n, d) &amp; \simeq e^{-\frac{1}{d}} \times e^{-\frac{2}{d}} \times \ldots \times e^{-\frac{n-1}{d}} &amp; \\
     &amp; = e^{-\frac{n(n-1)}{2d}} &amp; \\
     &amp; \simeq e^{-\frac{n^2}{2d}} &amp; \\
-  \end{aligned}
-\end{align}
+\end{aligned}
 \]</span></p>
 <p>Из формулы более-менее понятно, что вероятность <span class="math inline">\(\frac{1}{2}\)</span> достигается при <span class="math inline">\(n \approx \sqrt{d}\)</span> и в этой точке изменяется быстро. Для самого алгоритма нам понадобится следующее:</p>
 <p><strong>Утверждение</strong>. В мультимножество нужно добавить <span class="math inline">\(O(\sqrt{n})\)</span> случайных чисел от 1 до n, чтобы какие-то два совпали.</p>
@@ -106,19 +104,13 @@ approx <span class="op">=</span> [g(n, <span class="dv">365</span>) <span class=
 plt.plot(exact)
 plt.plot(approx)
 plt.show()</code></pre></div>
-<div class="figure">
-<img src="pollard_files/pollard_7_0.png" alt="png" />
-<p class="caption">png</p>
-</div>
+<p>TODO: график</p>
 <p>На графике две линии, если не видно, — аппроксимация настолько хороша. Чтобы продемонстрировать <span class="math inline">\(n \approx \sqrt{d}\)</span>, построим такую же для больших чисел и перейдём в логарифмический масштаб.</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">approx <span class="op">=</span> [g(n, <span class="dv">10</span><span class="op">**</span><span class="dv">10</span>) <span class="cf">for</span> n <span class="op">in</span> <span class="bu">range</span>(<span class="dv">10</span><span class="op">**</span><span class="dv">6</span>)]
 plt.xscale(<span class="st">&#39;log&#39;</span>)
 plt.plot(approx)
 plt.show()</code></pre></div>
-<div class="figure">
-<img src="pollard_files/pollard_9_0.png" alt="png" />
-<p class="caption">png</p>
-</div>
+<p>TODO: график</p>
 <h2 id="rho-алгоритм-полларда"><span class="math inline">\(\rho\)</span>-алгоритм Полларда</h2>
 <p>Итак, мы хотим факторизовать число <span class="math inline">\(n\)</span>. Предположим, что <span class="math inline">\(n = p q\)</span> и <span class="math inline">\(p \approx q\)</span>. Понятно, что труднее случая, наверное, нет. Алгоритм итеративно ищет наименьший делитель и сводит задачу к как минимум в два раза меньшей.</p>
 <p>Возьмём произвольную «достаточно случайную» с точки зрения ТЧ функцию. Например <span class="math inline">\(f(x) = (x+1)^2 \mod n\)</span>.</p>

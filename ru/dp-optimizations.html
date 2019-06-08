@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title># Оптимизации динамики</title>
+  <title>Оптимизации динамики</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
 div.sourceCode { overflow-x: auto; }
@@ -65,16 +65,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </head>
 <body>
 <div id="header">
-<h1 class="title"># Оптимизации динамики</h1>
+<h1 class="title">Оптимизации динамики</h1>
 </div>
-<h2 id="оптимизации-динамики">Оптимизации динамики</h2>
-<ul>
-<li>Разделяй и властвуй</li>
-<li>Оптимизация Кнута</li>
-<li>Convex Hull Trick</li>
-<li>Лямбда-оптимизация</li>
-</ul>
-<h2 id="задача">Задача</h2>
+<h1 id="оптимизации-динамики">Оптимизации динамики</h1>
+<p>В этой статье мы будем решать одну и ту же задачу разными способами. Они применимы в общем случае, но мы рассмотрим эту:</p>
 <blockquote>
 <p>Даны <span class="math inline">\(n\)</span> точек на прямой. Нужно найти <span class="math inline">\(m\)</span> отрезков, покрывающих все точки, минимизировав при этом сумму квадратов их длин.</p>
 </blockquote>
@@ -139,13 +133,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Сравните с базовым решением — всего 3 новых строчки.</p>
 <h2 id="convex-hull-trick">Convex Hull Trick</h2>
 <p>Этот метод призывает думать об оптимизируемой функции геометрически — посмотрев на <code>cost</code> и увидев там скалярное произведение.</p>
-<p><span class="math display">\[ f[i, j] = \min_{k &lt; i} \{f[k, j-1] + (x_{i-1}-x_k)^2 \} = \min_{k &lt; i} \{
+<p><span class="math display">\[
+f[i, j] = \min_{k &lt; i} \{ f[k, j-1] + (x_{i-1}-x_k)^2 \} = \min_{k &lt; i} \{
 f[k, j-1] + x_{i-1}^2
 - 2x_{i-1} x_k
 + x_k^2
-\}\]</span></p>
-<p>Посмотрим внимательнее на минимизируемое выражение. <span class="math inline">\(x_{i-1}^2\)</span> не зависит от <span class="math inline">\(k\)</span>, значит его можно вынести. Под минимумом останется $ <em>{a_k} </em>{b_k} x_{i-1} $.</p>
-<p>Это теперь можно переписать как $ <em>k (a_k, b_k) (1, X</em>{i-1}) $ (имеется в виду скалярное произведение)</p>
+\}
+\]</span></p>
+<p>Посмотрим внимательнее на минимизируемое выражение. <span class="math inline">\(x_{i-1}^2\)</span> не зависит от <span class="math inline">\(k\)</span>, значит его можно вынести. Под минимумом останется:</p>
+<p><span class="math display">\[
+\underbrace{f[k, j-1] + x_k^2}_{a_k}
+\underbrace{-2x_k}_{b_k} x_{i-1}
+\]</span></p>
+<p>Это теперь можно переписать как <span class="math inline">\(\min_k (a_k, b_k) \cdot (1, X_{i-1})\)</span> (тут имеется в виду скалярное произведение).</p>
 <p>Представим <span class="math inline">\((a_k, b_k)\)</span> как точки на плоскости. Тогда мы можем построить их нижнюю огибающие и бинарным поиском находить оптимальную, с минимальным скалярным произведением.</p>
 <p>TODO: иллюстрация.</p>
 <p>TODO: мем про Скуби-Ду.</p>
