@@ -68,7 +68,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1 class="title">Heavy-light декомпозиция</h1>
 </div>
 <h1 id="heavy-light-декомпозиция">Heavy-light декомпозиция</h1>
-<p>HL-декомпозиция — это мощный метод решения задач на запросы на путях, когда также есть запросы обновлений. Если запросов обновления нет, то лучше написать <a href="http://sereja.me/a/centroid">что-нибудь попроще</a>.</p>
+<p>HL-декомпозиция — это мощный метод решения задач на запросы на путях, когда также есть запросы обновлений. Если запросов обновления нет, то лучше написать <a href="https://algorithmica.org/ru/centroid">что-нибудь попроще</a>.</p>
 <p><img width='400px' src='http://i38.tinypic.com/6yjmvb.jpg'></p>
 *
 <center>
@@ -127,7 +127,7 @@ TODO: найти менее уродливую иллюстрацию
 <li>Узнать минимальное число на пути между <span class="math inline">\(v_i\)</span> и <span class="math inline">\(u_i\)</span>.</li>
 <li>Изменить число у <span class="math inline">\(v_i\)</span>-той вершины на <span class="math inline">\(x_i\)</span>.</li>
 </ol>
-<p>Подвесим дерево за произвольную вершину и построим на нём HL-декомпозицию с деревом отрезков в качестве внутренней структуры. Его код мы приводить не будем и посчитаем, что оно реализовано примерно так же, как в <a href="http://sereja.me/a/segtree">соответствующей статье</a> и имеет методы <code>upd(k, x)</code> и <code>get_min(l, r)</code>.</p>
+<p>Подвесим дерево за произвольную вершину и построим на нём HL-декомпозицию с деревом отрезков в качестве внутренней структуры. Его код мы приводить не будем и посчитаем, что оно реализовано примерно так же, как в <a href="https://algorithmica.org/ru/segtree">соответствующей статье</a> и имеет методы <code>upd(k, x)</code> и <code>get_min(l, r)</code>.</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> val[maxn];
 segtree st(<span class="dv">0</span>, n);</code></pre></div>
 <p>При операции обновления нам нужно просто обновить нужную ячейку в дереве отрезков:</p>
