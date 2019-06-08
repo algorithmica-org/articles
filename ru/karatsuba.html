@@ -59,13 +59,12 @@ a T(\frac{n}{b}) + \Theta(n^c), &amp; n &gt; n_0
 <p><span class="math display">\[
 T(n) = \sum_{k=0}^{\log_b n} a^k (\frac{n}{b^k})^c = n^c \sum_{k=0}^{\log_b n} (\frac{a}{b^c})^k
 \]</span></p>
-<ul>
-<li><strong>A.</strong> Если <span class="math inline">\(c &gt; \log_b a\)</span>, то <span class="math inline">\(\sum (\frac{a}{b^с})^k\)</span> это сумма убывающей геометрической прогрессии, которая не зависит от <span class="math inline">\(n\)</span> и просто равна какой-то константе. Значит, <span class="math inline">\(T(n) = \Theta(n^c)\)</span>.</li>
-<li><strong>B.</strong> Если <span class="math inline">\(c = \log_b a\)</span>, то</li>
-</ul>
+<p><strong>A.</strong> Если <span class="math inline">\(c &gt; \log_b a\)</span>, то <span class="math inline">\(\sum (\frac{a}{b^с})^k\)</span> это сумма убывающей геометрической прогрессии, которая не зависит от <span class="math inline">\(n\)</span> и просто равна какой-то константе. Значит, <span class="math inline">\(T(n) = \Theta(n^c)\)</span>.</p>
+<p><strong>B.</strong> Если <span class="math inline">\(c = \log_b a\)</span>, то</p>
 <p><span class="math display">\[
-  \sum_{k=0}^{\log_b n} (\frac{a}{b^c})^k = \sum_{k=0}^{\log_b n} 1^k = \Theta(n^c \log_b n)
-  \]</span> * <strong>C.</strong> Если <span class="math inline">\(c &lt; \log_b a\)</span>, то так как сумма прогрессии асимптотически эквивалентна своему старшему элементу,</p>
+\sum_{k=0}^{\log_b n} (\frac{a}{b^c})^k = \sum_{k=0}^{\log_b n} 1^k = \Theta(n^c \log_b n)
+\]</span></p>
+<p><strong>C.</strong> Если <span class="math inline">\(c &lt; \log_b a\)</span>, то так как сумма прогрессии асимптотически эквивалентна своему старшему элементу,</p>
 <p><span class="math display">\[
 n^c \sum_{k=0}^{\log_b n} (\frac{a}{b^c})^k = \Theta(n^c (\frac{a}{b^c})^{\log_b n}) = \Theta(n^c \cdot \frac{a^{\log_b n}}{n^c}) = \Theta(a^{\log_b n}) = \Theta(n^{\log_b a})
 \]</span></p>

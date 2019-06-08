@@ -34,6 +34,7 @@ body {
   max-width: 48em;
   background: #fefefe;
   text-align: justify;
+  padding-bottom: 25px;
 }
 
 a {
