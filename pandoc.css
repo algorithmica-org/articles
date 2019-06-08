@@ -27,7 +27,7 @@ html {
 body {
   /* color: #444; */
   font-family: 'Times New Roman', Palatino, 'Palatino Linotype', Times, serif;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.7;
   padding: 15m;
   margin: auto;
@@ -219,7 +219,8 @@ img {
 
 .figure img {
   border: none;
-  margin:  auto;
+  margin: auto;
+  max-width: 85%;
 }
 
 figcaption {
@@ -280,16 +281,6 @@ pre {
     font-size: 0.9em;
 }
 
-@media only screen and (min-width: 480px) {
-  body {
-    font-size: 14px;
-  }
-}
-@media only screen and (min-width: 768px) {
-  body {
-    font-size: 16px;
-  }
-}
 @media print {
   * {
     background: transparent !important;
