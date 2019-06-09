@@ -115,49 +115,49 @@ used[<span class="dv">0</span>] = <span class="dv">1</span>;
     cout &lt;&lt; opt_from &lt;&lt; <span class="st">&quot; &quot;</span> &lt;&lt; opt_to &lt;&lt; endl;
 }</code></pre></div>
 <p>Реализация за <span class="math inline">\(O(n^2)\)</span>:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">const <span class="bu">int</span> maxn <span class="op">=</span> <span class="fl">1e5</span>, inf <span class="op">=</span> <span class="fl">1e9</span><span class="op">;</span>
-<span class="bu">bool</span> used[maxn]<span class="op">;</span>
-vector<span class="op">&lt;</span> pair<span class="op">&lt;</span><span class="bu">int</span>, <span class="bu">int</span><span class="op">&gt;</span> <span class="op">&gt;</span> g[maxn]<span class="op">;</span>
-<span class="bu">int</span> min_edge[maxn] <span class="op">=</span> {inf}, best_edge[maxn]<span class="op">;</span>
-min_edge[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>, inf = <span class="fl">1e9</span>;
+<span class="dt">bool</span> used[maxn];
+vector&lt; pair&lt;<span class="dt">int</span>, <span class="dt">int</span>&gt; &gt; g[maxn];
+<span class="dt">int</span> min_edge[maxn] = {inf}, best_edge[maxn];
+min_edge[<span class="dv">0</span>] = <span class="dv">0</span>;
 
-<span class="op">//</span> ...
+<span class="co">// ...</span>
 
-<span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++</span>) {
-    <span class="bu">int</span> v <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span>
-    <span class="cf">for</span> (<span class="bu">int</span> u <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> u <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++</span>)
-        <span class="cf">if</span> (<span class="op">!</span>used[u] <span class="op">&amp;&amp;</span> (v <span class="op">==</span> <span class="op">-</span><span class="dv">1</span> <span class="op">||</span> min_edge[u] <span class="op">&lt;</span> min_edge[v]))
-            v <span class="op">=</span> u<span class="op">;</span>
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {
+    <span class="dt">int</span> v = <span class="dv">-1</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> u = <span class="dv">0</span>; u &lt; n; j++)
+        <span class="kw">if</span> (!used[u] &amp;&amp; (v == <span class="dv">-1</span> || min_edge[u] &lt; min_edge[v]))
+            v = u;
 
-    used[v] <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>
-    <span class="cf">if</span> (v <span class="op">!=</span> <span class="dv">0</span>)
-        cout <span class="op">&lt;&lt;</span> v <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span> <span class="op">&lt;&lt;</span> best_edge[v] <span class="op">&lt;&lt;</span> endl<span class="op">;</span>
+    used[v] = <span class="dv">1</span>;
+    <span class="kw">if</span> (v != <span class="dv">0</span>)
+        cout &lt;&lt; v &lt;&lt; <span class="st">&quot; &quot;</span> &lt;&lt; best_edge[v] &lt;&lt; endl;
 
-    <span class="cf">for</span> (auto e : g[v]) {
-        <span class="bu">int</span> u <span class="op">=</span> e.first, w <span class="op">=</span> e.second<span class="op">;</span>
-        <span class="cf">if</span> (w <span class="op">&lt;</span> min_edge[u]) {
-            min_edge[u] <span class="op">=</span> w<span class="op">;</span>
-            best_edge[u] <span class="op">=</span> v<span class="op">;</span>
+    <span class="kw">for</span> (<span class="kw">auto</span> e : g[v]) {
+        <span class="dt">int</span> u = e.first, w = e.second;
+        <span class="kw">if</span> (w &lt; min_edge[u]) {
+            min_edge[u] = w;
+            best_edge[u] = v;
         }
     }
 }</code></pre></div>
 <p>Можно не делать линейный поиск оптимальной вершины, а поддерживать его в приоритетной очереди, как в алгоритме Дейкстры. Получается реализация за <span class="math inline">\(O(m \log n)\)</span>:</p>
-<pre class="с++"><code>set&lt; pair&lt;int, int&gt; &gt; q;
-int d[maxn];
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">set&lt; pair&lt;<span class="dt">int</span>, <span class="dt">int</span>&gt; &gt; q;
+<span class="dt">int</span> d[maxn];
 
-while (q.size()) {
+<span class="kw">while</span> (q.size()) {
     v = q.begin()-&gt;second;
     q.erase(q.begin());
 
-    for (auto e : g[v]) {
-        int u = e.first, w = e.second;
-        if (w &lt; d[u]) {
+    <span class="kw">for</span> (<span class="kw">auto</span> e : g[v]) {
+        <span class="dt">int</span> u = e.first, w = e.second;
+        <span class="kw">if</span> (w &lt; d[u]) {
             q.erase({d[u], u});
             d[u] = w;
             q.insert({d[u], u});
         }
     }
-}</code></pre>
+}</code></pre></div>
 <p>Про алгоритм за <span class="math inline">\(O(n^2)\)</span> забывать не стоит — он работает лучше в случае плотных графов.</p>
 <h2 id="система-непересекающихся-множеств">Система непересекающихся множеств</h2>
 <p>Система непересекающихся множеств (англ. <em>disjoint set union</em>) — структура данных, которая используется для хранения информации о связности компонент. Она нам потребуется для описания следующего подхода — алгоритма Крускала.</p>
@@ -169,22 +169,22 @@ while (q.size()) {
 <p>Обе операции выполняются в среднем почти за <span class="math inline">\(O(1)\)</span> (но не совсем — этот сложный вопрос будет разъяснен позже).</p>
 <p>Множества элементов мы будем хранить в виде деревьев: одно дерево соответствует одному множеству. Корень дерева — это представитель (лидер) множества. Заведём массив <code>_p</code>, в котором для каждого элемента мы храним номер его предка в дереве. Для корней деревьев будем считать, что их предки — они сами.</p>
 <p>Наивная реализация, которую мы потом ускорим:</p>
-<pre class="с++"><code>int _p[maxn];
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> _p[maxn];
 
-int p (int v) {
-    if (_p[v] == v)
-        return v;
-    else
-        return p(_p[v]);
+<span class="dt">int</span> p (<span class="dt">int</span> v) {
+    <span class="kw">if</span> (_p[v] == v)
+        <span class="kw">return</span> v;
+    <span class="kw">else</span>
+        <span class="kw">return</span> p(_p[v]);
 }
 
-void unite (int a, int b) {
+<span class="dt">void</span> unite (<span class="dt">int</span> a, <span class="dt">int</span> b) {
     a = p(a), b = p(b);
     _p[a] = b;
 }
 
-for (int i = 0; i &lt; n; i++)
-    _p[i] = i;</code></pre>
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)
+    _p[i] = i;</code></pre></div>
 <p><strong>Эвристика сжатия пути</strong>. Оптимизируем работу функции <code>p</code>. Давайте перед тем, как вернуть ответ, запишем его в <code>_p</code> от текущей вершины, то есть переподвесим его за самую высокую.</p>
 <div class="figure">
 <img src="../img/stasyan.jpg" alt="Паблик «Странные опросы для спортивных программистов»" />
