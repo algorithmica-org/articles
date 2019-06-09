@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Корневая эвристика</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<div id="header">
+<h1 class="title">Корневая эвристика</h1>
+</div>
+<h1 id="корневая-эвристика">Корневая эвристика</h1>
+<p>Корневая эвристика — обобщённое название методов и структур данных, опирающихся</p>
+<p>Центральное равенство этой статьи: <span class="math inline">\(\sqrt x = \frac{x}{\sqrt x}\)</span>.</p>
+<h2 id="корневая-декомпозиция-на-массивах">Корневая декомпозиция на массивах</h2>
+<p>Сделаем вид, что про дерево отрезков мы не знаем, и рассмотрим следующую задачу:</p>
+<blockquote>
+<p>Дан массив <span class="math inline">\(a\)</span> длины <span class="math inline">\(n\)</span> и <span class="math inline">\(q\)</span> запросов одного из двух типов:</p>
+<ol style="list-style-type: decimal">
+<li><p>Найти сумму на отрезке <span class="math inline">\([l, r]\)</span>.</p></li>
+<li><p>Увеличить все элементы на отрезке [l, r] на <span class="math inline">\(x\)</span>.</p></li>
+</ol>
+</blockquote>
+<p>Разделим весь массив на блоки по <span class="math inline">\(c \approx \sqrt{n}\)</span> элементов и посчитаем сумму на каждом блоке. Так как блоки не пересекаются, суммарно это будет работать за <span class="math inline">\(O(n)\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// c это и количество блоков, и их размер -- оно должно быть чуть больше корня</span>
+<span class="dt">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>, c = <span class="dv">330</span>;
+<span class="dt">int</span> a[maxn], b[c];
+<span class="dt">int</span> add[c];
+
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)
+    b[i / c] += a[i];</code></pre></div>
+<p>Заведем также массив <code>add</code> размера <span class="math inline">\(\sqrt n\)</span>, который будем использовать для отложенной операции прибавления на блоке. Будем считать, что реальное значение <span class="math inline">\(i\)</span>-го элемента равно <code>a[i]</code> + <code>add[i / c]</code>.</p>
+<p>Теперь мы можем отвечать на запросы первого типа за <span class="math inline">\(O(\sqrt n)\)</span> на запрос:</p>
+<ol style="list-style-type: decimal">
+<li><p>Для всех блоков, лежащих целиком внутри запроса, просто возьмём уже посчитанные суммы и прибавим к ответу.</p></li>
+<li><p>Для блоков, пересекающихся с запросом только частично (их два — правый и левый), проитерируемся по нужным элементам и прибавим к ответу.</p></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> sum(<span class="dt">int</span> l, <span class="dt">int</span> r) {
+    int res = <span class="dv">0</span>;
+    <span class="kw">while</span> (l &lt;= r) {
+        <span class="co">// если мы находимся в начале блока и он целиком в запросе</span>
+        <span class="kw">if</span> (l % c == <span class="dv">0</span> &amp;&amp; l + c - <span class="dv">1</span> &lt;= r) {
+            res += b[l / c];
+            l += c; <span class="co">// мы можем прыгнуть сразу на блок</span>
+        }
+        <span class="kw">else</span> {
+            res += a[l] + add[l / c];
+            l += <span class="dv">1</span>;
+        }
+    }
+    return res;
+}</code></pre></div>
+<p>Обновление пишется примерно так же:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> upd(<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> x) {
+    while (l &lt;= r) {
+        if (l % c == <span class="dv">0</span> &amp;&amp; l + c - <span class="dv">1</span> &lt;= r) {
+            b[l / c] += c * x;
+            add[l / c] += x;
+            l += c;
+        }
+        else {
+            a[l] += x;
+            l++;
+        }
+    }
+ }</code></pre></div>
+<p>Обе операции будут работать за <span class="math inline">\(O(\sqrt n)\)</span>, потому что нужных «центральных» блоков всегда не более <span class="math inline">\(\sqrt n\)</span>, а в граничных блоках суммарно не более <span class="math inline">\(2 \sqrt n\)</span> элементов.</p>
+<h2 id="корневая-эвристика-на-запросах">Корневая эвристика на запросах</h2>
+<p>Сделаем вид, что запросов обновления нет. Тогда бы мы решали это задачу просто массивом префиксных сумм.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> s[maxn]; <span class="co">// [0, r)</span>
+s[<span class="dv">0</span>] = <span class="dv">0</span>
+
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)
+    s[i<span class="dv">+1</span>] = s[i] + a[i];</code></pre></div>
+<p>Подойдём теперь к задаче с другой стороны: разобьём на корневые блоки не массив, а запросы к нему. Будем обрабатывать каждый блок запросов независимо от других с помощью массива префикных сумм, который мы будем честно пересчитывать каждые <span class="math inline">\(\sqrt q\)</span> запросов.</p>
+<p>На каждый запрос суммы мы можем потратить <span class="math inline">\(O(1)\)</span> времени на запрос к префиксным суммам, плюс <span class="math inline">\(\sqrt q\)</span> времени на поправку на всех запросах из буфера.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> query { <span class="dt">int</span> l, r, x; };
+vector&lt;query&gt; buffer; <span class="co">// запросы, не учтенные в префиксных суммах</span>
+
+<span class="dt">int</span> sum(<span class="dt">int</span> l, <span class="dt">int</span> r) {
+    int res = s[r<span class="dv">+1</span>] - s[l];
+    for (query q : buffer)
+        <span class="co">// пересечем запрос суммы со всеми запросами</span>
+        res += q.x * max(<span class="dv">0</span>, min(r, q.r) - max(l, q.l));
+    return res;
+}
+
+<span class="dt">void</span> rebuild() {
+    vector&lt;<span class="dt">int</span>&gt; d(n, <span class="dv">0</span>);
+    <span class="co">// массив дельт</span>
+    
+    <span class="kw">for</span> (query q : buffer) {
+        d[q.l] += x;
+        d[q.r + <span class="dv">1</span>] -= x;
+    }
+    buffer.clear();
+    
+    <span class="dt">int</span> delta = <span class="dv">0</span>, running_sum = <span class="dv">0</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n; i++) {
+        p[i] += running_sum;
+        delta += d[i];
+        running_sum += delta;
+    }
+}
+
+<span class="dt">void</span> upd(<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> x) {
+    buffer.push_back({l, r, x});
+    if (buffer.size() == c)
+        <span class="co">// буфер слишком большой; надо пересчитать префиксные суммы и очистить его</span>
+        rebuild();
+}</code></pre></div>
+<p>Такое решение будет работать за <span class="math inline">\(O(n \sqrt q + q \sqrt q)\)</span>.</p>
+<h3 id="превращение-статических-структур-в-динамические">Превращение статических структур в динамические</h3>
+<p>Эту технику можно применять не только к массиву префиксных сумм, но и к любым статическим структурам данных.</p>
+<blockquote>
+<p>Требуется добавлять точки в выпуклую оболочку и уметь находить касательные (то есть находить точку, которая максимизирует скалярное произведение <span class="math inline">\(a_i x + b_i y\)</span>).</p>
+</blockquote>
+<p>Мы можем так же каждые <span class="math inline">\(\sqrt q\)</span> запросов перестраивать выпуклую оболочку, а при ответе на запрос касательной помимо кандидата из построенной выпуклой оболочки рассмотреть дополнительно <span class="math inline">\(\sqrt q\)</span> скалярных произведений из точек из буфера.</p>
+<p>Теперь чуть сложнее:</p>
+<blockquote>
+<p>Требуется добавлять и <strong>удалять</strong> точки из выпуклой оболочки и уметь находить касательные. <strong>Запросы известны заранее.</strong></p>
+</blockquote>
+<p>Разбьём запросы на блоки явно, и будем обрабатывать их по отдельности. На каждом блоке построим выпуклую оболочку только тех точек, которые существуют на всём её блоке, а остальные запросы сохраним в буфер. При ответе на запрос касательной помимо кандидата из построенной оболочки будем рассматривать все точки, которые существуют на момент данного запроса — найти все такие точки можно за <span class="math inline">\(\sqrt q\)</span>, проанализировав историю текущего блока.</p>
+<p>Часто, если удалений в задаче нет или их можно как-то эмулировать, можно применить похожую, но более мощную технику: поддерживать <span class="math inline">\(O(\log n)\)</span> структур (например, выпуклых оболочек) размеров степени двойки, причём так, что нет двух структур одинакового размера. При добавлении новой точки мы создаем для неё новую структуру размера 1. Дальше, если структура размера 1 уже существует, то мы объединяем эти две структуры и создаём структуру размера 2. Если структура размера 2 уже существовала, то мы объединяем её и создаём структуру размера 4, и так далее. Запрос мы будем передавать во все <span class="math inline">\(O(\log n)\)</span> базовых структур и объединять ответы.</p>
+<h2 id="алгоритм-мо">«Алгоритм Мо»</h2>
+<p>Теперь обсудим еще одно решение этой же задачи. На этот раз мы будем группировать запросы и по временным, и по пространственным признакам.</p>
+<p>Пусть все запросы даны нам заранее, и запросов обновления нет. Сгруппируем все запросы в корневые блоки по их левой границе, а затем внутри каждого блока отсортируем запросы по правой границе.</p>
+<pre><code>vector&lt; pair&lt;int, int&gt; &gt; b[c];
+s_dec[l / c].a.push_back({l, r});</code></pre>
+<p>Будем обрабатывать каждый такой блок по отдельности.</p>
+<p>Затем внутри каждого блока отсортируем запросы по правой границе. Теперь пройдемся по каждому блоку, поддерживая текущий отрезок, на который мы знаем ответ. И если текущий отрезок равен отрезку из запроса запоминать его, как ответ.</p>
+<pre><code>struct query { int l, r, idx; };
+// idx -- это номер запроса, на который нужно ответить
+struct block {
+    vector&lt;q&gt; a;
+};
+
+for(int i = 0; i &lt; q; i++) {
+    s_dec[l / s].a.push_back({l, r, i});
+}
+
+for(int i = 0; i &lt; s; i++) {
+    sort(all(s_dec[i].a), comp);
+}
+
+for(int i = 0; i &lt; s; i++) {
+    int l = i * s, r = i * s;
+    int ans = 0;
+    for(int j = 0; j &lt; s_dec[i].a.size(); j++) {
+        int tl = s_dec[i].a[j].l, tr = s_dec[i].a[j].r;
+        while (r &gt; tr){
+            r—;
+            ans -= a[r];
+        }
+        while(r &lt; tr) {
+            ans += a[r];
+            r++;
+        }
+        while(l &gt; tl) {
+            l--;
+            ans += a[l];
+        }
+        while(l &lt; tl) {
+            ans -= a[l];
+            l++;
+        }
+        answ[s_dec[i].a[j].index] = ans;
+}</code></pre>
+<p>Подумаем над асимптотикой данного алгоритма, для каждого запроса левая граница пройдет не более, чем длину блока, но при этом правая граница идет только вперед, а следовательно для одного блока пройдет не более, чем длину массива, то есть суммарно алгоритм работает за <span class="math inline">\(O(N*\sqrt(M) + M*\sqrt(N))\)</span>.</p>
+<p>Но зачем для такой легкой задачи использовать такой сложный алгоритм? Алгоритм Мо может помочь нам в ответе на гораздо более сложные вопросы - k-ая статистика на отрезке, медиана отрезка, наиболее встречающийся элемент на отрезке и так далее.</p>
+<h1 id="деление-на-тяжелые-и-легкие-объекты">Деление на тяжелые и легкие объекты</h1>
+<p>В математике очень часто встречается идея рассмотреть все объекты с каким-то свойством &lt; <span class="math inline">\(\sqrt{N}\)</span> и больше.</p>
+<p>Например всем известный алгоритм проверки на простоту чисел(рассмотрим делители &lt; <span class="math inline">\(\sqrt{N}\)</span> и больше, но так как для любого делителя больше корня можно найти делитель меньше корня =&gt; нам надо честно рассмотреть только первые) или например факт, что если суммарная длина строк = <span class="math inline">\(N\)</span>, то различных длин строк будет не более <span class="math inline">\(\sqrt{N}\)</span> или если вы увидели ограничение <span class="math inline">\(A * B &lt;= N\)</span>, то одно из чисел &lt; <span class="math inline">\(\sqrt{N}\)</span>.</p>
+<h1 id="подбор-константы">Подбор константы</h1>
+<p>В корневой декомпозиции очень важен размер блока. Обычно брать s = <span class="math inline">\(\sqrt{N}\)</span> или близкое к ней число(желательно, чтобы делилось на максимально возможную степень двойки) оптимально, но сейчас мы поговорим об особых случаях. Пусть s - размер блока и мы знаем, что алгоритм работает за <span class="math inline">\(O(N * s + \frac{N ^ 2 * \log(N)}{ s})\)</span>, тогда если взять s = <span class="math inline">\(\sqrt{N} * 4\)</span>, то алгоритм будет работать быстрее, чем при s = <span class="math inline">\(\sqrt{N}\)</span>, то есть при определении размера блока первым делом надо смотреть на асимптотику.</p>
+<h2 id="корзины">Корзины</h2>
+<p>Оптимизация заключается в объеденении двух подходов. Теперь мы не просто делим массив на блоки, но еще и каждый корень запросов, пересчитываем блоки, это может быть полезно, если вы нам нужно вставлять/удалять из произвольного места в массиве и вычислять что-то на отрезках.</p>
+</body>
+</html>
