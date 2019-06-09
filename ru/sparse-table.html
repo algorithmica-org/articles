@@ -68,31 +68,27 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1 class="title">Разреженная таблица</h1>
 </div>
 <h1 id="разреженная-таблица">Разреженная таблица</h1>
-<ul>
-<li>Нужна для нахождения минимума на отрезке за <span class="math inline">\(O(1)\)</span> с препроцессингом за <span class="math inline">\(O(n \log n)\)</span> с малой константой.</li>
-<li>Обновления не поддерживает (static RMQ).</li>
-<li>Так как LCA эквивалентна RMQ, может быть применена в разных задачах на деревья.</li>
-<li>Её можно строить на ходу. Это может быть полезно при подсчете всяких динамик (см. последний Всерос).</li>
-<li>Требует <span class="math inline">\(O(n \log n)\)</span> памяти.</li>
-<li>Также можно считать, например, gcd на отрезке за сложность одного gcd, но в основном её используют для RMQ.</li>
-</ul>
-<p>Определим разреженную таблицу как двумерный массив размера <span class="math inline">\(n \times\log n\)</span>:</p>
+<p>Разреженная таблица (англ. <em>sparse table</em>) — структура данных, позволяющая отвечать на запросы минимума на отрезке за <span class="math inline">\(O(1)\)</span> с препроцессингом за <span class="math inline">\(O(n \log n)\)</span> времени и памяти.</p>
+<p>Разреженная таблица — это следующий двумерный массив размера <span class="math inline">\(n \times\log n\)</span>:</p>
 <p><span class="math display">\[
 t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1} \}
 \]</span></p>
-<p>Идея такая: считаем минимум на каждом отрезке длины <span class="math inline">\(2^k\)</span>.</p>
-<p>Такой массив можно посчитать за его размер: <span class="math inline">\(t[i][k] = \min(t[i][k-1], t[i+2^{k-1}][k-1])\)</span>. Считать его можно как итерируясь как по i, так и по k, причём какой-то из этих вариантов в несколко раз быстрее из-за кэширования.</p>
-<p>Имея таком массив, мы можем в принципе для любого отрезка быстро посчитать минимум на нём. Нужно заметить, что у любого отрезка имеется два отрезка длины степени двойки, которые пересекаются, и, главное, покрывают его и только его целиком. Значит, мы можем просто взять минимум из значений, которые соответствуют этим отрезкам.</p>
+<p>По-русски: считаем минимумы на каждом отрезке длины <span class="math inline">\(2^k\)</span>.</p>
+<p>Такой массив можно посчитать за его размер, итерируясь либо по <span class="math inline">\(i\)</span>, либо по <span class="math inline">\(k\)</span>:</p>
+<p><span class="math display">\[
+t[i][k] = \min(t[i][k-1], t[i+2^{k-1}][k-1])
+\]</span></p>
+<p>Имея таком массив, мы можем для любого отрезка быстро посчитать минимум на нём. Заметим, что у любого отрезка имеется два отрезка длины степени двойки, которые пересекаются, и, главное, покрывают его и только его целиком. Значит, мы можем просто взять минимум из значений, которые соответствуют этим отрезкам.</p>
 <div class="figure">
 <img src="https://neerc.ifmo.ru/wiki/images/7/75/SparseTableRMQ.png" />
 
 </div>
 <p>Последняя деталь: для того, чтобы константа на запрос стала настоящей, вместо функции log нужно предпосчитать массив округленных вниз логарифмов.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> a[maxn], lg[maxn], mx[maxn][logn];
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> a[maxn], lg[maxn], mn[maxn][logn];
 
 <span class="dt">int</span> rmq (<span class="dt">int</span> l, <span class="dt">int</span> r) {
     <span class="dt">int</span> t = lg[r-l<span class="dv">+1</span>];
-    <span class="kw">return</span> min(mx[l][t], mx[r-(<span class="dv">1</span>&lt;&lt;t)<span class="dv">+1</span>][t]);
+    <span class="kw">return</span> min(mn[l][t], mn[r-(<span class="dv">1</span>&lt;&lt;t)<span class="dv">+1</span>][t]);
 }
 
 <span class="co">// Это считается уже где-то в первых строчках main:</span>
@@ -102,12 +98,18 @@ t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1} \}
         lg[i] = l;
 
 <span class="kw">for</span> (<span class="dt">int</span> i = n<span class="dv">-1</span>; i &gt;= <span class="dv">0</span>; i--) {
-    mx[i][<span class="dv">0</span>] = a[i];
+    mn[i][<span class="dv">0</span>] = a[i];
     <span class="kw">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn<span class="dv">-1</span>; l++)
-        mx[i][l<span class="dv">+1</span>] = max(mx[i][l], mx[i+(<span class="dv">1</span>&lt;&lt;l)][l]);
+        mn[i][l<span class="dv">+1</span>] = min(mn[i][l], mn[i+(<span class="dv">1</span>&lt;&lt;l)][l]);
 }</code></pre></div>
 <h2 id="d-static-rmq">2d Static RMQ</h2>
 <p>Эту структуру тоже можно обобщить на б<em>о</em>льшие размерности. Пусть мы хотим посчитать RMQ на подквадратах. Тогда вместо массива <code>t[i][k]</code> у нас будет массив <code>t[i][j][k]</code>, в котором вместо минимума на отрезах будет храниться минимум на <em>квадратах</em> тех же степеней двоек. Получение минимума на произвольном квадрате тогда уже распадется на четыре минимума на квадратах длины <span class="math inline">\(2^k\)</span>.</p>
 <p>В общем же случае от нас просят минимум тоже на прямоугольниках. Тогда делаем предподсчет, аналогичный предыдущему случаю, только теперь тут будет <span class="math inline">\(O(n \log^d n)\)</span> памяти и времени на предподсчет.</p>
+<h2 id="примечания">Примечания</h2>
+<p>В отличие от дерева отрезков, разреженная таблица является статической, то есть её нельзя дёшево обновлять (но не всегда — см. задачу «<a href="%5Bhttp://neerc.ifmo.ru/school/archive/2016-2017/ru-olymp-roi-2017-editorial.pdf%5D(http://neerc.ifmo.ru/school/archive/2016-2017/ru-olymp-roi-2017-editorial.pdf)»%20с%20РОИ-2017">Антиматерия</a>.</p>
+<p>Разреженную таблицу часто применяют для решения задачи о <a href="http://algorithmica.org/ru/lca">наименьшем общем предке</a>, так как её можно свести к RMQ.</p>
+<p>Разреженную таблицу можно применять не только для минимума или максимума. От операции требуется только ассоциативность (<span class="math inline">\(a ∘ (b ∘ c) = (a ∘ b) ∘ c\)</span>), коммутативность (<span class="math inline">\(a ∘ b = b ∘ a\)</span>) и идемпотентность (<span class="math inline">\(a ∘ a = a\)</span>). Например, её можно применять для нахождения gcd.</p>
+<p>Для больших таблиц порядок итерирования и расположение данных в памяти сильно влияет на скорость построения — это связано с работой кэшей.</p>
+<p><strong>Упражнение.</strong> Какой из 4 вариантов итерирования и layout-а самый эффективный? (Подсказка: не тот, который приведен в этой статье.)</p>
 </body>
 </html>
