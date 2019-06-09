@@ -194,22 +194,22 @@ min_edge[<span class="dv">0</span>] = <span class="dv">0</span>;
 <p><strong>Ранговая эвристика</strong>. Будем хранить для каждой вершины её <em>ранг</em> — высоту её поддереа. При объединении деревьев будем делать корнем нового дерева ту вершину, у которой ранг больше, и пересчитывать ранги (ранг у лидера должен увеличиться на единицу, если он совпадал с рангом другой вершины). Эта эвристика оптимизирует высоту дерева напрямую.</p>
 <p><strong>Весовая эвристика</strong>. Будем вместо ранга хранить размеры поддеревьев для каждой вершины, а при объединении — подвешивать за более «тяжелую».</p>
 <p>Финальная реализация, использующая весовую эвристику и эвристику сжатия путей:</p>
-<pre class="с++"><code>int _p[maxn], s[maxn];
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> _p[maxn], s[maxn];
 
-int p (int v) { return (_p[v] == v) ? v : _p[v] = p(_p[v]); }
+<span class="dt">int</span> p (<span class="dt">int</span> v) { <span class="kw">return</span> (_p[v] == v) ? v : _p[v] = p(_p[v]); }
 
-void unite (int a, int b) {
+<span class="dt">void</span> unite (<span class="dt">int</span> a, <span class="dt">int</span> b) {
     a = p(a), b = p(b);
-    if (s[a] &gt; s[b])
+    <span class="kw">if</span> (s[a] &gt; s[b])
         swap(a, b);
     s[b] += s[a];
     _p[a] = b;
 }
 
-// где-то в main:
+<span class="co">// где-то в main:</span>
 
-for (int i = 0; i &lt; n; i++)
-    _p[i] = i;</code></pre>
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)
+    _p[i] = i;</code></pre></div>
 <p>Автор предпочитает именно весовую эвристику, потому что часто в задачах размеры компонент требуются сами по себе.</p>
 <h3 id="асимптотика">Асимптотика</h3>
 <p>Эвристика сжатия путей улучшает асимптотику до <span class="math inline">\(O(\log n)\)</span> в среднем. Здесь используется именно амортизированная оценка — понятно, что в худшем случае нужно будет сжимать весь бамбук за <span class="math inline">\($O(n)\)</span>.</p>
