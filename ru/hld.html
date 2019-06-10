@@ -1,50 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Heavy-light декомпозиция</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
   
   <!-- Yandex.Metrika counter -->
@@ -64,9 +98,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <!-- /Yandex.Metrika counter -->
 </head>
 <body>
-<div id="header">
+<header id="title-block-header">
 <h1 class="title">Heavy-light декомпозиция</h1>
-</div>
+</header>
 <h1 id="heavy-light-декомпозиция">Heavy-light декомпозиция</h1>
 <p>HL-декомпозиция — это мощный метод решения задач на запросы на путях, когда также есть запросы обновлений. Если запросов обновления нет, то лучше написать <a href="https://algorithmica.org/ru/centroid">что-нибудь попроще</a>.</p>
 <p><img width='400px' src='http://i38.tinypic.com/6yjmvb.jpg'></p>
@@ -94,67 +128,67 @@ TODO: найти менее уродливую иллюстрацию
 <p>Большинство публичных реализаций HLD — это 120-150 строк кода. Мы же воспользуемся следующим трюком, который сильно упростит нам жизнь: перенумеруем вершины дерева так, что для каждого тяжелого пути все его вершины будут иметь последовательные номера.</p>
 <p>А именно, на этапе подсчёта размера поддеревьев, изменим список смежности каждой вершины так, чтобы в самом начале шел её «тяжелый» ребёнок. Тогда, если запустить обычный эйлеров обход графа, то <code>tin</code>-ы и будут нужной нумерацией, потому что в каждой вершине мы шли в своего тяжелого ребёнка в первую очередь.</p>
 <p>Теперь мы можем построить какую-нибудь структуру поверх массива размера <span class="math inline">\(n\)</span> (дерево отрезков) и при запросе к какому-нибудь тяжелому пути делать запрос к отрезку в структуре.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">vector&lt;<span class="dt">int</span>&gt; g[maxn];
-<span class="dt">int</span> s[maxn], p[maxn], tin[maxn], tout[maxn];
-<span class="dt">int</span> head[maxn]; <span class="co">// «голова» тяжелого пути, которому принадлежит v</span>
-<span class="dt">int</span> t = <span class="dv">0</span>;
-
-<span class="dt">void</span> sizes (<span class="dt">int</span> v = <span class="dv">0</span>) {
-    s[v] = <span class="dv">1</span>;
-    <span class="kw">for</span> (<span class="dt">int</span> &amp;u : g[v]) {
-        sizes(u);
-        s[v] += s[u];
-        <span class="kw">if</span> (s[u] &gt; s[g[v][<span class="dv">0</span>]])
-            <span class="co">// &amp;u -- это ссылка, так что её легально использовать при swap-е</span>
-            swap(u, g[v][<span class="dv">0</span>]);
-    }
-}
-
-<span class="dt">void</span> hld (<span class="dt">int</span> v = <span class="dv">0</span>) {
-    rin[t] = v;
-    tin[v] = t++;
-    <span class="kw">for</span> (<span class="dt">int</span> u : g[v]) {
-        <span class="co">// если это тяжелый ребенок -- его next нужно передать</span>
-        <span class="co">// в противном случае он сам является головой нового пути</span>
-        head[u] = (u == g[v][<span class="dv">0</span>] ? head[v] : u);
-        hld(u);
-    }
-    tout[v] = t;
-}</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1">vector&lt;<span class="dt">int</span>&gt; g[maxn];</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="dt">int</span> s[maxn], p[maxn], tin[maxn], tout[maxn];</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> head[maxn]; <span class="co">// «голова» тяжелого пути, которому принадлежит v</span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="dt">int</span> t = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-5" title="5"></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="dt">void</span> sizes (<span class="dt">int</span> v = <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb1-7" title="7">    s[v] = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-8" title="8">    <span class="cf">for</span> (<span class="dt">int</span> &amp;u : g[v]) {</a>
+<a class="sourceLine" id="cb1-9" title="9">        sizes(u);</a>
+<a class="sourceLine" id="cb1-10" title="10">        s[v] += s[u];</a>
+<a class="sourceLine" id="cb1-11" title="11">        <span class="cf">if</span> (s[u] &gt; s[g[v][<span class="dv">0</span>]])</a>
+<a class="sourceLine" id="cb1-12" title="12">            <span class="co">// &amp;u -- это ссылка, так что её легально использовать при swap-е</span></a>
+<a class="sourceLine" id="cb1-13" title="13">            swap(u, g[v][<span class="dv">0</span>]);</a>
+<a class="sourceLine" id="cb1-14" title="14">    }</a>
+<a class="sourceLine" id="cb1-15" title="15">}</a>
+<a class="sourceLine" id="cb1-16" title="16"></a>
+<a class="sourceLine" id="cb1-17" title="17"><span class="dt">void</span> hld (<span class="dt">int</span> v = <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb1-18" title="18">    rin[t] = v;</a>
+<a class="sourceLine" id="cb1-19" title="19">    tin[v] = t++;</a>
+<a class="sourceLine" id="cb1-20" title="20">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v]) {</a>
+<a class="sourceLine" id="cb1-21" title="21">        <span class="co">// если это тяжелый ребенок -- его next нужно передать</span></a>
+<a class="sourceLine" id="cb1-22" title="22">        <span class="co">// в противном случае он сам является головой нового пути</span></a>
+<a class="sourceLine" id="cb1-23" title="23">        head[u] = (u == g[v][<span class="dv">0</span>] ? head[v] : u);</a>
+<a class="sourceLine" id="cb1-24" title="24">        hld(u);</a>
+<a class="sourceLine" id="cb1-25" title="25">    }</a>
+<a class="sourceLine" id="cb1-26" title="26">    tout[v] = t;</a>
+<a class="sourceLine" id="cb1-27" title="27">}</a></code></pre></div>
 <h2 id="как-им-решать-задачи">Как им решать задачи</h2>
 <p>Простейший пример задачи на HLD: дано дерево, каждой вершине которого приписано какое-то число, и поступают запросы двух типов:</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Узнать минимальное число на пути между <span class="math inline">\(v_i\)</span> и <span class="math inline">\(u_i\)</span>.</li>
 <li>Изменить число у <span class="math inline">\(v_i\)</span>-той вершины на <span class="math inline">\(x_i\)</span>.</li>
 </ol>
 <p>Подвесим дерево за произвольную вершину и построим на нём HL-декомпозицию с деревом отрезков в качестве внутренней структуры. Его код мы приводить не будем и посчитаем, что оно реализовано примерно так же, как в <a href="https://algorithmica.org/ru/segtree">соответствующей статье</a> и имеет методы <code>upd(k, x)</code> и <code>get_min(l, r)</code>.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> val[maxn];
-segtree st(<span class="dv">0</span>, n);</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> val[maxn];</a>
+<a class="sourceLine" id="cb2-2" title="2">segtree st(<span class="dv">0</span>, n);</a></code></pre></div>
 <p>При операции обновления нам нужно просто обновить нужную ячейку в дереве отрезков:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> upd (<span class="dt">int</span> v, <span class="dt">int</span> x) {
-    st.upd(tin[v], x);
-}</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">void</span> upd (<span class="dt">int</span> v, <span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb3-2" title="2">    st.upd(tin[v], x);</a>
+<a class="sourceLine" id="cb3-3" title="3">}</a></code></pre></div>
 <p>Запрос минимума сложнее: нам нужно разбить исходный запрос на запросы к вертикальным путям.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> ancestor (<span class="dt">int</span> a, <span class="dt">int</span> b) {
-    <span class="kw">return</span> tin[a] &lt;= tin[b] &amp;&amp; tin[b] &lt;= tout[a];
-}
-
-<span class="dt">void</span> up (<span class="dt">int</span> &amp;a, <span class="dt">int</span> &amp;b, <span class="dt">int</span> &amp;ans) {
-    <span class="kw">while</span> (!ancestor(head[a], b)) {
-        ans = min(ans, st.get_min(tin[head[a]], tin[a]));
-        a = p[head[a]];
-    }
-}
-
-<span class="dt">int</span> get_min (<span class="dt">int</span> a, <span class="dt">int</span> b) {
-    <span class="dt">int</span> ans = inf;
-    up(a, b, ans);
-    up(b, a, ans);
-    <span class="kw">if</span> (!ancestor(a, b))
-        swap(a, b);
-    ans = min(ans, st.get_min(tin[a], tin[b]));
-    <span class="kw">return</span> ans;
-}</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> ancestor (<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="cf">return</span> tin[a] &lt;= tin[b] &amp;&amp; tin[b] &lt;= tout[a];</a>
+<a class="sourceLine" id="cb4-3" title="3">}</a>
+<a class="sourceLine" id="cb4-4" title="4"></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="dt">void</span> up (<span class="dt">int</span> &amp;a, <span class="dt">int</span> &amp;b, <span class="dt">int</span> &amp;ans) {</a>
+<a class="sourceLine" id="cb4-6" title="6">    <span class="cf">while</span> (!ancestor(head[a], b)) {</a>
+<a class="sourceLine" id="cb4-7" title="7">        ans = min(ans, st.get_min(tin[head[a]], tin[a]));</a>
+<a class="sourceLine" id="cb4-8" title="8">        a = p[head[a]];</a>
+<a class="sourceLine" id="cb4-9" title="9">    }</a>
+<a class="sourceLine" id="cb4-10" title="10">}</a>
+<a class="sourceLine" id="cb4-11" title="11"></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="dt">int</span> get_min (<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
+<a class="sourceLine" id="cb4-13" title="13">    <span class="dt">int</span> ans = inf;</a>
+<a class="sourceLine" id="cb4-14" title="14">    up(a, b, ans);</a>
+<a class="sourceLine" id="cb4-15" title="15">    up(b, a, ans);</a>
+<a class="sourceLine" id="cb4-16" title="16">    <span class="cf">if</span> (!ancestor(a, b))</a>
+<a class="sourceLine" id="cb4-17" title="17">        swap(a, b);</a>
+<a class="sourceLine" id="cb4-18" title="18">    ans = min(ans, st.get_min(tin[a], tin[b]));</a>
+<a class="sourceLine" id="cb4-19" title="19">    <span class="cf">return</span> ans;</a>
+<a class="sourceLine" id="cb4-20" title="20">}</a></code></pre></div>
 <p><img src='https://codeforces.com/predownloaded/be/01/be019bbaa15bbf621a0cf018b15e778c02aeb104.jpg'></p>
 </body>
 </html>

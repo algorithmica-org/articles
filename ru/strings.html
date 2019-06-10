@@ -1,50 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Базовые строковые алгоритмы</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
   
   <!-- Yandex.Metrika counter -->
@@ -64,9 +98,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <!-- /Yandex.Metrika counter -->
 </head>
 <body>
-<div id="header">
+<header id="title-block-header">
 <h1 class="title">Базовые строковые алгоритмы</h1>
-</div>
+</header>
 <h1 id="базовые-строковые-алгоритмы">Базовые строковые алгоритмы</h1>
 <h2 id="префикс-функция">Префикс-функция</h2>
 <p>Рассмотрим задачу, которая возникает каждый раз, когда вы делаете <code>ctrl+f</code>:</p>
@@ -77,38 +111,38 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Для решения этой задачи за линейное время придумали <strong>префикс-функцию</strong>.</p>
 <p><strong>Определение</strong>. Префикс-функцией от строки <span class="math inline">\(s\)</span> называется массив <span class="math inline">\(p\)</span>, где <span class="math inline">\(p_i\)</span> равно длине самого большого префикса строки <span class="math inline">\(s_0 s_1 s_2 \ldots s_i\)</span>, который также является и суффиксом этой строки (не считая всю строку).</p>
 <p>Например, самый большой префикс, который равен суффиксу для строки «aataataa» — это «aataa»; префикс-функция для этой строки равна <span class="math inline">\([0, 1, 0, 1, 2, 3, 4, 5]\)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> slow_prefix_function(s):
-    n <span class="op">=</span> <span class="bu">len</span>(s)
-    p <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>n
-    <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(n):
-        prefix <span class="op">=</span> s[:i]
-        <span class="cf">for</span> l <span class="op">in</span> <span class="bu">range</span>(<span class="dv">1</span>, i):
-            <span class="cf">if</span> prefix[:l] <span class="op">==</span> prefix[<span class="op">-</span>l:]:
-                p[i] <span class="op">=</span> l
-    <span class="cf">return</span> p
-
-slow_prefix_function(<span class="st">&#39;aataataa&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">def</span> slow_prefix_function(s):</a>
+<a class="sourceLine" id="cb1-2" title="2">    n <span class="op">=</span> <span class="bu">len</span>(s)</a>
+<a class="sourceLine" id="cb1-3" title="3">    p <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>n</a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</a>
+<a class="sourceLine" id="cb1-5" title="5">        prefix <span class="op">=</span> s[:i]</a>
+<a class="sourceLine" id="cb1-6" title="6">        <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, i):</a>
+<a class="sourceLine" id="cb1-7" title="7">            <span class="cf">if</span> prefix[:l] <span class="op">==</span> prefix[<span class="op">-</span>l:]:</a>
+<a class="sourceLine" id="cb1-8" title="8">                p[i] <span class="op">=</span> l</a>
+<a class="sourceLine" id="cb1-9" title="9">    <span class="cf">return</span> p</a>
+<a class="sourceLine" id="cb1-10" title="10"></a>
+<a class="sourceLine" id="cb1-11" title="11">slow_prefix_function(<span class="st">&#39;aataataa&#39;</span>)</a></code></pre></div>
 <pre><code>[0, 0, 1, 0, 1, 2, 3, 4]</code></pre>
 <p>(Этот алгоритм работает за <span class="math inline">\(O(n^3)\)</span>, но это только пока.)</p>
 <h2 id="как-это-поможет-решить-исходную-задачу">Как это поможет решить исходную задачу?</h2>
 <p>Давайте пока поверим, что мы умеем считать префикс-функцию за линейное от размера строки — как это делать, поясним дальше — и научимся с помощью нее искать подстроку в строке.</p>
 <p>Соединим подстроки <span class="math inline">\(s\)</span> и <span class="math inline">\(t\)</span> каким-нибудь символом, который не встречается ни там, ни там. Посмотрим на префикс-функцию получившейся строки <span class="math inline">\(s\#t\)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">s <span class="op">=</span> <span class="st">&quot;let it go&quot;</span>
-t <span class="op">=</span> <span class="st">&quot;&quot;&quot;let it go, let it go</span>
-<span class="st">can&#39;t hold it back anymore</span>
-<span class="st">let it go, let it go</span>
-<span class="st">turn away and slam the door!&quot;&quot;&quot;</span>
-
-<span class="bu">print</span>((s <span class="op">+</span> <span class="st">&#39;#&#39;</span> <span class="op">+</span> t).replace(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>, <span class="st">&#39; &#39;</span>))
-<span class="bu">print</span>(<span class="st">&#39;&#39;</span>.join([<span class="bu">str</span>(x) <span class="cf">for</span> x <span class="op">in</span> slow_prefix_function(s <span class="op">+</span> <span class="st">&#39;#&#39;</span> <span class="op">+</span> t)]))</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" title="1">s <span class="op">=</span> <span class="st">&quot;let it go&quot;</span></a>
+<a class="sourceLine" id="cb3-2" title="2">t <span class="op">=</span> <span class="st">&quot;&quot;&quot;let it go, let it go</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="st">can&#39;t hold it back anymore</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="st">let it go, let it go</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="st">turn away and slam the door!&quot;&quot;&quot;</span></a>
+<a class="sourceLine" id="cb3-6" title="6"></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="bu">print</span>((s <span class="op">+</span> <span class="st">&#39;#&#39;</span> <span class="op">+</span> t).replace(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>, <span class="st">&#39; &#39;</span>))</a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="bu">print</span>(<span class="st">&#39;&#39;</span>.join([<span class="bu">str</span>(x) <span class="cf">for</span> x <span class="kw">in</span> slow_prefix_function(s <span class="op">+</span> <span class="st">&#39;#&#39;</span> <span class="op">+</span> t)]))</a></code></pre></div>
 <pre><code>let it go#let it go, let it go can&#39;t hold it back anymore let it go, let it go turn away and slam the door!
 00000000000123456789001234567890000000001000000000000000000123456789001234567890000000000000000100000000000</code></pre>
 <p>Видно, что все места, где значения равны 9 (длине S) — это концы вхождений <span class="math inline">\(s\)</span> в текст <span class="math inline">\(t\)</span>.</p>
 <p>Такой алгоритм (посчитать префикс-функцию от <span class="math inline">\(s\#t\)</span> и посмотреть, в каких позициях она равна <span class="math inline">\(|s|\)</span>) называется <strong>алгоритмом Кнута-Морриса-Пратта</strong>.</p>
 <h2 id="как-её-быстро-считать">Как её быстро считать</h2>
 <p>Рассмотрим ещё несколько примеров префикс-функций:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> s <span class="op">in</span> [<span class="st">&#39;aaaaa&#39;</span>, <span class="st">&#39;abcdef&#39;</span>, <span class="st">&#39;abacabadava&#39;</span>, <span class="st">&#39;antananarivuantananarivu&#39;</span>]:
-    <span class="bu">print</span>(slow_prefix_function(s))</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1"><span class="cf">for</span> s <span class="kw">in</span> [<span class="st">&#39;aaaaa&#39;</span>, <span class="st">&#39;abcdef&#39;</span>, <span class="st">&#39;abacabadava&#39;</span>, <span class="st">&#39;antananarivuantananarivu&#39;</span>]:</a>
+<a class="sourceLine" id="cb5-2" title="2">    <span class="bu">print</span>(slow_prefix_function(s))</a></code></pre></div>
 <pre><code>[0, 0, 1, 2, 3]
 [0, 0, 0, 0, 0, 0]
 [0, 0, 0, 1, 0, 1, 2, 3, 0, 1, 0]
@@ -118,20 +152,20 @@ t <span class="op">=</span> <span class="st">&quot;&quot;&quot;let it go, let it
 <p>Заметим, что <span class="math inline">\(p_{i+1} = p_i + 1\)</span> в том и только том случае, когда <span class="math inline">\(s_{p_i} =s_{i+1}\)</span>. Например, в строке <span class="math inline">\(\underbrace{aabaa}t\overbrace{aabaa}\)</span> выделен максимальный префикс, равный суффиксу: <span class="math inline">\(p_{10} = 5\)</span>. Если следующий символ равен будет равен <span class="math inline">\(t\)</span>, то <span class="math inline">\(p_{11} = p_{10} + 1 = 6\)</span>.</p>
 <p>Но что происходит, когда <span class="math inline">\(s_{p_i}\neq s_{i+1}\)</span>? Пусть следующий символ в этой же строке равен <span class="math inline">\(b\)</span>. * <span class="math inline">\(\implies\)</span> Тогда длина префикса, равного суффиксу новой строки, будет точно меньше 5. * <span class="math inline">\(\implies\)</span> Значит, помимо того, что он является суффиксом «aabaa<strong>b</strong>», префикс является префиксом и подстроки «aabaa». * <span class="math inline">\(\implies\)</span> Значит, следующий кандидат на проверку — это значение префикс-функции от «aabaa», то есть <span class="math inline">\(p_4 = 2\)</span>. * <span class="math inline">\(\implies\)</span> Если <span class="math inline">\(s_2 = s_{11}\)</span> (т. е. новый символ совпадает с идущим после префикса-кандидата), то <span class="math inline">\(p_{11} = p_2 + 1 = 2 + 1 = 3\)</span>.</p>
 <p>В данном случае это действительно так (нужный префикс — «aab»). Но что делать, если, в общем случае, $p_{i+1} p_{p_i+1} $? Тогда мы проводим такое же рассуждение и получаем нового кандидата, меньшей длины — <span class="math inline">\(p_{p_{p_i}}\)</span>. Если и этот не подошел — аналогично проверяем меньшего, пока этот индекс не станет нулевым.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> fast_prefix_function(s):
-    n <span class="op">=</span> <span class="bu">len</span>(s)
-    p <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>n
-    <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):
-        cur <span class="op">=</span> p[i <span class="op">-</span> <span class="dv">1</span>]
-        <span class="co"># перебираем префикс-функцию, пока не найдем равный символ</span>
-        <span class="cf">while</span> s[i] <span class="op">!=</span> s[cur] <span class="op">and</span> cur <span class="op">&gt;</span> <span class="dv">0</span>:
-            cur <span class="op">=</span> p[cur <span class="op">-</span> <span class="dv">1</span>]
-         <span class="co"># если нашли, то значение на единицу больше</span>
-        <span class="cf">if</span> s[i] <span class="op">==</span> s[cur]:
-            p[i] <span class="op">=</span> cur <span class="op">+</span> <span class="dv">1</span>
-    <span class="cf">return</span> p
-
-fast_prefix_function(<span class="st">&#39;abacabadabacabax&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">def</span> fast_prefix_function(s):</a>
+<a class="sourceLine" id="cb7-2" title="2">    n <span class="op">=</span> <span class="bu">len</span>(s)</a>
+<a class="sourceLine" id="cb7-3" title="3">    p <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>n</a>
+<a class="sourceLine" id="cb7-4" title="4">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):</a>
+<a class="sourceLine" id="cb7-5" title="5">        cur <span class="op">=</span> p[i <span class="op">-</span> <span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb7-6" title="6">        <span class="co"># перебираем префикс-функцию, пока не найдем равный символ</span></a>
+<a class="sourceLine" id="cb7-7" title="7">        <span class="cf">while</span> s[i] <span class="op">!=</span> s[cur] <span class="kw">and</span> cur <span class="op">&gt;</span> <span class="dv">0</span>:</a>
+<a class="sourceLine" id="cb7-8" title="8">            cur <span class="op">=</span> p[cur <span class="op">-</span> <span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb7-9" title="9">         <span class="co"># если нашли, то значение на единицу больше</span></a>
+<a class="sourceLine" id="cb7-10" title="10">        <span class="cf">if</span> s[i] <span class="op">==</span> s[cur]:</a>
+<a class="sourceLine" id="cb7-11" title="11">            p[i] <span class="op">=</span> cur <span class="op">+</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb7-12" title="12">    <span class="cf">return</span> p</a>
+<a class="sourceLine" id="cb7-13" title="13"></a>
+<a class="sourceLine" id="cb7-14" title="14">fast_prefix_function(<span class="st">&#39;abacabadabacabax&#39;</span>)</a></code></pre></div>
 <pre><code>[0, 0, 1, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 0]</code></pre>
 <h3 id="асимптотика">Асимптотика</h3>
 <p>Почему это работает за <span class="math inline">\(O(N)\)</span>? В худшем случае этот <code>while</code> может работать <span class="math inline">\(O(N)\)</span> раз за одну итерацию. Но оказывается, что <em>в среднем</em> каждый <code>while</code> работает за <span class="math inline">\(O(1)\)</span> — это называется амортизированной асимптотикой.</p>
@@ -140,18 +174,18 @@ fast_prefix_function(<span class="st">&#39;abacabadabacabax&#39;</span>)</code><
 <p>Альтернатива префикс-функции — z-функция (<em>примечание: не «зи», а «зет»</em>). Она немного проще для понимания.</p>
 <p>Z-функция от строки <span class="math inline">\(s\)</span> — это такой массив <span class="math inline">\(z\)</span>, что <span class="math inline">\(z_i\)</span> равно длине максимальной подстроки, <strong>начинающейся</strong> с <span class="math inline">\(i\)</span>-й позиции, которая равна префиксу <span class="math inline">\(s\)</span>.</p>
 <p><span class="math display">\[\underbrace{aba}c\overbrace{aba}daba \hspace{1em} (z_4 = 3)\]</span></p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> slow_z_function(s):
-    n <span class="op">=</span> <span class="bu">len</span>(s)
-    z <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>n
-    <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):
-        suffix <span class="op">=</span> s[i:]
-        <span class="cf">for</span> l <span class="op">in</span> <span class="bu">range</span>(<span class="dv">1</span>, i):
-            <span class="cf">if</span> s[:l] <span class="op">==</span> suffix[:l]:
-                z[i] <span class="op">=</span> l
-    <span class="cf">return</span> z
-
-<span class="cf">for</span> s <span class="op">in</span> [<span class="st">&#39;abacabadaba&#39;</span>, <span class="st">&#39;aabcaabaabca&#39;</span>, <span class="st">&#39;antananarivuantananarivu&#39;</span>]:
-    <span class="bu">print</span>(slow_z_function(s))</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">def</span> slow_z_function(s):</a>
+<a class="sourceLine" id="cb9-2" title="2">    n <span class="op">=</span> <span class="bu">len</span>(s)</a>
+<a class="sourceLine" id="cb9-3" title="3">    z <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>n</a>
+<a class="sourceLine" id="cb9-4" title="4">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):</a>
+<a class="sourceLine" id="cb9-5" title="5">        suffix <span class="op">=</span> s[i:]</a>
+<a class="sourceLine" id="cb9-6" title="6">        <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, i):</a>
+<a class="sourceLine" id="cb9-7" title="7">            <span class="cf">if</span> s[:l] <span class="op">==</span> suffix[:l]:</a>
+<a class="sourceLine" id="cb9-8" title="8">                z[i] <span class="op">=</span> l</a>
+<a class="sourceLine" id="cb9-9" title="9">    <span class="cf">return</span> z</a>
+<a class="sourceLine" id="cb9-10" title="10"></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="cf">for</span> s <span class="kw">in</span> [<span class="st">&#39;abacabadaba&#39;</span>, <span class="st">&#39;aabcaabaabca&#39;</span>, <span class="st">&#39;antananarivuantananarivu&#39;</span>]:</a>
+<a class="sourceLine" id="cb9-12" title="12">    <span class="bu">print</span>(slow_z_function(s))</a></code></pre></div>
 <pre><code>[0, 0, 1, 0, 3, 0, 1, 0, 3, 0, 1]
 [0, 0, 0, 0, 3, 1, 0, 5, 1, 0, 0, 1]
 [0, 0, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 11, 0, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0]</code></pre>
@@ -160,26 +194,25 @@ fast_prefix_function(<span class="st">&#39;abacabadabacabax&#39;</span>)</code><
 <p>Заметим, что: * <span class="math inline">\(z_0 = 0\)</span> — из-за договоренности (потому что информации не несет); * <span class="math inline">\(z_i = 0 \iff s_i \neq s_0\)</span>; * <span class="math inline">\(z_i &gt; 0 \iff s_i = s_0\)</span>.</p>
 <p>Будем идти слева направо и хранить <em>z-блок</em> — самую правую подстроку, равную префиксу, которую мы успели обнаружить. Будем обозначать его границы как <span class="math inline">\(l\)</span> и <span class="math inline">\(r\)</span>.</p>
 <p>Пусть мы сейчас хотим найти <span class="math inline">\(z_i\)</span>, а все предыдущие уже нашли. Если новый, <span class="math inline">\(i\)</span>-й символ не лежит левее z-блока, значит он лежит либо в z-блоке, либо правее. * Если правее, то мы просто наивно перебором найдем <span class="math inline">\(z_i\)</span> (максимальный отрезок, начинающийся с <span class="math inline">\(s_i\)</span> и равный префиксу), и объявим его новым z-блоком. * Если <span class="math inline">\(i\)</span>-й элемент лежит внутри z-блока, то мы можем посмотреть на значение <span class="math inline">\(z_{i-l}\)</span> и использовать его, чтобы инициализировать <span class="math inline">\(z_i\)</span> чем-то, возможно, отличным от нуля. Если <span class="math inline">\(z_{i-l}\)</span> «не хватает» до границы <span class="math inline">\(z\)</span>-блока, то <span class="math inline">\(z_i = z_{i-l}\)</span>. Если он упирается, в границу, то «обрежем» его до известной границы и будем увеличивать на единичку.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> fast_z_function(s):
-    n <span class="op">=</span> <span class="bu">len</span>(s)
-    z <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>n
-    l <span class="op">=</span> <span class="dv">0</span>
-    r <span class="op">=</span> <span class="dv">0</span>
-    <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):
-        <span class="cf">if</span> i <span class="op">&lt;=</span> r:
-            z[i] <span class="op">=</span> <span class="bu">min</span>(r <span class="op">-</span> i <span class="op">+</span> <span class="dv">1</span>, z[i<span class="op">-</span>l])
-        <span class="cf">while</span> i <span class="op">+</span> z[i] <span class="op">&lt;</span> n <span class="op">and</span> s[z[i]] <span class="op">==</span> s[i<span class="op">+</span>z[i]]:
-            z[i] <span class="op">+=</span> <span class="dv">1</span>
-        <span class="cf">if</span> i <span class="op">+</span> z[i] <span class="op">-</span> <span class="dv">1</span> <span class="op">&gt;</span> r:
-            l <span class="op">=</span> i
-            r <span class="op">=</span> i <span class="op">+</span>  z[i] <span class="op">-</span> <span class="dv">1</span>
-    <span class="cf">return</span> z</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">def</span> fast_z_function(s):</a>
+<a class="sourceLine" id="cb11-2" title="2">    n <span class="op">=</span> <span class="bu">len</span>(s)</a>
+<a class="sourceLine" id="cb11-3" title="3">    z <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>n</a>
+<a class="sourceLine" id="cb11-4" title="4">    l <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb11-5" title="5">    r <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb11-6" title="6">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):</a>
+<a class="sourceLine" id="cb11-7" title="7">        <span class="cf">if</span> i <span class="op">&lt;=</span> r:</a>
+<a class="sourceLine" id="cb11-8" title="8">            z[i] <span class="op">=</span> <span class="bu">min</span>(r <span class="op">-</span> i <span class="op">+</span> <span class="dv">1</span>, z[i<span class="op">-</span>l])</a>
+<a class="sourceLine" id="cb11-9" title="9">        <span class="cf">while</span> i <span class="op">+</span> z[i] <span class="op">&lt;</span> n <span class="kw">and</span> s[z[i]] <span class="op">==</span> s[i<span class="op">+</span>z[i]]:</a>
+<a class="sourceLine" id="cb11-10" title="10">            z[i] <span class="op">+=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb11-11" title="11">        <span class="cf">if</span> i <span class="op">+</span> z[i] <span class="op">-</span> <span class="dv">1</span> <span class="op">&gt;</span> r:</a>
+<a class="sourceLine" id="cb11-12" title="12">            l <span class="op">=</span> i</a>
+<a class="sourceLine" id="cb11-13" title="13">            r <span class="op">=</span> i <span class="op">+</span>  z[i] <span class="op">-</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb11-14" title="14">    <span class="cf">return</span> z</a></code></pre></div>
 <p><strong>Асимптотика</strong>. В алгоритме мы делаем столько действий, сколько раз сдвигается правая граница z-блока — а это <span class="math inline">\(O(n)\)</span>.</p>
 <h2 id="зачем-тогда-люди-используют-префикс-функцию">Зачем тогда люди используют префикс-функцию</h2>
-<div class="figure">
-<img src="https://cs8.pikabu.ru/post_img/2016/12/13/5/1481615023179882832.jpg" alt="hz" />
-<p class="caption">hz</p>
-</div>
+<figure>
+<img src="https://cs8.pikabu.ru/post_img/2016/12/13/5/1481615023179882832.jpg" alt="hz" /><figcaption>hz</figcaption>
+</figure>
 <p>В целом они очень похожи, но алгоритм Кнута-Морриса-Пратта есть во всех классических учебниках по программированию, а про Z-функция почему-то мало кто знает кроме олимпиадных программистов.</p>
 <p>Про префикс-функцию важно ещё знать, что она онлайновая — достаточно считать следующий символ, и сразу можно узнать значение.</p>
 </body>

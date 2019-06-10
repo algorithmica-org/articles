@@ -1,50 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Факторизация за $O(\sqrt[4]{n})$</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
   
   <!-- Yandex.Metrika counter -->
@@ -64,9 +98,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <!-- /Yandex.Metrika counter -->
 </head>
 <body>
-<div id="header">
+<header id="title-block-header">
 <h1 class="title">Факторизация за $O(\sqrt[4]{n})$</h1>
-</div>
+</header>
 <h1 id="факторизация-за-osqrt4n">Факторизация за <span class="math inline">\(O(\sqrt[4]{n})\)</span></h1>
 <p>Наука умеет раскладывать целые числа на множители за <span class="math inline">\(O(n^\frac{1}{4})\)</span>. Алгоритм рандомизированный, поэтому нам сначала понадобится один факт из теорвера.</p>
 <h2 id="парадокс-дней-рождений">Парадокс дней рождений</h2>
@@ -86,30 +120,30 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Из формулы более-менее понятно, что вероятность <span class="math inline">\(\frac{1}{2}\)</span> достигается при <span class="math inline">\(n \approx \sqrt{d}\)</span> и в этой точке изменяется быстро. Для самого алгоритма нам понадобится следующее:</p>
 <p><strong>Утверждение</strong>. В мультимножество нужно добавить <span class="math inline">\(O(\sqrt{n})\)</span> случайных чисел от 1 до n, чтобы какие-то два совпали.</p>
 <p>Если вы не доверяете математике, посмотрите на графики:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt
-<span class="op">%</span>matplotlib inline
-
-<span class="im">import</span> seaborn <span class="im">as</span> sns
-sns.<span class="bu">set</span>()</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> f(n, d):
-    p <span class="op">=</span> <span class="dv">1</span>
-    <span class="cf">for</span> x <span class="op">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):
-        p <span class="op">*=</span> <span class="dv">1</span><span class="op">-</span>x<span class="op">/</span>d
-    <span class="cf">return</span> p
-
-<span class="kw">def</span> g(n, d):
-    <span class="cf">return</span> <span class="fl">2.71</span><span class="op">**</span>(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> n<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> d)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">exact <span class="op">=</span> [f(n, <span class="dv">365</span>) <span class="cf">for</span> n <span class="op">in</span> <span class="bu">range</span>(<span class="dv">40</span>)]
-approx <span class="op">=</span> [g(n, <span class="dv">365</span>) <span class="cf">for</span> n <span class="op">in</span> <span class="bu">range</span>(<span class="dv">40</span>)]
-plt.plot(exact)
-plt.plot(approx)
-plt.show()</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="op">%</span>matplotlib inline</a>
+<a class="sourceLine" id="cb1-3" title="3"></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="im">import</span> seaborn <span class="im">as</span> sns</a>
+<a class="sourceLine" id="cb1-5" title="5">sns.<span class="bu">set</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">def</span> f(n, d):</a>
+<a class="sourceLine" id="cb2-2" title="2">    p <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb2-3" title="3">    <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):</a>
+<a class="sourceLine" id="cb2-4" title="4">        p <span class="op">*=</span> <span class="dv">1</span><span class="op">-</span>x<span class="op">/</span>d</a>
+<a class="sourceLine" id="cb2-5" title="5">    <span class="cf">return</span> p</a>
+<a class="sourceLine" id="cb2-6" title="6"></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="kw">def</span> g(n, d):</a>
+<a class="sourceLine" id="cb2-8" title="8">    <span class="cf">return</span> <span class="fl">2.71</span><span class="op">**</span>(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> n<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> d)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" title="1">exact <span class="op">=</span> [f(n, <span class="dv">365</span>) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">40</span>)]</a>
+<a class="sourceLine" id="cb3-2" title="2">approx <span class="op">=</span> [g(n, <span class="dv">365</span>) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">40</span>)]</a>
+<a class="sourceLine" id="cb3-3" title="3">plt.plot(exact)</a>
+<a class="sourceLine" id="cb3-4" title="4">plt.plot(approx)</a>
+<a class="sourceLine" id="cb3-5" title="5">plt.show()</a></code></pre></div>
 <p>TODO: график</p>
 <p>На графике две линии, если не видно, — аппроксимация настолько хороша. Чтобы продемонстрировать <span class="math inline">\(n \approx \sqrt{d}\)</span>, построим такую же для больших чисел и перейдём в логарифмический масштаб.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">approx <span class="op">=</span> [g(n, <span class="dv">10</span><span class="op">**</span><span class="dv">10</span>) <span class="cf">for</span> n <span class="op">in</span> <span class="bu">range</span>(<span class="dv">10</span><span class="op">**</span><span class="dv">6</span>)]
-plt.xscale(<span class="st">&#39;log&#39;</span>)
-plt.plot(approx)
-plt.show()</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1">approx <span class="op">=</span> [g(n, <span class="dv">10</span><span class="op">**</span><span class="dv">10</span>) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span><span class="op">**</span><span class="dv">6</span>)]</a>
+<a class="sourceLine" id="cb4-2" title="2">plt.xscale(<span class="st">&#39;log&#39;</span>)</a>
+<a class="sourceLine" id="cb4-3" title="3">plt.plot(approx)</a>
+<a class="sourceLine" id="cb4-4" title="4">plt.show()</a></code></pre></div>
 <p>TODO: график</p>
 <h2 id="rho-алгоритм-полларда"><span class="math inline">\(\rho\)</span>-алгоритм Полларда</h2>
 <p>Итак, мы хотим факторизовать число <span class="math inline">\(n\)</span>. Предположим, что <span class="math inline">\(n = p q\)</span> и <span class="math inline">\(p \approx q\)</span>. Понятно, что труднее случая, наверное, нет. Алгоритм итеративно ищет наименьший делитель и сводит задачу к как минимум в два раза меньшей.</p>
@@ -120,21 +154,21 @@ plt.show()</code></pre></div>
 <p><em>Доказательство:</em> так как <span class="math inline">\(p\)</span> — меньший делитель, то <span class="math inline">\(p \leq \sqrt{n}\)</span>. Теперь просто подставим в предыдущее утверждение: в множество нужно добавить <span class="math inline">\(O(\sqrt{p}) = O(\sqrt[4]{n})\)</span> элементов, чтобы какие-то два совпали, а значит последовательность зациклилась.</p>
 <p>Если мы найдём цикл в такой последовательности (то есть такие <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span>, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0)\)</span>), то мы можем восстановить какой-то делитель <span class="math inline">\(n\)</span>, а именно <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n)\)</span> — это число меньше <span class="math inline">\(n\)</span> и делится на <span class="math inline">\(p\)</span>.</p>
 <p>Алгоритм по сути находит цикл в этой последовательности, используя для этого стандартный алгоритм («черепаха и заяц»): будем поддерживать два удаляющиеся друг от друга указателя <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> (<span class="math inline">\(i = 2j\)</span>) и проверять, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0) \pmod p\)</span>, что эквивалентно проверке <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n) &gt; 1\)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> math <span class="im">import</span> gcd
-<span class="im">from</span> random <span class="im">import</span> randint</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> find_divisor(n, seed <span class="op">=</span> <span class="dv">1</span>, f <span class="op">=</span> <span class="kw">lambda</span> x: (x<span class="dv">+1</span>)<span class="op">**</span><span class="dv">2</span>):
-    x <span class="op">=</span> y <span class="op">=</span> seed
-    d <span class="op">=</span> <span class="dv">1</span>
-    <span class="cf">while</span> d <span class="op">==</span> <span class="dv">1</span>:
-        x <span class="op">=</span> f(f(x)) <span class="op">%</span> n
-        y <span class="op">=</span> f(y) <span class="op">%</span> n
-        d <span class="op">=</span> gcd(<span class="bu">abs</span>(x<span class="op">-</span>y), n)
-    <span class="cf">return</span> d</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">n <span class="op">=</span> <span class="dv">3</span><span class="op">*</span><span class="dv">5</span><span class="op">*</span><span class="dv">7</span> <span class="co"># = 105</span>
-<span class="bu">print</span>([find_divisor(n, seed<span class="op">=</span>i) <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(n)])</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1"><span class="im">from</span> math <span class="im">import</span> gcd</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="im">from</span> random <span class="im">import</span> randint</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">def</span> find_divisor(n, seed <span class="op">=</span> <span class="dv">1</span>, f <span class="op">=</span> <span class="kw">lambda</span> x: (x<span class="op">+</span><span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span>):</a>
+<a class="sourceLine" id="cb6-2" title="2">    x <span class="op">=</span> y <span class="op">=</span> seed</a>
+<a class="sourceLine" id="cb6-3" title="3">    d <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb6-4" title="4">    <span class="cf">while</span> d <span class="op">==</span> <span class="dv">1</span>:</a>
+<a class="sourceLine" id="cb6-5" title="5">        x <span class="op">=</span> f(f(x)) <span class="op">%</span> n</a>
+<a class="sourceLine" id="cb6-6" title="6">        y <span class="op">=</span> f(y) <span class="op">%</span> n</a>
+<a class="sourceLine" id="cb6-7" title="7">        d <span class="op">=</span> gcd(<span class="bu">abs</span>(x<span class="op">-</span>y), n)</a>
+<a class="sourceLine" id="cb6-8" title="8">    <span class="cf">return</span> d</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1">n <span class="op">=</span> <span class="dv">3</span><span class="op">*</span><span class="dv">5</span><span class="op">*</span><span class="dv">7</span> <span class="co"># = 105</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="bu">print</span>([find_divisor(n, seed<span class="op">=</span>i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n)])</a></code></pre></div>
 <pre><code>[3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3]</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">n <span class="op">=</span> (<span class="dv">10</span><span class="op">**</span><span class="dv">9+7</span>)<span class="op">*</span>(<span class="dv">10</span><span class="op">**</span><span class="dv">9+9</span>)
-<span class="bu">print</span>([find_divisor(n, seed<span class="op">=</span>randint(<span class="dv">1</span>, n)) <span class="cf">for</span> _ <span class="op">in</span> <span class="bu">range</span>(<span class="dv">20</span>)])</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb9-1" title="1">n <span class="op">=</span> (<span class="dv">10</span><span class="op">**</span><span class="dv">9</span><span class="op">+</span><span class="dv">7</span>)<span class="op">*</span>(<span class="dv">10</span><span class="op">**</span><span class="dv">9</span><span class="op">+</span><span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="bu">print</span>([find_divisor(n, seed<span class="op">=</span>randint(<span class="dv">1</span>, n)) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">20</span>)])</a></code></pre></div>
 <pre><code>[1000000007, 1000000009, 1000000009, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009]</code></pre>
 <p>Так как алгоритм рандомизированный, при полной реализации нужно учитывать разные детали. Например, что иногда делитель не находится (нужно запускать несколько раз), или что при попытке факторизовать простое число он будет работать за <span class="math inline">\(O(\sqrt{n})\)</span> (нужно добавить отсечение по времени).</p>
 <h2 id="разное">Разное</h2>

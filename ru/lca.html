@@ -1,50 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Корневые деревья</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
   
   <!-- Yandex.Metrika counter -->
@@ -64,9 +98,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <!-- /Yandex.Metrika counter -->
 </head>
 <body>
-<div id="header">
+<header id="title-block-header">
 <h1 class="title">Корневые деревья</h1>
-</div>
+</header>
 <h1 id="корневые-деревья">Корневые деревья</h1>
 <p>Дерево называется <em>корневым</em>, если оно ориентированно и из какой-то вершины можно попасть во все остальные — такая вершина единственная, и она называется <em>корнем</em>.</p>
 <p>Примеры корневых деревьев:</p>
@@ -77,22 +111,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>просто множество как-то вложенных объектов (ссылка на крысу-роботягу).</li>
 </ul>
 <p>Сегодня мы поговорим о разных задачах на корневых деревьях. Они все бесполезны в реальной жизни, но очень красивые, и поэтому часто встречаются на олимпиадах.</p>
-<div class="figure">
-<img src="https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/master/img/LCA_Euler.png" alt="dfs" />
-<p class="caption">dfs</p>
-</div>
+<figure>
+<img src="https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/master/img/LCA_Euler.png" alt="dfs" /><figcaption>dfs</figcaption>
+</figure>
 <h2 id="напоминание-dfs">Напоминание: DFS</h2>
 <p>Посчитаем для каждой вершины времена входа (<span class="math inline">\(tin\)</span>) и выхода (<span class="math inline">\(tout\)</span>) из неё во время эйлерова прохода.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">vector&lt;<span class="dt">int</span>&gt; g[maxn];
-<span class="dt">int</span> p[maxn], tin[maxn], tout[maxn];
-<span class="dt">int</span> t = <span class="dv">0</span>;
-
-<span class="dt">void</span> dfs (<span class="dt">int</span> v) {
-    tin[v] = t++;
-    <span class="kw">for</span> (<span class="dt">int</span> u : g[v])
-        dfs(u);
-    tout[v] = t; <span class="co">// при выходе из вершины можно тоже счётчик увеличить, но автор не хочет </span>
-}</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1">vector&lt;<span class="dt">int</span>&gt; g[maxn];</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="dt">int</span> p[maxn], tin[maxn], tout[maxn];</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> t = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="dt">void</span> dfs (<span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb1-6" title="6">    tin[v] = t++;</a>
+<a class="sourceLine" id="cb1-7" title="7">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v])</a>
+<a class="sourceLine" id="cb1-8" title="8">        dfs(u);</a>
+<a class="sourceLine" id="cb1-9" title="9">    tout[v] = t; <span class="co">// при выходе из вершины можно тоже счётчик увеличить, но автор не хочет </span></a>
+<a class="sourceLine" id="cb1-10" title="10">}</a></code></pre></div>
 <p>У этих массивов много полезных свойств:</p>
 <ul>
 <li>Вершина <span class="math inline">\(u\)</span> является предком <span class="math inline">\(v\)</span> <span class="math inline">\(\iff tin_v \in [tin_u, tout_u)\)</span>. Эту проверку можно делать за константу.</li>
@@ -119,49 +152,48 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Дано корневое дерево. Требуется отвечать на запросы нахождения наименьшего общего предка вершин <span class="math inline">\(u_i\)</span> и <span class="math inline">\(v_i\)</span>, то есть вершины <span class="math inline">\(w\)</span>, которая лежит на пути от корня до <span class="math inline">\(u_i\)</span>, на пути от корня до <span class="math inline">\(v_i\)</span>, и при этом самую глубокую (нижнюю) из всех таких.</p>
 </blockquote>
 <p>По-английский эта задача называется <em>Least Common Ancestor</em>. Есть много разных способов её решать, и мы рассмотрим основные.</p>
-<div class="figure">
-<img src="http://homepages.kcbbs.gen.nz/tonyg/pictures/least-common-ancestor.png" alt="lca" />
-<p class="caption">lca</p>
-</div>
+<figure>
+<img src="http://homepages.kcbbs.gen.nz/tonyg/pictures/least-common-ancestor.png" alt="lca" /><figcaption>lca</figcaption>
+</figure>
 <p>Для лучшего понимания: медленно (за линейное время) это можно делать так:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">bool</span> a (<span class="dt">int</span> u, <span class="dt">int</span> v) {
-    <span class="kw">return</span> tin[u] &lt;= tin[v] &amp;&amp; tin[v] &lt;= tout[u];
-}
-
-<span class="dt">int</span> lca (<span class="dt">int</span> u, <span class="dt">int</span> v) {
-    <span class="kw">while</span> (!ancestor(u, v))
-        u = p[u];
-    <span class="kw">return</span> u;
-}</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">bool</span> a (<span class="dt">int</span> u, <span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="cf">return</span> tin[u] &lt;= tin[v] &amp;&amp; tin[v] &lt;= tout[u];</a>
+<a class="sourceLine" id="cb2-3" title="3">}</a>
+<a class="sourceLine" id="cb2-4" title="4"></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="dt">int</span> lca (<span class="dt">int</span> u, <span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">while</span> (!ancestor(u, v))</a>
+<a class="sourceLine" id="cb2-7" title="7">        u = p[u];</a>
+<a class="sourceLine" id="cb2-8" title="8">    <span class="cf">return</span> u;</a>
+<a class="sourceLine" id="cb2-9" title="9">}</a></code></pre></div>
 <h2 id="lca-двоичные-подъемы">LCA: двоичные подъемы</h2>
 <p>Предпосчитаем для каждой вершины её 1-го предка, 2-го предка, 4-го, и т.д. Сохраним это всё в двумерном массиве <code>up</code> размера <span class="math inline">\(n \times \lceil \log n \rceil\)</span> — столько точно хватит. В <code>up[v][d]</code> будет храниться предок вершины <span class="math inline">\(v\)</span> на расстоянии <span class="math inline">\(2^d\)</span>, а если такой вершины не существует — то корень.</p>
 <p>Такой препроцессинг можно выполнить за <span class="math inline">\(O(n \log n)\)</span>, используя тот факт, что предок на расстоянии <span class="math inline">\(2^{d+1}\)</span> — это предок на расстоянии <span class="math inline">\(2^d\)</span> предка на расстоянии <span class="math inline">\(2^d\)</span>:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> up[maxn][logn];
-
-<span class="dt">void</span> dfs (<span class="dt">int</span> v) {
-    <span class="kw">for</span> (<span class="dt">int</span> l = <span class="dv">1</span>; l &lt; logn; l++)
-        up[v][l] = up[up[v][l<span class="dv">-1</span>]][l<span class="dv">-1</span>];
-    tin[v] = t++;
-    <span class="kw">for</span> (<span class="dt">int</span> u : g[v]) {
-        up[u][<span class="dv">0</span>] = v;
-        dfs(u);
-    }
-    tout[v] = t++;
-}</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> up[maxn][logn];</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="dt">void</span> dfs (<span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb3-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">1</span>; l &lt; logn; l++)</a>
+<a class="sourceLine" id="cb3-5" title="5">        up[v][l] = up[up[v][l-<span class="dv">1</span>]][l-<span class="dv">1</span>];</a>
+<a class="sourceLine" id="cb3-6" title="6">    tin[v] = t++;</a>
+<a class="sourceLine" id="cb3-7" title="7">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v]) {</a>
+<a class="sourceLine" id="cb3-8" title="8">        up[u][<span class="dv">0</span>] = v;</a>
+<a class="sourceLine" id="cb3-9" title="9">        dfs(u);</a>
+<a class="sourceLine" id="cb3-10" title="10">    }</a>
+<a class="sourceLine" id="cb3-11" title="11">    tout[v] = t++;</a>
+<a class="sourceLine" id="cb3-12" title="12">}</a></code></pre></div>
 <p>Пусть поступил очередной запрос — пара вершин <span class="math inline">\((u, v)\)</span>:</p>
 <ul>
 <li>Проверим, не является ли одна вершина предком другой — в таком случае она и является результатом.</li>
 <li>Иначе, пользуясь массивом <code>up</code>, будем подниматься по предкам одной из них, пока не найдём самую высокую вершину, которая ещё не является предком другой. Следующая за ней будет искомым LCA.</li>
 </ul>
 <p>Подробнее про второй пункт. Пусть <span class="math inline">\(L = \lceil \log n \rceil\)</span>. Присвоим <span class="math inline">\(i = L\)</span>. Будем уменьшать эту переменную на единицу, пока <code>up[v][i]</code> не перестанет быть предком <span class="math inline">\(u\)</span> (указатель <code>up[v][i]</code> изначально будет корнем, а затем каждую итерацию спускаться на <span class="math inline">\(2^i\)</span>). Когда это произойдёт, подвинем указатель на <span class="math inline">\(2^i\)</span>-го предка <span class="math inline">\(v\)</span>, и продолжим дальше. Мы можем это делать, потому что два раза прыгать на {2^i} — можно один раз прыгнуть на <span class="math inline">\(2^{i+1}\)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> lca (<span class="dt">int</span> v, <span class="dt">int</span> u) {
-    <span class="kw">if</span> (a(v, u)) <span class="kw">return</span> v;
-    <span class="kw">if</span> (a(u, v)) <span class="kw">return</span> u;
-    <span class="kw">for</span> (<span class="dt">int</span> l = logn<span class="dv">-1</span>; l &gt;= <span class="dv">0</span>; l--)
-        <span class="kw">if</span> (!ancestor(up[v][l], u))
-            v = up[v][l];
-    <span class="kw">return</span> up[v][<span class="dv">0</span>];
-}</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> lca (<span class="dt">int</span> v, <span class="dt">int</span> u) {</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="cf">if</span> (a(v, u)) <span class="cf">return</span> v;</a>
+<a class="sourceLine" id="cb4-3" title="3">    <span class="cf">if</span> (a(u, v)) <span class="cf">return</span> u;</a>
+<a class="sourceLine" id="cb4-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> l = logn-<span class="dv">1</span>; l &gt;= <span class="dv">0</span>; l--)</a>
+<a class="sourceLine" id="cb4-5" title="5">        <span class="cf">if</span> (!ancestor(up[v][l], u))</a>
+<a class="sourceLine" id="cb4-6" title="6">            v = up[v][l];</a>
+<a class="sourceLine" id="cb4-7" title="7">    <span class="cf">return</span> up[v][<span class="dv">0</span>];</a>
+<a class="sourceLine" id="cb4-8" title="8">}</a></code></pre></div>
 <h3 id="асимптотика">Асимптотика</h3>
 <p>Препроцессинг — <span class="math inline">\(O(n \log n)\)</span>. Размер массива <code>up</code> ровно такой, и каждый его элемент вычисляется за константу.</p>
 <p>Ответ на запрос — <span class="math inline">\(O(\log n)\)</span>, потому что по сути мы делаем один бинпоиск.</p>
@@ -169,16 +201,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Пусть нас вместо LCA спрашивают, например, о минимуме на произвольном пути (на всех рёбрах записаны какие-то числа).</p>
 <p>Мы можем сделать такой же предподсчет, как в методе двоичных подъемов, но хранить вместе с номером <span class="math inline">\(2^d\)</span>-го предка минимум на соответствующем пути.</p>
 <p>Мы знаем, что минимум на пути от <span class="math inline">\(u\)</span> до <span class="math inline">\(v\)</span> — это минимум от минимума на пути от <span class="math inline">\(u\)</span> до <span class="math inline">\(lca(u, v)\)</span> и от минимума на пути от <span class="math inline">\(v\)</span> до <span class="math inline">\(lca(u, v)\)</span>. А каждый минимум — это минимум на всех двоичных подъемах до LCA.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> get_min (<span class="dt">int</span> v, <span class="dt">int</span> u) {
-    <span class="dt">int</span> ans = inf;
-    <span class="kw">for</span> (<span class="dt">int</span> l = logn<span class="dv">-1</span>; l &gt;= <span class="dv">0</span>; l--)
-        <span class="kw">if</span> (!ancestor(up[v][l], u))
-            v = up[v][l], ans = min(ans, mn[v][l]);
-    <span class="kw">for</span> (<span class="dt">int</span> l = logn<span class="dv">-1</span>; l &gt;= <span class="dv">0</span>; l--)
-        <span class="kw">if</span> (!ancestor(up[u][l], v))
-            u = up[u][l], ans = min(ans, mn[u][l]);
-    <span class="kw">return</span> min({ans, mn[v][<span class="dv">0</span>], mn[u][<span class="dv">0</span>]})
-}</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">int</span> get_min (<span class="dt">int</span> v, <span class="dt">int</span> u) {</a>
+<a class="sourceLine" id="cb5-2" title="2">    <span class="dt">int</span> ans = inf;</a>
+<a class="sourceLine" id="cb5-3" title="3">    <span class="cf">for</span> (<span class="dt">int</span> l = logn-<span class="dv">1</span>; l &gt;= <span class="dv">0</span>; l--)</a>
+<a class="sourceLine" id="cb5-4" title="4">        <span class="cf">if</span> (!ancestor(up[v][l], u))</a>
+<a class="sourceLine" id="cb5-5" title="5">            v = up[v][l], ans = min(ans, mn[v][l]);</a>
+<a class="sourceLine" id="cb5-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> l = logn-<span class="dv">1</span>; l &gt;= <span class="dv">0</span>; l--)</a>
+<a class="sourceLine" id="cb5-7" title="7">        <span class="cf">if</span> (!ancestor(up[u][l], v))</a>
+<a class="sourceLine" id="cb5-8" title="8">            u = up[u][l], ans = min(ans, mn[u][l]);</a>
+<a class="sourceLine" id="cb5-9" title="9">    <span class="cf">return</span> min({ans, mn[v][<span class="dv">0</span>], mn[u][<span class="dv">0</span>]})</a>
+<a class="sourceLine" id="cb5-10" title="10">}</a></code></pre></div>
 <p>Аналогичным образом можно считать сумму, <code>gcd</code>, полиномиальный хэш и много других странных функций на пути, но только в статичном случае (т. е. когда у нас нет обновлений). Для динамического случая существует heavy-light декомпозиция, но она очень сложная.</p>
 <h2 id="сведение-к-rmq">Сведение к RMQ</h2>
 <p>Другая идея — это пройтись dfs-ом и выписать два массива: глубины вершин и их номера. Выписывать их мы будем как когда будем входить в вершину, так и когда выходить.</p>

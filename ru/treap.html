@@ -1,50 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Декартово дерево</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <link rel="stylesheet" href="../pandoc.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
   
   <!-- Yandex.Metrika counter -->
@@ -64,9 +98,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <!-- /Yandex.Metrika counter -->
 </head>
 <body>
-<div id="header">
+<header id="title-block-header">
 <h1 class="title">Декартово дерево</h1>
-</div>
+</header>
 <h1 id="декартово-дерево">Декартово дерево</h1>
 <p>Рене Декарт (фр. <em>René Descartes</em>) — великий французский математик и философ XVII века.</p>
 <p>Рене Декарт не является создателем декартова дерева, но он является создателем декартовой системы координат, которую мы все знаем и любим.</p>
@@ -79,10 +113,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <p>Заметим, что если все <span class="math inline">\(y\)</span> и <span class="math inline">\(x\)</span> различны, то дерево строится однозначно.</p>
 <p>Если нарисовать получившуюся структуру на плоскости, то получится действительно дерево — по традиции, корнем вверх:</p>
-<div class="figure">
-<img src="https://hsto.org/storage/habraeffect/a1/0a/a10a744def8f325a1019502ecc175ef6.png" alt="treap" />
-<p class="caption">treap</p>
-</div>
+<figure>
+<img src="https://hsto.org/storage/habraeffect/a1/0a/a10a744def8f325a1019502ecc175ef6.png" alt="treap" /><figcaption>treap</figcaption>
+</figure>
 <p>Таким образом, декартово дерево — это одновременно <em>бинарное дерево</em> по <span class="math inline">\(x\)</span> и <em>куча</em> по <span class="math inline">\(y\)</span>. Поэтому ему придумали много альтернативных названий:</p>
 <ul>
 <li><p>Дерамида (дерево + пирамида)</p></li>
@@ -132,196 +165,196 @@ E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum_{
 <h2 id="реализация">Реализация</h2>
 <p>Декартово дерево удобно писать на указателях и структурах.</p>
 <p>Создадим структуру <code>Node</code>, в которой будем хранить ключ и приоритет, а также указатели на левого и правого сына. Указателя на корень дерева достаточно для идентификации всего дерева. Поэтому, когда мы будем говорить «функция принимает два дерева» на самом деле будут иметься в виду указатели на их корни. К нулевому указателю же мы будем относиться, как к «пустому» дереву.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Node {
-    <span class="dt">int</span> key, prior;
-    Node *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;
-    Node (<span class="dt">int</span> _key) { key = _key, prior = rand(); }
-};</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">struct</span> Node {</a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> key, prior;</a>
+<a class="sourceLine" id="cb1-3" title="3">    Node *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-4" title="4">    Node (<span class="dt">int</span> _key) { key = _key, prior = rand(); }</a>
+<a class="sourceLine" id="cb1-5" title="5">};</a></code></pre></div>
 <p>Объявим две вспомогательные функции, изменяющие структуру деревьев: одна будет разделять деревья, а другая объединять. Как мы увидим, через них можно легко выразить почти все функции, которые нам потом понадобятся.</p>
 <h3 id="merge">Merge</h3>
 <p>Принимает два дерева (два корня, <span class="math inline">\(L\)</span> и <span class="math inline">\(R\)</span>), про которые известно, что в левом все вершины имеют меньший ключ, чем все в правом. Их нужно объединить в одно дерево так, чтобы ничего не сломалось: по ключам это всё ещё дерево, а по приоритетами — куча.</p>
 <p>Сначала выберем, какая вершина будет корнем. Здесь всего два кандидата — левый корень <span class="math inline">\(L\)</span> или правый <span class="math inline">\(R\)</span> — просто возьмем тот, у кого приоритет больше.</p>
 <p>Пусть, для однозначности, это был левый корень. Тогда левый сын корня итогового дерева должен быть левым сыном <span class="math inline">\(L\)</span>. С правым сыном сложнее: возможно, его нужно смерджить с <span class="math inline">\(R\)</span>. Поэтому рекурсивно сделаем <code>merge(l-&gt;r, r)</code> и запишем результат в качестве правого сына.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Node* merge (Node *l, Node *r) {
-    <span class="kw">if</span> (!l) <span class="kw">return</span> r;
-    <span class="kw">if</span> (!r) <span class="kw">return</span> l;
-    <span class="kw">if</span> (l-&gt;prior &gt; r-&gt;prior) {
-        l-&gt;r = merge(l-&gt;r, r);
-        <span class="kw">return</span> l;
-    }
-    <span class="kw">else</span> {
-        r-&gt;l = merge(l, r-&gt;l);
-        <span class="kw">return</span> r;
-    }
-}</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1">Node* merge (Node *l, Node *r) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="cf">if</span> (!l) <span class="cf">return</span> r;</a>
+<a class="sourceLine" id="cb2-3" title="3">    <span class="cf">if</span> (!r) <span class="cf">return</span> l;</a>
+<a class="sourceLine" id="cb2-4" title="4">    <span class="cf">if</span> (l-&gt;prior &gt; r-&gt;prior) {</a>
+<a class="sourceLine" id="cb2-5" title="5">        l-&gt;r = merge(l-&gt;r, r);</a>
+<a class="sourceLine" id="cb2-6" title="6">        <span class="cf">return</span> l;</a>
+<a class="sourceLine" id="cb2-7" title="7">    }</a>
+<a class="sourceLine" id="cb2-8" title="8">    <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb2-9" title="9">        r-&gt;l = merge(l, r-&gt;l);</a>
+<a class="sourceLine" id="cb2-10" title="10">        <span class="cf">return</span> r;</a>
+<a class="sourceLine" id="cb2-11" title="11">    }</a>
+<a class="sourceLine" id="cb2-12" title="12">}</a></code></pre></div>
 <h3 id="split">Split</h3>
 <p>Принимает дерево и ключ <span class="math inline">\(x\)</span>, по которому его нужно разделить на два: <span class="math inline">\(L\)</span> должно иметь все ключи не больше <span class="math inline">\(x\)</span>, а <span class="math inline">\(R\)</span> должно иметь все ключи больше <span class="math inline">\(x\)</span>.</p>
 <p>В этой функции мы сначала решим, в каком из деревьев должен быть корень, а потом рекурсивно разделим его правую или левую половину и присоединим, куда надо:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> pair&lt;Node*, Node*&gt; Pair;
-
-Pair split (Node *p, <span class="dt">int</span> x) {
-    <span class="kw">if</span> (!p) <span class="kw">return</span> {<span class="dv">0</span>, <span class="dv">0</span>};
-    <span class="kw">if</span> (p-&gt;key &lt;= x) {
-        Pair q = split(p-&gt;r, x);
-        p-&gt;r = q.first;
-        <span class="kw">return</span> {p, q.second};
-    }
-    <span class="kw">else</span> {
-        Pair q = split(p-&gt;l, x);
-        p-&gt;l = q.second;
-        <span class="kw">return</span> {q.first, p};
-    }
-}</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">typedef</span> pair&lt;Node*, Node*&gt; Pair;</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3">Pair split (Node *p, <span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb3-4" title="4">    <span class="cf">if</span> (!p) <span class="cf">return</span> {<span class="dv">0</span>, <span class="dv">0</span>};</a>
+<a class="sourceLine" id="cb3-5" title="5">    <span class="cf">if</span> (p-&gt;key &lt;= x) {</a>
+<a class="sourceLine" id="cb3-6" title="6">        Pair q = split(p-&gt;r, x);</a>
+<a class="sourceLine" id="cb3-7" title="7">        p-&gt;r = q.first;</a>
+<a class="sourceLine" id="cb3-8" title="8">        <span class="cf">return</span> {p, q.second};</a>
+<a class="sourceLine" id="cb3-9" title="9">    }</a>
+<a class="sourceLine" id="cb3-10" title="10">    <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb3-11" title="11">        Pair q = split(p-&gt;l, x);</a>
+<a class="sourceLine" id="cb3-12" title="12">        p-&gt;l = q.second;</a>
+<a class="sourceLine" id="cb3-13" title="13">        <span class="cf">return</span> {q.first, p};</a>
+<a class="sourceLine" id="cb3-14" title="14">    }</a>
+<a class="sourceLine" id="cb3-15" title="15">}</a></code></pre></div>
 <h3 id="пример-вставка">Пример: вставка</h3>
 <p><code>merge</code> и <code>split</code> сами по себе не очень полезные, но помогут написать все остальное.</p>
 <p>Вот так, например, будет выглядеть код, добавляющий <span class="math inline">\(x\)</span> в сет.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Node *root = <span class="dv">0</span>;
-
-<span class="dt">void</span> insert (<span class="dt">int</span> x) {
-    Pair q = split(root, x);
-    Node *t = <span class="kw">new</span> Node(x);
-    root = merge(q.first, merge(t, q.second));
-}</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1">Node *root = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="dt">void</span> insert (<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb4-4" title="4">    Pair q = split(root, x);</a>
+<a class="sourceLine" id="cb4-5" title="5">    Node *t = <span class="kw">new</span> Node(x);</a>
+<a class="sourceLine" id="cb4-6" title="6">    root = merge(q.first, merge(t, q.second));</a>
+<a class="sourceLine" id="cb4-7" title="7">}</a></code></pre></div>
 <h3 id="пример-модификация-для-суммы-на-отрезке">Пример: модификация для суммы на отрезке</h3>
 <p>Иногда нам нужно написать какие-то модификации для более продвинутых операций.</p>
 <p>Например, нам может быть интересно иногда считать сумму чисел на отрезке. Для этого в вершине нужно хранить также своё число и сумму на своем «отрезке».</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Node {
-    <span class="dt">int</span> val, sum;
-    <span class="co">// ...</span>
-};</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">struct</span> Node {</a>
+<a class="sourceLine" id="cb5-2" title="2">    <span class="dt">int</span> val, sum;</a>
+<a class="sourceLine" id="cb5-3" title="3">    <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb5-4" title="4">};</a></code></pre></div>
 <p>При <code>merge</code> и <code>split</code> надо будет поддерживать эту сумму актуальной.</p>
 <p>Вместо того, чтобы модифицировать и <code>merge</code>, и <code>split</code> под наши хотелки, напишем вспомогательные функцию <code>upd</code>, которую будем вызывать при обновлении детей вершины.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> sum (Node* v) { <span class="kw">return</span> v ? v-&gt;sum : <span class="dv">0</span>; }
-<span class="co">// обращаться по пустому указателю нельзя -- выдаст ошибку</span>
-
-<span class="dt">void</span> upd (Node* v) { v-&gt;sum = sum(v-&gt;l) + sum(v-&gt;r) + v-&gt;val; }</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="dt">void</span> sum (Node* v) { <span class="cf">return</span> v ? v-&gt;sum : <span class="dv">0</span>; }</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">// обращаться по пустому указателю нельзя -- выдаст ошибку</span></a>
+<a class="sourceLine" id="cb6-3" title="3"></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="dt">void</span> upd (Node* v) { v-&gt;sum = sum(v-&gt;l) + sum(v-&gt;r) + v-&gt;val; }</a></code></pre></div>
 <p>В <code>merge</code> и <code>split</code> теперь можно просто вызывать <code>upd</code> перед тем, как вернуть вершину, и тогда ничего не сломается:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Node* merge (Node *l, Node *r) {
-    <span class="co">// ...</span>
-    <span class="kw">if</span> (...) {
-        l-&gt;r = merge(l-&gt;r, r);
-        upd(l);
-        <span class="kw">return</span> l;
-    }
-    <span class="kw">else</span> {
-        <span class="co">// ...</span>
-    }
-}</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> pair&lt;Node*, Node*&gt; Pair;
-
-Pair split (Node *p, <span class="dt">int</span> x) {
-    <span class="co">// ...</span>
-    <span class="kw">if</span> (...) {
-        <span class="co">// ...</span>
-        upd(p);
-        <span class="kw">return</span> {p, q.second};
-    }
-    <span class="kw">else</span> {
-        <span class="co">// ...</span>
-    }
-}</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1">Node* merge (Node *l, Node *r) {</a>
+<a class="sourceLine" id="cb7-2" title="2">    <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb7-3" title="3">    <span class="cf">if</span> (...) {</a>
+<a class="sourceLine" id="cb7-4" title="4">        l-&gt;r = merge(l-&gt;r, r);</a>
+<a class="sourceLine" id="cb7-5" title="5">        upd(l);</a>
+<a class="sourceLine" id="cb7-6" title="6">        <span class="cf">return</span> l;</a>
+<a class="sourceLine" id="cb7-7" title="7">    }</a>
+<a class="sourceLine" id="cb7-8" title="8">    <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb7-9" title="9">        <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb7-10" title="10">    }</a>
+<a class="sourceLine" id="cb7-11" title="11">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">typedef</span> pair&lt;Node*, Node*&gt; Pair;</a>
+<a class="sourceLine" id="cb8-2" title="2"></a>
+<a class="sourceLine" id="cb8-3" title="3">Pair split (Node *p, <span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb8-4" title="4">    <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb8-5" title="5">    <span class="cf">if</span> (...) {</a>
+<a class="sourceLine" id="cb8-6" title="6">        <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb8-7" title="7">        upd(p);</a>
+<a class="sourceLine" id="cb8-8" title="8">        <span class="cf">return</span> {p, q.second};</a>
+<a class="sourceLine" id="cb8-9" title="9">    }</a>
+<a class="sourceLine" id="cb8-10" title="10">    <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb8-11" title="11">        <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb8-12" title="12">    }</a>
+<a class="sourceLine" id="cb8-13" title="13">}</a></code></pre></div>
 <p>Тогда при запросе суммы нужно просто вырезать нужный отрезок и запросить эту сумму:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> sum (<span class="dt">int</span> l, <span class="dt">int</span> r) {
-    Pair rq = split(root, r);
-    Pair lq = split(rq.first, l);
-    <span class="dt">int</span> res = sum(lr.second);
-    root = merge(lq.first, merge(lq.second, rq.second));
-    <span class="kw">return</span> res;
-}</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" title="1"><span class="dt">int</span> sum (<span class="dt">int</span> l, <span class="dt">int</span> r) {</a>
+<a class="sourceLine" id="cb9-2" title="2">    Pair rq = split(root, r);</a>
+<a class="sourceLine" id="cb9-3" title="3">    Pair lq = split(rq.first, l);</a>
+<a class="sourceLine" id="cb9-4" title="4">    <span class="dt">int</span> res = sum(lr.second);</a>
+<a class="sourceLine" id="cb9-5" title="5">    root = merge(lq.first, merge(lq.second, rq.second));</a>
+<a class="sourceLine" id="cb9-6" title="6">    <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb9-7" title="7">}</a></code></pre></div>
 <h2 id="неявный-ключ">Неявный ключ</h2>
 <p>Обычное декартово дерево — это структура для множеств, каждый элемент которых имеет какой-то ключ. Эти ключи задают на этом множестве какой-то порядок, и все запросы к ДД обычно как-то привязаны к этому порядку.</p>
 <p>Но что, если у нас есть запросы, которые этот порядок как-то нетривиально меняют? Например, если у нас есть массив, в котором нужно уметь выводить сумму на произвольном отрезке и «переворачивать» произвольный отрезок. Если бы не было второй операции, мы бы просто использовали индекс элемента в качестве ключа, но с операцией переворота нет способа их быстро поддерживать актуальными.</p>
 <p>Решение такое: выкинем ключи, а вместо них будем поддерживать информацию, которая поможет неявно восстановить ключ, когда он нам будет нужен. А именно, будем хранить вместе с каждой вершиной размер её поддерева:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Node {
-    <span class="dt">int</span> key, prior, size = <span class="dv">1</span>;
-    <span class="co">//              ^ размер поддерева</span>
-    Node *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;
-    Node (<span class="dt">int</span> _key) { key = _key, prior = rand(); }
-};</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">struct</span> Node {</a>
+<a class="sourceLine" id="cb10-2" title="2">    <span class="dt">int</span> key, prior, size = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb10-3" title="3">    <span class="co">//              ^ размер поддерева</span></a>
+<a class="sourceLine" id="cb10-4" title="4">    Node *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb10-5" title="5">    Node (<span class="dt">int</span> _key) { key = _key, prior = rand(); }</a>
+<a class="sourceLine" id="cb10-6" title="6">};</a></code></pre></div>
 <p>Размеры поддеревьев будем поддерживать по аналогии с суммой — напишем вспомогательную функцию, которую будем вызывать после каждого структурного изменения вершины.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> size (Node *v) { <span class="kw">return</span> v ? v-&gt;size : <span class="dv">0</span>; }
-
-<span class="dt">void</span> upd (Node *v) { v-&gt;size = <span class="dv">1</span> + size(v-&gt;l) + size(v-&gt;r); }</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb11-1" title="1"><span class="dt">int</span> size (Node *v) { <span class="cf">return</span> v ? v-&gt;size : <span class="dv">0</span>; }</a>
+<a class="sourceLine" id="cb11-2" title="2"></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="dt">void</span> upd (Node *v) { v-&gt;size = <span class="dv">1</span> + size(v-&gt;l) + size(v-&gt;r); }</a></code></pre></div>
 <p><code>merge</code> не меняется, а вот в <code>split</code> нужно использовать позицию корня вместо его ключа.</p>
-<p>Про <code>split</code> теперь удобнее думать как &quot;вырежи первые <code>k</code> элементов&quot;.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> pair&lt;Node*, Node*&gt; Pair;
-
-Pair split (Node *p, <span class="dt">int</span> k) {
-    <span class="kw">if</span> (!p) <span class="kw">return</span> {<span class="dv">0</span>, <span class="dv">0</span>};
-    <span class="kw">if</span> (size(p-&gt;l) + <span class="dv">1</span> &lt;= k) {
-        Pair q = split(p-&gt;r, k - size(p-&gt;l) - <span class="dv">1</span>);
-        <span class="co">//                   ^ правый сын не знает количество вершин слева от него</span>
-        p-&gt;r = q.first;
-        upd(p);
-        <span class="kw">return</span> {p, q.second};
-    }
-    <span class="kw">else</span> {
-        Pair q = split(p-&gt;l, k);
-        p-&gt;l = q.second;
-        upd(p);
-        <span class="kw">return</span> {q.first, p};
-    }
-}</code></pre></div>
+<p>Про <code>split</code> теперь удобнее думать как “вырежи первые <code>k</code> элементов”.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">typedef</span> pair&lt;Node*, Node*&gt; Pair;</a>
+<a class="sourceLine" id="cb12-2" title="2"></a>
+<a class="sourceLine" id="cb12-3" title="3">Pair split (Node *p, <span class="dt">int</span> k) {</a>
+<a class="sourceLine" id="cb12-4" title="4">    <span class="cf">if</span> (!p) <span class="cf">return</span> {<span class="dv">0</span>, <span class="dv">0</span>};</a>
+<a class="sourceLine" id="cb12-5" title="5">    <span class="cf">if</span> (size(p-&gt;l) + <span class="dv">1</span> &lt;= k) {</a>
+<a class="sourceLine" id="cb12-6" title="6">        Pair q = split(p-&gt;r, k - size(p-&gt;l) - <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb12-7" title="7">        <span class="co">//                   ^ правый сын не знает количество вершин слева от него</span></a>
+<a class="sourceLine" id="cb12-8" title="8">        p-&gt;r = q.first;</a>
+<a class="sourceLine" id="cb12-9" title="9">        upd(p);</a>
+<a class="sourceLine" id="cb12-10" title="10">        <span class="cf">return</span> {p, q.second};</a>
+<a class="sourceLine" id="cb12-11" title="11">    }</a>
+<a class="sourceLine" id="cb12-12" title="12">    <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb12-13" title="13">        Pair q = split(p-&gt;l, k);</a>
+<a class="sourceLine" id="cb12-14" title="14">        p-&gt;l = q.second;</a>
+<a class="sourceLine" id="cb12-15" title="15">        upd(p);</a>
+<a class="sourceLine" id="cb12-16" title="16">        <span class="cf">return</span> {q.first, p};</a>
+<a class="sourceLine" id="cb12-17" title="17">    }</a>
+<a class="sourceLine" id="cb12-18" title="18">}</a></code></pre></div>
 <p>Всё. Теперь у нас есть клёвая гибкая структура, которую можно резать как угодно.</p>
 <h3 id="пример-ctrlx-ctrlv">Пример: ctrl+x, ctrl+v</h3>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Node* ctrlx (<span class="dt">int</span> l, <span class="dt">int</span> r) {
-    Pair q1 = split(root, r);
-    Pair q2 = split(q1.first, l);
-    root = merge(q2.first, q1.second);
-    <span class="kw">return</span> q2.second;
-}</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> ctrlv (Node *v, <span class="dt">int</span> k) {
-    Pair q = split(root, k);
-    root = merge(q.first, merge(v, q.second));
-}</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb13-1" title="1">Node* ctrlx (<span class="dt">int</span> l, <span class="dt">int</span> r) {</a>
+<a class="sourceLine" id="cb13-2" title="2">    Pair q1 = split(root, r);</a>
+<a class="sourceLine" id="cb13-3" title="3">    Pair q2 = split(q1.first, l);</a>
+<a class="sourceLine" id="cb13-4" title="4">    root = merge(q2.first, q1.second);</a>
+<a class="sourceLine" id="cb13-5" title="5">    <span class="cf">return</span> q2.second;</a>
+<a class="sourceLine" id="cb13-6" title="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb14-1" title="1"><span class="dt">void</span> ctrlv (Node *v, <span class="dt">int</span> k) {</a>
+<a class="sourceLine" id="cb14-2" title="2">    Pair q = split(root, k);</a>
+<a class="sourceLine" id="cb14-3" title="3">    root = merge(q.first, merge(v, q.second));</a>
+<a class="sourceLine" id="cb14-4" title="4">}</a></code></pre></div>
 <h3 id="пример-переворот">Пример: переворот</h3>
 <p>Нужно за <span class="math inline">\(O(\log n)\)</span> обрабатывать запросы переворота произвольных подстрок: значение <span class="math inline">\(a_l\)</span> поменять с <span class="math inline">\(a_r\)</span>, <span class="math inline">\(a_{l+1}\)</span> поменять с <span class="math inline">\(a_{r-1}\)</span> и т. д.</p>
 <p>Будем хранить в кажой вершине флаг, который будет означать, что её подотрезок перевернут:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Node {
-    <span class="dt">bool</span> rev;
-    <span class="co">// ...</span>
-};</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">struct</span> Node {</a>
+<a class="sourceLine" id="cb15-2" title="2">    <span class="dt">bool</span> rev;</a>
+<a class="sourceLine" id="cb15-3" title="3">    <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb15-4" title="4">};</a></code></pre></div>
 <p>Поступим по аналогии с ДО — когда мы когда-либо встретим такую вершину, мы поменяем ссылки на её детей, а им самим передадим эту метку:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> push (node *v) {
-    <span class="kw">if</span> (v-&gt;rev) {
-        swap(v-&gt;l, v-&gt;r);
-        <span class="kw">if</span> (v-&gt;l)
-            v-&gt;rev ^= <span class="dv">1</span>;
-        <span class="kw">if</span> (v-&gt;r)
-            v-&gt;rev ^= <span class="dv">1</span>;
-    }
-    v-&gt;rev = <span class="dv">0</span>;
-}</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb16-1" title="1"><span class="dt">void</span> push (node *v) {</a>
+<a class="sourceLine" id="cb16-2" title="2">    <span class="cf">if</span> (v-&gt;rev) {</a>
+<a class="sourceLine" id="cb16-3" title="3">        swap(v-&gt;l, v-&gt;r);</a>
+<a class="sourceLine" id="cb16-4" title="4">        <span class="cf">if</span> (v-&gt;l)</a>
+<a class="sourceLine" id="cb16-5" title="5">            v-&gt;rev ^= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb16-6" title="6">        <span class="cf">if</span> (v-&gt;r)</a>
+<a class="sourceLine" id="cb16-7" title="7">            v-&gt;rev ^= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb16-8" title="8">    }</a>
+<a class="sourceLine" id="cb16-9" title="9">    v-&gt;rev = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb16-10" title="10">}</a></code></pre></div>
 <p>Аналогично, эту функцию будем вызывать в начале <code>merge</code> и <code>split</code>.</p>
 <p>Саму функцию <code>reverse</code> реализуем так: вырезать нужный отрезок, поменять флаг.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> reverse (<span class="dt">int</span> l, <span class="dt">int</span> r) {
-    Pair q1 = split(root, r);
-    Pair q2 = split(q1.first, l)
-    q2.second-&gt;rev ^= <span class="dv">1</span>;
-    root = merge(q2.first, merge(q2.second, q1.second));
-}</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb17-1" title="1"><span class="dt">void</span> reverse (<span class="dt">int</span> l, <span class="dt">int</span> r) {</a>
+<a class="sourceLine" id="cb17-2" title="2">    Pair q1 = split(root, r);</a>
+<a class="sourceLine" id="cb17-3" title="3">    Pair q2 = split(q1.first, l)</a>
+<a class="sourceLine" id="cb17-4" title="4">    q2.second-&gt;rev ^= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb17-5" title="5">    root = merge(q2.first, merge(q2.second, q1.second));</a>
+<a class="sourceLine" id="cb17-6" title="6">}</a></code></pre></div>
 <h3 id="небольшой-рефакторинг">Небольшой рефакторинг</h3>
 <p>Реализация большинства операций всегда примерно одинаковая — вырезаем отрезок с <span class="math inline">\(l\)</span> по <span class="math inline">\(r\)</span>, что-то с ним делаем и склеиваем обратно.</p>
 <p>Дублирующийся код — это плохо. Давайте используем всю мощь плюсов и определим функцию, которая принимает другую функцию, которая уже делает полезные вещи на нужном отрезке.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">auto</span> apply (<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="kw">auto</span> f) {
-    Pair q1 = split(root, r);
-    Pair q2 = split(q1.first, l)
-    q2.second = f(q2.second);
-    root = merge(q2.first, merge(q2.second, q1.second));
-}
-
-<span class="dt">void</span> reverse (Node *v) {
-    <span class="kw">if</span> (v)
-        v-&gt;rev ^= <span class="dv">1</span>;
-}</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">auto</span> apply (<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="kw">auto</span> f) {</a>
+<a class="sourceLine" id="cb18-2" title="2">    Pair q1 = split(root, r);</a>
+<a class="sourceLine" id="cb18-3" title="3">    Pair q2 = split(q1.first, l)</a>
+<a class="sourceLine" id="cb18-4" title="4">    q2.second = f(q2.second);</a>
+<a class="sourceLine" id="cb18-5" title="5">    root = merge(q2.first, merge(q2.second, q1.second));</a>
+<a class="sourceLine" id="cb18-6" title="6">}</a>
+<a class="sourceLine" id="cb18-7" title="7"></a>
+<a class="sourceLine" id="cb18-8" title="8"><span class="dt">void</span> reverse (Node *v) {</a>
+<a class="sourceLine" id="cb18-9" title="9">    <span class="cf">if</span> (v)</a>
+<a class="sourceLine" id="cb18-10" title="10">        v-&gt;rev ^= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb18-11" title="11">}</a></code></pre></div>
 <p>Применять её нужно так:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">apply(l, r, reverse);</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb19-1" title="1">apply(l, r, reverse);</a></code></pre></div>
 <p>Это работает в плюсах, начиная с <code>g++14</code>.</p>
 <p>Для простых операций можно даже написать лямбду:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">apply(l, r, [](Node *v){
-    <span class="kw">if</span> (v)
-        v-&gt;rev ^= <span class="dv">1</span>;
-});</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb20-1" title="1">apply(l, r, [](Node *v){</a>
+<a class="sourceLine" id="cb20-2" title="2">    <span class="cf">if</span> (v)</a>
+<a class="sourceLine" id="cb20-3" title="3">        v-&gt;rev ^= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb20-4" title="4">});</a></code></pre></div>
 <h2 id="персистентность">Персистентность</h2>
 <p>Так же, как и с ДО, персистентной версией ДД можно решать очень интересные задачи.</p>
 <blockquote>
@@ -334,12 +367,12 @@ Pair split (Node *p, <span class="dt">int</span> k) {
 <p>Можно в вершинах хранить <strong>полиномиальный хэш</strong> соответствующей подстроки. Тогда мы можем проверять равенство подстрок сравниванием хэшей вершин, полученных теми же двумя сплитами.</p>
 <p>Чтобы полноценно сравнивать стоки лексикографически, можно применить бинарный поиск: перебрать длину совпадающего суффикса, и, когда она найдется, посмотреть на следующий символ.</p>
 <p>Реализация почти такая же, как и для всех персистентных структур на ссылках — перед тем, как идти в какую-то вершину, нужно создать её копию и идти в неё. Создадим для этого вспомогательную функцию <code>copy</code>:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Node* copy (Node *v) { <span class="kw">return</span> <span class="kw">new</span> Node(*v); }</code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb21-1" title="1">Node* copy (Node *v) { <span class="cf">return</span> <span class="kw">new</span> Node(*v); }</a></code></pre></div>
 <p>Во всех методах мы будем начинать с копирования всех упоминаемых в ней вершин. Например, персистентный <code>split</code> начнётся так:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Pair split (Node *p, <span class="dt">int</span> x) {
-    p = copy(p);
-    <span class="co">// ...</span>
-}</code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb22-1" title="1">Pair split (Node *p, <span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb22-2" title="2">    p = copy(p);</a>
+<a class="sourceLine" id="cb22-3" title="3">    <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb22-4" title="4">}</a></code></pre></div>
 <p>В ДО просто создавать копии вершин было достаточно. Этого обычно достаточно для всех детерминированных структур данных, но в ДД всё сложнее. Оказывается существует тест, который «валит» приоритеты: можно раскопировать много версий одной вершины, а все остальные — удалить. Тогда у всех вершин будет один и тот же приоритет, и дерево превратится в «бамбук», в котором все операции будут работать за линию.</p>
 <p>У этой проблемы есть очень элегантное решение — избавиться от приоритетов, и делать теперь следующее переподвешивание: если размер левого дерева равен <span class="math inline">\(L\)</span>, а размер правого <span class="math inline">\(R\)</span>, то будем подвешивать за левое с вероятностью <span class="math inline">\(\frac{L}{L+R}\)</span>, иначе за правое.</p>
 <p><strong>Теорема</strong>. Такое переподвешивание эквивалентно приоритетам.</p>
@@ -349,17 +382,17 @@ Pair split (Node *p, <span class="dt">int</span> k) {
 <li>Переход индукции — операция <code>merge</code>. Любая вершина левого дерева была корнем с вероятностью <span class="math inline">\(\frac{1}{L}\)</span> (по предположению индукции), а после слияния она будет корнем всего дерева с вероятностью <span class="math inline">\(\frac{1}{L} \cdot \frac{L}{L+R} = \frac{1}{L+R}\)</span>. С вершинами правого дерева аналогично.</li>
 </ul>
 <p>Получается, что при таком переподвешивании всё так же каждая вершина любого поддерева равновероятно могла быть его корнем, а на этом основывалось наше доказательство асимптотики ДД.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Node* merge (Node *l, Node *r) {
-    <span class="kw">if</span> (!l) <span class="kw">return</span> r;
-    <span class="kw">if</span> (!r) <span class="kw">return</span> l;
-    l = copy(l), r = copy(r);
-    <span class="kw">if</span> (rand() % (size(l) + size(r)) &lt; size(l)) {
-        <span class="co">// ...</span>
-    }
-    <span class="kw">else</span> {
-        <span class="co">// ...</span>
-    }
-}</code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb23-1" title="1">Node* merge (Node *l, Node *r) {</a>
+<a class="sourceLine" id="cb23-2" title="2">    <span class="cf">if</span> (!l) <span class="cf">return</span> r;</a>
+<a class="sourceLine" id="cb23-3" title="3">    <span class="cf">if</span> (!r) <span class="cf">return</span> l;</a>
+<a class="sourceLine" id="cb23-4" title="4">    l = copy(l), r = copy(r);</a>
+<a class="sourceLine" id="cb23-5" title="5">    <span class="cf">if</span> (rand() % (size(l) + size(r)) &lt; size(l)) {</a>
+<a class="sourceLine" id="cb23-6" title="6">        <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb23-7" title="7">    }</a>
+<a class="sourceLine" id="cb23-8" title="8">    <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb23-9" title="9">        <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb23-10" title="10">    }</a>
+<a class="sourceLine" id="cb23-11" title="11">}</a></code></pre></div>
 <p>Философский вопрос: можно ли декартово дерево называть декартовым, если из него удалить и <span class="math inline">\(x\)</span>, и <span class="math inline">\(y\)</span>?</p>
 </body>
 </html>
