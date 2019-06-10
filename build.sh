@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 cp -r src/img web/
 mkdir -p web/{ru,en}
 cd src
