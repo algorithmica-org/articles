@@ -37,6 +37,18 @@ body {
   padding-bottom: 25px;
 }
 
+.contents {
+    position: inline-block;
+    float: left;
+    width: 33.3%;
+    text-align: left;
+}
+
+.contents ul {
+    padding-left: 22px;
+    margin-top: 5px;
+}
+
 a {
   color: #0645ad;
   text-decoration: none;
