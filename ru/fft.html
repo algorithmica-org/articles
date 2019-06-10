@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>БПФ и многочлены</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">БПФ и многочлены</h1>
+</header>
+<h1 id="бпф-и-многочлены">БПФ и многочлены</h1>
+<p>Рассмотрим такую распространённую операцию как умножение двух целых чисел. Квадратичный алгоритм — умножения в столбик — все знают со школы. Долгое время предполагалось, что ничего быстрее придумать нельзя.</p>
+<p>Первым эту гипотезу опроверг Анатолий Карацуба. Его <a href="https://algorithmica.org/karatsuba">алгоритм</a> сводит умножение двух <span class="math inline">\(n\)</span>-значиных чисел к трём умножениям <span class="math inline">\(\frac{n}{2}\)</span>-значных чисел, что даёт оценку времени работы</p>
+<p><span class="math display">\[
+T(n)=3T\left(\dfrac n 2\right)+O(n)=O\left(n^{\log_2 3}\right)\approx O(n^{1.58})
+\]</span></p>
+<p>Чтобы перейти к алгоритму с лучшей оценкой, нам нужно сначала установить несколько фактов о многочленах.</p>
+<h2 id="умножение-многочленов">Умножение многочленов</h2>
+<p>Обратим внимание на то, что любое число можно представить многочленом:</p>
+<p><span class="math display">\[
+\begin{aligned}
+A(x) &amp;= a_0 + a_1\cdot x + a_2 \cdot x^2  + \dots + a_n \cdot x^n
+\\   &amp;= a_0 + a_1\cdot 2 + a_2 \cdot 2^2 + \dots + a_n \cdot 2^n
+\end{aligned}
+\]</span></p>
+<p>Основание x при этом может быть выбрано произвольно.</p>
+<p>Чтобы перемножить два числа, мы можем перемножить соответствующие им многочлены, а затем произвести каррирование: пройтись от нижних разрядов получившегося многочлена и «сдвинуть» переполнившиеся разряды:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> base = <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3">vector&lt;<span class="dt">int</span>&gt; normalize(vector&lt;<span class="dt">int</span>&gt; a) {</a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> carry = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> &amp;x : a) {</a>
+<a class="sourceLine" id="cb1-6" title="6">        x += carry;</a>
+<a class="sourceLine" id="cb1-7" title="7">        carry = x / base;</a>
+<a class="sourceLine" id="cb1-8" title="8">        x %= base;</a>
+<a class="sourceLine" id="cb1-9" title="9">    }</a>
+<a class="sourceLine" id="cb1-10" title="10">    <span class="cf">while</span> (carry &gt; <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb1-11" title="11">        a.push_back(carry % base);</a>
+<a class="sourceLine" id="cb1-12" title="12">        carry /= base;</a>
+<a class="sourceLine" id="cb1-13" title="13">    }</a>
+<a class="sourceLine" id="cb1-14" title="14">    <span class="cf">return</span> a;</a>
+<a class="sourceLine" id="cb1-15" title="15">}</a>
+<a class="sourceLine" id="cb1-16" title="16"></a>
+<a class="sourceLine" id="cb1-17" title="17">vector&lt;<span class="dt">int</span>&gt; multiply(vector&lt;<span class="dt">int</span>&gt; a, vector&lt;<span class="dt">int</span>&gt; b) {</a>
+<a class="sourceLine" id="cb1-18" title="18">    <span class="cf">return</span> normalize(poly_multiply(a, b));</a>
+<a class="sourceLine" id="cb1-19" title="19">}</a></code></pre></div>
+<p>Прямая формула для произведения многочленов имеет вид</p>
+<p><span class="math display">\[
+\left(\sum_{i=0}^n a_i x^i\right)\cdot\left(\sum_{j=0}^m b_j x^j\right)=\sum_{k=0}^{n+m}x^k\sum_{i+j=k}a_i b_j
+\]</span></p>
+<p>Её подсчёт требует <span class="math inline">\(O(n^2)\)</span> операций, что нас не устраивает. Подойдём к этой задаче с другой стороны.</p>
+<h2 id="интерполяция">Интерполяция</h2>
+<p><strong>Теорема.</strong> Пусть есть набор различных точек <span class="math inline">\(x_0, x_1, \dots, x_{n}\)</span>. Многочлен степени <span class="math inline">\(n\)</span> однозначно задаётся своими значениями в этих точках. (Коэффициентов у этого многочлена столько же, сколько и точек — прим. К. О.)</p>
+<p><strong>Доказательство</strong> будет конструктивным — можно явным образом задать многочлен, который принимает заданные значения <span class="math inline">\(y_0, y_1, \ldots, y_n\)</span> в этих точках:</p>
+<p><span class="math display">\[
+y(x)=\sum\limits_{i=0}^{n}y_i\prod\limits_{j\neq i}\dfrac{x-x_j}{x_i-x_j}
+\]</span></p>
+<p><strong>Корректность.</strong> Проверим, что в точке <span class="math inline">\(x_i\)</span> значение действительно будет равно <span class="math inline">\(y\)</span>:</p>
+<ol type="1">
+<li><p>Для <span class="math inline">\(i\)</span>-го слагаемого внутреннее произведение будет равно единице, если вместо <span class="math inline">\(x\)</span> подставить <span class="math inline">\(x_i\)</span>: в этом случае просто перемножается <span class="math inline">\((n-1)\)</span> единица. Эта единица помножится на <span class="math inline">\(y_i\)</span> и войдёт в сумму.</p></li>
+<li><p>Для всех остальных слагаемых произведение занулится: один из множетелей будет равен <span class="math inline">\((x_i - x_i)\)</span>.</p></li>
+</ol>
+<p><strong>Уникальность.</strong> Предположим, есть два подходящих многочлена степени <span class="math inline">\(n\)</span> — <span class="math inline">\(A(x)\)</span> и <span class="math inline">\(B(x)\)</span>. Рассмотрим их разность. В точках <span class="math inline">\(x_i\)</span> значение получившегося многочлена <span class="math inline">\(A(x) - B(x)\)</span> будет равняться нулю. Если так, то точки <span class="math inline">\(x_i\)</span> должны являться его корнями, и тогда разность можно записать так:</p>
+<p><span class="math display">\[
+A(x) - B(x) = \alpha \prod_{i=0}^n (x-x_i)
+\]</span></p>
+<p>для какого-то числа <span class="math inline">\(\alpha\)</span>. Тут мы получаем противоречие: если раскрыть это произведение, то получится многочлен степени <span class="math inline">\(n+1\)</span>, который нельзя получить разностью двух многочленов степени <span class="math inline">\(n\)</span>.</p>
+<p>Этот многочлен называется интерполяционным многочленом Лагранжа, а сама задача проведения многочлена через точки — интерполяцией.</p>
+<p><img src="http://mathworld.wolfram.com/images/eps-gif/LagrangeInterpolatingPoly_900.gif" /></p>
+<p><strong>Примечание.</strong> На практике интерполяцию решают методом Гаусса: её можно свести к решению линейного уравнения <span class="math inline">\(aX = y\)</span>, где <span class="math inline">\(X\)</span> это матрица следующего вида:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+    1 &amp; x_0 &amp; x_0^2 &amp; \ldots &amp; x_0^n \\
+    1 &amp; x_1 &amp; x_1^2 &amp; \ldots &amp; x_1^n \\
+    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+    1 &amp; x_n &amp; x_n^2 &amp; \ldots &amp; x_n^n \\
+\end{pmatrix}
+\]</span></p>
+<p>Важный факт: многочлен можно однозначно задать не только своими коэффициентами, но также корнями и значениями хотя бы в <span class="math inline">\((n+1)\)</span>-ой точке.</p>
+<h3 id="умножение-через-интерполяцию">Умножение через интерполяцию</h3>
+<p>Что происходит со значениями многочлена-произведения <span class="math inline">\(A(x) B(x)\)</span> в конкретной точке <span class="math inline">\(x_i\)</span>? Оно просто становится равным <span class="math inline">\(A(x_i) B(x_i)\)</span>.</p>
+<p><strong>Основная идея алгоритма:</strong> если мы знаем значения в каких-то различных <span class="math inline">\(n + m\)</span> точках для обоих многочленов <span class="math inline">\(A\)</span> и <span class="math inline">\(B\)</span>, то, попарно перемножив их, мы за <span class="math inline">\(O(n + m)\)</span> операций можем получить значения в тех же точках для многочлена <span class="math inline">\(A(x) B(x)\)</span> — а с их помощью можно интерполяцией получить исходный многочлен и решить задачу.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1">vector&lt;<span class="dt">int</span>&gt; poly_multiply(vector&lt;<span class="dt">int</span>&gt; a, vector&lt;<span class="dt">int</span>&gt; b) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    vector&lt;<span class="dt">int</span>&gt; A = evaluate(a);</a>
+<a class="sourceLine" id="cb2-3" title="3">    vector&lt;<span class="dt">int</span>&gt; B = evaluate(b);</a>
+<a class="sourceLine" id="cb2-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; A.size(); i++)</a>
+<a class="sourceLine" id="cb2-5" title="5">        A[i] *= B[i];</a>
+<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">return</span> interpolate(A);</a>
+<a class="sourceLine" id="cb2-7" title="7">}</a></code></pre></div>
+<p>Если притвориться, что <code>evaluate</code> и <code>interpolate</code> работают за линейное время, то умножение тоже будет работать за линейное время.</p>
+<p>К сожалению, непосредственное вычисление значений требует <span class="math inline">\(O(n^2)\)</span> операций, а интерполяция — как методом Гаусса, так и через символьное вычисление многочлена Лагранжа — и того больше, <span class="math inline">\(O(n^3)\)</span>.</p>
+<p>Но что, если бы мы могли вычислять значения в точках и делать интерполяцию быстрее?</p>
+<h2 id="ликбез-комплексные-числа">Ликбез: комплексные числа</h2>
+<p><strong>Определение.</strong> <a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%BE">Комплексные числа</a> — это числа вида <span class="math inline">\(a + bi\)</span>, где <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> это обычные вещественные числа, а <span class="math inline">\(i\)</span> это так называемая мнимая единица: это число, для которого выполняется равенство <span class="math inline">\(i^2 = -1\)</span>.</p>
+<p>Комплексные числа ввели в алгебре, чтобы работать с корнями из отрицательных чисел: <span class="math inline">\(i\)</span> в каком-то смысле равно <span class="math inline">\(\sqrt{-1}\)</span>. Так же, как и отрицательные числа, они как бы «не существуют» в реальном мире, а только в сознании математиков.</p>
+<p>С комплексными числами можно работать почти так же, как с действительными. Они даже удобнее: все квадратные корни всегда извлекаются, <a href="https://ru.wikipedia.org/wiki/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D0%B0%D1%8F_%D1%82%D0%B5%D0%BE%D1%80%D0%B5%D0%BC%D0%B0_%D0%B0%D0%BB%D0%B3%D0%B5%D0%B1%D1%80%D1%8B">все корни многочленов всегда находятся</a>.</p>
+<h3 id="комплексная-плоскость">Комплексная плоскость</h3>
+<p>Комплексные числа удобно изображать на плоскости в виде вектора <span class="math inline">\((a, b)\)</span> и считать через них всякую геометрию.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Complex_vector.svg/1920px-Complex_vector.svg.png" /></p>
+<p><strong>Модулем</strong> комплексного числа называется действительное число <span class="math inline">\(r = \sqrt{a^2 + b^2}\)</span> . Геометрически, это длина вектора <span class="math inline">\((a, b)\)</span>.</p>
+<p><strong>Аргументом</strong> комплексного числа называется действительное число <span class="math inline">\(\phi \in (-\pi, \pi]\)</span>, для которого выполнено <span class="math inline">\(\tg \phi = \frac{b}{a}\)</span>. Геометрически, это значение угла между <span class="math inline">\((a, 0)\)</span> и <span class="math inline">\((a, b)\)</span>. Для нуля — вектора <span class="math inline">\((0, 0)\)</span> — аргумент не определён.</p>
+<p>Таким образом комплексное число можно представить в полярных координатах:</p>
+<p><span class="math display">\[
+a+bi = r ( \cos \phi + i \sin \phi )
+\]</span></p>
+<p>Подобное представление удобно по следующей причине: чтобы перемножить два комплексных числа, нужно перемножить их модули и сложить аргументы.</p>
+<p><strong>Упражнение.</strong> Докажите это.</p>
+<h3 id="формула-эйлера">Формула эйлера</h3>
+<p><strong>Определим</strong> число Эйлера <span class="math inline">\(e\)</span> как число со следующим свойством:</p>
+<p><span class="math display">\[
+e^{i\phi} = \cos \phi + i \sin \phi
+\]</span></p>
+<p>Просто введём такую нотацию для выражения <span class="math inline">\(\cos \phi + i \sin \phi\)</span>. Не надо думать, почему это так.</p>
+<p>Геометрически, все такие точки живут на единичном круге:</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/ParameterizedCircle-2.svg/1920px-ParameterizedCircle-2.svg.png" /></p>
+<p>Такая нотация удобна, потому что можно обращаться с <span class="math inline">\(e^{i\phi}\)</span> как с обычной экспонентой. Пусть мы, например, хотим перемножить два числа на единичном круге с аргументами <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>. Тогда это можно записать так:</p>
+<p><span class="math display">\[
+(\cos a + i \sin a) \cdot (\cos b + i \sin b) = e^{i (a+b)}
+\]</span></p>
+<p><strong>Упражнение.</strong> Проверьте это: раскройте скобки и проделайте немного алгебры.</p>
+<h3 id="корни-из-единицы">Корни из единицы</h3>
+<p>У комплексных чисел есть много других замечательных свойств, но нам для алгоритма на самом деле потребуется только следующее:</p>
+<p><strong>Утверждение.</strong> Для любого натурального <span class="math inline">\(n\)</span> есть ровно <span class="math inline">\(n\)</span> комплексных «корней из единицы», то есть чисел <span class="math inline">\(w_k\)</span>, для которых выполнено:</p>
+<p><span class="math display">\[
+w_k^n = 1
+\]</span></p>
+<p>А именно, это будут числа вида:</p>
+<p><span class="math display">\[
+w_k = e^{i \tau \frac{k}{n}}
+\]</span></p>
+<p>где <span class="math inline">\(\tau\)</span> обозначает <span class="math inline">\(2 \pi\)</span>, «целый круг». <a href="https://tauday.com/tau-manifesto">Это довольно новая нотация</a>.</p>
+<p>На комплексной плоскости эти числа располагаются на единичном круге на равном расстоянии друг от друга:</p>
+<figure>
+<img src="https://www.kylem.net/math/242_roots_unity_9.png" alt="Все 9 комплексных корней степени 9 из единицы" /><figcaption>Все 9 комплексных корней степени 9 из единицы</figcaption>
+</figure>
+<p>Первый корень <span class="math inline">\(w_1\)</span> (точнее второй — единицу считаем нулевым корнем) называют образующим корнем степени <span class="math inline">\(n\)</span> из единицы. Возведение его в нулевую, первую, вторую и так далее степени порождает последовательность нужных корней единицы, при этом на <span class="math inline">\(n\)</span>-ном элементе последовательность зацикливается:</p>
+<p><span class="math display">\[
+w_n = e^{i \tau \frac{n}{n}} = e^{i \tau} = e^{i \cdot 0} = w_0 = 1
+\]</span></p>
+<p><strong>Упражнение.</strong> Докажите, что других корней быть не может.</p>
+<h2 id="дискретное-преобразование-фурье">Дискретное преобразование Фурье</h2>
+<p>Дискретным преобразованием Фурье называется вычисление значений многочлена в комплексных корнях из единицы:</p>
+<p><span class="math display">\[
+X_j = \sum_{k=0}^{n-1} x_n e^{i\tau \frac{kj}{n}} 
+\]</span></p>
+<p>Пусть в поле, в котором мы работаем, есть элемент <span class="math inline">\(w\)</span> такой что</p>
+<p>Будем называть его образующим корнем степени <span class="math inline">\(n\)</span> из единицы. Такой элемент обладает очень полезным свойством, на которое мы будем опираться в дальнейшем. Во-первых, все <span class="math inline">\(w^i\)</span> различны для <span class="math inline">\(i\)</span> от <span class="math inline">\(0\)</span> до <span class="math inline">\(k-1\)</span>, во-вторых <span class="math inline">\(w^m=w^{m \bmod n}\)</span>. Значит, степени <span class="math inline">\(w\)</span> образуют группу остатков целых чисел от деления на <span class="math inline">\(n\)</span>. Вычисление значений многочлена в таких точках и называется дискретным преобразованием Фурье.</p>
+<p>Чаще всего, используют такие корни из поля комплексных чисел. Исходя из формулы Эйлера</p>
+<p><span class="math display">\[e^{i\varphi}=\cos\varphi+i\sin\varphi\]</span></p>
+<p>можно заключить, что все они имеют вид <span class="math inline">\(w^k=e^{i\tfrac{2\pi}{n}k}\)</span>. Кроме этого при умножении многочленов с целыми коэффициентами можно использовать корни из единицы в полях остатков по простым модулям, что будет рассмотрено позже.</p>
+<h4 id="схема-кули-тьюки">Схема Кули-Тьюки</h4>
+<p>Представим многочлен в виде <span class="math inline">\(P(x)=A(x^2)+xB(x^2)\)</span>, где <span class="math inline">\(A(x)\)</span> состоит из коэффициентов при чётных степенях <span class="math inline">\(x\)</span>, а <span class="math inline">\(B(x)\)</span> – из коэффициентов при нечётных. Пусть <span class="math inline">\(n=2k\)</span>. Тогда</p>
+<p><span class="math display">\[w^{2t}=w^{2t \bmod 2k}=w^{2(t \bmod k)}\]</span></p>
+<p>Кроме того, что нетрудно проверить, <span class="math inline">\(w^2\)</span> является образующим корнем степени <span class="math inline">\(k\)</span> из единицы. Значит,</p>
+<p><span class="math display">\[P(w^t)=A\left(w^{2(t\bmod k)}\right)+w^tB\left(w^{2(t\bmod k)}\right)\]</span></p>
+<p>Данная формула за <span class="math inline">\(O(n)\)</span> сводит дискретное преобразование размера <span class="math inline">\(n\)</span> к двум дискретным преобразованиям размера <span class="math inline">\(\dfrac n 2\)</span>, следовательно, общее время вычислений с использованием данной формулы составит</p>
+<p><span class="math display">\[T(n)=2T\left(\dfrac n 2\right)+O(n)=O(n\log n)\]</span></p>
+<p>Заметим, что в данной формуле существенную роль играло предположение о делимости <span class="math inline">\(n\)</span> на <span class="math inline">\(2\)</span>. Значит, <span class="math inline">\(n\)</span> должно быть чётным на каждом уровне, кроме последнего, из чего необходимо следует, что <span class="math inline">\(n\)</span> – степень двойки. Приведём код, производящий требуемые вычисления.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">typedef</span> complex&lt;<span class="dt">double</span>&gt; ftype;</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="at">const</span> <span class="dt">double</span> pi = acos(-<span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="kw">template</span>&lt;<span class="kw">typename</span> T&gt;</a>
+<a class="sourceLine" id="cb3-5" title="5">vector&lt;ftype&gt; fft(vector&lt;T&gt; p, ftype w) {</a>
+<a class="sourceLine" id="cb3-6" title="6">    <span class="dt">int</span> n = p.size();</a>
+<a class="sourceLine" id="cb3-7" title="7">    <span class="cf">if</span>(n == <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb3-8" title="8">        <span class="cf">return</span> vector&lt;ftype&gt;(<span class="dv">1</span>, p[<span class="dv">0</span>]);</a>
+<a class="sourceLine" id="cb3-9" title="9">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb3-10" title="10">        vector&lt;T&gt; AB[<span class="dv">2</span>];</a>
+<a class="sourceLine" id="cb3-11" title="11">        <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
+<a class="sourceLine" id="cb3-12" title="12">            AB[i % <span class="dv">2</span>].push_back(p[i]);</a>
+<a class="sourceLine" id="cb3-13" title="13">        }</a>
+<a class="sourceLine" id="cb3-14" title="14">        <span class="kw">auto</span> A = fft(AB[<span class="dv">0</span>], w * w);</a>
+<a class="sourceLine" id="cb3-15" title="15">        <span class="kw">auto</span> B = fft(AB[<span class="dv">1</span>], w * w);</a>
+<a class="sourceLine" id="cb3-16" title="16">        vector&lt;ftype&gt; res(n);</a>
+<a class="sourceLine" id="cb3-17" title="17">        ftype wt = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb3-18" title="18">        <span class="dt">int</span> k = n / <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb3-19" title="19">        <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
+<a class="sourceLine" id="cb3-20" title="20">            res[i] = A[i % k] + wt * B[i % k];</a>
+<a class="sourceLine" id="cb3-21" title="21">            wt *= w;</a>
+<a class="sourceLine" id="cb3-22" title="22">        }</a>
+<a class="sourceLine" id="cb3-23" title="23">        <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb3-24" title="24">    }</a>
+<a class="sourceLine" id="cb3-25" title="25">}</a>
+<a class="sourceLine" id="cb3-26" title="26"></a>
+<a class="sourceLine" id="cb3-27" title="27">vector&lt;ftype&gt; evaluate(vector&lt;<span class="dt">int</span>&gt; p) {</a>
+<a class="sourceLine" id="cb3-28" title="28">    <span class="cf">while</span>(<span class="fu">__builtin_popcount</span>(p.size()) != <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb3-29" title="29">        p.push_back(<span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb3-30" title="30">    } <span class="co">// p.size() has to be the power of 2</span></a>
+<a class="sourceLine" id="cb3-31" title="31">    <span class="cf">return</span> fft(p, polar(<span class="fl">1.</span>, <span class="dv">2</span> * pi / p.size()));</a>
+<a class="sourceLine" id="cb3-32" title="32">}</a></code></pre></div>
+<h4 id="обратное-преобразование">Обратное преобразование</h4>
+<p>После того, как мы посчитали требуемые значения и попарно умножили значения первого многочлена на значения второго, нужно сделать обратное преобразование. Можно заметить, что все действия, которые мы совершали при прямом преобразовании были обратимы и можно просто проделывать обратные операции перед заходом в рекурсию.</p>
+<p>Но есть ещё более простой способ. При вычислении мы фактически применяем матрицу к вектору:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+w^0 &amp; w^0 &amp; w^0 &amp; w^0 &amp; \dots &amp; w^0 \\
+w^0 &amp; w^1 &amp; w^2 &amp; w^3 &amp; \dots &amp; w^{-1} \\
+w^0 &amp; w^2 &amp; w^4 &amp; w^6 &amp; \dots &amp; w^{-2} \\
+w^0 &amp; w^3 &amp; w^6 &amp; w^9 &amp; \dots &amp; w^{-3} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+w^0 &amp; w^{-1} &amp; w^{-2} &amp; w^{-3} &amp; \dots &amp; w^1
+\end{pmatrix}\begin{pmatrix} a_0 \\ a_1 \\ a_2 \\ a_3 \\ \vdots \\ a_{n-1}
+\end{pmatrix} = \begin{pmatrix} y_0 \\ y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_{n-1}
+\end{pmatrix}
+\]</span></p>
+<p>Рассмотрим сумму <span class="math inline">\(\sum\limits_{k=0}^{n-1}(w^i w^j)^k=\sum\limits_{k=0}^{n-1} w^{(i+j)k}\)</span>. Любое число вида <span class="math inline">\(w^i\)</span> удовлетворяет</p>
+<p><span class="math display">\[
+w^n=1 \implies 1-w^n=(1-w)(1+w+w^2+\dots+w^{n-1})=0
+\]</span></p>
+<p>Значит,</p>
+<p><span class="math display">\[
+\sum\limits_{i=0}^{n-1}(w^{i})^k=\let\@ifnextchar\new@ifnextchar
+ \left\lbrace\def\arraystretch{1.2}%
+ \array{@{}l*{2}{@{\quad}l}@{}}
+n,&amp; i=0 \\0,&amp;i\neq 0
+\endarray\right.\kern-\nulldelimiterspace
+\]</span></p>
+<p>Поэтому означенная сумма равна <span class="math inline">\(n\)</span> если <span class="math inline">\(i+j=0\)</span> или <span class="math inline">\(0\)</span> в противном случае. Отсюда следует, что</p>
+<p><span class="math display">\[
+\dfrac 1 n\begin{pmatrix}
+w^0 &amp; w^0 &amp; w^0 &amp; w^0 &amp; \dots &amp; w^0 \\
+w^0 &amp; w^{-1} &amp; w^{-2} &amp; w^{-3} &amp; \dots &amp; w^{1} \\
+w^0 &amp; w^{-2} &amp; w^{-4} &amp; w^{-6} &amp; \dots &amp; w^{2} \\
+w^0 &amp; w^{-3} &amp; w^{-6} &amp; w^{-9} &amp; \dots &amp; w^{3} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+w^0 &amp; w^{1} &amp; w^{2} &amp; w^{3} &amp; \dots &amp; w^{-1}
+\end{pmatrix}
+\]</span></p>
+<p>Это обратная матрицей к той, на которую мы умножаем при прямом преобразовании. Значит, при обратном преобразовании мы должны посчитать преобразование Фурье от <span class="math inline">\(w^{-1}\)</span> и разделить на <span class="math inline">\(n\)</span>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1">vector&lt;<span class="dt">int</span>&gt; interpolate(vector&lt;ftype&gt; p) {</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="dt">int</span> n = p.size();</a>
+<a class="sourceLine" id="cb4-3" title="3">    <span class="kw">auto</span> inv = fft(p, polar(<span class="fl">1.</span>, -<span class="dv">2</span> * pi / n));</a>
+<a class="sourceLine" id="cb4-4" title="4">    vector&lt;<span class="dt">int</span>&gt; res(n);</a>
+<a class="sourceLine" id="cb4-5" title="5">    <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
+<a class="sourceLine" id="cb4-6" title="6">        res[i] = round(real(inv[i]) / n);</a>
+<a class="sourceLine" id="cb4-7" title="7">    }</a>
+<a class="sourceLine" id="cb4-8" title="8">    <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb4-9" title="9">}</a></code></pre></div>
+<p>Пройденный к этому моменту путь позволяет перемножить два числа за <span class="math inline">\(O(n \log n)\)</span>.</p>
+<p><strong>Примечание.</strong> Приведённый выше код, являясь корректным и имея асимптотику <span class="math inline">\(O(n\log n)\)</span>, едва ли пригоден для использования на реальных контестах. Он имеет большую константу и далеко не так численно устойчивый, чем оптимальные варианты написания быстрого преобразования Фурье. Мы его приводим, потому что он относительно простой.</p>
+<p>Читателю рекомендуется самостоятельно задуматься о том, как можно улучшить время работы и точность вычислений. Из наиболее важных недостатков:</p>
+<ul>
+<li><p>внутри преобразования не должно происходить выделений памяти</p></li>
+<li><p>работать желательно с указателями, а не векторами</p></li>
+<li><p>корни из единицы должны быть посчитаны наперёд</p></li>
+<li><p>Следует избавиться от операций взятия остатка по модулю</p></li>
+<li><p>Вместо вычисления преобразования с <span class="math inline">\(w^{-1}\)</span> можно вычислить преобразование с <span class="math inline">\(w\)</span>, а затем развернуть элементы массива со второго по последний.</p></li>
+</ul>
+<p><a href="https://ideone.com/whaSln">Здесь</a> приведена одна из условно пригодных реализаций.</p>
+<h1 id="применения-и-вариации-преобразования">Применения и вариации преобразования</h1>
+<h4 id="свёртки-и-корреляции">Свёртки и корреляции</h4>
+<p>Пусть есть <span class="math inline">\(\{a_i\}_{i=0}^{n}\)</span> и <span class="math inline">\(\{b_j\}_{j=0}^{m}\)</span>. Тогда свёрткой называют <span class="math inline">\(\{c_k\}_{k=0}^{m+n}\)</span>:</p>
+<p><span class="math display">\[c_k=\sum\limits_{i=0}^{n} a_i b_{k-i}\]</span></p>
+<p>Как мы видим, это просто <span class="math inline">\(k\)</span>-ый коэффициент из произведения. Корреляцией же называют <span class="math inline">\(\{d_k\}_{-n}^{m}\)</span>:</p>
+<p><span class="math display">\[d_k=\sum\limits_{i=0}^{n} a_i b_{k+i}\]</span></p>
+<p>В обоих случаях мы предполагаем, что вне допустимых индексов последовательности равны нулям. Корреляцию можно интерпретировать двумя способами. С одной стороны, это коэффициент в произведении <span class="math inline">\(A(x) \cdot B(x^{-1})\)</span>, т.е. сдвинутая свёртка первой последовательности и развёрнутой второй. С другой стороны, <span class="math inline">\(d_k\)</span> – в точности скалярное произведение последовательности <span class="math inline">\(a_i\)</span> и отрезка последовательности <span class="math inline">\(b_j\)</span>, начинающегося в позиции <span class="math inline">\(k\)</span>. Именно свёртка и корреляция являются теми величинами, которые чаще всего нужно считать в задачах на преобразование Фурье.</p>
+<h4 id="преобразование-в-кольце-по-модулю">Преобразование в кольце по модулю</h4>
+<p>Как было сказано выше, помимо комплексных корней из единицы, можно рассматривать корни из единицы в каком-нибудь поле. В данном случае нас интересуют поля остатков по модулю простых чисел. Известно, что в любом таком поле есть образующий элемент – такое число, что его степени пробегают все элементы, кроме нуля.</p>
+<p>Значит, для любого простого <span class="math inline">\(p\)</span> в поле остатков от деления на него есть корень <span class="math inline">\(g\)</span> степени <span class="math inline">\(p-1\)</span> из единицы. Если при этом <span class="math inline">\((p-1)=c\cdot 2^k\)</span>, то <span class="math inline">\(g^{c}\)</span> будет корнем степени <span class="math inline">\(2^k\)</span>, что позволяет применять метод Кули-Тьюки. Отсюда следует, что <span class="math inline">\(p=c\cdot2^k+1\)</span>. Практика показывает, что чисел такого вида очень много.</p>
+<h4 id="chirp-z-transform">Chirp Z-transform</h4>
+<p>Пусть нам дано некоторое число <span class="math inline">\(z\)</span> и мы хотим вычислить значение многочлена в числах вида <span class="math inline">\(\{z^i\}_{i=0}^{n-1}\)</span>, т.е. множество чисел <span class="math inline">\(y_k=\sum\limits_{i=0}^{n-1} a_i z^{ik}\)</span>. Для этого сделаем замену <span class="math inline">\(ik=\dfrac{i^2+k^2-(i-k)^2}{2}\)</span>, после которой получим, что нам нужно вычислить</p>
+<p><span class="math display">\[y_k=z^{\tfrac{k^2}{2}}\sum\limits_{i=0}^{n-1}\left(a_i z^{\tfrac{i^2}{2}}\right)z^{-\tfrac{(i-k)^2}{2}}\]</span></p>
+<p>Что с точностью до множителя <span class="math inline">\(z^{\tfrac{k^2}{2}}\)</span> является свёрткой двух последовательностей</p>
+<p><span class="math display">\[u_i=a_i z^{\tfrac{i^2}{2}},~v_i=z^{-\tfrac{i^2}{2}}\]</span></p>
+<p>Которая считается через произведение многочленов с такими коэффициентами. Но следует учесть, что здесь <span class="math inline">\(v_i\)</span> определена также для отрицательных номеров. Данный метод среди прочего позволяет за <span class="math inline">\(O(n \log n)\)</span> посчитать преобразование Фурье произвольной длины.</p>
+<h4 id="одновременное-преобразование-вещественных-многочленов">Одновременное преобразование вещественных многочленов</h4>
+<p>Пусть есть два многочлена</p>
+<p><span class="math display">\[A(x)=\sum\limits_{i=0}^{n-1} a_i x^i,~B(x)=\sum\limits_{i=0}^{n-1} b_i x^i\]</span></p>
+<p>С вещественными коэффициентами. Рассмотрим <span class="math inline">\(P(x)=A(x)+iB(x)\)</span> и сопряжённый к нему.</p>
+<p><span class="math display">\[\overline{P(w^k)}=A(\overline{w^k})-iB(\overline{w^k})=A(w^{n-k})-iB(w^{n-k})\]</span></p>
+<p>Отсюда следует выражение для преобразования Фурье <span class="math inline">\(A(x)\)</span> и <span class="math inline">\(B(x)\)</span>:</p>
+<p><span class="math display">\[\begin{dcases}
+A(w^k)=\dfrac{P(w^k)+P(w^{n-k})}{2},\\
+B(w^k)=\dfrac{P(w^k)-P(w^{n-k})}{2i}
+\end{dcases}\]</span></p>
+<p>Одновременное преобразование можно произвести и в обратную сторону, рассматривая последовательность <span class="math inline">\(P(w^k)=A(w^k)+iB(w^k)\)</span>. После обратного преобразования мы получим <span class="math inline">\(P(x)=A(x)+iB(x)\)</span>.</p>
+<h4 id="умножение-по-произвольному-модулю">Умножение по произвольному модулю</h4>
+<p>Нам нужно перемножить два многочлена, а затем вывести коэффициенты результата по модулю <span class="math inline">\(M\)</span>, не являющимся подходящим для быстрого преобразования Фурье. При этом достаточно большому, чтобы обычному преобразованию не хватало точности. Для разрешения данной ситуации представим многочлены в виде <span class="math display">\[A(x)=A_1(x)+A_2(x)\cdot 2^k\]</span><span class="math display">\[B(x)=B_1(x)+B_2(x) \cdot 2^k\]</span></p>
+<p>где <span class="math inline">\(2^k \approx \sqrt M\)</span>. Тогда все коэффициенты будет <span class="math inline">\(O(\sqrt M)\)</span>, а произведение разложится как</p>
+<p><span class="math display">\[A \cdot B = A_1 B_1 + (A_1 B_2+A_2 B_1) \cdot 2^k + A_2 B_2 \cdot 2^{2k}\]</span></p>
+<p>Такое представление позволяет нам уменьшить вдвое длину чисел, с которыми работаем, при этом, с учётом прошлого пункта, можно обойтись двумя прямыми и двумя обратными вызовами преобразования. Альтернативный подход, умножение по нескольким модулям, а затем использование китайской теоремы об остатках, является более сложным в написании, но при этом работает медленнее.</p>
+<h4 id="многомерное-преобразование-фурье">Многомерное преобразование Фурье</h4>
+<p>Ранее мы работали с многочленами от одной переменной. Но аналогичные конструкции работают для многочлена от нескольких переменных. Считать значения многочлена теперь нужно в точках <span class="math inline">\((w_1^{k_1},w_2^{k_2}, \dots, w_m^{k_m})\)</span>. Оказывается, для такого преобразования достаточно поочерёдно сделать одномерное преобразование Фурье вдоль каждой координаты. В двумерном случае, например, нужно сначала сделать одномерное преобразование каждой строки, а затем каждого столбца.</p>
+<p>Докажем это для двумерного случая. Мы хотим получить набор чисел</p>
+<p><span class="math display">\[P_{uv}=P(w_1^u,w_2^v)=\sum_{i=0}^{n-1}\sum_{j=0}^{m-1} a_{ij} w_1^uw_2^v\]</span></p>
+<p>Изначально мы имеем таблицу <span class="math inline">\(A_{uv}=a_{uv}\)</span>, после преобразования строк, мы получим</p>
+<p><span class="math display">\[A&#39;_{uv}=P_u(w_2^v)=\sum_{j=0}^{m-1}A_{uj}w_2^v=\sum_{j=0}^{m-1}a_{uj}w_2^v\]</span></p>
+<p>После последующего преобразования столбцов же мы получим</p>
+<p><span class="math display">\[A&#39;&#39;_{uv}=P&#39;_v(w_1^u)=\sum_{i=0}^{n-1} A&#39;_{iv}w_1^u=\sum_{i=0}^{n-1}P_i(w_2^v) w_1^u=\sum_{i=0}^{n-1}\sum_{j=0}^{m-1} w_1^u w_2^v\]</span></p>
+<p>Такое преобразование позволяет быстро вычислять двумерные свёртки <span class="math inline">\(C(x,y)=A(x,y)\cdot B(x,y)\)</span> вида</p>
+<p><span class="math display">\[c_{uv}=\mathop{\sum\sum}_{\substack{i_1+j_1=u\\i_2+j_2=v}} a_{i_1 i_2} b_{j_1 j_2}\]</span></p>
+<h4 id="преобразование-уолша-адамара-и-другие-свёртки">Преобразование Уолша-Адамара и другие свёртки</h4>
+<p>Вычисляя значения многомерного многочлена в некоторых особых точках, мы можем научиться считать свёртки с другими условиями суммирования:</p>
+<p><span class="math display">\[c_k=\sum\limits_{i | j=k} a_i b_j,~~~c_k=\sum\limits_{i \oplus j=k} a_i b_j,~~~c_k=\sum\limits_{i \&amp; j=k} a_i b_j\]</span></p>
+<p>Здесь <span class="math inline">\(|\)</span>, <span class="math inline">\(\&amp;\)</span> и <span class="math inline">\(\oplus\)</span> соответствуют операциям побитового <span class="math inline">\(or\)</span>, <span class="math inline">\(and\)</span> и <span class="math inline">\(xor\)</span> соответственно.</p>
+<ol type="1">
+<li><p><span class="math inline">\(xor\)</span>. Рассмотрим значения многочлена в точках гиперкуба</p>
+<p><span class="math inline">\(x \in \{-1,1\}^k\)</span>. Для таких точек верно соотношение</p>
+<p><span class="math inline">\(x_i^a x_i^b=x_i^{a~xor~b}\)</span>, поэтому произведения значений</p>
+<p>многочленов в этих точках будут равны значениям многочлена, в</p>
+<p>котором мономы умножаются с учётом данного условия.</p>
+<p>Иначе говоря, если рассматривать степень <span class="math inline">\(x_i\)</span> в мономе, как <span class="math inline">\(i\)</span>-ый</p>
+<p>бит номера данного коэффициента, мы можем считать, что при</p>
+<p>произведении двух мономов мы получаем моном, чьему номеру</p>
+<p>соответствует <span class="math inline">\(xor\)</span> номеров исходных мономов.</p>
+<p>Заметим, что такое вычисление есть ни что иное как вычисление</p>
+<p>многомерного преобразования Фурье в корнях степени <span class="math inline">\(2\)</span> из единицы.</p>
+<p>Оно также называется преобразованием Уолша-Адамара. Здесь есть</p>
+<p>некоторое упрощение по сравнению с обычным преобразованием Фурье:</p>
+<p>во-первых, все вычисления можно производить в целых числах,</p>
+<p>во-вторых, <span class="math inline">\(w^{-1}=w=-1\)</span>, поэтому для обратного преобразования можно</p>
+<p>просто применить прямое и разделить всё на <span class="math inline">\(n\)</span>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">void</span> transform(<span class="dt">int</span> *from, <span class="dt">int</span> *to) { </a>
+<a class="sourceLine" id="cb5-2" title="2">    <span class="cf">if</span>(to - from == <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb5-3" title="3">        <span class="cf">return</span>; </a>
+<a class="sourceLine" id="cb5-4" title="4">    }</a>
+<a class="sourceLine" id="cb5-5" title="5">    <span class="dt">int</span> *mid = from + (to - from) / <span class="dv">2</span>; </a>
+<a class="sourceLine" id="cb5-6" title="6">    transform(from, mid); </a>
+<a class="sourceLine" id="cb5-7" title="7">    transform(mid, to); </a>
+<a class="sourceLine" id="cb5-8" title="8">    <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; mid - from; i++) {</a>
+<a class="sourceLine" id="cb5-9" title="9">        <span class="dt">int</span> a = *(from + i);</a>
+<a class="sourceLine" id="cb5-10" title="10">        <span class="dt">int</span> b = *(mid + i);</a>
+<a class="sourceLine" id="cb5-11" title="11">        *(from + i) = a + b;</a>
+<a class="sourceLine" id="cb5-12" title="12">        *(mid + i) = a - b;</a>
+<a class="sourceLine" id="cb5-13" title="13">    }</a>
+<a class="sourceLine" id="cb5-14" title="14">} </a></code></pre></div></li>
+<li><p><span class="math inline">\(or\)</span>. Теперь рассмотрим значения в точках <span class="math inline">\(x \in \{0,1\}^k\)</span>. Для них</p>
+<p>имеет место <span class="math inline">\(x_i^a x_i^b=x_i^{a~or~b}\)</span>, из чего следует, что при</p>
+<p>произведении мономов можно трактовать результат как моном с номером,</p>
+<p>равным побитовому <span class="math inline">\(or\)</span> их номеров. Отдельно заметим, что посчитанное</p>
+<p>значение многочлена в точке это сумма его коэффициентов по всем</p>
+<p>подмаскам номера данной точки.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="dt">void</span> transform(<span class="dt">int</span> *from, <span class="dt">int</span> *to) { </a>
+<a class="sourceLine" id="cb6-2" title="2">    <span class="cf">if</span>(to - from == <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb6-3" title="3">        <span class="cf">return</span>; </a>
+<a class="sourceLine" id="cb6-4" title="4">    }</a>
+<a class="sourceLine" id="cb6-5" title="5">    <span class="dt">int</span> *mid = from + (to - from) / <span class="dv">2</span>; </a>
+<a class="sourceLine" id="cb6-6" title="6">    transform(from, mid); </a>
+<a class="sourceLine" id="cb6-7" title="7">    transform(mid, to); </a>
+<a class="sourceLine" id="cb6-8" title="8">    <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; mid - from; i++) {</a>
+<a class="sourceLine" id="cb6-9" title="9">        *(mid + i) += *(from + i); </a>
+<a class="sourceLine" id="cb6-10" title="10">    }</a>
+<a class="sourceLine" id="cb6-11" title="11">} </a>
+<a class="sourceLine" id="cb6-12" title="12"></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="dt">void</span> inverse(<span class="dt">int</span> *from, <span class="dt">int</span> *to) {</a>
+<a class="sourceLine" id="cb6-14" title="14">    <span class="cf">if</span>(to - from == <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb6-15" title="15">        <span class="cf">return</span>; </a>
+<a class="sourceLine" id="cb6-16" title="16">    }</a>
+<a class="sourceLine" id="cb6-17" title="17">    <span class="dt">int</span> *mid = from + (to - from) / <span class="dv">2</span>; </a>
+<a class="sourceLine" id="cb6-18" title="18">    inverse(from, mid); </a>
+<a class="sourceLine" id="cb6-19" title="19">    inverse(mid, to); </a>
+<a class="sourceLine" id="cb6-20" title="20">    <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; mid - from; i++) { </a>
+<a class="sourceLine" id="cb6-21" title="21">        *(mid + i) -= *(from + i); </a>
+<a class="sourceLine" id="cb6-22" title="22">    }</a>
+<a class="sourceLine" id="cb6-23" title="23">}</a></code></pre></div></li>
+<li><p><span class="math inline">\(and\)</span>. Чтобы посчитать свёртку по данной операции, нужно либо</p>
+<p>поменять все маски на их дополнения, посчитать свёртку по <span class="math inline">\(or\)</span>, а</p>
+<p>потом вернуться, либо воспользоваться идеей из прошлого пункта и</p>
+<p>провести суммирование по всем надмаскам. Это будет соответствовать</p>
+<p>значению многочлена в тех же точках, но с неявной перенумерацией,</p>
+<p>соответствующей переходу к дополнениям.</p></li>
+</ol>
+<p>Заметим, что данные идеи обобщаются на случай когда числа представлены в системе с осонованием, отличным от двух и нам нужно совершить свёртку относительно поразрядных операций сложения по модулю основания, максимума или минимума.</p>
+<h4 id="метод-ньютона-для-функций-над-многочленами">Метод Ньютона для функций над многочленами</h4>
+<p>Хотим решить уравнение <span class="math inline">\(f(x)=0\)</span>. <span class="math inline">\(f(x)\)</span> можно представить в виде <span class="math inline">\(f(x)=f(x_0)+f&#39;(x_0)\Delta x+O(\Delta x^2)\)</span>. Будем последовательно искать её нули, приближая линейной <span class="math inline">\(g(x_{n+1})=f(x_n)+f&#39;(x_n)(x_{n+1}-x_n)\)</span> на каждом шаге. Решая <span class="math inline">\(g(x_{n+1})=0\)</span>, приходим к <span class="math display">\[x_{n+1}=x_n-\dfrac{f(x_n)}{f&#39;(x_n)}\]</span></p>
+<p>При этом <span class="math inline">\(f(x_{n+1})=O((x_{n+1}-x_n)^2)=O\left(\dfrac{f(x_n)^2}{f&#39;(x_n)^2}\right)\)</span>. В случае обратимой производной это <span class="math inline">\(O(f(x_n)^2)\)</span>. Если <span class="math inline">\(x\)</span> – многочлен, это значит, что используя метод Ньютона, мы будем на каждом шаге удваивать число точно известных коэффициентов. Наиболее распространённые функции от многочленов:</p>
+<ol type="1">
+<li><p>Обратный ряд. Надо решить <span class="math inline">\(PQ=1 \Rightarrow f(P)=Q-P^{-1}\)</span> и</p>
+<p><span class="math inline">\(P_{n+1}=P_n-\dfrac{Q-P_n^{-1}}{P_n^{-2}}=P_n(2-QP_n)\)</span>.</p></li>
+<li><p>Экспонента. <span class="math inline">\(Q = \ln P \Rightarrow f(P)=Q-\ln P\)</span> и</p>
+<p><span class="math inline">\(P_{n+1}=P_n-\dfrac{Q-\ln P_n}{-P_n^{-1}}=P_n(1+Q-\ln P_n)\)</span>.</p></li>
+<li><p>Корень. <span class="math inline">\(Q=P^k \Rightarrow f(P)=Q-P^k\)</span> и</p>
+<p><span class="math inline">\(P_{n+1}=P_n+\dfrac{Q-P_n^k}{kP_n^{k-1}}=P_n\left(\dfrac{k-1}{k}+\dfrac{Q}{kP_n^k}\right)\)</span>.</p></li>
+</ol>
+<p>В выражении для экспоненты есть логарифм, для его вычисления следует воспользоваться тем, что <span class="math inline">\(\left(\log P\right)&#39;=P&#39;P^{-1}\)</span>, что позволит восстановить коэффициенты при положительных степенях, а коэффициент при нулевой степени можно посчитать встроенными методами. Отметим, что все указанные алгоритмы работают за <span class="math inline">\(O(n \log n)\)</span>.</p>
+<h4 id="разделяй-и-властвуй">Разделяй и властвуй</h4>
+<p>Дано уравнение <span class="math inline">\(AX=B\)</span> и мы хотим посчитать первые <span class="math inline">\(n\)</span> коэффициентов <span class="math inline">\(X\)</span>. При этом <span class="math inline">\(B\)</span> нам дан не весь, а подаётся по мере того, как мы узнаём коэффициенты <span class="math inline">\(X\)</span> (например, <span class="math inline">\(B\)</span> может зависеть от <span class="math inline">\(X\)</span>, см. пример ниже). Пусть мы нашли первые <span class="math inline">\(m \approx n/2\)</span> коэффициентов и хотим найти следующие <span class="math inline">\(m\)</span>, тогда</p>
+<p><span class="math display">\[\begin{cases}
+X=X_1+x^m X_2,\\
+A=A_1+x^m A_2,\\
+B=B_1+x^m B_2,\\
+AX_1=B_1+x^m B_2&#39;
+\end{cases} \implies AX\bmod x^{2m} = B_1+x^m(A_1X_2+B_2&#39;)=B_1+x^m B_2\]</span> <span class="math display">\[A_1X_2=B_2-B_2&#39;\mod x^{m}\]</span></p>
+<p>Значит, если запомнить <span class="math inline">\(B_2&#39;\)</span>, который потом нужно будет вычесть из <span class="math inline">\(B_2\)</span>, можно свести вычисление оставшихся коэффициентов к этой же задаче размера <span class="math inline">\(\approx n/2\)</span>. Что даст алгоритм за <span class="math inline">\(O(n \log^2 n)\)</span>.</p>
+<p>В качестве примера, этим методом также можно считать экспоненту, так как <span class="math display">\[e^A=X \implies X&#39;=A&#39;X\]</span></p>
+<p>На практике это проще, чем по схеме Ньютона и скрытая константа должна быть меньше, т.к. не нужно вызывать такие затратные функции как логарифм, который требует подсчёта обратного ряда. Заметим, что аналогичная схема может быть применена для подсчёта <span class="math inline">\(X=AB\)</span>, где <span class="math inline">\(A\)</span> задан заранее, а <span class="math inline">\(B\)</span> зависит от <span class="math inline">\(X\)</span>.</p>
+<p><span class="math display">\[AB_1 = X_1+x^m X_2&#39;\implies AB \bmod x^{2m}=X_1+x^m(A_1B_2+X_2&#39;)\]</span></p>
+<p><span class="math display">\[X_2 = A_1 B_2 + X_2&#39; \mod x^{m}\]</span></p>
+<h4 id="деление-и-интерполяция">Деление и интерполяция</h4>
+<p>В завершение научимся делить многочлены с остатком, а также делать то, с чего всё началось – интерполировать многочлен и вычислять его на произвольных точках.</p>
+<ol type="1">
+<li><p>Деление с остатком. Нам нужно представить</p>
+<p><span class="math inline">\(A(x)=B(x)D(x)+R(x),~\deg R(x) &lt; \deg B(x)\)</span>. Пусть</p>
+<p><span class="math inline">\(\deg A = n,~\deg B=m\)</span>. Тогда <span class="math inline">\(\deg D = n-m\)</span>. При этом с учётом</p>
+<p><span class="math inline">\(\deg R &lt; m\)</span> приходим к выводу, что коэффициенты при</p>
+<p><span class="math inline">\(\{x^k\}_{k=m}^n\)</span> не зависят от <span class="math inline">\(R(x)\)</span>. Получается, мы имеем систему</p>
+<p>из <span class="math inline">\(n-m+1\)</span> линейных уравнений на <span class="math inline">\(n-m+1\)</span> неизвестных (коэффициенты</p>
+<p><span class="math inline">\(D\)</span>).</p>
+<p>Рассмотрим</p>
+<p><span class="math inline">\(A^r(x)=x^nA\left(x^{-1}\right),~B^r(x)=x^mB\left(x^{-1}\right),~~D^r(x)=x^{n-m}D\left(x^{-1}\right)\)</span></p>
+<p>– многочлены, в которых коэффициенты идут в обратном порядке. Для</p>
+<p><span class="math inline">\(n-m+1\)</span> старших коэффициентов исходных многочленов с учётом того,</p>
+<p>что <span class="math inline">\(P(x) \mod z^k\)</span> – первые <span class="math inline">\(k\)</span> коэффициентов <span class="math inline">\(P(x)\)</span> имеем систему</p>
+<p><span class="math display">\[A^r(x)= B^r(x) D^r(x)\mod z^{n-m+1}\]</span></p>
+<p>Её решением будет <span class="math inline">\(D^r(x)=A^r(x)[B^r(x)]^{-1}\bmod z^{n-m+1}\)</span>, что</p>
+<p>позволяет найти <span class="math inline">\(D(x)\)</span> и из него <span class="math inline">\(R(x)\)</span>.</p></li>
+<li><p>Многоточечное вычисление. Нужно вычислить <span class="math inline">\(P(x_i)\)</span> для</p>
+<p><span class="math inline">\(\{x_i\}_{i=1}^n\)</span>. Учитывая <span class="math inline">\(P(x_i)=P \mod (x - x_i)\)</span>, вычислим</p>
+<p><span class="math inline">\(P \mod \prod\limits_{i=1}^{n/2-1}(x-x_i)\)</span> и</p>
+<p><span class="math inline">\(P \mod \prod\limits_{i=n/2}^{n} (x-x_i)\)</span> и запустимся рекурсивно.</p>
+<p>Получим <span class="math inline">\(O(n \log^2 n)\)</span>.</p></li>
+<li><p>Интерполяция. Дан набор <span class="math inline">\(\{(x_i, y_i)\}_{i=0}^{n-1}\)</span>, нужно найти</p>
+<p><span class="math inline">\(P: P(x_i)=y_i\)</span>. Пусть мы нашли многочлен <span class="math inline">\(P_1\)</span> для первых <span class="math inline">\(n/2\)</span></p>
+<p>точек. Тогда <span class="math inline">\(P=P_1+P_2 \prod\limits_{i=0}^{n/2-1}(x-x_i)=P_1+P_2Q\)</span>.</p>
+<p>Нахождение <span class="math inline">\(P_2\)</span> сведём к интерполяции и многоточечному вычислению:</p>
+<p><span class="math inline">\(P_2(x_i)=\dfrac{y_i-P_1(x_i)}{Q(x_i)}\)</span> для <span class="math inline">\(i&gt;n/2\)</span>. Получим</p>
+<p><span class="math inline">\(O(n \log^3 n)\)</span>.</p></li>
+</ol>
+
+<h1 id="упражнения">Упражнения</h1>
+<h4 id="рюкзак">Рюкзак</h4>
+<p>Есть <span class="math inline">\(n\)</span> типов предметов. Предмет <span class="math inline">\(i\)</span>-го типа имеет стоимость <span class="math inline">\(s_i\)</span>. Пусть <span class="math inline">\(s=\sum\limits_{i=1}^n s_i\)</span>. Предложите алгоритм, который для каждого <span class="math inline">\(w\leq s\)</span> находит число способов выбрать подмножество предметов ровно с таким весом за <span class="math inline">\(O(s \log s \log n)\)</span>.</p>
+<h4 id="степенной-ряд">Степенной ряд</h4>
+<p>Даны числа <span class="math inline">\(k\)</span> и <span class="math inline">\(n\)</span>. Найдите <span class="math inline">\(\sum\limits_{m=0}^n m^k\)</span> за <span class="math inline">\(O(k \log k)\)</span>.</p>
+<h4 id="общая-схема-кули-тьюки">Общая схема Кули-Тьюки</h4>
+<p>Пусть <span class="math inline">\(n=pq\)</span>. Придумайте алгоритм, сводящий преобразование Фурье размера <span class="math inline">\(n\)</span> к <span class="math inline">\(p\)</span> преобразованиям Фурье размера <span class="math inline">\(q\)</span> за <span class="math inline">\(O(n)\)</span> дополнительных операций.</p>
+<h4 id="арифметические-прогрессии">Арифметические прогрессии</h4>
+<p>Дано множество из <span class="math inline">\(n\)</span> чисел от <span class="math inline">\(0\)</span> до <span class="math inline">\(m\)</span>. Найдите число арифметических прогрессий длины <span class="math inline">\(3\)</span> в этом множестве за <span class="math inline">\(O(m \log m)\)</span>.</p>
+<h4 id="расстояние-между-точками">Расстояние между точками</h4>
+<p>Даны <span class="math inline">\(n\)</span> точек в прямоугольнике <span class="math inline">\(A \times B\)</span>. Для каждой возможной пары <span class="math inline">\((\Delta x,\Delta y)\)</span> посчитайте сколько есть пар точек, таких что разность по <span class="math inline">\(x\)</span>-координате между ними равна <span class="math inline">\(\Delta x\)</span>, а по <span class="math inline">\(y\)</span>-координате соответственно <span class="math inline">\(\Delta y\)</span> за <span class="math inline">\(O(AB \log AB)\)</span>.</p>
+<h4 id="сопоставление-шаблонов">Сопоставление шаблонов</h4>
+<p>Даны две строки <span class="math inline">\(s\)</span> и <span class="math inline">\(t\)</span>. В них могут встречаться символы из множества <span class="math inline">\(\Sigma\)</span>, а также знаки вопроса. Найдите все позиции <span class="math inline">\(i\)</span> такие, что если приложить строку <span class="math inline">\(t\)</span> к строке <span class="math inline">\(s\)</span> начиная с <span class="math inline">\(i\)</span>, то в любой позиции соответствующие символы в <span class="math inline">\(s\)</span> и <span class="math inline">\(t\)</span> должны либо совпадать, либо хотя бы один из них должен быть знаком вопроса за <span class="math inline">\(O(\Sigma n \log n)\)</span> и за <span class="math inline">\(O(n \log n)\)</span>*.</p>
+<h4 id="линейные-рекурренты">Линейные рекурренты*</h4>
+<p>Последовательность <span class="math inline">\(F_n\)</span> задана как <span class="math inline">\(F_n = \sum\limits_{i=1}^k a_{k-i} F_{n-i}\)</span>. Даны коэффициенты <span class="math inline">\(\{a_i\}_{i=0}^{k-1}\)</span> и начальные величины <span class="math inline">\(\{F_i\}_{i=0}^{k-1}\)</span>. Предложите алгоритм, вычисляющий <span class="math inline">\(F_n\)</span> за <span class="math inline">\(O(k \log k \log n)\)</span>.</p>
+<h4 id="степень-многочлена">Степень многочлена*</h4>
+<p>Дан <span class="math inline">\(P(x)=\sum\limits_{i=0}^n a_i x^i\)</span>. Нужно найти первые <span class="math inline">\(n\)</span> коэффициентов <span class="math inline">\(P^k(x)\)</span> за <span class="math inline">\(O(n \log n)\)</span>.</p>
+</body>
+</html>

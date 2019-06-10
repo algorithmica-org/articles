@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>palindromes</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+
+<h1 id="алгоритм-ахо-корасик">Алгоритм Ахо-Корасик</h1>
+<p>Рассмотрим следующую задачу (<a href="http://acm.timus.ru/problem.aspx?space=1&amp;num=1269"></a>): Дан набор строк <span class="math inline">\(S_1, \dots, S_n\)</span>, называемый словарём и текст <span class="math inline">\(T\)</span>. Необходимо найти все позиции где строки из словаря входят в текст. Пусть строки из словаря не являются подстроками друг друга (позже мы увидим, что это требование избыточно)</p>
+<p>Будем приписывать символы к тексту по одному и отмечать новый символ, если в нём заканчивается вхождение какой-нибудь из <span class="math inline">\(S_i\)</span>. Для решения данной задачи логично действовать следующим образом: Будем поддерживать наибольшую строку, являющуюся префиксом строки из словаря и при этом также суффиксом считанного на данный момент текста. Тогда мы должны отметить текущее состояние если поддерживаемая строка является одной из <span class="math inline">\(S_i\)</span>.</p>
+<p>Все префиксы <span class="math inline">\(S_i\)</span> удобно хранить в единой структуре – префиксном дереве. На его рёбрах написаны символы, а пути из корня в листья при конкатенации символов на рёбрах дают строки из <span class="math inline">\(S_i\)</span>. простейший алгоритм построения префиксного дерева имеет следующий вид:</p>
+<p>``` {.c++ language=“C++”} const int maxn = 1e5 + 42, sigma = 26; // Наибольшая суммарная длина строк словаря и размер алфавита. int to[maxn][sigma]; // to[v][c] – ребро из v с пометкой c. int sz = 1; // Количество использованных вершин.</p>
+<p>void add_str(string s) { int v = 0; // Корень дерева. for(char c: s) { c -= ‘a’; // Переводим в [0; 26) if(!to[v][c]) // Если ещё нет перехода по данному символу, создаём его в вершину sz. to[v][c] = sz++; v = to[v][c]; } }</p>
+<pre><code>
+Теперь нам нужно научиться при добавлении очередного символа находить
+вершину в префиксном дереве, которая получена приписыванием этого
+символа к какому-то суффиксу текущей вершины, а из всех таких вершин --
+наибольшую. Будем записывать эти вершины в переходы по недостающим
+символам, рассматривая префиксы в порядке увеличения их длины (то есть,
+в порядке $bfs$ вершин дерева). Введём понятие суффиксной ссылки
+$link_v$ -- Она ведёт из вершины $v$ в вершину $u$ с наибольшей длиной,
+являющуюся её собственным суффиксом.
+
+Алгоритм аналогичен принципу математической индукции -- мы считаем, что
+когда мы пришли в вершину $v$, все вершины с меньшей длиной уже
+обаботаны корректно, то есть, их переходы выставлены в нужные места, а
+для вершины $v$ известна суффиксная ссылка $u$. Рассмотрим переходы по
+всем возможным символам $c$ из $v$. Если по данному символу уже
+выставлен переход, то мы можем сказать, что суффиксной ссылкой вершины
+$to_{v,c}$, в которую ведёт переход будет вершина $to_{u,c}$. Если же
+перехода нет, то выставим вместо него $to_{u,c}$. Корректность данного
+построения очевидна -- если бы искомый переход шёл из суффикса большего,
+чем $u$, то в него бы и вела суффиксная ссылка, а не в $u$, а переходы
+из суффиксов меньших, чем $u$ учтены в ней по предположению индукции.
+
+\newpage
+В реализации ниже есть один нюанс -- суффиксная ссылка из корня ведёт в
+него же, что заставляет рассматривать его отдельно, но в целом упрощает
+реализацию.
+
+``` {.c++ language=&quot;C++&quot;}
+int link[maxn];
+void push_links()
+{
+    int que[sz];
+    int st = 0, fi = 1;
+    que[st] = 0; 
+    while(st &lt; fi)
+    {
+        int v = que[st++];
+        int u = link[v];
+        for(int c = 0; c &lt; sigma; c++)
+        {
+            if(to[v][c])
+            {
+                link[to[v][c]] = v ? to[u][c] : 0;
+                que[fi++] = to[v][c];
+            }
+            else
+            {
+                to[v][c] = to[u][c];
+            }
+        }
+    }
+}</code></pre>
+<p>Таким образом, чтобы решить задачу, нам следует поддерживать требуемую вершину <span class="math inline">\(v\)</span> и при каждом приписывании нового символа совершать переход по нему. В общем случае если строки словаря могут быть подстроками друг друга, всё, что нам нужно будет сделать – проверить, что по пути из суффиксных ссылок текущей вершины встречается какая-то из строк словаря.</p>
+<p>Данный алгоритм работает за <span class="math inline">\(O(|S|\Sigma)\)</span>, где <span class="math inline">\(|S|\)</span> – размер словаря, а <span class="math inline">\(\Sigma\)</span> – размер алфавита. Заметим, что существуют также алгоритмы построения подобной структуры за <span class="math inline">\(O(|S| \log \Sigma)\)</span> с помощью персистентного массива или через стандартные амортизационные трюки. Второй вариант очень похож на алгоритм префикс-функции, приведём его здесь без подробных комментариев.</p>
+<p><code>{.c++ language="C++"} map&lt;int, int&gt; to[maxn]; ... void push_links() {     int que[sz];     int st = 0, fi = 1;     que[st] = 0;     while(st &lt; fi)     {         int v = que[st++];         for(auto it: to[v])         {             int c = it.first;             int u = it.second;             int j = link[v];             while(j != 0 &amp;&amp; to[j][c] == 0)                 j = link[j];             if(to[j][c] != u)                 link[u] = to[j][c];             que[fi++] = u;         }     } }</code></p>
+
+<h1 id="алгоритм-манакера">Алгоритм Манакера</h1>
+<p>Напомним, что палиндром – это строка, которая читается одинаково слева направо и справа налево.</p>
+<p>Пусть есть строка <span class="math inline">\(S\)</span> и мы хотим найти в ней все подпалиндромы. Мы сразу сталкиваемся с очевидной тудностью – их в строке может быть <span class="math inline">\(O(n^2)\)</span>, что можно видеть на примере строки <span class="math inline">\(S = aa\dots a\)</span>. Поэтому будет использован следующий формат: Для каждой позиции <span class="math inline">\(S_i\)</span> мы найдём наибольший палиндром, центр которого совпадает с <span class="math inline">\(S_i\)</span>. При этом пока что не будем учитывать палиндромы чётной длины (<a href="http://informatics.mccme.ru/mod/statements/view3.php?id=241&amp;chapterid=1326#1"></a>).</p>
+<p>Рассмотрим наиболее наивный алгоритм: Перебираем <span class="math inline">\(S_i\)</span>, а для него вторым циклом находим наибольшую искомую длину.</p>
+<p><code>{.c++ language="C++"} vector&lt;int&gt; pal_array(string s) {     int n = s.size();     s = "@" + s + "$"; // Окружим спецсимволами, чтобы не рассматривать выход за границы     vector&lt;int&gt; len(n + 1);     for(int i = 1; i &lt;= n; i++)     {         len[i] = 0;         while(s[i - len[i]] == s[i + len[i]])             len[i]++;     }     len.erase(begin(len));     return len; }</code></p>
+<p><span class="math inline">\(len_i\)</span> здесь обозначает не совсем искомую длину, а расстояние от центра до границы палиндрома, которое в дальнейшем будем называть радиусом палиндрома. Тот же пример <span class="math inline">\(S = aa\dots a\)</span> показывает, что данная реализация работает за <span class="math inline">\(O(n^2)\)</span>.</p>
+<p>Применим идею, которая, возможно, знакома вам по алгоритму z-функции: При инициализации <span class="math inline">\(len_i\)</span> будем пользоваться посчитанными <span class="math inline">\(len\)</span>. Будем хранить <span class="math inline">\((l, r)\)</span> – интервал, соответствующий самому правому из найденных подпалиндромов. Тогда мы можем сказать, что та часть наибольшего палиндрома с центром в <span class="math inline">\(S_i\)</span>, которая лежит в <span class="math inline">\(S_{(l, r)}\)</span> имеет радиус <span class="math inline">\(\min(r-i,len_{l+r-i})\)</span>. <span class="math inline">\(r-i\)</span> означает длину при которой произошёл бы выход за <span class="math inline">\(S_{(l, r)}\)</span>, а <span class="math inline">\(len_{l+r-i}\)</span> – значение <span class="math inline">\(len\)</span> в позиции, зеркальной относительно центра <span class="math inline">\(S_{(l, r)}\)</span>.</p>
+<p><code>{.c++ language="C++"} vector&lt;int&gt; pal_array(string s) {     int n = s.size();     s = "@" + s + "$";     vector&lt;int&gt; len(n + 1);     int l = 1, r = 1;     for(int i = 1; i &lt;= n; i++)     {         len[i] = min(r - i, len[l + (r - i)]);         while(s[i - len[i]] == s[i + len[i]])             len[i]++;         if(i + len[i] &gt; r)         {             l = i - len[i];             r = i + len[i];         }     }     len.erase(begin(len));     return len; }</code></p>
+<p>Покажем, что алгоритм линейный. Очевидно, что цикл <span class="math inline">\(while\)</span> запускается только если <span class="math inline">\(len_i = r-i\)</span> (иначе палиндром уже во что-то упёрся). Значит, каждая его итерация сдвигает <span class="math inline">\(r\)</span> на единицу вправо. Таким образом, так как <span class="math inline">\(r \leq n\)</span>, получаем, что суммарно эти циклы отработают за <span class="math inline">\(O(n)\)</span>.</p>
+<p>Чтобы учесть чётные палиндромы, сделаем замену: <span class="math inline">\(S = s_1 s_2 \dots s_n \to S^* = s_1 \# s_2 \# \dots \# s_n\)</span>. Теперь нечётные палиндромы с центром в <span class="math inline">\(s_i\)</span> соответствуют нечётным палиндромам исходной строки, а нечётные палиндромы с центром в <span class="math inline">\(\#\)</span> – чётным.</p>
+
+<h1 id="дерево-палиндромов">Дерево палиндромов</h1>
+<p>Данная структура, предложенная Михаилом Рубинчиком, представляет собой другой формат хранения информации обо всех подпалиндромах строки, более мощный по своей сути. Сперва докажем, что у любой строки есть не больше, чем <span class="math inline">\(n\)</span> палиндромов. Пусть мы наращиваем строку по одному символу и в данный момент имеем наибольший суффикс-палиндром <span class="math inline">\(S_{l,r}\)</span>. Пусть у него есть суффикс-палиндром <span class="math inline">\(S_{l&#39;,r}\)</span>. Тогда он уже имеет вхождение в позиции <span class="math inline">\(S_{l,l+r-l&#39;}\)</span>. Таким образом, с каждым новым символом у строки появляется не более одного нового палиндрома и если таковой есть, то это всегда наибольший суффикс-палиндром.</p>
+<p>Всем палиндромам строки удобно сопоставить следующую структуру, которая и называется деревом палиндромов: возьмём от каждого палиндрома его правую половинку (например, <span class="math inline">\(caba\)</span> для <span class="math inline">\(abacaba\)</span> или <span class="math inline">\(ba\)</span> для <span class="math inline">\(abba\)</span>) и добавим в префиксное дерево. Чётные и нечётные палиндромы при этом рассматриваем отдельно. Таким образом будет получено взаимооднозначное соответствие между вершинами дерева и подпалиндромами.</p>
+<p>Пусть мы построили дерево палиндромов для первых <span class="math inline">\(n\)</span> символов строки и хотим добавить очередной символ. Для этого будем поддерживать наибольший суффикс-палиндром. Когда к нам придёт очередной символ, нам нужно будет найти наибольший суффикс указанного палиндрома, который может быть дополнен новым символом до палиндрома, это и будет новый суффикс-палиндром. Для этих целей будем поддерживать суффиксную ссылку, аналогичную таковой в алгоритме Ахо-Корасик, она будет вести из <span class="math inline">\(v\)</span> в наибольший собственный суффикс-палиндром <span class="math inline">\(v\)</span>. При добавлении очередного символа, будем подниматься по суффиксным ссылкам, пока не найдём место, где можно совершить переход. Там нам, возможно, придётся создать новую вершину в дереве и для неё понадобится суффиксная ссылка. Чтобы найти её, будем продолжать подниматься по суффиксным ссылкам предыдущего суффикс-палиндрома, пока не найдём второе место, которое можно дополнить очередным символом.</p>
+<p>Покажем линейность. Рассмотрим длину наибольшего суффикс-палиндрома строки. Каждый новый символ увеличивает её не более, чем на <span class="math inline">\(2\)</span>. При этом каждый подъём по суффиксной ссылке в цикле уменьшает её, поэтому основной цикл работает линейное время. Аналогичными рассуждениями о втором суффикс-палиндроме получаем, что пересчёт суффиксных ссылок при создании новых вершин также работает за линейное время суммарно.</p>
+<p>Наконец, приведём реализацию указанного алгоритма:</p>
+<p>``` {.c++ language=“C++”} const int maxn = 1e5 + 42; map&lt;char, int&gt; to[maxn]; int len[maxn], link[maxn], s[maxn]; int sz, n, last;</p>
+<p>void init() // Начальные значения, чтобы не возиться с границами { link[0] = 1; len[1] = -1; s[n++] = -1; sz = 2; }</p>
+<p>int get_link(int v) // Суффикс v, который дополняется до палиндрома { while(s[n - len[v] - 2] != s[n - 1]) v = link[v]; return v; }</p>
+<p>void add_letter(char c) { s[n++] = c; last = get_link(last); if(!to[last][c]) { len[sz] = len[last] + 2; link[sz] = to[get_link(link[last])][c]; to[last][c] = sz++; } last = to[last][c]; } ```</p>
+<p>Как и в случае с Ахо-Корасик, существуют неамортизированные <span class="math inline">\(O(n \Sigma)\)</span> и <span class="math inline">\(O(n \log \Sigma)\)</span> версии.</p>
+</body>
+</html>
