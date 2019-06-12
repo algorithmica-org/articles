@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>palindromes</title>
+  <title>Алгоритм Ахо-Корасик</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,9 @@
   <!-- /Yandex.Metrika counter -->
 </head>
 <body>
-
+<header id="title-block-header">
+<h1 class="title">Алгоритм Ахо-Корасик</h1>
+</header>
 <h1 id="алгоритм-ахо-корасик">Алгоритм Ахо-Корасик</h1>
 <p>Рассмотрим следующую задачу (<a href="http://acm.timus.ru/problem.aspx?space=1&amp;num=1269"></a>): Дан набор строк <span class="math inline">\(S_1, \dots, S_n\)</span>, называемый словарём и текст <span class="math inline">\(T\)</span>. Необходимо найти все позиции где строки из словаря входят в текст. Пусть строки из словаря не являются подстроками друг друга (позже мы увидим, что это требование избыточно)</p>
 <p>Будем приписывать символы к тексту по одному и отмечать новый символ, если в нём заканчивается вхождение какой-нибудь из <span class="math inline">\(S_i\)</span>. Для решения данной задачи логично действовать следующим образом: Будем поддерживать наибольшую строку, являющуюся префиксом строки из словаря и при этом также суффиксом считанного на данный момент текста. Тогда мы должны отметить текущее состояние если поддерживаемая строка является одной из <span class="math inline">\(S_i\)</span>.</p>
