@@ -230,11 +230,12 @@ figure {
   margin: 1em 0;
 }
 
-figure img {
+img {
   border: none;
   margin: auto;
+  display: block;
   max-width: 85%;
-  max-height: 450px;
+  max-height: 400px;
 }
 
 figcaption {
