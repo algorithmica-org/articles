@@ -32,6 +32,13 @@
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+  });
+  </script>
 </head>
 <body>
 <header id="title-block-header">
@@ -52,33 +59,28 @@
 <ul>
 <li><a href="https://algorithmica.org/ru/sqrt">Корневая эвристика</a></li>
 <li><a href="https://algorithmica.org/ru/bitset">Битовое сжатие</a></li>
-<li><a href="https://algorithmica.org/ru/karatsuba">Разделяй-и-властвуй</a></li>
+<li><a href="https://algorithmica.org/ru/dp-optimizations">Пересчёт динамики по слоям</a></li>
 </ul>
 </div>
 <div class="contents">
-<h3 id="дискретная-математика">Дискретная математика</h3>
-<ul>
-<li>Алгоритм Евклида</li>
-<li><a href="https://algorithmica.org/ru/reciprocal">Нахождение обратного по модулю</a></li>
-<li><a href="https://algorithmica.org/ru/pollard">Ро-алгоритм Полларда</a></li>
-<li><a href="https://algorithmica.org/ru/matroid">Жадный алгоритм Радо-Эдмондса</a></li>
-<li><a href="http://e-maxx.ru/algo/eratosthenes_sieve">Решето Эратосфена</a></li>
-<li><a href="http://e-maxx.ru/algo/chinese_theorem">Китайская теорема об остатках</a></li>
-<li><a href="http://e-maxx.ru/algo/fft_multiply">Быстрое преобразование Фурье</a></li>
-</ul>
-</div>
-<div class="contents">
-<h3 id="переборные-задачи">Переборные задачи</h3>
-<ul>
-<li>Meet in the middle</li>
-<li><a href="http://e-maxx.ru/algo/discrete_log">Дискретное логарифмирование</a></li>
-</ul>
-</div>
-<div class="contents">
-<h3 id="высшая-математика">Высшая математика</h3>
+<h3 id="математика">Математика</h3>
 <ul>
 <li><a href="https://algorithmica.org/ru/linalg">Линейная алгебра</a></li>
 <li><a href="https://algorithmica.org/ru/probability">Теория вероятностей</a></li>
+<li><a href="https://algorithmica.org/ru/karatsuba">Алгоритм Карацубы</a></li>
+<li><a href="https://algorithmica.org/ru/fft">Быстрое преобразование Фурье</a></li>
+</ul>
+</div>
+<hr />
+<div class="contents">
+<h3 id="комбинаторика-и-тч">Комбинаторика и ТЧ</h3>
+<ul>
+<li><a href="https://algorithmica.org/ru/reciprocal">Нахождение обратного по модулю</a></li>
+<li><a href="https://algorithmica.org/ru/matroid">Жадный алгоритм Радо-Эдмондса</a></li>
+<li><a href="https://algorithmica.org/ru/pollard">Ро-алгоритм Полларда</a></li>
+<li><a href="http://e-maxx.ru/algo/chinese_theorem">Китайская теорема об остатках</a></li>
+<li><a href="http://e-maxx.ru/algo/eratosthenes_sieve">Решето Эратосфена</a></li>
+<li><a href="http://e-maxx.ru/algo/discrete_log">Дискретное логарифмирование</a></li>
 </ul>
 </div>
 <div class="contents">
@@ -87,10 +89,10 @@
 <li><a href="https://algorithmica.org/ru/mst">Остовные деревья</a></li>
 <li><a href="https://algorithmica.org/ru/matching">Паросочетания</a></li>
 <li><a href="https://algorithmica.org/ru/mincost-maxflow">Поток минимальной стоимости</a></li>
-<li><a href="http://e-maxx.ru/algo/dinic">Алгоритм Диница</a></li>
 <li><a href="https://algorithmica.org/ru/lca">Наименьший общий предок</a></li>
 <li><a href="https://algorithmica.org/ru/centroid">Центроидная декомпозиция</a></li>
 <li><a href="https://algorithmica.org/ru/hld">Heavy-light декомпозиция</a></li>
+<li><a href="http://e-maxx.ru/algo/dinic">Алгоритм Диница</a></li>
 <li><a href="http://e-maxx.ru/algo/2_sat">2-SAT</a></li>
 </ul>
 </div>
@@ -99,42 +101,38 @@
 <ul>
 <li><a href="https://algorithmica.org/ru/hashing">Полиномиальное хэширование</a></li>
 <li><a href="https://algorithmica.org/ru/strings">Префикс- и z-функция</a></li>
-<li><a href="https://algorithmica.org/ru/trie">Бор</a></li>
+<li><a href="https://algorithmica.org/ru/trie">Префиксное дерево (бор)</a></li>
 <li><a href="https://algorithmica.org/ru/aho-corasick">Алгоритм Ахо-Корасик</a></li>
 <li><a href="https://algorithmica.org/ru/suffix-array">Суффиксный массив</a></li>
-<li><a href="http://e-maxx.ru/algo/suffix_automata">Суффиксный автомат</a></li>
+<li><a href="https://algorithmica.org/ru/suffix-automaton">Суффиксный автомат</a></li>
+<li><a href="https://algorithmica.org/ru/palindromes">Палиндромы</a></li>
 </ul>
 </div>
+<hr />
 <div class="contents">
-<h3 id="динамическое-программирование">Динамическое программирование</h3>
+<h3 id="геометрия">Геометрия</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/dp-optimizations">Оптимизации пересчёта динамики по слоям</a></li>
-</ul>
-</div>
-<div class="contents">
-<h3 id="оптимизация">Оптимизация</h3>
-<ul>
-<li><a href="https://algorithmica.org/ru/annealing">Метод отжига</a></li>
-</ul>
-</div>
-<div class="contents">
-<h3 id="разное">Разное</h3>
-<ul>
-<li><a href="https://algorithmica.org/ru/stress-test">Стресс-тестирование</a></li>
+<li><a href="https://algorithmica.org/ru/geometry">Ликбез по вычислительной геометрии</a></li>
+<li><a href="https://algorithmica.org/ru/convex-hulls">Выпуклые оболочки</a></li>
 </ul>
 </div>
 <div class="contents">
 <h3 id="теория-игр">Теория игр</h3>
 <ul>
 <li><a href="https://algorithmica.org/ru/games">Теория игр</a></li>
+<li><a href="https://algorithmica.org/ru/imperfect-information">Игры с неполной информацией</a></li>
 </ul>
 </div>
 <div class="contents">
-<h3 id="геометрия">Геометрия</h3>
+<h3 id="разное">Разное</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/geometry">Ликбез по вычислительной геометрии</a></li>
-<li>Выпуклые оболочки</li>
+<li><a href="https://algorithmica.org/ru/annealing">Метод отжига</a></li>
+<li><a href="https://algorithmica.org/ru/stress-test">Стресс-тестирование</a></li>
 </ul>
+</div>
+<hr />
+<div style="margin-top: 50px; margin-right: 25px; text-align: right">
+<p><a href='https://github.com/algorithmica-org/articles'>Есть чем дополнить?</a></p>
 </div>
 </body>
 </html>
