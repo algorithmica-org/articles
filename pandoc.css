@@ -31,7 +31,7 @@ body {
   line-height: 1.7;
   padding: 15m;
   margin: auto;
-  max-width: 48em;
+  width: 750px;
   background: #fefefe;
   text-align: justify;
   padding-bottom: 25px;
@@ -224,16 +224,18 @@ img {
   vertical-align: middle;
 }
 
-.figure {
+figure {
   display: block;
   text-align: center;
   margin: 1em 0;
 }
 
-.figure img {
+img {
   border: none;
   margin: auto;
+  display: block;
   max-width: 85%;
+  max-height: 400px;
 }
 
 figcaption {

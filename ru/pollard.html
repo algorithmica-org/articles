@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Факторизация за $O(\sqrt[4]{n})$</title>
+  <title>Ро-алгоритм Полларда</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -99,13 +99,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Факторизация за $O(\sqrt[4]{n})$</h1>
+<h1 class="title">Ро-алгоритм Полларда</h1>
 </header>
-<h1 id="факторизация-за-osqrt4n">Факторизация за <span class="math inline">\(O(\sqrt[4]{n})\)</span></h1>
-<p>Наука умеет раскладывать целые числа на множители за <span class="math inline">\(O(n^\frac{1}{4})\)</span>. Алгоритм рандомизированный, поэтому нам сначала понадобится один факт из теорвера.</p>
+<h1 id="ро-алгоритм-полларда">Ро-алгоритм Полларда</h1>
+<p>Наука умеет раскладывать целые числа на множители за <span class="math inline">\(O(n^\frac{1}{4})\)</span>. Описываемый в этой статье алгоритм рандомизированный, поэтому нам сначала понадобится доказать одно утверждение относящееся к теории вероятностей.</p>
 <h2 id="парадокс-дней-рождений">Парадокс дней рождений</h2>
 <p>Пусть <span class="math inline">\(f(n, d)\)</span> это вероятность того, что в группе из <span class="math inline">\(n\)</span> человек ни у кого не совпали дни рождения. Будем считать, что дни рождения распределены независимо и равномерно в промежутке от <span class="math inline">\(1\)</span> до <span class="math inline">\(d\)</span>.</p>
-<p><span class="math display">\[f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}{d})\]</span></p>
+<p><span class="math display">\[
+f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}{d})
+\]</span></p>
 <p>Попытаемся оценить <span class="math inline">\(f\)</span>:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -118,61 +120,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \end{aligned}
 \]</span></p>
 <p>Из формулы более-менее понятно, что вероятность <span class="math inline">\(\frac{1}{2}\)</span> достигается при <span class="math inline">\(n \approx \sqrt{d}\)</span> и в этой точке изменяется быстро. Для самого алгоритма нам понадобится следующее:</p>
-<p><strong>Утверждение</strong>. В мультимножество нужно добавить <span class="math inline">\(O(\sqrt{n})\)</span> случайных чисел от 1 до n, чтобы какие-то два совпали.</p>
-<p>Если вы не доверяете математике, посмотрите на графики:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="op">%</span>matplotlib inline</a>
-<a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="im">import</span> seaborn <span class="im">as</span> sns</a>
-<a class="sourceLine" id="cb1-5" title="5">sns.<span class="bu">set</span>()</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">def</span> f(n, d):</a>
-<a class="sourceLine" id="cb2-2" title="2">    p <span class="op">=</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb2-3" title="3">    <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):</a>
-<a class="sourceLine" id="cb2-4" title="4">        p <span class="op">*=</span> <span class="dv">1</span><span class="op">-</span>x<span class="op">/</span>d</a>
-<a class="sourceLine" id="cb2-5" title="5">    <span class="cf">return</span> p</a>
-<a class="sourceLine" id="cb2-6" title="6"></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="kw">def</span> g(n, d):</a>
-<a class="sourceLine" id="cb2-8" title="8">    <span class="cf">return</span> <span class="fl">2.71</span><span class="op">**</span>(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> n<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> d)</a></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" title="1">exact <span class="op">=</span> [f(n, <span class="dv">365</span>) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">40</span>)]</a>
-<a class="sourceLine" id="cb3-2" title="2">approx <span class="op">=</span> [g(n, <span class="dv">365</span>) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">40</span>)]</a>
-<a class="sourceLine" id="cb3-3" title="3">plt.plot(exact)</a>
-<a class="sourceLine" id="cb3-4" title="4">plt.plot(approx)</a>
-<a class="sourceLine" id="cb3-5" title="5">plt.show()</a></code></pre></div>
-<p>TODO: график</p>
-<p>На графике две линии, если не видно, — аппроксимация настолько хороша. Чтобы продемонстрировать <span class="math inline">\(n \approx \sqrt{d}\)</span>, построим такую же для больших чисел и перейдём в логарифмический масштаб.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1">approx <span class="op">=</span> [g(n, <span class="dv">10</span><span class="op">**</span><span class="dv">10</span>) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span><span class="op">**</span><span class="dv">6</span>)]</a>
-<a class="sourceLine" id="cb4-2" title="2">plt.xscale(<span class="st">&#39;log&#39;</span>)</a>
-<a class="sourceLine" id="cb4-3" title="3">plt.plot(approx)</a>
-<a class="sourceLine" id="cb4-4" title="4">plt.show()</a></code></pre></div>
-<p>TODO: график</p>
+<p><strong>Следствие</strong>. В мультимножество нужно добавить <span class="math inline">\(O(\sqrt{n})\)</span> случайных чисел от 1 до <span class="math inline">\(n\)</span>, чтобы какие-то два совпали.</p>
 <h2 id="rho-алгоритм-полларда"><span class="math inline">\(\rho\)</span>-алгоритм Полларда</h2>
-<p>Итак, мы хотим факторизовать число <span class="math inline">\(n\)</span>. Предположим, что <span class="math inline">\(n = p q\)</span> и <span class="math inline">\(p \approx q\)</span>. Понятно, что труднее случая, наверное, нет. Алгоритм итеративно ищет наименьший делитель и сводит задачу к как минимум в два раза меньшей.</p>
-<p>Возьмём произвольную «достаточно случайную» с точки зрения ТЧ функцию. Например <span class="math inline">\(f(x) = (x+1)^2 \mod n\)</span>.</p>
-<p>Как выглядит граф, в котором из вершины есть единственное ребро <span class="math inline">\(x \to f(x)\)</span>? Такой граф называется <em>функциональным</em>. Если в нём нарисовать «траекторию» произвольного элемента, — какой-то путь, превращающийся в цикл, — то получится что-то похожее на букву <span class="math inline">\(\rho\)</span> (ро). Алгоритм из-за этого так и назван.</p>
-<p>Рассмотрим траекторию какого-нибудь элемента <span class="math inline">\(x_0\)</span>: {<span class="math inline">\(x_0\)</span>, <span class="math inline">\(f(x_0)\)</span>, <span class="math inline">\(f(f(x_0))\)</span>, <span class="math inline">\(\ldots\)</span>}. Теперь сделаем из неё новую последовательность, взяв каждый элемент по модулю <span class="math inline">\(p\)</span> — наименьшего из простых делителей <span class="math inline">\(n\)</span>.</p>
+<p>Итак, мы хотим факторизовать число <span class="math inline">\(n\)</span>. Предположим, что <span class="math inline">\(n = p q\)</span> и <span class="math inline">\(p \approx q\)</span>. Понятно, что труднее случая, наверное, нет. Алгоритм итеративно ищет наименьший делитель и таким образом сводит задачу к как минимум в два раза меньшей.</p>
+<p>Возьмём произвольную «достаточно случайную» с точки зрения теории чисел функцию. Например <span class="math inline">\(f(x) = (x+1)^2 \mod n\)</span>.</p>
+<p>Граф, в котором из каждой вершины есть единственное ребро <span class="math inline">\(x \to f(x)\)</span>, называется <em>функциональным</em>. Если в нём нарисовать «траекторию» произвольного элемента — какой-то путь, превращающийся в цикл — то получится что-то похожее на букву <span class="math inline">\(\rho\)</span> (ро). Алгоритм из-за этого так и назван.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Pollard_rho_cycle.jpg" /></p>
+<p>Рассмотрим траекторию какого-нибудь элемента <span class="math inline">\(x_0\)</span>: {<span class="math inline">\(x_0\)</span>, <span class="math inline">\(f(x_0)\)</span>, <span class="math inline">\(f(f(x_0))\)</span>, <span class="math inline">\(\ldots\)</span>}. Сделаем из неё новую последовательность, мысленно взяв каждый элемент по модулю <span class="math inline">\(p\)</span> — наименьшего из простых делителей <span class="math inline">\(n\)</span>.</p>
 <p><strong>Утверждение</strong>. Ожидаемая длина цикла в этой последовательности <span class="math inline">\(O(\sqrt[4]{n})\)</span>.</p>
-<p><em>Доказательство:</em> так как <span class="math inline">\(p\)</span> — меньший делитель, то <span class="math inline">\(p \leq \sqrt{n}\)</span>. Теперь просто подставим в предыдущее утверждение: в множество нужно добавить <span class="math inline">\(O(\sqrt{p}) = O(\sqrt[4]{n})\)</span> элементов, чтобы какие-то два совпали, а значит последовательность зациклилась.</p>
-<p>Если мы найдём цикл в такой последовательности (то есть такие <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span>, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0)\)</span>), то мы можем восстановить какой-то делитель <span class="math inline">\(n\)</span>, а именно <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n)\)</span> — это число меньше <span class="math inline">\(n\)</span> и делится на <span class="math inline">\(p\)</span>.</p>
-<p>Алгоритм по сути находит цикл в этой последовательности, используя для этого стандартный алгоритм («черепаха и заяц»): будем поддерживать два удаляющиеся друг от друга указателя <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> (<span class="math inline">\(i = 2j\)</span>) и проверять, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0) \pmod p\)</span>, что эквивалентно проверке <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n) &gt; 1\)</span>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1"><span class="im">from</span> math <span class="im">import</span> gcd</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="im">from</span> random <span class="im">import</span> randint</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">def</span> find_divisor(n, seed <span class="op">=</span> <span class="dv">1</span>, f <span class="op">=</span> <span class="kw">lambda</span> x: (x<span class="op">+</span><span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span>):</a>
-<a class="sourceLine" id="cb6-2" title="2">    x <span class="op">=</span> y <span class="op">=</span> seed</a>
-<a class="sourceLine" id="cb6-3" title="3">    d <span class="op">=</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb6-4" title="4">    <span class="cf">while</span> d <span class="op">==</span> <span class="dv">1</span>:</a>
-<a class="sourceLine" id="cb6-5" title="5">        x <span class="op">=</span> f(f(x)) <span class="op">%</span> n</a>
-<a class="sourceLine" id="cb6-6" title="6">        y <span class="op">=</span> f(y) <span class="op">%</span> n</a>
-<a class="sourceLine" id="cb6-7" title="7">        d <span class="op">=</span> gcd(<span class="bu">abs</span>(x<span class="op">-</span>y), n)</a>
-<a class="sourceLine" id="cb6-8" title="8">    <span class="cf">return</span> d</a></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1">n <span class="op">=</span> <span class="dv">3</span><span class="op">*</span><span class="dv">5</span><span class="op">*</span><span class="dv">7</span> <span class="co"># = 105</span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="bu">print</span>([find_divisor(n, seed<span class="op">=</span>i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n)])</a></code></pre></div>
-<pre><code>[3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3, 3, 21, 7, 21, 21, 21, 3, 3, 7, 21, 21, 7, 3, 3, 21, 21, 21, 7, 21, 3, 3]</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb9-1" title="1">n <span class="op">=</span> (<span class="dv">10</span><span class="op">**</span><span class="dv">9</span><span class="op">+</span><span class="dv">7</span>)<span class="op">*</span>(<span class="dv">10</span><span class="op">**</span><span class="dv">9</span><span class="op">+</span><span class="dv">9</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="bu">print</span>([find_divisor(n, seed<span class="op">=</span>randint(<span class="dv">1</span>, n)) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">20</span>)])</a></code></pre></div>
-<pre><code>[1000000007, 1000000009, 1000000009, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009, 1000000007, 1000000009, 1000000009, 1000000009, 1000000009, 1000000009, 1000000007, 1000000009]</code></pre>
+<p><em>Доказательство:</em> так как <span class="math inline">\(p\)</span> — меньший делитель, то <span class="math inline">\(p \leq \sqrt{n}\)</span>. Теперь просто подставляем в следствие из парадокса дней рождений: в множество нужно добавить <span class="math inline">\(O(\sqrt{p}) = O(\sqrt[4]{n})\)</span> элементов, чтобы какие-то два совпали, а значит последовательность зациклилась.</p>
+<p>Если мы найдём цикл в такой последовательности — то есть такие <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span>, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0) \pmod p\)</span> — то мы сможем найти и какой-то делитель <span class="math inline">\(n\)</span>, а именно <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n)\)</span> — это число меньше <span class="math inline">\(n\)</span> и делится на <span class="math inline">\(p\)</span>.</p>
+<p>Алгоритм по сути находит цикл в этой последовательности, используя для этого стандартный алгоритм («черепаха и заяц»): будем поддерживать два удаляющихся друг от друга указателя <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> (<span class="math inline">\(i = 2j\)</span>) и проверять, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0) \pmod p\)</span>, что эквивалентно проверке <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n) &gt; 1\)</span>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1">typedef <span class="bu">long</span> <span class="bu">long</span> ll<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3">inline ll f(ll x) { <span class="cf">return</span> (x<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(x<span class="op">+</span><span class="dv">1</span>)<span class="op">;</span> }</a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5">ll find_divisor(ll n, ll seed <span class="op">=</span> <span class="dv">1</span>):</a>
+<a class="sourceLine" id="cb1-6" title="6">    ll x <span class="op">=</span> seed, y <span class="op">=</span> seed<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-7" title="7">    ll divisor <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb1-8" title="8">    <span class="cf">while</span> (d <span class="op">==</span> <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb1-9" title="9">        <span class="op">//</span> двигаем первый указатель на шаг</a>
+<a class="sourceLine" id="cb1-10" title="10">        y <span class="op">=</span> f(y) <span class="op">%</span> n<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-11" title="11">        <span class="op">//</span> а второй <span class="op">--</span> на два</a>
+<a class="sourceLine" id="cb1-12" title="12">        x <span class="op">=</span> f(f(x) <span class="op">%</span> n) <span class="op">%</span> n<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-13" title="13">        <span class="op">//</span> пытаемся найти общий делитель</a>
+<a class="sourceLine" id="cb1-14" title="14">        divisor <span class="op">=</span> __gcd(<span class="bu">abs</span>(x<span class="op">-</span>y), n)<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-15" title="15">    }</a>
+<a class="sourceLine" id="cb1-16" title="16">    <span class="cf">return</span> divisor<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-17" title="17">}</a></code></pre></div>
 <p>Так как алгоритм рандомизированный, при полной реализации нужно учитывать разные детали. Например, что иногда делитель не находится (нужно запускать несколько раз), или что при попытке факторизовать простое число он будет работать за <span class="math inline">\(O(\sqrt{n})\)</span> (нужно добавить отсечение по времени).</p>
-<h2 id="разное">Разное</h2>
-<p>Формально, мы показали, что алгоритм работает за <span class="math inline">\(O(\sqrt[4]{n} \log n)\)</span> за счёт поиска <span class="math inline">\(\gcd\)</span>, но сложной теорией чисел можно доказать, что этого логарифма в асимптотике на самом деле нет.</p>
-<p>Пародокс дней рождения также можно использовать при подсчёте вероятности коллизии при хэшировании. Хороший модуль должен быть не менее квадрата количества хэшей, а чего-то вроде <span class="math inline">\(5 n^2\)</span> уже почти всегда достаточно.</p>
+<h3 id="разное">Разное</h3>
+<p>Формально, мы показали, что алгоритм работает за <span class="math inline">\(O(\sqrt[4]{n} \log n)\)</span> за счёт поиска <span class="math inline">\(\gcd\)</span>, но <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm#Average">сложной теорией чисел</a> можно доказать, что этого логарифма в асимптотике на самом деле нет.</p>
+<p>Факторизация больших чисел интересна в контексте криптографии — на предположение невозможности факторизации за линейное время опирается, например, алгоритм RSA.</p>
+<p>Существуют также <a href="https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F_%D1%86%D0%B5%D0%BB%D1%8B%D1%85_%D1%87%D0%B8%D1%81%D0%B5%D0%BB#%D0%A1%D1%83%D0%B1%D1%8D%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B">субэкспоненциальные</a>, но не полиномиальные алгоритмы факторизации. Человечество <a href="https://en.wikipedia.org/wiki/Integer_factorization_records">умеет</a> факторизовывать числа порядка <span class="math inline">\(2^{200}\)</span>.</p>
+<p><a href="https://en.wikipedia.org/wiki/Shor%27s_algorithm">Алгоритм Шора</a> позволяет факторизовывать числа за полиномиальное время на квантовом компьютере. Но на 2019 год все квантовые вычисления проще симулировать на обычном компьютере. Самое большое число, факторизованное на реальном квантовом компьютере — 4088459.</p>
 </body>
 </html>

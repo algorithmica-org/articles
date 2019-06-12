@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Игры с неполной информацией</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Игры с неполной информацией</h1>
+</header>
+<h1 id="игры-с-неполной-информацией">Игры с неполной информацией</h1>
+<p>Рассмотрим следующую ситуацию, известную как <em>дилемма заключённого</em>:</p>
+<blockquote>
+<p>Двое преступников — А и Б — попались примерно в одно и то же время на сходных преступлениях. Полиция предполагает, что они действовали по сговору, и, изолировав их друг от друга, предлагает им одну и ту же сделку:</p>
+<ul>
+<li><p>Если один свидетельствует против другого, а тот хранит молчание, то первый освобождается за помощь следствию, а второй получает максимальный срок лишения свободы (10 лет).</p></li>
+<li><p>Если оба молчат, их деяние проходит по более лёгкой статье, и каждый из них приговаривается к году тюрьмы.</p></li>
+<li><p>Если оба свидетельствуют друг против друга, они получают по 2 года.</p></li>
+</ul>
+<p>Каждый заключённый выбирает, молчать или свидетельствовать против другого. Однако ни один из них не знает точно, что сделает другой. Что произойдёт?</p>
+</blockquote>
+<p>Игры, в которых у игроков (в данном случае — узников) есть некоторая неопределенность относительно действий других игроков (например, из-за одновременности действий), называются <em>играми с неполной информацией</em>.</p>
+<p>Данную «игру» можно представить в виде следующей табилцы:</p>
+<div class="line-block">                                   | Б хранит молчание | Б даёт показания |<br />
+А хранит молчание | (1, 1) | (10, 0) |<br />
+А даёт показания | (0, 10) | (2, 2) |</div>
+<p>Пары чисел в ячейках означают сроки, которые получают заключенные А и Б соответственно.</p>
+<p>Предположим, что оба преступника заботятся только о минимизации собственного срока заключения. Тогда рассуждения каждого узника будут следующими:</p>
+<ul>
+<li><p>Если партнёр молчит, то лучше его предать и выйти на свободу (иначе — полгода тюрьмы).</p></li>
+<li><p>Если партнёр свидетельствует, то лучше тоже свидетельствовать против него, чтобы получить 2 года (иначе — 10 лет) тюрьмы.</p></li>
+</ul>
+<p>Стратегия «свидетельствовать» <em>строго доминирует</em> над стратегией «молчать», то есть свидетельствовать всегда лучше вне зависимости от действия другого узника. Оба узника приходят к этому выводу и в итоге получают по 2 года каждый.</p>
+<p>С точки зрения группы лучше всего хранить молчание и получить по году, так как это уменьшит срок заключения каждого. Такие состояния называются <em>Парето-эффективными</em>, но, как мы видим, они не всегда являются стабильными.</p>
+<h2 id="игры-с-нулевой-суммой">Игры с нулевой суммой</h2>
+<p>Рассмотрим другой пример игры с неполной информацией: «камень-ножницы-бумага». Эта игра в каком-то смысле более «человечная»: игроки явно соревнуются друг с другом, и им не нужно делать сделки с совестью и предавать друг друга.</p>
+<p><strong>Определение.</strong> Игра называется <em>с нулевой суммой</em>, если один игрок выигрывает столько, сколько второй проигрывает.</p>
+<p><strong>Примечание.</strong> Дилемма заключенного — пример игры <em>с ненулевой суммой</em>.</p>
+<p>В играх с нулевой суммой исходы можно записывать разницей между выгодой первого и второго игрока:</p>
+<div class="line-block">    | К2 | Н2 | Б2|<br />
+К1 | 0 | +1 | -1|<br />
+Н1 | -1 | 0 | +1|<br />
+Б1 | +1 | -1 | 0 |</div>
+<p>Каждая фиксированная стратегия (в данном случае выбор действия — камень, ножницы или бумага), которую может выбрать игрок, называется его чистой <em>стратегией</em>.</p>
+<p><strong>Смешанной стратегией</strong> игрока называется набор чистых стратегий, задаваемый вероятностями (относительными частотами) выбора соответствующих чистых стратегий. Задача обоих игроков — выбрать смешанную стратегию, максимизирующую свой выигрыш.</p>
+<p>Понятно, что в этой игре любая чистая стратегия может быть <em>доминирована</em> (то есть, если всегда делать один и тот же ход, то оппонент сообразит, как побеждать).</p>
+<p>Обозначим смешанную стратегию первого игрока за <span class="math inline">\(x\)</span>, а второго игрока за <span class="math inline">\(y\)</span>. Тогда ожидаемый счёт можно записать так:</p>
+<p><span class="math display">\[
+V = xAy^T
+\]</span></p>
+<p>Действительно, эта формула раскрывается в <span class="math inline">\(\sum A_{ij} \cdot x(i) \cdot y(j)\)</span>.</p>
+<p><strong>Минимаксная теорема.</strong> Первый игрок хочет минимизировать это значение, а второй — максимизировать. Обозначим за <span class="math inline">\(V_a\)</span> и <span class="math inline">\(V_b\)</span> оптимальные значения, которые удаётся достичь игрокам вне зависимости от действий оппонента, то есть:</p>
+<p><span class="math display">\[
+V_a = \min_x \max_y xAy^T
+\\ V_b = \max_y \min_x xAy^T
+\]</span></p>
+<p>Утверждение: <span class="math inline">\(V_a = V_b\)</span>.</p>
+<p><strong>Доказательство.</strong> Запишем матрицу <span class="math inline">\(A&#39;\)</span>, приписав к <span class="math inline">\(A\)</span> справа единичную матрицу:</p>
+<p>Будем доказывать от противного: покажем, что ситуация <span class="math inline">\(V_a &lt; 0 &lt; V_b\)</span> невозможна, а значит для любого <span class="math inline">\(t\)</span> ситуация невозможна.</p>
+<p>Рассмотрим выпуклую оболочку <span class="math inline">\(C\)</span> её столбцов.</p>
+<p>Предположим, что <span class="math inline">\(\vec{0} \in C\)</span>.</p>
+<p>Тогда существуют <span class="math inline">\(z_1, z_2, \ldots z_{n+m}\)</span> такие что <span class="math inline">\(0 \leq z_i \leq 1\)</span> и <span class="math inline">\(\sum z_i = 1\)</span> (то есть вероятностное распределение).</p>
+<p>$sum_{j=1}^n a_{ij} z_{ij} $</p>
+<p>В этой игре оптимальной</p>
+<h3 id="несимметричные-игры">Несимметричные игры</h3>
+<h3 id="минимаксная-теорема">Минимаксная теорема</h3>
+<p>Докажем очень частный случай. Это утверждение оказывается верно, и даже в случае многопользовательских игр и игр с ненулевой суммой, но доказательства этих фактов содержат слишком много матана, чтобы добавлять их навключать сайт по программированию.</p>
+<p>Пусть имеется матрица <span class="math inline">\(A\)</span> размера <span class="math inline">\(n \times m\)</span>. Задача</p>
+</body>
+</html>
