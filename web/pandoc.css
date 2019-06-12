@@ -40,8 +40,14 @@ body {
 .contents {
     position: inline-block;
     float: left;
-    width: 33.3%;
+    position: relative;
+    left: 55px;
+    width: 275px;
     text-align: left;
+}
+
+.contents h3 {
+
 }
 
 .contents ul {
@@ -133,11 +139,13 @@ blockquote {
 
 hr {
   display: block;
-  height: 2px;
+  width: 100%;
+  height: 0px;
   border: 0;
-  border-top: 1px solid #aaa;
+  /* border-top: 1px solid #aaa;
   border-bottom: 1px solid #eee;
-  margin: 1em 0;
+  */
+  margin: 0 0;
   padding: 0;
 }
 
