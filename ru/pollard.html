@@ -135,28 +135,28 @@ f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Pollard_rho_cycle.jpg" /></p>
 <p>Рассмотрим траекторию какого-нибудь элемента <span class="math inline">\(x_0\)</span>: {<span class="math inline">\(x_0\)</span>, <span class="math inline">\(f(x_0)\)</span>, <span class="math inline">\(f(f(x_0))\)</span>, <span class="math inline">\(\ldots\)</span>}. Сделаем из неё новую последовательность, мысленно взяв каждый элемент по модулю <span class="math inline">\(p\)</span> — наименьшего из простых делителей <span class="math inline">\(n\)</span>.</p>
 <p><strong>Утверждение</strong>. Ожидаемая длина цикла в этой последовательности <span class="math inline">\(O(\sqrt[4]{n})\)</span>.</p>
-<p><em>Доказательство:</em> так как <span class="math inline">\(p\)</span> — меньший делитель, то <span class="math inline">\(p \leq \sqrt{n}\)</span>. Теперь просто подставляем в следствие из парадокса дней рождений: в множество нужно добавить <span class="math inline">\(O(\sqrt{p}) = O(\sqrt[4]{n})\)</span> элементов, чтобы какие-то два совпали, а значит последовательность зациклилась.</p>
+<p><em>Доказательство:</em> так как <span class="math inline">\(p\)</span> — меньший делитель, то <span class="math inline">\(p \leq \sqrt n\)</span>. Теперь просто подставлим в следствие из парадокса дней рождений: в множество нужно добавить <span class="math inline">\(O(\sqrt{p}) = O(\sqrt[4]{n})\)</span> элементов, чтобы какие-то два совпали, а значит последовательность зациклилась.</p>
 <p>Если мы найдём цикл в такой последовательности — то есть такие <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span>, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0) \pmod p\)</span> — то мы сможем найти и какой-то делитель <span class="math inline">\(n\)</span>, а именно <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n)\)</span> — это число меньше <span class="math inline">\(n\)</span> и делится на <span class="math inline">\(p\)</span>.</p>
 <p>Алгоритм по сути находит цикл в этой последовательности, используя для этого стандартный алгоритм («черепаха и заяц»): будем поддерживать два удаляющихся друг от друга указателя <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> (<span class="math inline">\(i = 2j\)</span>) и проверять, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0) \pmod p\)</span>, что эквивалентно проверке <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n) &gt; 1\)</span>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1">typedef <span class="bu">long</span> <span class="bu">long</span> ll<span class="op">;</span></a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> ll;</a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3">inline ll f(ll x) { <span class="cf">return</span> (x<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(x<span class="op">+</span><span class="dv">1</span>)<span class="op">;</span> }</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">inline</span> ll f(ll x) { <span class="cf">return</span> (x+<span class="dv">1</span>)*(x+<span class="dv">1</span>); }</a>
 <a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5">ll find_divisor(ll n, ll seed <span class="op">=</span> <span class="dv">1</span>):</a>
-<a class="sourceLine" id="cb1-6" title="6">    ll x <span class="op">=</span> seed, y <span class="op">=</span> seed<span class="op">;</span></a>
-<a class="sourceLine" id="cb1-7" title="7">    ll divisor <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb1-8" title="8">    <span class="cf">while</span> (d <span class="op">==</span> <span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb1-9" title="9">        <span class="op">//</span> двигаем первый указатель на шаг</a>
-<a class="sourceLine" id="cb1-10" title="10">        y <span class="op">=</span> f(y) <span class="op">%</span> n<span class="op">;</span></a>
-<a class="sourceLine" id="cb1-11" title="11">        <span class="op">//</span> а второй <span class="op">--</span> на два</a>
-<a class="sourceLine" id="cb1-12" title="12">        x <span class="op">=</span> f(f(x) <span class="op">%</span> n) <span class="op">%</span> n<span class="op">;</span></a>
-<a class="sourceLine" id="cb1-13" title="13">        <span class="op">//</span> пытаемся найти общий делитель</a>
-<a class="sourceLine" id="cb1-14" title="14">        divisor <span class="op">=</span> __gcd(<span class="bu">abs</span>(x<span class="op">-</span>y), n)<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-5" title="5">ll find_divisor(ll n, ll seed = <span class="dv">1</span>):</a>
+<a class="sourceLine" id="cb1-6" title="6">    ll x = seed, y = seed;</a>
+<a class="sourceLine" id="cb1-7" title="7">    ll divisor = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-8" title="8">    <span class="cf">while</span> (d == <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb1-9" title="9">        <span class="co">// двигаем первый указатель на шаг</span></a>
+<a class="sourceLine" id="cb1-10" title="10">        y = f(y) % n;</a>
+<a class="sourceLine" id="cb1-11" title="11">        <span class="co">// а второй -- на два</span></a>
+<a class="sourceLine" id="cb1-12" title="12">        x = f(f(x) % n) % n;</a>
+<a class="sourceLine" id="cb1-13" title="13">        <span class="co">// пытаемся найти общий делитель</span></a>
+<a class="sourceLine" id="cb1-14" title="14">        divisor = __gcd(abs(x-y), n);</a>
 <a class="sourceLine" id="cb1-15" title="15">    }</a>
-<a class="sourceLine" id="cb1-16" title="16">    <span class="cf">return</span> divisor<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-16" title="16">    <span class="cf">return</span> divisor;</a>
 <a class="sourceLine" id="cb1-17" title="17">}</a></code></pre></div>
-<p>Так как алгоритм рандомизированный, при полной реализации нужно учитывать разные детали. Например, что иногда делитель не находится (нужно запускать несколько раз), или что при попытке факторизовать простое число он будет работать за <span class="math inline">\(O(\sqrt{n})\)</span> (нужно добавить отсечение по времени).</p>
-<h3 id="разное">Разное</h3>
+<p>Так как алгоритм рандомизированный, при полной реализации нужно учитывать разные детали. Например, что иногда делитель не находится (нужно запускать несколько раз), или что при попытке факторизовать простое число он будет работать за <span class="math inline">\(O(\sqrt n)\)</span> (нужно добавить отсечение по времени).</p>
+<h3 id="примечания">Примечания</h3>
 <p>Формально, мы показали, что алгоритм работает за <span class="math inline">\(O(\sqrt[4]{n} \log n)\)</span> за счёт поиска <span class="math inline">\(\gcd\)</span>, но <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm#Average">сложной теорией чисел</a> можно доказать, что этого логарифма в асимптотике на самом деле нет.</p>
 <p>Факторизация больших чисел интересна в контексте криптографии — на предположение невозможности факторизации за линейное время опирается, например, алгоритм RSA.</p>
 <p>Существуют также <a href="https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F_%D1%86%D0%B5%D0%BB%D1%8B%D1%85_%D1%87%D0%B8%D1%81%D0%B5%D0%BB#%D0%A1%D1%83%D0%B1%D1%8D%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B">субэкспоненциальные</a>, но не полиномиальные алгоритмы факторизации. Человечество <a href="https://en.wikipedia.org/wiki/Integer_factorization_records">умеет</a> факторизовывать числа порядка <span class="math inline">\(2^{200}\)</span>.</p>
