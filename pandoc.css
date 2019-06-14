@@ -205,6 +205,11 @@ li p:last-child {
   margin-bottom: 0;
 }
 
+li ul {
+  padding-left: 18px;
+  padding-top: 1px;
+}
+
 ul ul, ol ol {
   margin: .3em 0;
 }
