@@ -11,6 +11,69 @@
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
   <link rel="stylesheet" href="../pandoc.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
   <!--[if lt IE 9]>
@@ -55,7 +118,7 @@
 <p>Научимся их строить по какому-то множеству из <span class="math inline">\(n\)</span> точек на плоскости.</p>
 <h2 id="алгоритм-джарвиса">Алгоритм Джарвиса</h2>
 <p>Выберем какую-нибудь точку <span class="math inline">\(p_0\)</span>, которая гарантированно попадёт в выпуклую оболочку. Например, нижнюю, а если таких несколько, то самую левую из них.</p>
-<p>Дальше будем действовать так: найдём самую «правую» точку от последней добавленной (то есть с минимальным полярным углом) и добавим её в оболочку. Будем так итеративно добавлять точки, пока не «замкнёмся», то есть пока самой правой не станет <span class="math inline">\(p_0\)</span>.</p>
+<p>Дальше будем действовать так: найдём самую «правую» точку от последней добавленной (то есть точку с минимальным полярным углом) и добавим её в оболочку. Будем так итеративно добавлять точки, пока не «замкнёмся», то есть пока самой правой точкой не станет <span class="math inline">\(p_0\)</span>.</p>
 <figure>
 <img src="http://neerc.ifmo.ru/wiki/images/b/b3/Graham1.png" alt="alt text" /><figcaption>alt text</figcaption>
 </figure>
@@ -64,84 +127,91 @@
 <li><p>На первом шаге мы выбрали точку, точно лежащую в МВО.</p></li>
 <li><p>На <span class="math inline">\(i\)</span>-м шаге мы взяли такую точку, что все остальные лежат по «правильную» сторону отрезка <span class="math inline">\((p_i, p_{i+1})\)</span>.</p></li>
 </ul>
-<p>Алгоритм Джарвиса также называют алгоритмом заворачивания подарка.</p>
+<p>Алгоритм Джарвиса также называют алгоритмом заворачивания подарка: мы каждый раз находим самый близкий «угол».</p>
 <p>Для каждой точки выпуклой оболочки (обозначим их количество за <span class="math inline">\(h\)</span>) мы из всех оставшихся <span class="math inline">\(O(n)\)</span> точек будем искать оптимальную, что суммарно будет работать за <span class="math inline">\(O(n h)\)</span>.</p>
 <p>В реализации будем пользоваться тем же классом для точки, что и в <a href="https://algorithmica.org/ru/geometry">статье про вычислительную геометрию</a>.</p>
 <p>Для краткости, будем считать, что все точки различны, имеют целочисленные координаты, а также что нет трёх точек на одной прямой.</p>
-<pre><code>vector&lt;r&gt; convex_hull(vector&lt;r&gt; points) {
+<pre><code>vector&lt;r&gt; jarvis_convex_hull(vector&lt;r&gt; points) {
     r p0 = points[0];
     for (r p : points)
         if (p.x &lt; p0.x || (p.x == p0.x &amp;&amp; p.y &lt; p0.y))
         p0 = p;
     vector&lt;r&gt; hull = {p0};
-    do {
-        for (int p = 0; p &lt; n; p++) {
-            
-        }
-        
-    } while()
+    while (true) {
+        r t = p0; // кандидат на следующую точку
+        for (r p : points)
+            // лучше никакие полярные углы не считать
+            if ((p - p0) ^ (t - p0) &gt; 0)
+                t = p;
+        if (t == p0)
+            continue;
+        else {
+            p0 = t;
+            hull.push_back(t);
+        }
+    }
+    return hull;
 }</code></pre>
 <p>Важно помнить, что асимптотика именно <span class="math inline">\(O(nh)\)</span>, а не <span class="math inline">\(O(n^2)\)</span>: существуют задачи, где оболочка маленькая, и это существенно.</p>
 <h2 id="алгоритм-грэхема">Алгоритм Грэхема</h2>
-<p>Алгоритм Грэхема — это оптимизация алгоритма Джарвиса, основанная на следующей идее: давайте не искать следующую точку каждый раз, а сделаем так, чтобы у нас всегда была оптимальная точка и мы могли бы просто ее достать и проверить.</p>
-<p>В прошлом алгоритме мы искали точку, оптимальную по полярному углу, тогда давайте сейчас сразу отсортируем точки по полярному углу и сразу возьмем две первые точки в МВО.</p>
-<p>Теперь будем делать следующий алгоритм, пока все точки не будут просмотрены :</p>
-<ol type="1">
-<li><p>Возьмем первую из отсортированных точек.</p></li>
-<li><p>Проверем последние три точки из взятых, если они образуют правый поворот, то удалим предпоследнюю точку</p></li>
-</ol>
-<p>Сделать это можно, например, стеком. Код есть ниже.</p>
+<p>Алгоритм Грэхема — это оптимизация алгоритма Джарвиса, основанная на следующем наблюдении: если отсортировать все точки по полярному углу относительно точки <span class="math inline">\(p_0\)</span>, то выпуклая оболочка будет какой-то подпоследовательностью такого отсортированного массива точек.</p>
+<p>Алгоритм последовательно строит выпуклые оболочки для каждого префикса этого отсортированного масива. При добавлении <span class="math inline">\(i\)</span>-й точки в оболочку нужно удалить сколько-то последних добавленных точек, которые не будут входить в новую оболочку. Чтобы это делать эффективно, мы можем хранить выпуклую оболочку в стэке и в цикле <code>while</code> смотреть на три последние точки и проверять, образуют ли они правый поворот. Если это так, то среднюю следует удалить — мы нашли треугольник <span class="math inline">\((p_0, p_i, p_{i-2})\)</span>, который содержит <span class="math inline">\(p_{i-1}\)</span>, значит её можно удалить.</p>
 <figure>
 <img src="https://cdn.turkaramamotoru.com/ru/algoritm-grehema-4131.jpg" alt="alt text" /><figcaption>alt text</figcaption>
 </figure>
-<p>Асимптотика : Мы просмотрим одну точку и либо удалим ее, либо оставим, то есть сам поиск МВО работает за линейное время, но мы еще делаем сортировку, а <span class="math inline">\(\rightarrow\)</span> алгоритм работает за <span class="math inline">\(O(n\log(n))\)</span>, при этом его корректность вытекает из предыдущего алгоритма.</p>
-<pre><code>int main() {
-    sort(all(p2), comp);
-    vector&lt;Point&gt; s;
-    s.push_back(p[min_ind]);
-    for (int i = 0; i &lt; n - 1; i++) {
-        if (p2[i].x == s[s.size() - 1].x &amp;&amp; p2[i].y == s[s.size() - 1].y)
-            continue;
-        while (s.size() &gt; 1 &amp;&amp; (vect(s[s.size() - 1], s[s.size() - 2]) ^
-               vect(s[s.size() - 1], p2[i])) &gt; 0)
-            s.pop_back();
-        s.push_back(p2[i]);
+<p>Каждая точка будет добавлена один раз удалена не более одного раза, что занимает константное количество операций. Соответственно, время работы будет упираться во время работы сортировки, то есть <span class="math inline">\(O(n \log n)\)</span>.</p>
+<pre><code>vector&lt;r&gt; graham_convex_hull(vector&lt;r&gt; points) {
+    // находим p0, как и раньше
+    r p0 = points[0];
+    for (r p : points)
+        if (p.x &lt; p0.x || (p.x == p0.x &amp;&amp; p.y &lt; p0.y))
+            p0 = p;
+ 
+    // TODO: удалить p0
+
+    // сортируем точки по полярному углу    
+    sort(points.begin(), points.end(), [&amp;](r a, r b){
+        return (a - p0) ^ (b - p0) &gt; 0;
+    });
+    
+    vector&lt;r&gt; s = {p0};
+    for (r p : points) {
+        while (...) {
+             s[s.size()-2] = s[s.size()-1];
+             s.pop_back();            
+        }
+        s.push_back(p);
     }
+    
+    return s;
 }</code></pre>
 <h2 id="верхние-и-нижние-огибающие">Верхние и нижние огибающие</h2>
-<p>Для некоторых</p>
-<h2 id="алгоритм-эндрю">Алгоритм Эндрю</h2>
-<p>Алгоритм Эндрю опирается на то, что вещественные числа не точны и предлагает поменять компаратор и строить не одну выпуклую оболочку, а две :</p>
-<p>Давайте выберем самую нижнюю и самую правую точку, затем отсортируем точки по самому простому из возможных компараторов, теперь будем строить две оболочки от самой правой точки и самой левой, в итоге мы получим верхнюю и нижнюю части выпуклой оболочки</p>
-<pre><code>bool comp(Point a, Point b) {
-    if(a.x == b.x) {
-        return a.y &lt; b.y;
-    }
-    return a.x &lt; b.x;
-}
-
-int main() {
-    sort(all(p), comp);
-    vector&lt;Point&gt; up, down;
-    up.pb(p[0]);
-    down.pb(p[0]);
-    Point p1 = p[0], p2 = p.back();
-    for(int i = 1; i &lt; n; i++) {
-        if (i == n - 1 || cw(p1, p[i], p2)) {
-            while (up.size() &gt;= 2 &amp;&amp; !cw(up[up.size() - 2], up[up.size() - 1], p[i])) {
-                up.pop_back();
-            }
-            up.pb(p[i]);
-        }
-        if (i == n - 1 || ccw(p1, p[i], p2)) {
-            while (down.size() &gt;= 2 &amp;&amp; !ccw(down[down.size() - 2], down[down.size() - 1], p[i])) {
-                down.pop_back();
-            }
-            down.pb(p[i]);
-        }
-    }
+<p>Для некоторых на самом деле нам нужны не выпуклые оболочки, а только половины. Их называют <em>огибающими</em>.</p>
+<p>Огибающие строить проще. В некоторых задачах, где точки генерируются за линейное время, это м.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1">vector&lt;r&gt; upper_envelope(vector&lt;r&gt; points) {</a>
+<a class="sourceLine" id="cb3-2" title="2">    sort(points.begin(), points.end(), [](r a, r b){</a>
+<a class="sourceLine" id="cb3-3" title="3">        <span class="cf">return</span> a.x &lt; b.x;</a>
+<a class="sourceLine" id="cb3-4" title="4">    });</a>
+<a class="sourceLine" id="cb3-5" title="5">    </a>
+<a class="sourceLine" id="cb3-6" title="6">    vector&lt;r&gt; s = {p0};</a>
+<a class="sourceLine" id="cb3-7" title="7">    for (r p : points) {</a>
+<a class="sourceLine" id="cb3-8" title="8">        while (...) {</a>
+<a class="sourceLine" id="cb3-9" title="9">            s[s.size()-<span class="dv">2</span>] = s[s.size()-<span class="dv">1</span>];</a>
+<a class="sourceLine" id="cb3-10" title="10">            s.pop_back();</a>
+<a class="sourceLine" id="cb3-11" title="11">        }</a>
+<a class="sourceLine" id="cb3-12" title="12">        s.push_back(p);</a>
+<a class="sourceLine" id="cb3-13" title="13">    }</a>
+<a class="sourceLine" id="cb3-14" title="14">    </a>
+<a class="sourceLine" id="cb3-15" title="15">    return s;</a>
+<a class="sourceLine" id="cb3-16" title="16">}</a></code></pre></div>
+<h3 id="алгоритм-эндрю">Алгоритм Эндрю</h3>
+<p>Для построения выпуклой оболочки также можно поступить следующим образом: построить верхнюю огибающую, нижнюю огибаюзую, а потом просто объединить два списка.</p>
+<pre><code>vector&lt;r&gt; andrew_convex_hull(vector&lt;r&gt; points) {
+    vector&lt;r&gt; lower = // ...
+    vector&lt;r&gt; upper = // ...
+    vector&lt;r&gt; hull = lower;        
 }</code></pre>
-<h2 id="пересечение-оболочек">Пересечение оболочек</h2>
+<p>Вообще, с огибающими работать немного проще, чем с оболочками</p>
 <h3 id="пересечение-полуплоскостей">Пересечение полуплоскостей</h3>
 <p>Например, так можно строить подобные клёвые картинки:</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Coloured_Voronoi_2D.svg/220px-Coloured_Voronoi_2D.svg.png" /></p>
@@ -150,7 +220,6 @@ int main() {
 <p>Разделим все точки на группы по <span class="math inline">\(m\)</span> точек в каждой. В каждой группе построим выпуклую оболочку за <span class="math inline">\(O(m \log m)\)</span>. Точки никак не упорядочены, и эти оболочки могут пересекаться, это нормально. Суммарно для всех групп понадобится <span class="math inline">\(O(n \log m)\)</span>.</p>
 <p>Затем, так же начиная с самой левой нижей точки, мы будем строить общую выпуклую оболочку алгоритмом Джарвиса, но теперь «самую правую точку» можно находить каждый раз не за <span class="math inline">\(O(n)\)</span>, а за <span class="math inline">\(O(\frac{n}{m} \log m)\)</span>, если делать бинарный поиск в каждой из <span class="math inline">\(\frac{n}{m}\)</span> оболочек.</p>
 <p>Такое решение будет работать за <span class="math inline">\(O(h \frac{n}{m} \log m + n \log m)\)</span>. Если заранее примерно знать <span class="math inline">\(h\)</span>, то можно положить <span class="math inline">\(m = h\)</span>, и тогда асимптотипа составит <span class="math inline">\(O(n \log h)\)</span>.</p>
-<h2 id="динамические-выпуклые-оболочки">Динамические выпуклые оболочки</h2>
-<h2 id="применения-не-в-геометрии">Применения не в геометрии</h2>
+<h2 id="динамические-выпуклые-оболочк">Динамические выпуклые оболочк</h2>
 </body>
 </html>
