@@ -184,7 +184,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb2-29" title="29"></a>
 <a class="sourceLine" id="cb2-30" title="30"><span class="dt">void</span> solve (<span class="dt">int</span> v) {</a>
 <a class="sourceLine" id="cb2-31" title="31">    <span class="co">/* &lt;единственный зависящий от конкретной задачи код&gt; */</span></a>
-<a class="sourceLine" id="cb2-32" title="32">    size(v);</a>
+<a class="sourceLine" id="cb2-32" title="32">    sizes(v);</a>
 <a class="sourceLine" id="cb2-33" title="33">    vector&lt;<span class="dt">int</span>&gt; d(s[v], <span class="dv">0</span>);</a>
 <a class="sourceLine" id="cb2-34" title="34">    d[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
 <a class="sourceLine" id="cb2-35" title="35">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v]) {</a>
@@ -217,7 +217,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Тогда, при ответе на запрос, мы за <span class="math inline">\(O(\log n)\)</span> или даже <span class="math inline">\(O(\log \log n)\)</span> операций находим центроид на нужном нам пути (первые сколько-то значений <code>centroid[v]</code> и <code>centroid[u]</code> будут совпадать — нас интересует последнее) и берём в качестве ответа минимум от минимумов на двух путях до центроида.</p>
 <h2 id="асимптотика-при-более-долгих-пересчётах">Асимптотика при более долгих пересчётах</h2>
 <p>Представим, что мы написали «мердж» (ту часть, которая отвечает за ответ на запросы или подсчёт путей, идущих через центроид) не за линейное время, а за <span class="math inline">\(O(n \log n)\)</span>, например, где-то использовав <code>set</code>. Сильно ли это хуже по времени?</p>
-<p>В худшем случае — бамбуке — каждый раз компонента будет разбиваться на две равные части. Просуммируем общее количество операций в дереве рекурсии (см. <a href="%5Bhttps://algorithmica.org/ru/karatsuba%5D(https://algorithmica.org/ru/karatsuba)">мастер-теорему</a>:</p>
+<p>В худшем случае (в бамбуке) каждый раз компонента будет разбиваться на две равные части. Просуммируем общее количество операций в дереве рекурсии (см. <a href="https://algorithmica.org/ru/karatsuba">мастер-теорему</a>):</p>
 <p><span class="math display">\[
 \sum_{k=0}^{\log n} n \log \frac{n}{2^k}
 = \sum_{k=0}^{\log n} n (\log n - k)
