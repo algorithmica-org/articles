@@ -109,14 +109,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Битовое сжатие</h1>
 </header>
 <h1 id="битовое-сжатие">Битовое сжатие</h1>
+<p>Процессор устроен так, что работает не с индивидуальными битами, а сразу с блоками по 32 или 64 бита — эта величина называется <em>машинным словом</em>. Как следствие, операции, затрагивающие лишь один бит, «стоят» столько же, сколько и операции над целым <code>int</code>-ом или даже <code>long long</code>-ом.</p>
+<p>Когда от нас требуется делать какие-то теоретико-множественные операции, их часто можно свести к большому количеству одинаковых операций над элементами булевого массива. Например:</p>
 <ul>
-<li>Из-за него в «асимптотиках» появляется <code>/64</code></li>
-<li>На Всеросе часто дают задачи, где оно может принести «бесплатные» ~20 баллов</li>
-<li><code>bitset</code> есть в stl; говорят, самописный быстрее</li>
+<li><p>Объединение множеств — побитовое ИЛИ.</p></li>
+<li><p>Пересечение множест — побитовое И.</p></li>
+<li><p>Симметрическая разность — побитовый XOR.</p></li>
 </ul>
-<p>Процессор так устроен, что работает сразу с блоками по 32 или 64 бита (зависит от архитектуры, но получить что-то меньше одного байта он в принципе не может). Иными словами, сделать <code>&amp;</code> двух <code>bool</code>-ом и двух <code>long</code>-ов примерно одинаково по скорости.</p>
-<p>Часто нам требуется сделать много одинаковых операций над элементами булевого массива. Проксорить два массива, например. Здесь появляется такая идея: сгруппировать элементы массива в блоки по 64 и каждый блок считать двоичным числом. Тогда мы можем ксорить сразу все 64 бита за одну операцию.</p>
-<p>Это всё можно кодить и вручную, но в STL это уже сделали до нас, создав структуру, ведущую себя как большое двоичное число со всеми стандартными битовыми операциями — <code>bitset</code>.</p>
+<p>Здесь появляется следующая идея оптимизации: сгруппировать элементы массива в блоки по 64 и каждый блок считать двоичным числом. Тогда мы можем применить эту битовую операцию сразу к 64 элементам и потратить на это один такт вместо 64-х.</p>
+<p>Это всё можно кодить и вручную, но в STL это уже сделали до нас, написав структуру, ведущую себя как большое двоичное число со всеми стандартными битовыми операциями: <code>bitset</code>.</p>
 <p>Работать с ним нужно вот так:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> lim = <span class="dv">1000</span>;</a>
 <a class="sourceLine" id="cb1-2" title="2">bitset&lt;lim&gt; b; <span class="co">// создать битсет размера lim (должно быть константой)</span></a>
@@ -125,9 +126,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-5" title="5">b.flip();      <span class="co">// заменить единички на нули и наоборот</span></a>
 <a class="sourceLine" id="cb1-6" title="6">b.count();     <span class="co">// посчитать число единичек</span></a>
 <a class="sourceLine" id="cb1-7" title="7">cout &lt;&lt; b;     <span class="co">// вывести битовую строку</span></a></code></pre></div>
-<p>Также для битсетов работает вся битовая арифметика — <code>&amp;, |, ^, ~, &lt;&lt;, &gt;&gt;</code> и их варианты с <code>[operator]=</code>.</p>
-<h2 id="рюкзак">Рюкзак</h2>
-<p>Задача: даны <span class="math inline">\(n\)</span> предметов с положительными целыми весами <span class="math inline">\(a_i\)</span> и рюкзак размера <span class="math inline">\(lim\)</span>, выбрать подмножество предметов с максимальной суммой, не превышающий размер рюкзака.</p>
+<p>Также для битсетов работает вся битовая арифметика: <code>&amp;, |, ^, ~, &lt;&lt;, &gt;&gt;</code> и их варианты с <code>[operator]=</code>.</p>
+<p><strong>Примечание.</strong> Часто «асимптотику» использующих <code>bitset</code> решений пишут как <span class="math inline">\(O(f / 64)\)</span>. Автору не нравится такая нотация, потому что численную константу формально можно сократить, и, вообще, на разных архитектурах будут разные константы. Вместо этого мы будем везде писать <span class="math inline">\(O(f / w)\)</span>, где <span class="math inline">\(w\)</span> означает размер машинного слова.</p>
+<h2 id="задача-о-рюкзаке">Задача о рюкзаке</h2>
+<blockquote>
+<p>Даны <span class="math inline">\(n\)</span> предметов с положительными целыми весами <span class="math inline">\(a_i\)</span> и рюкзак размера <span class="math inline">\(lim\)</span>. Требуется выбрать подмножество предметов с максимальной суммой, не превышающий размер рюкзака.</p>
+</blockquote>
 <p>Обычно его решают так:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">bool</span> dp[lim] = {}; <span class="co">// так можно его заполнить нулями</span></a>
 <a class="sourceLine" id="cb2-2" title="2">dp[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
@@ -140,7 +144,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb3-3" title="3"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb3-4" title="4">    b |= b &lt;&lt; a[i];</a></code></pre></div>
 <h2 id="цикл-длины-3">Цикл длины 3</h2>
-<p>Пусть нам нужно узнать, есть ли цикл длины 3 в ориентированном графе из <span class="math inline">\(n\)</span> вершин, заданном своей матрицей смежности. Обернем матрицу в битсет, и тогда задача решается за <span class="math inline">\(O(\frac{n^3}{64})\)</span> следующим образом:</p>
+<p>Пусть нам нужно узнать, есть ли цикл длины 3 в ориентированном графе из <span class="math inline">\(n\)</span> вершин, заданном своей матрицей смежности. Обернем матрицу в битсет, и тогда задача решается за <span class="math inline">\(O(n^3 / w)\)</span> следующим образом:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1">bitset&lt;maxn&gt; g[maxn]; <span class="co">// матрица смежности</span></a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="cf">for</span> (<span class="dt">int</span> a = <span class="dv">0</span>; a &lt; n; a++) {</a>
 <a class="sourceLine" id="cb4-3" title="3">    <span class="cf">for</span> (<span class="dt">int</span> b = <span class="dv">0</span>; b &lt; n; b++) {</a>
@@ -149,13 +153,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb4-6" title="6">        }</a>
 <a class="sourceLine" id="cb4-7" title="7">    }</a>
 <a class="sourceLine" id="cb4-8" title="8">}</a></code></pre></div>
-<p>Benchmark: на серверах CodeForces этот код при <span class="math inline">\(n = 5000\)</span> работает за 7 секунд.</p>
+<p>Бенчмарк: на серверах CodeForces этот код при <span class="math inline">\(n = 5000\)</span> работает за 7 секунд.</p>
 <h2 id="перемножение-матриц">Перемножение матриц</h2>
-<p>Матрица смежности графа, возведенная в степень <span class="math inline">\(n\)</span>, имеет комбинаторный смысл: количество способов дойти из <span class="math inline">\(a\)</span> в <span class="math inline">\(b\)</span>, используя ровно <span class="math inline">\(n\)</span> переходов. Иногда нам не нужно знать число способов, и нам просто хватит знания, можно ли вообще через <span class="math inline">\(n\)</span> ходов там оказаться. Тогда вместо числового умножения нам хватит битового умножения:</p>
+<p>Зачем это может быть нужно: матрица смежности графа, возведенная в степень <span class="math inline">\(n\)</span>, имеет комбинаторный смысл: количество способов дойти из <span class="math inline">\(a\)</span> в <span class="math inline">\(b\)</span>, используя ровно <span class="math inline">\(n\)</span> переходов. Иногда нам не нужно знать число способов — нам хватит знания, можно ли вообще через <span class="math inline">\(n\)</span> ходов там оказаться. Тогда вместо числового умножения нам хватит битового умножения, то есть <code>&amp;</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">typedef</span> bitset&lt;maxn&gt; t;</a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="kw">typedef</span> array&lt;t, maxn&gt; matrix;</a>
 <a class="sourceLine" id="cb5-3" title="3"></a>
-<a class="sourceLine" id="cb5-4" title="4">matrix <span class="kw">operator</span>* (matrix a, matrix b) {</a>
+<a class="sourceLine" id="cb5-4" title="4">matrix <span class="kw">operator</span>*(matrix a, matrix b) {</a>
 <a class="sourceLine" id="cb5-5" title="5">    matrix c;</a>
 <a class="sourceLine" id="cb5-6" title="6">    <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb5-7" title="7">        <span class="cf">for</span>(<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; j++)</a>
@@ -163,8 +167,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-9" title="9">                c[i] |= b[j];</a>
 <a class="sourceLine" id="cb5-10" title="10">    <span class="cf">return</span> c;</a>
 <a class="sourceLine" id="cb5-11" title="11">}</a></code></pre></div>
-<h2 id="гаусс">Гаусс</h2>
-<p>Иногда встречаются задачи, требующие решения системы линейных уравнений. Очень большая часть из них на самом деле над полем <span class="math inline">\(\mathbb{Z}_2\)</span> — то есть все числа по модулю 2. К примеру: есть <span class="math inline">\(n\)</span> переключателей лампочек, каждый активированный переключатель меняет состояние (включает или выключает) какого-то подмножества из <span class="math inline">\(n\)</span> лампочек. Известно состояние всех лампочек, нужно восстановить состояние переключаетелей.</p>
+<h2 id="метод-гаусса">Метод Гаусса</h2>
+<p>Иногда встречаются задачи, требующие решения системы линейных уравнений. Очень большую часть из них на самом деле можно решить над полем <span class="math inline">\(\mathbb{Z}_2\)</span> — то есть взять все числа по модулю 2.</p>
+<p>Например: есть <span class="math inline">\(n\)</span> переключателей лампочек, каждый активированный переключатель меняет состояние (включает или выключает) какого-то подмножества из <span class="math inline">\(n\)</span> лампочек. Известно текущее состояние всех лампочек, нужно восстановить по нему состояние переключаетелей.</p>
 <p>Нас по сути просят решить следующую систему:</p>
 <p><span class="math display">\[
 \begin{cases}
@@ -174,7 +179,7 @@ a_{21} x_1 + a_{22} x_2 + \ldots + a_{2n} x_n \equiv b_2 \pmod 2\\
 a_{n1} x_1 + a_{n2} x_2 + \ldots + a_{nn} x_n \equiv b_n \pmod 2
 \end{cases}
 \]</span></p>
-<p>Здесь <span class="math inline">\(x\)</span> — состояния переключателей, <span class="math inline">\(b\)</span> — состояния лампочек, <span class="math inline">\(A\)</span> — информация о том, влияет ли переключатель на лампочку.</p>
+<p>Здесь <span class="math inline">\(x\)</span> — состояния переключателей, <span class="math inline">\(b\)</span> — состояния лампочек, а матрица <span class="math inline">\(A\)</span> содержит информацию о том, влияет ли переключатель на лампочку.</p>
 <p>В таком случае можно значительно ускорить и упростить обычный метод Гаусса:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1">t gauss (matrix a) {</a>
 <a class="sourceLine" id="cb6-2" title="2">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
@@ -192,6 +197,6 @@ a_{n1} x_1 + a_{n2} x_2 + \ldots + a_{nn} x_n \equiv b_n \pmod 2
 <a class="sourceLine" id="cb6-14" title="14">        x[i] = a[i][n] ^ a[i][i];</a>
 <a class="sourceLine" id="cb6-15" title="15">    <span class="cf">return</span> x;</a>
 <a class="sourceLine" id="cb6-16" title="16">}</a></code></pre></div>
-<p>Код находит вектор <span class="math inline">\(x\)</span> из уравнения <span class="math inline">\(Ax = b\)</span> при условии, что решение существует и единственно. Для простоты кода, предполагается, что вектор <span class="math inline">\(b\)</span> приписан справа к матрице <span class="math inline">\(A\)</span>.</p>
+<p>Код находит вектор <span class="math inline">\(x\)</span> из уравнения <span class="math inline">\(Ax = b\)</span> при условии, что решение существует и единственно. Для простоты кода предполагается, что вектор <span class="math inline">\(b\)</span> приписан справа к матрице <span class="math inline">\(A\)</span>.</p>
 </body>
 </html>
