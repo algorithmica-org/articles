@@ -109,153 +109,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Алгоритм Ахо-Корасик</h1>
 </header>
 <h1 id="алгоритм-ахо-корасик">Алгоритм Ахо-Корасик</h1>
-<p>Пусть дан набор строк в алфавите размера <span class="math inline">\(k\)</span> суммарной длины <span class="math inline">\(n\)</span>. Алгоритм Ахо-Корасик за <span class="math inline">\(O(nk)\)</span> времени и памяти строит <a href="https://algorithmica.org/ru/trie">бор</a> для этого набора строк, а затем по этому бору строит автомат, который может использоваться в различных строковых задачах — например, нахождения всех вхождений каждой строки из данного набора в произвольный текст за линейное время.</p>
-<p>Алгоритм был назван именами создателей — Альфреда Ахо и Маргарет Корасик.</p>
-<p><img width='100%' src='https://www.fishingsib.ru/files/image/1articles/2017/10/10/4.jpg'></p>
-<p>Автор специализируется на компьютерной лингвистике и когда-то работал над созданием разговорного интеллекта — этот модуль назывался «Болталка», говорящая на произвольные темы.</p>
-<blockquote>
-<p>Пусть заданы <span class="math inline">\(n\)</span> <em>плохих</em> слов и большой текст <span class="math inline">\(t\)</span>. Нужно найти суммарное количество их вхождений в этот текст.</p>
-</blockquote>
-<p>Эту и много других задач помогают решать <em>суффиксные ссылки</em>. Суффиксная ссылка для вершины <span class="math inline">\(v\)</span> — это вершина, которой соответствует наидлиннейший суффикс строки, соответствующей вершине <span class="math inline">\(v\)</span>, и присутствующий в боре. Будем считать, что мы их умеем быстро находить.</p>
-<p>Добавим все плохие слова в бор. Будем считывать строку и с помощью суффиксных ссылок поддерживать самый длинный суффикс текущей строки, который принимает бор. Тогда, для конкретной позиции, мы можем быстро посчитать, какие плохие слова на нём заканчиваются — ровно те, до которых можно дойти по суффиксным ссылкам (по определению, суффиксная ссылка ведёт в наидлиннейший суффикс, присутствующий в боре). Информацию о количестве таких слов можно посчитать заранее динамикой в графе из суффиксных ссылок.</p>
-<p>Алгоритм Ахо-Корасик позволяет строить суффиксные ссылки для произвольного бора за <span class="math inline">\(O(nk)\)</span>, где <span class="math inline">\(n\)</span> и <span class="math inline">\(k\)</span> это суммарный размер строк и размер алфавита соответственно. Его описание вынесенов в <a href="https://algorithmica.org/ru/aho-corasick">отдельную статью</a>.</p>
-<h2 id="зачем-это-нужно">Зачем это нужно</h2>
-<blockquote>
-<p>Пусть заданы <span class="math inline">\(n\)</span> <em>плохих</em> слов и большой текст <span class="math inline">\(t\)</span>. Нужно найти суммарное количество их вхождений в этот текст.</p>
-</blockquote>
-<p>Добавим все плохие слова в бор, и будем считывать строку и с помощью суффиксных ссылок поддерживать самый длинный суффикс текущей строки, который принимает бор.</p>
-<p>Тогда, для конкретной позиции, мы можем быстро посчитать, какие плохие слова на нём заканчиваются — ровно те, по которым можно дойти по суффиксным ссылкам. Информацию о количестве таких слов можно посчитать заранее динамикой в графе из суффиксных ссылок.</p>
-<p>Помимо суффиксных ссылок, нужно найти ещё <em>переходы</em>, чтобы поддерживать самый длинный суффикс.</p>
-<h2 id="алгоритм-ахо-корасик-1">Алгоритм Ахо-Корасик*</h2>
-<p>Заметим, что всего суффиксных ссылок нужно найти <span class="math inline">\(O(n)\)</span>, а переходов — <span class="math inline">\(O(nk)\)</span>. Суффиксные ссылки и переходы можно быстро найти динамикой.</p>
-<p><strong>Ссылки</strong>. Мы можем сделать так: пройти на символ назад, а оттуда пройти по суффиксной ссылке, и уже оттуда вызвать переход.</p>
-<p><strong>Переходы</strong>. Вот к нашей строке прибавился символ — нужно найти самую длинную строку. Для этого можно откатываться по суффиксным ссылкам, пока не придем в вершину, из которой данный переход есть. Рано или поздно мы либо попадем в такую вершину, либо попадем в корень. Но можно поступить лениво, и просто откатиться на <em>одну</em> суффиксную ссылку и взять уже посчитанный переход оттуда.</p>
-<p><img src='https://www.parazitakusok.ru/images/item/5728/item_1109_1510080296_558.jpg' width='250px'></p>
+<p>Пусть дан набор строк в алфавите размера <span class="math inline">\(k\)</span> суммарной длины <span class="math inline">\(n\)</span>. Алгоритм Ахо-Корасик за <span class="math inline">\(O(nk)\)</span> времени и памяти строит <em>префиксное дерево</em> для этого набора строк, а затем по этому дереву строит <em>автомат</em>, который может использоваться в различных строковых задачах — например, для нахождения всех вхождений каждой строки из данного набора в произвольный текст за линейное время.</p>
+<p>Алгоритм открыт в 1975-м году и получил широкое распространение в системных программах для потоковой обработки текстов, например, в утилите <a href="https://en.wikipedia.org/wiki/Grep">grep</a>.</p>
+<p>Автору этой статьи понадобилось по работе реализовать алгоритм Ахо-Корасик целых два раза, что на два раза больше, чем все остальные «олимпиадные» алгоритмы.</p>
+<h2 id="префиксное-дерево">Префиксное дерево</h2>
+<p><em>Префиксное дерево</em> или <em>бор</em> (англ. <em>trie</em>) — это структура данных для компактного хранения строк. Она устроена в виде дерева, где на рёбрах между вершинами написана символы, а некоторые вершины помечены <em>терминальными</em>.</p>
+<p><img src="https://koenig-media.raywenderlich.com/uploads/2016/10/SwiftAlgClub_TrieData-trie-1.png" /></p>
+<p>Говорят, что бор <em>принимает</em> строку <span class="math inline">\(s\)</span>, если существует такая вершина <span class="math inline">\(v\)</span>, что, если выписать подряд все буквы на путях от корня до <span class="math inline">\(v\)</span>, то получится строка <span class="math inline">\(s\)</span>.</p>
+<p>Бор сам по себе можно использовать для разных задач:</p>
+<ul>
+<li><p>Хранение строк — бор может занимать гораздо меньше места, чем массив или <code>set</code> строк.</p></li>
+<li><p>Сортировка строк — по бору можно пройтись dfs-ом и вывести все строки в лексикографическом порядке.</p></li>
+<li><p>Просто множество строк — как мы увидим, в него легко добавлять и удалять слова, а также проверять, есть ли слово в боре.</p></li>
+</ul>
+<h3 id="реализация">Реализация</h3>
+<p>Бор состоит из ссылающихся друг на друга вершин. В вершине обычно хранится следующая информация:</p>
+<ul>
+<li>терминальная ли вершина,</li>
+<li>ссылки на детей,</li>
+<li>возможно, какая-нибудь дополнительная зависящая от задачи информация о слове. Например, количество таких слов, заканчивающихся в вершине — так можно реализовать мультисет.</li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> k = <span class="dv">26</span>;</a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="kw">struct</span> Vertex {</a>
-<a class="sourceLine" id="cb1-4" title="4">    Vertex *to[k] = {<span class="dv">0</span>}, *go[k] = {<span class="dv">0</span>};</a>
-<a class="sourceLine" id="cb1-5" title="5">    Vertex *link = <span class="dv">0</span>, *p;</a>
-<a class="sourceLine" id="cb1-6" title="6">    <span class="dt">int</span> pch;</a>
-<a class="sourceLine" id="cb1-7" title="7">    Vertex (<span class="dt">int</span> _pch, Vertex *_p) { pch = _pch, p = _p; }</a>
-<a class="sourceLine" id="cb1-8" title="8">};</a>
-<a class="sourceLine" id="cb1-9" title="9"></a>
-<a class="sourceLine" id="cb1-10" title="10">Vertex *root = <span class="kw">new</span> Vertex(-<span class="dv">1</span>, <span class="dv">0</span>);</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">void</span> add_string (string s) {</a>
-<a class="sourceLine" id="cb2-2" title="2">    Vertex *v = root;</a>
-<a class="sourceLine" id="cb2-3" title="3">    <span class="cf">for</span> (<span class="dt">char</span> _c : s) {</a>
+<a class="sourceLine" id="cb1-4" title="4">    Vertex* to[k] = {<span class="dv">0</span>};</a>
+<a class="sourceLine" id="cb1-5" title="5">    <span class="dt">bool</span> terminal = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-6" title="6">};</a>
+<a class="sourceLine" id="cb1-7" title="7"></a>
+<a class="sourceLine" id="cb1-8" title="8">Vertex *root = <span class="kw">new</span> Vertex();</a></code></pre></div>
+<p>Чтобы добавить слово в бор, нужно пройтись от корня по символам слова. Если перехода по для очередного символа нет — создать его, иначе пройти по уже существующему переходу. Последнюю вершину нужно пометить терминальной.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">void</span> add_string(string &amp;s) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    v = root;</a>
+<a class="sourceLine" id="cb2-3" title="3">    <span class="cf">for</span> (<span class="dt">char</span> c : s) {</a>
 <a class="sourceLine" id="cb2-4" title="4">        c -= <span class="ch">&#39;a&#39;</span>;</a>
-<a class="sourceLine" id="cb2-5" title="5">        <span class="cf">if</span> (!v-&gt;to[c])</a>
-<a class="sourceLine" id="cb2-6" title="6">            v-&gt;to[c] = <span class="kw">new</span> Vertex(c, v);</a>
+<a class="sourceLine" id="cb2-5" title="5">        <span class="cf">if</span> (!v-&gt;to[c]) </a>
+<a class="sourceLine" id="cb2-6" title="6">            v-&gt;to[c] = <span class="kw">new</span> Vertex();</a>
 <a class="sourceLine" id="cb2-7" title="7">        v = v-&gt;to[c];</a>
 <a class="sourceLine" id="cb2-8" title="8">    }</a>
-<a class="sourceLine" id="cb2-9" title="9">}</a></code></pre></div>
-<p>Нам нужно объявить две функции, которые будут ссылаться друг на друга. В интерпретируемых языках (например, в питоне) можно просто объявить две функции, а вот C++ так не умеет — нужно сначала все объявить, а потом ссылаться.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1">Vertex* go (Vertex *v, <span class="dt">int</span> c);</a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3">Vertex* link (Vertex *v) {</a>
-<a class="sourceLine" id="cb3-4" title="4">    <span class="cf">if</span> (!v-&gt;link) {</a>
-<a class="sourceLine" id="cb3-5" title="5">        <span class="cf">if</span> (v == root || v-&gt;p == root) v-&gt;link = root;</a>
-<a class="sourceLine" id="cb3-6" title="6">        <span class="cf">else</span> v-&gt;link = go(link(v-&gt;p), v-&gt;pch);</a>
-<a class="sourceLine" id="cb3-7" title="7">    }</a>
-<a class="sourceLine" id="cb3-8" title="8">    <span class="cf">return</span> v-&gt;link;</a>
-<a class="sourceLine" id="cb3-9" title="9">}</a>
-<a class="sourceLine" id="cb3-10" title="10"></a>
-<a class="sourceLine" id="cb3-11" title="11">Vertex* go (Vertex *v, <span class="dt">int</span> c) {</a>
-<a class="sourceLine" id="cb3-12" title="12">    <span class="cf">if</span> (!v-&gt;go[c]) {</a>
-<a class="sourceLine" id="cb3-13" title="13">        <span class="cf">if</span> (v-&gt;to[c]) v-&gt;go[c] = v-&gt;to[c];</a>
-<a class="sourceLine" id="cb3-14" title="14">        <span class="cf">else</span> <span class="cf">if</span> (v == root) v-&gt;go[c] = root;</a>
-<a class="sourceLine" id="cb3-15" title="15">        <span class="cf">else</span> v-&gt;go[c] = go(link(v), c);</a>
-<a class="sourceLine" id="cb3-16" title="16">    }</a>
-<a class="sourceLine" id="cb3-17" title="17">    <span class="cf">return</span> v-&gt;go[c];</a>
-<a class="sourceLine" id="cb3-18" title="18">}</a></code></pre></div>
-<p>Например, через него реализована утилита <code>grep</code>.</p>
-<p>Рассмотрим следующую <a href="http://acm.timus.ru/problem.aspx?space=1&amp;num=1269">задачу</a>: дан набор строк <span class="math inline">\(s_1, s_2, \ldots, s_n\)</span>, называемый <em>cловарём</em> и большой текст <span class="math inline">\(t\)</span>. Необходимо найти все позиции, где строки словаря входят в текст. Для простоты дополнительно предположим, что строки из словаря не являются подстроками друг друга (позже мы увидим, что это требование избыточно).</p>
-<p><strong>Алгоритм.</strong> Будем обрабатывать символы текста по одному и поддерживать наибольшую строку, являющуюся префиксом строки из словаря, и при этом также суффиксом считанного на данный момент текста. Если эта строка совпадает с каким-то <span class="math inline">\(s_i\)</span>, то будем отмечать текущий символ — в нём заканчивается какая-то строка из словаря.</p>
-<p>Для этой задачи нам нужно как-то сжато хранить все префиксы слов из словаря. Это можно делать в единой структуре — в префиксном дереве.</p>
-<p>-описание или ссылка на бор-</p>
-<p>Нам нужно научиться при добавлении очередного символа быстро находить вершину в префиксном дереве, которая приписыванием этого символа к какому-то суффиксу текущей вершины, а из всех таких вершин — наибольшую.</p>
-<p><strong>Формализм.</strong> Введём функцию <span class="math inline">\(s(v)\)</span>, равную строке, соответствующей вершине <span class="math inline">\(v\)</span>.</p>
-<p><strong>Определение.</strong> <em>Суффиксная ссылка</em> <span class="math inline">\(l(v)\)</span> ведёт в вершину <span class="math inline">\(u \neq v\)</span>, которая соответствует наидлиннейшему суффиксу <span class="math inline">\(v\)</span>.</p>
-<p><strong>Определение.</strong> <em>Автоматный переход</em> <span class="math inline">\(\delta(v, c)\)</span> равен вершине, соответствующей минимальному суффиксу строки <span class="math inline">\(s(v) + c\)</span>.</p>
-<p>Автоматный переход существует для любой пары <span class="math inline">\((v, c)\)</span>. Если в префиксном дереве уже существовал переход из вершины <span class="math inline">\(v\)</span> по символу <span class="math inline">\(c\)</span>, то автоматный переход будет вести туда же.</p>
+<a class="sourceLine" id="cb2-9" title="9">    v-&gt;terminal = <span class="kw">true</span>;</a>
+<a class="sourceLine" id="cb2-10" title="10">}</a></code></pre></div>
+<p>Чтобы проверить, есть ли слово в боре, нужно так же пройти от корня по символам слова. Если в конце оказались в терминальной вершине — то слово есть. Если оказались в нетерминальной вершине или когда-нибудь потребовалось пройтись по несуществущей ссылке — то нет.</p>
+<p>Удалить слово можно «лениво»: просто дойти до него и убрать флаг терминальности.</p>
+<h3 id="как-хранить-ссылки">Как хранить ссылки</h3>
+<p>Хранить ссылки на детей не обязательно в массиве. Возможно, наш алфавит большой — тогда нам просто не хватит памяти инициализировать столько массивов, большинство из которых будут пустыми.</p>
+<p>В этом случае можно придумать какой-нибудь другой способ хранить отображение из символа в ссылку. Например, хранить существующие ссылки в бинарном дереве (<code>map</code>), хэш-таблице (<code>unordered_map</code>) или просто в векторе. Они будут работать дольше, но зато потребление памяти в них будет линейным.</p>
+<h2 id="суффиксные-ссылки">Суффиксные ссылки</h2>
+<p>Вернёмся к основной теме статьи.</p>
+<p>Пусть дан набор строк <span class="math inline">\(s_1, s_2, \ldots, s_n\)</span>, называемый <em>cловарём</em> и большой текст <span class="math inline">\(t\)</span>. Необходимо найти все позиции, где строки словаря входят в текст. Для простоты дополнительно предположим, что строки из словаря не являются подстроками друг друга (позже мы увидим, что это требование избыточно).</p>
+<p>Решать эту задачу будем следующим образом. Будем обрабатывать символы текста по одному и поддерживать наибольшую строку, являющуюся префиксом строки из словаря, и при этом также суффиксом считанного на данный момент текста. Если эта строка совпадает с каким-то <span class="math inline">\(s_i\)</span>, то отметим текущий символ — в нём заканчивается какая-то строка из словаря.</p>
+<p>Для этой задачи нам нужно как-то эффективно хранить и работать со всеми префиксами слов из словаря — для этого нам и понадобится префиксное дерево.</p>
+<p>Добавим все слова в префиксное дерево и пометим соответствующие им вершины как терминальные. Теперь наша задача состоит в том, чтобы при добавлении очередного символа быстро находить вершину в префиксном дереве, которая соотвествует наидленнейшему входящему в бор суффиксу нового выписанного префикса. Для этого нам понадобятся несколько вспомогательных понятий.</p>
+<p><strong>Анти-формализм.</strong> Чтобы не писать везде громоздкое «строка <span class="math inline">\(s\)</span>, которая соответствуют вершине <span class="math inline">\(v\)</span>», условимся дальше отождествлять вершину и соответствующую ей строку в боре.</p>
+<p><strong>Определение.</strong> <em>Суффиксная ссылка</em> <span class="math inline">\(l(v)\)</span> ведёт в вершину <span class="math inline">\(u \neq v\)</span>, которая соответствует наидлиннейшему принемаемому бором суффиксу <span class="math inline">\(v\)</span>.</p>
+<p><strong>Определение.</strong> <em>Автоматный переход</em> <span class="math inline">\(\delta(v, c)\)</span> ведёт в вершину, соответствующую минимальному принемаемому бором суффиксу строки <span class="math inline">\(v + c\)</span>. Если переход и так существует в боре, то автоматный переход будет вести туда же.</p>
+<p>Автоматные переходы — это именно то, что нам и надо в задаче: они ведут ровно в те вершины, которые соответствуют самому длинному «сматченному» суффиксу.</p>
 <p>Заметим следующую связь суффиксных ссылок и автоматных переходов:</p>
 <ul>
-<li><p><span class="math inline">\(l(s_{:n}) = \delta(s_{:n-1}, s_n)\)</span>.</p></li>
-<li><p>Если существует переход <span class="math inline">\(v \to_c u\)</span>, то <span class="math inline">\(\delta(v, c) = u\)</span>, иначе <span class="math inline">\(\delta(v, c) = \delta(l(v), c)\)</span>.</p></li>
+<li><p><span class="math inline">\(l(s_{:n}) = \delta(l(s_{:n-1}), s_n)\)</span>.</p></li>
+<li><p>Если прямого перехода <span class="math inline">\(v \to_c u\)</span> не существует, то <span class="math inline">\(\delta(v, c) = \delta(l(v), c)\)</span>.</p></li>
 </ul>
-<p>Отметим, что мы выразили <span class="math inline">\(l\)</span> и <span class="math inline">\(\delta\)</span> от строки через <span class="math inline">\(l\)</span> и <span class="math inline">\(\delta\)</span> от строк меньшего размера. Значит, можно применить динамику: посчитать</p>
-<h3 id="построение-через-bfs">Построение через BFS</h3>
-<h3 id="построение-через-ленивую-динамику">Построение через ленивую динамику</h3>
-<p>Будем приписывать символы к тексту по одному и отмечать новый символ, если в нём заканчивается вхождение какой-нибудь из S_i. Для решения данной задачи логично действовать следующим образом: Будем поддерживать наибольшую строку, являющуюся префиксом строки из словаря и при этом также суффиксом считанного на данный момент текста. Тогда мы должны отметить текущее состояние если поддерживаемая строка является одной из S_i.</p>
-<p>Все префиксы S_i удобно хранить в единой структуре – префиксном дереве. На его рёбрах написаны символы, а пути из корня в листья при конкатенации символов на рёбрах дают строки из S_i. простейший алгоритм построения префиксного дерева имеет следующий вид:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span> + <span class="dv">42</span>, sigma = <span class="dv">26</span>; <span class="co">// Наибольшая суммарная длина строк словаря и размер алфавита.</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="dt">int</span> to[maxn][sigma]; <span class="co">// to[v][c] -- ребро из v с пометкой c.</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="dt">int</span> sz = <span class="dv">1</span>; <span class="co">// Количество использованных вершин.</span></a>
-<a class="sourceLine" id="cb4-4" title="4"></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="dt">void</span> add_str(string s)</a>
-<a class="sourceLine" id="cb4-6" title="6">{</a>
-<a class="sourceLine" id="cb4-7" title="7">    <span class="dt">int</span> v = <span class="dv">0</span>; <span class="co">// Корень дерева.</span></a>
-<a class="sourceLine" id="cb4-8" title="8">    <span class="cf">for</span>(<span class="dt">char</span> c: s)</a>
-<a class="sourceLine" id="cb4-9" title="9">    {</a>
-<a class="sourceLine" id="cb4-10" title="10">        c -= <span class="ch">&#39;a&#39;</span>; <span class="co">// Переводим в [0; 26)</span></a>
-<a class="sourceLine" id="cb4-11" title="11">        <span class="cf">if</span>(!to[v][c]) <span class="co">// Если ещё нет перехода по данному символу, создаём его в вершину sz.</span></a>
-<a class="sourceLine" id="cb4-12" title="12">            to[v][c] = sz++;</a>
-<a class="sourceLine" id="cb4-13" title="13">        v = to[v][c];</a>
-<a class="sourceLine" id="cb4-14" title="14">    }</a>
-<a class="sourceLine" id="cb4-15" title="15">}</a></code></pre></div>
-<p>Теперь нам нужно научиться при добавлении очередного символа находить вершину в префиксном дереве, которая получена приписыванием этого символа к какому-то суффиксу текущей вершины, а из всех таких вершин – наибольшую. Будем записывать эти вершины в переходы по недостающим символам, рассматривая префиксы в порядке увеличения их длины (то есть, в порядке bfs вершин дерева). Введём понятие суффиксной ссылки link_v – Она ведёт из вершины v в вершину u с наибольшей длиной, являющуюся её собственным суффиксом.</p>
-<p>Алгоритм аналогичен принципу математической индукции – мы считаем, что когда мы пришли в вершину v, все вершины с меньшей длиной уже обаботаны корректно, то есть, их переходы выставлены в нужные места, а для вершины v известна суффиксная ссылка u. Рассмотрим переходы по всем возможным символам c из v. Если по данному символу уже выставлен переход, то мы можем сказать, что суффиксной ссылкой вершины to_{v,c}, в которую ведёт переход будет вершина to_{u,c}. Если же перехода нет, то выставим вместо него to_{u,c}. Корректность данного построения очевидна – если бы искомый переход шёл из суффикса большего, чем u, то в него бы и вела суффиксная ссылка, а не в u, а переходы из суффиксов меньших, чем u учтены в ней по предположению индукции.</p>
-
-<p>В реализации ниже есть один нюанс – суффиксная ссылка из корня ведёт в него же, что заставляет рассматривать его отдельно, но в целом упрощает реализацию.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">int</span> link[maxn];</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="dt">void</span> push_links()</a>
-<a class="sourceLine" id="cb5-3" title="3">{</a>
-<a class="sourceLine" id="cb5-4" title="4">    <span class="dt">int</span> que[sz];</a>
-<a class="sourceLine" id="cb5-5" title="5">    <span class="dt">int</span> st = <span class="dv">0</span>, fi = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb5-6" title="6">    que[st] = <span class="dv">0</span>; </a>
-<a class="sourceLine" id="cb5-7" title="7">    <span class="cf">while</span>(st &lt; fi)</a>
-<a class="sourceLine" id="cb5-8" title="8">    {</a>
-<a class="sourceLine" id="cb5-9" title="9">        <span class="dt">int</span> v = que[st++];</a>
-<a class="sourceLine" id="cb5-10" title="10">        <span class="dt">int</span> u = link[v];</a>
-<a class="sourceLine" id="cb5-11" title="11">        <span class="cf">for</span>(<span class="dt">int</span> c = <span class="dv">0</span>; c &lt; sigma; c++)</a>
-<a class="sourceLine" id="cb5-12" title="12">        {</a>
-<a class="sourceLine" id="cb5-13" title="13">            <span class="cf">if</span>(to[v][c])</a>
-<a class="sourceLine" id="cb5-14" title="14">            {</a>
-<a class="sourceLine" id="cb5-15" title="15">                link[to[v][c]] = v ? to[u][c] : <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb5-16" title="16">                que[fi++] = to[v][c];</a>
-<a class="sourceLine" id="cb5-17" title="17">            }</a>
-<a class="sourceLine" id="cb5-18" title="18">            <span class="cf">else</span></a>
-<a class="sourceLine" id="cb5-19" title="19">            {</a>
-<a class="sourceLine" id="cb5-20" title="20">                to[v][c] = to[u][c];</a>
-<a class="sourceLine" id="cb5-21" title="21">            }</a>
-<a class="sourceLine" id="cb5-22" title="22">        }</a>
-<a class="sourceLine" id="cb5-23" title="23">    }</a>
-<a class="sourceLine" id="cb5-24" title="24">}</a></code></pre></div>
-<p>Таким образом, чтобы решить задачу, нам следует поддерживать требуемую вершину v и при каждом приписывании нового символа совершать переход по нему. В общем случае если строки словаря могут быть подстроками друг друга, всё, что нам нужно будет сделать – проверить, что по пути из суффиксных ссылок текущей вершины встречается какая-то из строк словаря.</p>
-<p>Данный алгоритм работает за O(|S|), где |S| – размер словаря, а – размер алфавита. Заметим, что существуют также алгоритмы построения подобной структуры за O(|S| ) с помощью персистентного массива или через стандартные амортизационные трюки. Второй вариант очень похож на алгоритм префикс-функции, приведём его здесь без подробных комментариев.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1">map to[maxn];</a>
-<a class="sourceLine" id="cb6-2" title="2">...</a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="dt">void</span> push_links()</a>
-<a class="sourceLine" id="cb6-4" title="4">{</a>
-<a class="sourceLine" id="cb6-5" title="5">    <span class="dt">int</span> que[sz];</a>
-<a class="sourceLine" id="cb6-6" title="6">    <span class="dt">int</span> st = <span class="dv">0</span>, fi = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb6-7" title="7">    que[st] = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb6-8" title="8">    <span class="cf">while</span>(st &lt; fi)</a>
-<a class="sourceLine" id="cb6-9" title="9">    {</a>
-<a class="sourceLine" id="cb6-10" title="10">        <span class="dt">int</span> v = que[st++];</a>
-<a class="sourceLine" id="cb6-11" title="11">        <span class="cf">for</span>(<span class="kw">auto</span> it: to[v])</a>
-<a class="sourceLine" id="cb6-12" title="12">        {</a>
-<a class="sourceLine" id="cb6-13" title="13">            <span class="dt">int</span> c = it.first;</a>
-<a class="sourceLine" id="cb6-14" title="14">            <span class="dt">int</span> u = it.second;</a>
-<a class="sourceLine" id="cb6-15" title="15">            <span class="dt">int</span> j = link[v];</a>
-<a class="sourceLine" id="cb6-16" title="16">            <span class="cf">while</span>(j != <span class="dv">0</span> &amp;&amp; to[j][c] == <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb6-17" title="17">                j = link[j];</a>
-<a class="sourceLine" id="cb6-18" title="18">            <span class="cf">if</span>(to[j][c] != u)</a>
-<a class="sourceLine" id="cb6-19" title="19">                link[u] = to[j][c];</a>
-<a class="sourceLine" id="cb6-20" title="20">            que[fi++] = u;</a>
-<a class="sourceLine" id="cb6-21" title="21">        }</a>
-<a class="sourceLine" id="cb6-22" title="22">    }</a>
-<a class="sourceLine" id="cb6-23" title="23">}</a></code></pre></div>
+<p>Мы только что выразили <span class="math inline">\(l\)</span> и <span class="math inline">\(\delta\)</span> от строки длины <span class="math inline">\(n\)</span> через <span class="math inline">\(l\)</span> и <span class="math inline">\(\delta\)</span> от строк размера <span class="math inline">\((n-1)\)</span>. Значит, суффиксные ссылки и автоматные переходы можно найти динамическим программированием.</p>
+<h3 id="реализация-1">Реализация</h3>
+<p>По сравнению с префиксным деревом, нам помимо переходов в боре (<code>to</code>) нужно будет хранить некоторую дополнительную информацию:</p>
+<ul>
+<li><p>Сам массив автоматных переходов размера <span class="math inline">\(k\)</span> (<code>go</code>).</p></li>
+<li><p>Суффиксную ссылку (<code>link</code>.</p></li>
+<li><p>«Родительский» (последний) символ (<code>pch</code>), который используется в формуле для суффиксной ссылки.</p></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="at">const</span> <span class="dt">int</span> k = <span class="dv">26</span>;</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw">struct</span> Vertex {</a>
+<a class="sourceLine" id="cb3-4" title="4">    Vertex *to[k] = {<span class="dv">0</span>}, *go[k] = {<span class="dv">0</span>};</a>
+<a class="sourceLine" id="cb3-5" title="5">    Vertex *link = <span class="dv">0</span>, *p;</a>
+<a class="sourceLine" id="cb3-6" title="6">    <span class="dt">int</span> pch;</a>
+<a class="sourceLine" id="cb3-7" title="7">    Vertex (<span class="dt">int</span> _pch, Vertex *_p) { pch = _pch, p = _p; }</a>
+<a class="sourceLine" id="cb3-8" title="8">};</a>
+<a class="sourceLine" id="cb3-9" title="9"></a>
+<a class="sourceLine" id="cb3-10" title="10">Vertex *root = <span class="kw">new</span> Vertex(-<span class="dv">1</span>, <span class="dv">0</span>);</a></code></pre></div>
+<p>Добавление строки почти такое же:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">void</span> add_string(string &amp;s) {</a>
+<a class="sourceLine" id="cb4-2" title="2">    Vertex *v = root;</a>
+<a class="sourceLine" id="cb4-3" title="3">    for (<span class="dt">char</span> _c : s) {</a>
+<a class="sourceLine" id="cb4-4" title="4">        int c -= <span class="dt">int</span>(_c - <span class="ch">&#39;a&#39;</span>);</a>
+<a class="sourceLine" id="cb4-5" title="5">        if (!v-&gt;to[c])</a>
+<a class="sourceLine" id="cb4-6" title="6">            v-&gt;to[c] = <span class="kw">new</span> Vertex(c, v);</a>
+<a class="sourceLine" id="cb4-7" title="7">        v = v-&gt;to[c];</a>
+<a class="sourceLine" id="cb4-8" title="8">    }</a>
+<a class="sourceLine" id="cb4-9" title="9">}</a></code></pre></div>
+<p>Подсчитывать динамики <code>go</code> и <code>link</code> будем «лениво» — введем для них две функции, которые будут мемоизировать свой результат выполнения.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="co">// нам нужно объявить две функции, ссылающиеся друг на друга</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">// в C++ для этого нужно одну из них объявить только с сигнатурой перед другой</span></a>
+<a class="sourceLine" id="cb5-3" title="3">Vertex* go(Vertex *v, <span class="dt">int</span> c);</a>
+<a class="sourceLine" id="cb5-4" title="4"></a>
+<a class="sourceLine" id="cb5-5" title="5">Vertex* link(Vertex *v) {</a>
+<a class="sourceLine" id="cb5-6" title="6">    <span class="cf">if</span> (!v-&gt;link) {</a>
+<a class="sourceLine" id="cb5-7" title="7">        <span class="co">// строк длины меньше двух суффиксная ссылка это сам корень</span></a>
+<a class="sourceLine" id="cb5-8" title="8">        <span class="cf">if</span> (v == root || v-&gt;p == root)</a>
+<a class="sourceLine" id="cb5-9" title="9">            v-&gt;link = root;</a>
+<a class="sourceLine" id="cb5-10" title="10">        <span class="cf">else</span> <span class="co">// иначе формула работает</span></a>
+<a class="sourceLine" id="cb5-11" title="11">            v-&gt;link = go(link(v-&gt;p), v-&gt;pch);</a>
+<a class="sourceLine" id="cb5-12" title="12">    }</a>
+<a class="sourceLine" id="cb5-13" title="13">    <span class="cf">return</span> v-&gt;link;</a>
+<a class="sourceLine" id="cb5-14" title="14">}</a>
+<a class="sourceLine" id="cb5-15" title="15"></a>
+<a class="sourceLine" id="cb5-16" title="16">Vertex* go(Vertex *v, <span class="dt">int</span> c) {</a>
+<a class="sourceLine" id="cb5-17" title="17">    <span class="cf">if</span> (!v-&gt;go[c]) {</a>
+<a class="sourceLine" id="cb5-18" title="18">        <span class="co">// если переход есть, то автоматный должен вести туда же</span></a>
+<a class="sourceLine" id="cb5-19" title="19">        <span class="cf">if</span> (v-&gt;to[c])</a>
+<a class="sourceLine" id="cb5-20" title="20">            v-&gt;go[c] = v-&gt;to[c];</a>
+<a class="sourceLine" id="cb5-21" title="21">        <span class="co">// если перехода нет из корня, то нужно сделать петлю</span></a>
+<a class="sourceLine" id="cb5-22" title="22">        <span class="cf">else</span> <span class="cf">if</span> (v == root)</a>
+<a class="sourceLine" id="cb5-23" title="23">            v-&gt;go[c] = root;</a>
+<a class="sourceLine" id="cb5-24" title="24">        <span class="cf">else</span> <span class="co">// иначе формула работает</span></a>
+<a class="sourceLine" id="cb5-25" title="25">            v-&gt;go[c] = go(link(v), c);</a>
+<a class="sourceLine" id="cb5-26" title="26">    }</a>
+<a class="sourceLine" id="cb5-27" title="27">    <span class="cf">return</span> v-&gt;go[c];</a>
+<a class="sourceLine" id="cb5-28" title="28">}</a></code></pre></div>
+<p>На самом деле, эффективнее и «чище» реализовывать построение автомата через bfs, но так получается немного сложнее для понимания.</p>
 </body>
 </html>
