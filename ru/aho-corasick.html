@@ -203,10 +203,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-4" title="4"></a>
 <a class="sourceLine" id="cb5-5" title="5">Vertex* link(Vertex *v) {</a>
 <a class="sourceLine" id="cb5-6" title="6">    <span class="cf">if</span> (!v-&gt;link) {</a>
-<a class="sourceLine" id="cb5-7" title="7">        <span class="co">// строк длины меньше двух суффиксная ссылка это сам корень</span></a>
+<a class="sourceLine" id="cb5-7" title="7">        <span class="co">// для строк длины меньше двух суффиксная ссылка это корень</span></a>
 <a class="sourceLine" id="cb5-8" title="8">        <span class="cf">if</span> (v == root || v-&gt;p == root)</a>
 <a class="sourceLine" id="cb5-9" title="9">            v-&gt;link = root;</a>
-<a class="sourceLine" id="cb5-10" title="10">        <span class="cf">else</span> <span class="co">// иначе формула работает</span></a>
+<a class="sourceLine" id="cb5-10" title="10">        <span class="cf">else</span> <span class="co">// для остальных случаев формула работает</span></a>
 <a class="sourceLine" id="cb5-11" title="11">            v-&gt;link = go(link(v-&gt;p), v-&gt;pch);</a>
 <a class="sourceLine" id="cb5-12" title="12">    }</a>
 <a class="sourceLine" id="cb5-13" title="13">    <span class="cf">return</span> v-&gt;link;</a>
@@ -220,7 +220,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-21" title="21">        <span class="co">// если перехода нет из корня, то нужно сделать петлю</span></a>
 <a class="sourceLine" id="cb5-22" title="22">        <span class="cf">else</span> <span class="cf">if</span> (v == root)</a>
 <a class="sourceLine" id="cb5-23" title="23">            v-&gt;go[c] = root;</a>
-<a class="sourceLine" id="cb5-24" title="24">        <span class="cf">else</span> <span class="co">// иначе формула работает</span></a>
+<a class="sourceLine" id="cb5-24" title="24">        <span class="cf">else</span> <span class="co">// для остальных случаев формула работает</span></a>
 <a class="sourceLine" id="cb5-25" title="25">            v-&gt;go[c] = go(link(v), c);</a>
 <a class="sourceLine" id="cb5-26" title="26">    }</a>
 <a class="sourceLine" id="cb5-27" title="27">    <span class="cf">return</span> v-&gt;go[c];</a>
