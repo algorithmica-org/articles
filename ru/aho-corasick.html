@@ -170,11 +170,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Мы только что выразили <span class="math inline">\(l\)</span> и <span class="math inline">\(\delta\)</span> от строки длины <span class="math inline">\(n\)</span> через <span class="math inline">\(l\)</span> и <span class="math inline">\(\delta\)</span> от строк размера <span class="math inline">\((n-1)\)</span>. Значит, суффиксные ссылки и автоматные переходы можно найти динамическим программированием.</p>
 <h3 id="реализация-1">Реализация</h3>
-<p>По сравнению с префиксным деревом, нам помимо переходов в боре (<code>to</code>) нужно будет хранить некоторую дополнительную информацию:</p>
+<p>По сравнению с префиксным деревом, нам помимо массива переходов в боре <code>to</code> нужно будет хранить некоторую дополнительную информацию:</p>
 <ul>
-<li><p>Сам массив автоматных переходов размера <span class="math inline">\(k\)</span> (<code>go</code>).</p></li>
-<li><p>Суффиксную ссылку (<code>link</code>.</p></li>
-<li><p>«Родительский» (последний) символ (<code>pch</code>), который используется в формуле для суффиксной ссылки.</p></li>
+<li><p>Сам массив автоматных переходов размера <code>go</code>.</p></li>
+<li><p>Суффиксную ссылку <code>link</code>.</p></li>
+<li><p>«Родительский» (последний) символ <code>pch</code>, который используется в формуле для суффиксной ссылки.</p></li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="at">const</span> <span class="dt">int</span> k = <span class="dv">26</span>;</a>
 <a class="sourceLine" id="cb3-2" title="2"></a>
