@@ -111,9 +111,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 id="heavy-light-декомпозиция">Heavy-light декомпозиция</h1>
 <p>HL-декомпозиция — это мощный метод решения задач на запросы на путях, когда также есть запросы обновлений. Если запросов обновления нет, то лучше написать <a href="https://algorithmica.org/ru/centroid">что-нибудь попроще</a>.</p>
 <p><img width='400px' src='http://i38.tinypic.com/6yjmvb.jpg'></p>
+*
 <center>
-<em>TODO: найти менее уродливую иллюстрацию</em>
+TODO: найти менее уродливую иллюстрацию
 </center>
+<ul>
+<li></li>
+</ul>
 <p>Heavy-light декомпозицией корневого дерева называется результат следующего процесса: каждой вершины <span class="math inline">\(v\)</span> посмотрим на всех её непосредственных детей <span class="math inline">\(u\)</span>, выберем среди них ребёнка <span class="math inline">\(u_{max}\)</span> (с самым большим размером поддерева) и назовём ребро <span class="math inline">\((v, u)\)</span> <em>тяжелым</em> (heavy), а все остальные рёбра — <em>лёгкими</em> (light). При этом, если самых «тяжелых» детей будет больше одного, то выберем любого.</p>
 <p>Таким образом, дерево распалось на тяжелые и лёгкие рёбра. Докажем несколько полезных свойств такого разбиения.</p>
 <p><strong>Утверждение.</strong> Дерево разбивается на непересекающиеся пути из тяжелых рёбер.</p>
@@ -130,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="реализация">Реализация</h2>
 <p>Большинство публичных реализаций HLD — это 120-150 строк кода. Мы же воспользуемся следующим трюком, который сильно упростит нам жизнь: перенумеруем вершины дерева так, что для каждого тяжелого пути все его вершины будут иметь последовательные номера.</p>
 <p>А именно, на этапе подсчёта размера поддеревьев, изменим список смежности каждой вершины так, чтобы в самом начале шел её «тяжелый» ребёнок. Тогда, если запустить обычный эйлеров обход графа, то <code>tin</code>-ы и будут нужной нумерацией, потому что в каждой вершине мы шли в своего тяжелого ребёнка в первую очередь.</p>
-<p>Теперь мы можем построить какую-нибудь структуру поверх массива размера <span class="math inline">\(n\)</span> (<a href="https://algorithmica.org/ru/segtree">дерево отрезков</a>) и при запросе к какому-нибудь тяжелому пути делать запрос к отрезку в структуре.</p>
+<p>Теперь мы можем построить какую-нибудь структуру поверх массива размера <span class="math inline">\(n\)</span> (дерево отрезков) и при запросе к какому-нибудь тяжелому пути делать запрос к отрезку в структуре.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1">vector&lt;<span class="dt">int</span>&gt; g[maxn];</a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="dt">int</span> s[maxn], p[maxn], tin[maxn], tout[maxn];</a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> head[maxn]; <span class="co">// «голова» тяжелого пути, которому принадлежит v</span></a>
@@ -148,15 +152,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-15" title="15">}</a>
 <a class="sourceLine" id="cb1-16" title="16"></a>
 <a class="sourceLine" id="cb1-17" title="17"><span class="dt">void</span> hld (<span class="dt">int</span> v = <span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb1-18" title="18">    tin[v] = t++;</a>
-<a class="sourceLine" id="cb1-19" title="19">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v]) {</a>
-<a class="sourceLine" id="cb1-20" title="20">        <span class="co">// если это тяжелый ребенок -- его next нужно передать</span></a>
-<a class="sourceLine" id="cb1-21" title="21">        <span class="co">// в противном случае он сам является головой нового пути</span></a>
-<a class="sourceLine" id="cb1-22" title="22">        head[u] = (u == g[v][<span class="dv">0</span>] ? head[v] : u);</a>
-<a class="sourceLine" id="cb1-23" title="23">        hld(u);</a>
-<a class="sourceLine" id="cb1-24" title="24">    }</a>
-<a class="sourceLine" id="cb1-25" title="25">    tout[v] = t;</a>
-<a class="sourceLine" id="cb1-26" title="26">}</a></code></pre></div>
+<a class="sourceLine" id="cb1-18" title="18">    rin[t] = v;</a>
+<a class="sourceLine" id="cb1-19" title="19">    tin[v] = t++;</a>
+<a class="sourceLine" id="cb1-20" title="20">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v]) {</a>
+<a class="sourceLine" id="cb1-21" title="21">        <span class="co">// если это тяжелый ребенок -- его next нужно передать</span></a>
+<a class="sourceLine" id="cb1-22" title="22">        <span class="co">// в противном случае он сам является головой нового пути</span></a>
+<a class="sourceLine" id="cb1-23" title="23">        head[u] = (u == g[v][<span class="dv">0</span>] ? head[v] : u);</a>
+<a class="sourceLine" id="cb1-24" title="24">        hld(u);</a>
+<a class="sourceLine" id="cb1-25" title="25">    }</a>
+<a class="sourceLine" id="cb1-26" title="26">    tout[v] = t;</a>
+<a class="sourceLine" id="cb1-27" title="27">}</a></code></pre></div>
 <h2 id="как-им-решать-задачи">Как им решать задачи</h2>
 <p>Простейший пример задачи на HLD: дано дерево, каждой вершине которого приписано какое-то число, и поступают запросы двух типов:</p>
 <ol type="1">
@@ -172,7 +177,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb3-3" title="3">}</a></code></pre></div>
 <p>Запрос минимума сложнее: нам нужно разбить исходный запрос на запросы к вертикальным путям.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> ancestor (<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
-<a class="sourceLine" id="cb4-2" title="2">    <span class="cf">return</span> tin[a] &lt;= tin[b] &amp;&amp; tin[b] &lt; tout[a];</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="cf">return</span> tin[a] &lt;= tin[b] &amp;&amp; tin[b] &lt;= tout[a];</a>
 <a class="sourceLine" id="cb4-3" title="3">}</a>
 <a class="sourceLine" id="cb4-4" title="4"></a>
 <a class="sourceLine" id="cb4-5" title="5"><span class="dt">void</span> up (<span class="dt">int</span> &amp;a, <span class="dt">int</span> &amp;b, <span class="dt">int</span> &amp;ans) {</a>

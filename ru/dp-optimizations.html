@@ -116,24 +116,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Базовое решение — это следующая динамика:</p>
 <ul>
 <li><p><span class="math inline">\(f[i, j]\)</span> — минимальная стоимость покрытия <span class="math inline">\(i\)</span> первых (самых левых) точек, используя не более <span class="math inline">\(j\)</span> отрезков.</p></li>
-<li><p>Переход — перебор всех возможных последних отрезков, то есть <span class="math inline">\(f[i, j] = \min_{k &lt; i} \{f[k, j-1] + (x_{i-1}-x_k)^2 \}\)</span>. Индексация <span class="math inline">\(x_i\)</span> с нуля.</p></li>
+<li><p>Переход — перебор всех возможных последних отрезков, то есть <span class="math inline">\(f[i, j] = \min_{k &lt; i} \{f[k, j-1] + (x_{i-1}-x_k)^2 \}\)</span>.</p></li>
 </ul>
 <p>Итоговый ответ будет записан в <span class="math inline">\(f[n, m]\)</span>, а такое решение непосредственным перебором будет работать за <span class="math inline">\(O(n^2 m)\)</span>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="co">// x[] — отсортированный массив координат точек, нумерация с нуля</span></a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="co">// x[] — отсортированный массив координат точек, индексация с нуля</span></a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="co">// квадрат длины отрезка от i-той до j-той точки</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co">// квадрат длины отрезка с i-той до j-той точки</span></a>
 <a class="sourceLine" id="cb1-4" title="4"><span class="dt">int</span> cost(<span class="dt">int</span> i, <span class="dt">int</span> j) { <span class="cf">return</span> (x[j]-x[i])*(x[j]-x[i]); }</a>
 <a class="sourceLine" id="cb1-5" title="5"></a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="co">// </span><span class="al">TODO</span><span class="co">: предподсчитать cost</span></a>
-<a class="sourceLine" id="cb1-7" title="7"></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt;= m; i++)</a>
-<a class="sourceLine" id="cb1-9" title="9">    f[<span class="dv">0</span>][k] = <span class="dv">0</span>; <span class="co">// если нам не нужно ничего покрывать, то всё и так хорошо</span></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="co">// все остальные f предполагаем равными бесконечности</span></a>
-<a class="sourceLine" id="cb1-11" title="11"></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n; i++)</a>
-<a class="sourceLine" id="cb1-13" title="13">    <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">1</span>; j &lt;= m; j++)</a>
-<a class="sourceLine" id="cb1-14" title="14">        <span class="cf">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; i; k++)</a>
-<a class="sourceLine" id="cb1-15" title="15">            f[i][j] = min(f[i][j], f[k][j-<span class="dv">1</span>] + cost(k, i-<span class="dv">1</span>));</a></code></pre></div>
+<a class="sourceLine" id="cb1-6" title="6"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt;= m; i++)</a>
+<a class="sourceLine" id="cb1-7" title="7">    f[<span class="dv">0</span>][k] = <span class="dv">0</span>; <span class="co">// если нам не нужно ничего покрывать, то всё и так хорошо</span></a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="co">// все остальные f предполагаем равными бесконечности</span></a>
+<a class="sourceLine" id="cb1-9" title="9"></a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n; i++)</a>
+<a class="sourceLine" id="cb1-11" title="11">    <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">1</span>; j &lt;= m; j++)</a>
+<a class="sourceLine" id="cb1-12" title="12">        <span class="cf">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; i; k++)</a>
+<a class="sourceLine" id="cb1-13" title="13">            f[i][j] = min(f[i][j], f[k][j-<span class="dv">1</span>] + cost(k, i-<span class="dv">1</span>));</a></code></pre></div>
 <p>Заметим, что циклы по <code>i</code> и <code>j</code> можно поменять местами.</p>
 <h2 id="разделяй-и-властвуй">Разделяй-и-властвуй</h2>
 <p>Обозначим за <span class="math inline">\(opt[i, j]\)</span> оптимальный <span class="math inline">\(k\)</span>, то есть тот, на котором <span class="math inline">\(f[i, j] = f[k, j-1] + (x_{i-1}-x_k)^2\)</span> минимизируется. Для однозначности, если оптимальный индекс не один, то выберем среди них самый правый.</p>
@@ -143,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Будем делать следующее: заведем рекурсивную функцию, которая считает динамики для отрезка <span class="math inline">\([l, r]\)</span>, зная, что их <span class="math inline">\(opt\)</span>-ы лежат между <span class="math inline">\(l&#39;\)</span> и <span class="math inline">\(r&#39;\)</span>. Она берет середину отрезка <span class="math inline">\([l, r]\)</span> и линейным проходом считает ответ для неё, а затем просто спускается дальше рекурсивно.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">void</span> solve(<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> _l, <span class="dt">int</span> _r, <span class="dt">int</span> k) {</a>
 <a class="sourceLine" id="cb2-2" title="2">    <span class="cf">if</span> (l &gt; r)</a>
-<a class="sourceLine" id="cb2-3" title="3">        return; <span class="co">// отрезок пустой -- выходим</span></a>
+<a class="sourceLine" id="cb2-3" title="3">        <span class="cf">return</span>; <span class="co">// отрезок пустой -- выходим</span></a>
 <a class="sourceLine" id="cb2-4" title="4">    <span class="dt">int</span> t = (l + r) / <span class="dv">2</span>, opt = _l;</a>
 <a class="sourceLine" id="cb2-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = _l; i &lt;= min(_r, t); i++) { </a>
 <a class="sourceLine" id="cb2-6" title="6">        <span class="dt">int</span> val = f[i+<span class="dv">1</span>][k-<span class="dv">1</span>] + cost(i, j);</a>
@@ -159,12 +157,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Асимптотика.</strong> Теперь пересчет одного «слоя» динамики занимает <span class="math inline">\(O(n \log n)\)</span> вместо <span class="math inline">\(O(n^2)\)</span>, потому что каждый раз рекурсивная функция уменьшает в два раза хотя бы один из отрезков. Так как максимальная глубина рекурсии будет <span class="math inline">\(O(\log n)\)</span>, то каждый элемент будет просмотрен не более <span class="math inline">\(O(\log n)\)</span> раз.</p>
 <p>Таким образом, мы улучшили асимптотику до <span class="math inline">\(O(n m \log n)\)</span>.</p>
 <h2 id="оптимизация-кнута">Оптимизация Кнута</h2>
-<p>Предыдущий метод основывался на том факте, что <span class="math inline">\(opt[i, j] \leq opt[i, j+1]\)</span>. А что, если <span class="math inline">\(opt\)</span> монотонен ещё и по первому параметру?</p>
-<p><span class="math display">\[ opt[i-1, j] \leq opt[i, j] \leq opt[i, j+1] \]</span></p>
-<p>В задаче это выполняется примерно по той же логике: если наш отрезок стал меньше, то мы можем себе позволить больший последний отрезок.</p>
-<p>Давайте теперь просто для каждого состояния перебирать элементы непосредственно от $ opt[i-1, j] $ до $ opt[i, j+1] $. Выясняется, что это работает быстро. Чтобы понять почему, распишем количество элементов, которые мы просмотрим для каждого состояния, и просуммируем:</p>
-<p><span class="math display">\[ \sum_{i, j} (opt[i, j+1] - opt[i-1, j] + 1) = nm + \sum_{ij} (opt[i, j+1] - opt[i-1, j]) = O((n+m)n) = O(n^2) \]</span></p>
-<p>Здесь мы заметили, что все элементы, кроме граничных, учитываются в сумме ровно два раза — один раз с плюсом, другой с минусом. Каждый из <span class="math inline">\(opt[i, j]\)</span> не более <span class="math inline">\(O(n)\)</span>.</p>
+<p>Предыдущий метод опирался на тот факт, что <span class="math inline">\(opt[i, j] \leq opt[i, j+1]\)</span>. Асимптотику можно ещё улучшить, если <span class="math inline">\(opt\)</span> монотонен ещё и по первому параметру:</p>
+<p><span class="math display">\[
+opt[i-1, j] \leq opt[i, j] \leq opt[i, j+1]
+\]</span></p>
+<p>В задаче это выполняется примерно по той же причине: если нам нужно покрывать меньше точек, то последний отрезок будет начинаться не позже старого.</p>
+<p>Будем просто для каждого состояния перебирать элементы непосредственно от <span class="math inline">\(opt[i-1, j]\)</span> до <span class="math inline">\(opt[i, j+1]\)</span> — можно идти в порядке увеличения <span class="math inline">\(i\)</span> и уменьшения <span class="math inline">\(j\)</span>, и тогда эти <span class="math inline">\(opt\)</span> уже будут посчитаны к нужному моменту.</p>
+<p>Выясняется, что это работает быстро. Чтобы понять, почему, распишем количество элементов, которые мы просмотрим для каждого состояния, и просуммируем:</p>
+<p><span class="math display">\[
+\sum_{i, j} (opt[i, j+1] - opt[i-1, j] + 1) = nm + \sum_{ij} (opt[i, j+1] - opt[i-1, j])
+\]</span></p>
+<p>Заметим, что все элементы, кроме граничных, учитываются в сумме ровно два раза — один раз с плюсом, другой с минусом — а значит их можно сократить. Граничных же элементов <span class="math inline">\(O(n)\)</span> и каждый из них порядка <span class="math inline">\(O(n)\)</span>. Значит, итоговая асимптотика составит <span class="math inline">\(O(n \cdot m + n \cdot n) = O(n^2)\)</span>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n; i++) {</a>
 <a class="sourceLine" id="cb4-2" title="2">    <span class="cf">for</span> (<span class="dt">int</span> j = m; j &gt;= <span class="dv">1</span>; j--) {</a>
 <a class="sourceLine" id="cb4-3" title="3">        <span class="cf">for</span> (<span class="dt">int</span> k = opt[i-<span class="dv">1</span>][j]; k &lt;= opt[i][j+<span class="dv">1</span>]; k++) {</a>
@@ -174,9 +177,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb4-7" title="7">        }</a>
 <a class="sourceLine" id="cb4-8" title="8">    }</a>
 <a class="sourceLine" id="cb4-9" title="9">}</a></code></pre></div>
-<p>Сравните с базовым решением — всего 3 новых строчки.</p>
+<p>Реализация получилась очень лаконичной: она всего на 3 строчки длиннее, чем базовое решение.</p>
 <h2 id="convex-hull-trick">Convex Hull Trick</h2>
-<p>Этот метод призывает думать об оптимизируемой функции геометрически — посмотрев на <code>cost</code> и увидев там скалярное произведение.</p>
+<p>Возьмём исходную формулу для <span class="math inline">\(f\)</span> и раскроем скобки в <code>cost</code>:</p>
 <p><span class="math display">\[
 f[i, j] = \min_{k &lt; i} \{ f[k, j-1] + (x_{i-1}-x_k)^2 \} = \min_{k &lt; i} \{
 f[k, j-1] + x_{i-1}^2
@@ -184,19 +187,66 @@ f[k, j-1] + x_{i-1}^2
 + x_k^2
 \}
 \]</span></p>
-<p>Посмотрим внимательнее на минимизируемое выражение. <span class="math inline">\(x_{i-1}^2\)</span> не зависит от <span class="math inline">\(k\)</span>, значит его можно вынести. Под минимумом останется:</p>
+<p>Заметим, что <span class="math inline">\(x_{i-1}^2\)</span> не зависит от <span class="math inline">\(k\)</span>, значит его можно вынести. Под минимумом тогда останется</p>
 <p><span class="math display">\[
 \underbrace{f[k, j-1] + x_k^2}_{a_k}
 \underbrace{-2x_k}_{b_k} x_{i-1}
 \]</span></p>
-<p>Это теперь можно переписать как <span class="math inline">\(\min_k (a_k, b_k) \cdot (1, X_{i-1})\)</span> (тут имеется в виду скалярное произведение).</p>
-<p>Представим <span class="math inline">\((a_k, b_k)\)</span> как точки на плоскости. Тогда мы можем построить их нижнюю огибающие и бинарным поиском находить оптимальную, с минимальным скалярным произведением.</p>
-<p>TODO: иллюстрация.</p>
-<figure>
-<img src="../img/scooby-doo.jpg" alt="Паблик «Mathematical bullshit»" /><figcaption>Паблик «Mathematical bullshit»</figcaption>
-</figure>
+<p>Это выражение можно переписать как <span class="math inline">\(\min_k (a_k, b_k) \cdot (1, x_{i-1})\)</span>, где под «<span class="math inline">\(\cdot\)</span>» имеется в виду скалярное произведение.</p>
+<p><img src="../img/scooby-doo.jpg" /></p>
+<p>Пусть мы хотим найти оптимальное <span class="math inline">\(k\)</span> для <span class="math inline">\(f[i][j]\)</span>. Представим все уже посчитанные релевантные динамики с предыдущего слоя как точки <span class="math inline">\((a_k, b_k)\)</span> на плоскости. Чтобы эффективно находить среди них точку с минимальным скалярным произведением, можно поддерживать их <em>нижнюю огибающую</em> (вектор <span class="math inline">\((1, x_{i-1})\)</span> «смотрит» всегда вверх, поэтому нам интересна только она) и просто бинпоиском будем находить оптимальную точку.</p>
+<p>Хранить нижнюю огибающую можно просто в стэке. Так как добавляемые точки отсортированы по <span class="math inline">\(x\)</span>, её построение будет занимать линейное время, а асимптотика всего алгоритму будет упираться в асимптотику бинарного поиска, то есть будет равна <span class="math inline">\(O(n m \log n)\)</span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: закомитьте кто-нибудь реализацию на гитхаб</span></a></code></pre></div>
+<p>В случае нашей конкретной задачи, алгоритм можно и дальше соптимизировать, если вспомнить, что <span class="math inline">\(opt[i, j] \leq opt[i][j+1]\)</span>, то есть что оптимальная точка всегда будет «правее». Это позволяет вместо бинпоиска применить метод двух указателей:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: закомитьте кто-нибудь реализацию на гитхаб</span></a></code></pre></div>
+<p>Мы избавились от бинпоиска, и теперь алгоритм работает за <span class="math inline">\(O(n \cdot m)\)</span>.</p>
 <h3 id="дерево-ли-шао">Дерево Ли Шао</h3>
-<p>Существует другой подход: увидеть здесь не точки и оптимизацию скалярного произведения, и линии и нахождение минимума в точке.</p>
+<p>Существует другой подход к Convex Hull Trick: увидеть здесь не точки и оптимизацию скалярного произведения, а линии и нахождение минимума в точке среди этих линий.</p>
+<p><img src="https://i.imgur.com/TqfVWDD.png" /></p>
+<p>Применительно к нашей задаче, выражение <span class="math inline">\(\min_k (a_k, b_k) \cdot (1, x_{i-1})\)</span> можно раскрыть как <span class="math inline">\(\min_k (a_k + b_k \cdot x_{i-1})\)</span> и представить как нахождение минимума в точке среди множества прямых вида <span class="math inline">\(y = a_k + b_k \cdot x\)</span>.</p>
+<p><em>Дерево Ли Шао</em> (англ. <em>Li Chao segment tree</em>, кит. <em>李超段树</em>) — модификация дерева отрезков над множеством возможных <span class="math inline">\(x\)</span>, каждая вершина которого хранит в себе такую прямую, что если пройти по пути от корня до соответствующего листа, то максимум в данной точке будет наибольшее значение на пути.</p>
+<p><img src="https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/master/img/li_chao_vertex.png" /></p>
+<p>Пусть в вершину пришло обновление — прямая <em>new</em>. Если в ней ничего не хранится, то запишем <em>new</em> в вершину и выйдем. Если там уже есть какая-то другая прямая <em>old</em>, то одна из них будет «доминировать» над другой хотя бы на одной из половин, а в другой будет либо пересекаться, либо тоже доминировать.</p>
+<p>Если одна прямая полностью доминирует над другой, то мы её просто запишем в вершину, а про вторую забудем. Если же прямая доминирует только в одной из половин, то мы запишем её, а «проигравшую» прямую передадим в рекурсию в ту половину, где она может доминировать.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">typedef</span> <span class="dt">int</span> ftype;</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw">typedef</span> complex&lt;ftype&gt; point;</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="pp">#define x </span>real</a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="pp">#define y </span>imag</a>
+<a class="sourceLine" id="cb7-5" title="5"></a>
+<a class="sourceLine" id="cb7-6" title="6">ftype dot(point a, point b) {</a>
+<a class="sourceLine" id="cb7-7" title="7">    <span class="cf">return</span> (conj(a) * b).x();</a>
+<a class="sourceLine" id="cb7-8" title="8">}</a>
+<a class="sourceLine" id="cb7-9" title="9"></a>
+<a class="sourceLine" id="cb7-10" title="10">ftype f(point f, ftype x) {</a>
+<a class="sourceLine" id="cb7-11" title="11">    <span class="cf">return</span> dot(f, {x, <span class="dv">1</span>});</a>
+<a class="sourceLine" id="cb7-12" title="12">}</a>
+<a class="sourceLine" id="cb7-13" title="13"></a>
+<a class="sourceLine" id="cb7-14" title="14"><span class="at">const</span> <span class="dt">int</span> inf = <span class="fl">1e6</span> + <span class="dv">42</span>;</a>
+<a class="sourceLine" id="cb7-15" title="15"></a>
+<a class="sourceLine" id="cb7-16" title="16">point ln[<span class="dv">8</span> * inf];</a>
+<a class="sourceLine" id="cb7-17" title="17"><span class="dt">void</span> add_line(point nw, <span class="dt">int</span> v = <span class="dv">1</span>, <span class="dt">int</span> l = -inf, <span class="dt">int</span> r = inf) {</a>
+<a class="sourceLine" id="cb7-18" title="18">    point ol = ln[v];</a>
+<a class="sourceLine" id="cb7-19" title="19">    <span class="dt">int</span> m = (l + r) / <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb7-20" title="20">    <span class="dt">bool</span> lef = f(nw, l) &gt; f(ol, l);</a>
+<a class="sourceLine" id="cb7-21" title="21">    <span class="dt">bool</span> mid = f(nw, m) &gt; f(ol, m);</a>
+<a class="sourceLine" id="cb7-22" title="22">    ln[v] = mid ? nw : ol;</a>
+<a class="sourceLine" id="cb7-23" title="23">    <span class="cf">if</span>(r - l == <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb7-24" title="24">        <span class="cf">return</span>;</a>
+<a class="sourceLine" id="cb7-25" title="25">    <span class="cf">if</span>(lef != mid)</a>
+<a class="sourceLine" id="cb7-26" title="26">        add_line(mid ? ol : nw, <span class="dv">2</span> * v, l, m);</a>
+<a class="sourceLine" id="cb7-27" title="27">    <span class="cf">else</span></a>
+<a class="sourceLine" id="cb7-28" title="28">        add_line(mid ? ol : nw, <span class="dv">2</span> * v + <span class="dv">1</span>, m, r);</a>
+<a class="sourceLine" id="cb7-29" title="29">}</a>
+<a class="sourceLine" id="cb7-30" title="30"></a>
+<a class="sourceLine" id="cb7-31" title="31"><span class="dt">int</span> get(<span class="dt">int</span> x, <span class="dt">int</span> v = <span class="dv">1</span>, <span class="dt">int</span> l = -inf, <span class="dt">int</span> r = inf) {</a>
+<a class="sourceLine" id="cb7-32" title="32">    <span class="cf">if</span>(r - l == <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb7-33" title="33">        <span class="cf">return</span> f(ln[v], x);</a>
+<a class="sourceLine" id="cb7-34" title="34">    <span class="dt">int</span> m = (l + r) / <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb7-35" title="35">    <span class="cf">if</span>(x &lt; m)</a>
+<a class="sourceLine" id="cb7-36" title="36">        <span class="cf">return</span> max(f(ln[v], x), get(x, <span class="dv">2</span> * v, l, m));</a>
+<a class="sourceLine" id="cb7-37" title="37">    <span class="cf">else</span></a>
+<a class="sourceLine" id="cb7-38" title="38">        <span class="cf">return</span> max(f(ln[v], x), get(x, <span class="dv">2</span> * v + <span class="dv">1</span>, m, r));</a>
+<a class="sourceLine" id="cb7-39" title="39">}</a></code></pre></div>
 <h2 id="лямбда-оптимизация">Лямбда-оптимизация</h2>
 <p><strong>Примечание.</strong> В научной литературе метод известен как дискретный метод множителей Лагранжа.</p>
 <p>Рассмотрим немного другую задачу. Пусть нам нужно покрыть те же точки, но теперь нас не ограничивают жёстко в количестве отрезков, а просто штрафуют на какую-то константу <span class="math inline">\(\lambda\)</span> за использование каждого. Нашу оптимизируемую функцию <span class="math inline">\(g\)</span> можно выразить через <span class="math inline">\(f\)</span> следующим образом:</p>
