@@ -12,6 +12,7 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -48,45 +49,45 @@
 <div class="contents">
 <h3 id="структуры-данных">Структуры данных</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/segtree">Дерево отрезков</a></li>
-<li><a href="https://algorithmica.org/ru/treap">Декартово дерево</a></li>
-<li><a href="https://algorithmica.org/ru/fenwick">Дерево Фенвика</a></li>
-<li><a href="https://algorithmica.org/ru/sparse-table">Разреженная таблица</a></li>
+<li><a href="https://algorithmica.org/ru/segtree">Дерево отрезков</a> ленивые операции, динамическое ДО, персистентноcть</li>
+<li><a href="https://algorithmica.org/ru/treap">Декартово дерево</a> неявный ключ, персистентность</li>
+<li><a href="https://algorithmica.org/ru/fenwick">Дерево Фенвика</a> почему работает, многомерный случай, бинарный поиск</li>
+<li><a href="https://algorithmica.org/ru/sparse-table">Разреженная таблица</a> static rmq, многомерный случай</li>
 </ul>
 </div>
 <div class="contents">
 <h3 id="общие-техники">Общие техники</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/sqrt">Корневая эвристика</a></li>
-<li><a href="https://algorithmica.org/ru/bitset">Битовое сжатие</a></li>
-<li><a href="https://algorithmica.org/ru/dp-optimizations">Пересчёт динамики по слоям</a></li>
+<li><a href="https://algorithmica.org/ru/sqrt">Корневая эвристика</a> на массивах и запросах, алгоритм мо, тяжелые объекты</li>
+<li><a href="https://algorithmica.org/ru/bitset">Битовое сжатие</a> std::bitset, рюкзак, перемножение матриц, метод гаусса</li>
+<li><a href="https://algorithmica.org/ru/dp-optimizations">Пересчёт динамики по слоям</a> оптимизация кнута, convex hull trick, лямбда-оптимизация</li>
 </ul>
 </div>
 <div class="contents">
 <h3 id="математика">Математика</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/linalg">Линейная алгебра</a></li>
-<li>Теория вероятностей</li>
-<li><a href="https://algorithmica.org/ru/karatsuba">Алгоритм Карацубы</a></li>
-<li><a href="https://algorithmica.org/ru/fft">Быстрое преобразование Фурье</a></li>
+<li><a href="https://algorithmica.org/ru/linalg">Линейная алгебра</a> линейные функции, перемножение матриц, базис, метод гаусса</li>
+<li><a href="">Теория вероятностей</a> линейность матожидания, дисперсия, парадокс дней рождений</li>
+<li><a href="https://algorithmica.org/ru/karatsuba">Алгоритм Карацубы</a> быстрое умножение, мастер-теорема</li>
+<li><a href="https://algorithmica.org/ru/fft">Быстрое преобразование Фурье</a> интерполяция, комплексные числа, схема кули-тьюки, ntt</li>
 </ul>
 </div>
 <hr />
 <div class="contents">
 <h3 id="комбинаторика-и-тч">Комбинаторика и ТЧ</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/reciprocal">Нахождение обратного по модулю</a></li>
-<li><a href="https://algorithmica.org/ru/matroid">Жадный алгоритм Радо-Эдмондса</a></li>
-<li><a href="https://algorithmica.org/ru/pollard">Ро-алгоритм Полларда</a></li>
+<li><a href="https://algorithmica.org/ru/reciprocal">Нахождение обратного по модулю</a> малая теорема ферма, алгоритм евклида, возведение в степень</li>
+<li><a href="https://algorithmica.org/ru/matroid">Жадный алгоритм Радо-Эдмондса</a> матроиды, жадный набор паросочетаний, расписаний, базисов</li>
+<li><a href="https://algorithmica.org/ru/pollard">Ро-алгоритм Полларда</a> быстрая факторизация, пародокс дней рождений</li>
 </ul>
 </div>
 <div class="contents">
 <h3 id="графы">Графы</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/mst">Остовные деревья</a></li>
-<li><a href="https://algorithmica.org/ru/matching">Паросочетания</a></li>
-<li><a href="https://algorithmica.org/ru/mincost-maxflow">Поток минимальной стоимости</a></li>
-<li><a href="https://algorithmica.org/ru/lca">Наименьший общий предок</a></li>
+<li><a href="https://algorithmica.org/ru/mst">Остовные деревья</a> алгоритмы прима, крускала, борувки; снм, dynamic connectivity</li>
+<li><a href="https://algorithmica.org/ru/matching">Паросочетания</a> лемма бержа, алгоритм куна, лемма холла, покрытие dag-а</li>
+<li><a href="https://algorithmica.org/ru/mincost-maxflow">Поток минимальной стоимости</a> критерий оптимальности, потенциалы джонсона</li>
+<li><a href="https://algorithmica.org/ru/lca">Наименьший общий предок</a> запросы на путях и уровнях, двоичные подъемы, lca <span class="math inline">\(\leftrightarrow\)</span> rmq</li>
 <li><a href="https://algorithmica.org/ru/centroid">Центроидная декомпозиция</a></li>
 <li><a href="https://algorithmica.org/ru/hld">Heavy-light декомпозиция</a></li>
 </ul>
@@ -94,33 +95,33 @@
 <div class="contents">
 <h3 id="строки">Строки</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/hashing">Полиномиальное хэширование</a></li>
+<li><a href="https://algorithmica.org/ru/hashing">Полиномиальное хэширование</a> общее хэширование, вероятность коллизии, дд для строк</li>
 <li><a href="https://algorithmica.org/ru/string-searching">Префикс- и z-функция</a></li>
-<li><a href="https://algorithmica.org/ru/aho-corasick">Алгоритм Ахо-Корасик</a></li>
-<li><a href="https://algorithmica.org/ru/suffix-array">Суффиксный массив</a></li>
-<li>Суффиксный автомат</li>
-<li><a href="https://algorithmica.org/ru/palindromes">Палиндромы</a></li>
+<li><a href="https://algorithmica.org/ru/aho-corasick">Алгоритм Ахо-Корасик</a> префиксное дерево, построение автомата ленивой динамикой</li>
+<li><a href="https://algorithmica.org/ru/suffix-array">Суффиксный массив</a> построение за <span class="math inline">\(O(n \log n)\)</span>, массив lcp</li>
+<li><a href="">Суффиксный автомат</a></li>
+<li><a href="https://algorithmica.org/ru/palindromes">Палиндромы</a> алгоритм манакера, дерево палиндромов</li>
 </ul>
 </div>
 <hr />
 <div class="contents">
 <h3 id="геометрия">Геометрия</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/geometry">Ликбез по базовой геометрии</a></li>
-<li><a href="https://algorithmica.org/ru/convex-hulls">Выпуклые оболочки</a></li>
+<li><a href="https://algorithmica.org/ru/geometry">Ликбез по базовой геометрии</a> ооп в c++, скалярное и векторное произведение и применения</li>
+<li><a href="https://algorithmica.org/ru/convex-hulls">Выпуклые оболочки</a> алгоритмы джарвиса, грэхэма, эндрю, чана</li>
 </ul>
 </div>
 <div class="contents">
 <h3 id="теория-игр">Теория игр</h3>
 <ul>
-<li>Теория игр</li>
-<li>Игры с неполной информацией</li>
+<li><a href="">Теория игр</a></li>
+<li><a href="">Игры с неполной информацией</a> смешанные стратегии, блеф, эквилибриум, минимакс-теорема</li>
 </ul>
 </div>
 <div class="contents">
 <h3 id="разное">Разное</h3>
 <ul>
-<li><a href="https://algorithmica.org/ru/annealing">Метод отжига</a></li>
+<li><a href="https://algorithmica.org/ru/annealing">Метод отжига</a> физическая аналогия, эвристики, расстановка ферзей</li>
 <li><a href="https://algorithmica.org/ru/stress-test">Стресс-тестирование</a></li>
 </ul>
 </div>

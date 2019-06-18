@@ -47,12 +47,41 @@ body {
 }
 
 .contents h3 {
-
 }
 
 .contents ul {
     padding-left: 22px;
-    margin-top: 5px;
+    margin-top: 10px;
+    list-style-type: none;
+}
+
+.contents li {
+    font-size: 8px;
+    color: #CCC;
+    font-family: 'Open Sans', sans;
+    height: 28px;
+    line-height: 8px;
+}
+
+.contents li:hover {
+    color: black;
+}
+
+.contents li::before {
+    content: '•';
+    display: inline-block;
+    position: absolute;
+    left: 11px;
+    margin-top: 1px;
+    color: black;
+    font-size: 18px;
+}
+
+.contents a {
+    font-family: 'Times New Roman', sans-serif;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 6px;
 }
 
 a {
@@ -425,4 +454,9 @@ a[href^='https://codeforces.com']:before {
 a[href^='https://www.topcoder.com/']:before {
     content: url('https://s3.amazonaws.com/app.topcoder.com/favicon.ico');
     margin-right: 4px;
+}
+
+a[href=''] {
+    color: black;
+    cursor: default;
 }
