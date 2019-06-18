@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Оптимизации динамики</title>
+  <title>Пересчёт динамики по слоям</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -106,15 +106,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Оптимизации динамики</h1>
+<h1 class="title">Пересчёт динамики по слоям</h1>
 </header>
-<h1 id="оптимизации-динамики">Оптимизации динамики</h1>
-<p>В этой статье мы будем решать одну и ту же задачу разными способами. Они применимы в общем случае, но мы рассмотрим эту:</p>
+<h1 id="пересчёт-динамики-по-слоям">Пересчёт динамики по слоям</h1>
+<p>В этой задаче мы рассмотрим 4 связанных между собой способа оптимизации динамики. Во всех четырёх мы будем решать одну и ту же задачу:</p>
 <blockquote>
 <p>Даны <span class="math inline">\(n\)</span> точек на прямой. Нужно найти <span class="math inline">\(m\)</span> отрезков, покрывающих все точки, минимизировав при этом сумму квадратов их длин.</p>
 </blockquote>
-<p>Базовое решение — следующая динамика: <span class="math inline">\(f[i, j]\)</span> — минимальная стоимость покрытия <span class="math inline">\(i\)</span> первых (самых левых) точек, используя не более <span class="math inline">\(j\)</span> отрезков (итоговый ответ будет записан в <span class="math inline">\(f[n, m]\)</span> — прим. К. О.).</p>
-<p>Переход — перебор всех возможных последних отрезков, то есть <span class="math inline">\(f[i, j] = \min_{k &lt; i} \{f[k, j-1] + (x_{i-1}-x_k)^2 \}\)</span>.</p>
+<p>Базовое решение — это следующая динамика:</p>
+<ul>
+<li><p><span class="math inline">\(f[i, j]\)</span> — минимальная стоимость покрытия <span class="math inline">\(i\)</span> первых (самых левых) точек, используя не более <span class="math inline">\(j\)</span> отрезков.</p></li>
+<li><p>Переход — перебор всех возможных последних отрезков, то есть <span class="math inline">\(f[i, j] = \min_{k &lt; i} \{f[k, j-1] + (x_{i-1}-x_k)^2 \}\)</span>. Индексация <span class="math inline">\(x_i\)</span> с нуля.</p></li>
+</ul>
+<p>Итоговый ответ будет записан в <span class="math inline">\(f[n, m]\)</span>, а такое решение непосредственным перебором будет работать за <span class="math inline">\(O(n^2 m)\)</span>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="co">// x[] — отсортированный массив координат точек, нумерация с нуля</span></a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="co">// квадрат длины отрезка от i-той до j-той точки</span></a>
@@ -131,18 +135,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-14" title="14">        <span class="cf">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; i; k++)</a>
 <a class="sourceLine" id="cb1-15" title="15">            f[i][j] = min(f[i][j], f[k][j-<span class="dv">1</span>] + cost(k, i-<span class="dv">1</span>));</a></code></pre></div>
 <p>Заметим, что циклы по <code>i</code> и <code>j</code> можно поменять местами.</p>
-<p>Такое решение пока работает за <span class="math inline">\(O(n^2 m)\)</span> — для каждого состояния линейный перебор. Сейчас мы покажем 4 разных метода, как его ускорить.</p>
 <h2 id="разделяй-и-властвуй">Разделяй-и-властвуй</h2>
-<p>Обозначим за <span class="math inline">\(opt[i, j]\)</span> оптимальный <span class="math inline">\(k\)</span>, на котором <span class="math inline">\(f[i, j]\)</span> минимизируется. Для однозначности, из всех оптимальных индексов веберем набольший.</p>
-<p><em>Утверждение.</em> <span class="math inline">\(opt[i, j] \leq opt[i, j+1]\)</span>.</p>
-<p>Интуиция такая: чем меньше доступно отрезков, тем больше нам нужно делать самый последний отрезок.</p>
-<p>Что это нам даёт? Если мы уже знаем <span class="math inline">\(opt[i, l]\)</span> и <span class="math inline">\(opt[i, r]\)</span> и хотим посчитать <span class="math inline">\(opt[i, j]\)</span> для какого-то <span class="math inline">\(j\)</span> между <span class="math inline">\(l\)</span> и <span class="math inline">\(r\)</span>, то мы можем сузить отрезок поиска оптимального индекса с <span class="math inline">\([0, i-1]\)</span> до <span class="math inline">\([opt[i, l], opt[i][r]]\)</span>.</p>
-<p>Давайте делать следующее: заведем рекурсивную функцию, которая считает динамики для отрезка <span class="math inline">\([l, r]\)</span>, зная, что их <span class="math inline">\(opt\)</span>-ы лежат между <span class="math inline">\(l&#39;\)</span> и <span class="math inline">\(r&#39;\)</span>. Она берет середину отрезка <span class="math inline">\([l, r]\)</span> и линейным проходом считает ответ для неё, а затем просто спускается дальше рекурсивно.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">void</span> solve (<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> _l, <span class="dt">int</span> _r, <span class="dt">int</span> k) {</a>
-<a class="sourceLine" id="cb2-2" title="2">    <span class="cf">if</span> (l &gt; r) <span class="cf">return</span>; <span class="co">// отрезок пустой — выходим</span></a>
-<a class="sourceLine" id="cb2-3" title="3">    <span class="dt">int</span> t = (l + r) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb2-4" title="4">    <span class="dt">int</span> opt = _l;</a>
-<a class="sourceLine" id="cb2-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = max(t, _l); i &lt;= _r; i++) { <span class="co">// </span><span class="al">TODO</span><span class="co">: неправильные границы </span></a>
+<p>Обозначим за <span class="math inline">\(opt[i, j]\)</span> оптимальный <span class="math inline">\(k\)</span>, то есть тот, на котором <span class="math inline">\(f[i, j] = f[k, j-1] + (x_{i-1}-x_k)^2\)</span> минимизируется. Для однозначности, если оптимальный индекс не один, то выберем среди них самый правый.</p>
+<p><strong>Утверждение.</strong> <span class="math inline">\(opt[i, j] \leq opt[i, j+1]\)</span>.</p>
+<p>Интуиция такая: если у нас появился дополнительный отрезок, то последний отрезок нам не выгодно делать больше.</p>
+<p>Что это нам даёт? Если мы уже знаем <span class="math inline">\(opt[i, l]\)</span> и <span class="math inline">\(opt[i, r]\)</span> и хотим посчитать <span class="math inline">\(opt[i, j]\)</span> для какого-то <span class="math inline">\(j\)</span> между <span class="math inline">\(l\)</span> и <span class="math inline">\(r\)</span>, то мы можем сузить отрезок поиска оптимального индекса со всего <span class="math inline">\([0, i-1]\)</span> до <span class="math inline">\([opt[i, l], opt[i, r]]\)</span>.</p>
+<p>Будем делать следующее: заведем рекурсивную функцию, которая считает динамики для отрезка <span class="math inline">\([l, r]\)</span>, зная, что их <span class="math inline">\(opt\)</span>-ы лежат между <span class="math inline">\(l&#39;\)</span> и <span class="math inline">\(r&#39;\)</span>. Она берет середину отрезка <span class="math inline">\([l, r]\)</span> и линейным проходом считает ответ для неё, а затем просто спускается дальше рекурсивно.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">void</span> solve(<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> _l, <span class="dt">int</span> _r, <span class="dt">int</span> k) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="cf">if</span> (l &gt; r)</a>
+<a class="sourceLine" id="cb2-3" title="3">        return; <span class="co">// отрезок пустой -- выходим</span></a>
+<a class="sourceLine" id="cb2-4" title="4">    <span class="dt">int</span> t = (l + r) / <span class="dv">2</span>, opt = _l;</a>
+<a class="sourceLine" id="cb2-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = _l; i &lt;= min(_r, t); i++) { </a>
 <a class="sourceLine" id="cb2-6" title="6">        <span class="dt">int</span> val = f[i+<span class="dv">1</span>][k-<span class="dv">1</span>] + cost(i, j);</a>
 <a class="sourceLine" id="cb2-7" title="7">        <span class="cf">if</span> (val &lt; f[t][k])</a>
 <a class="sourceLine" id="cb2-8" title="8">            f[t][k] = val, opt = i;</a>
@@ -150,11 +153,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb2-10" title="10">    solve(l, t-<span class="dv">1</span>, _l, opt, k);</a>
 <a class="sourceLine" id="cb2-11" title="11">    solve(t+<span class="dv">1</span>, r, opt, _r, k);</a>
 <a class="sourceLine" id="cb2-12" title="12">}</a></code></pre></div>
-<p>Вызываться она будет просто последовательно для каждого слоя:</p>
+<p>Затем последовательно вызовем её для каждого слоя:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="cf">for</span> (<span class="dt">int</span> k = <span class="dv">1</span>; k &lt;= m; k++)</a>
 <a class="sourceLine" id="cb3-2" title="2">    solve(<span class="dv">0</span>, n-<span class="dv">1</span>, <span class="dv">0</span>, n-<span class="dv">1</span>, k);</a></code></pre></div>
-<p>Теперь пересчет одного «слоя» динамики занимает <span class="math inline">\(O(n \log n)\)</span> вместо <span class="math inline">\(O(n^2)\)</span>. Почему? Потому что каждый раз рекурсивная функция уменьшает в два раза хотя бы один из отрезков, так что её глубина будет <span class="math inline">\(O(\log n)\)</span>, а значит и каждый элемент будет просмотрен не более <span class="math inline">\(O(\log n)\)</span> раз.</p>
-<p>Получается, что асимптотика улучшилась до <span class="math inline">\(O(n m \log n)\)</span>.</p>
+<p><strong>Асимптотика.</strong> Теперь пересчет одного «слоя» динамики занимает <span class="math inline">\(O(n \log n)\)</span> вместо <span class="math inline">\(O(n^2)\)</span>, потому что каждый раз рекурсивная функция уменьшает в два раза хотя бы один из отрезков. Так как максимальная глубина рекурсии будет <span class="math inline">\(O(\log n)\)</span>, то каждый элемент будет просмотрен не более <span class="math inline">\(O(\log n)\)</span> раз.</p>
+<p>Таким образом, мы улучшили асимптотику до <span class="math inline">\(O(n m \log n)\)</span>.</p>
 <h2 id="оптимизация-кнута">Оптимизация Кнута</h2>
 <p>Предыдущий метод основывался на том факте, что <span class="math inline">\(opt[i, j] \leq opt[i, j+1]\)</span>. А что, если <span class="math inline">\(opt\)</span> монотонен ещё и по первому параметру?</p>
 <p><span class="math display">\[ opt[i-1, j] \leq opt[i, j] \leq opt[i, j+1] \]</span></p>
@@ -192,14 +195,30 @@ f[k, j-1] + x_{i-1}^2
 <figure>
 <img src="../img/scooby-doo.jpg" alt="Паблик «Mathematical bullshit»" /><figcaption>Паблик «Mathematical bullshit»</figcaption>
 </figure>
-<h3 id="ли-шао">Ли Шао</h3>
+<h3 id="дерево-ли-шао">Дерево Ли Шао</h3>
 <p>Существует другой подход: увидеть здесь не точки и оптимизацию скалярного произведения, и линии и нахождение минимума в точке.</p>
 <h2 id="лямбда-оптимизация">Лямбда-оптимизация</h2>
-<p>Не «фольклорное» название — дискретный метод множителей Лагранжа.</p>
-<p>Пусть у нас есть функция <span class="math inline">\(f(x)\)</span>, которую сложно посчитать. Но пусть при этом нам легко посчитать g(x) = .</p>
-<p>Заметим следующее:</p>
-<p>Давайте заменим <span class="math inline">\(f[i, j]\)</span> на <span class="math inline">\(g_\lambda[i]\)</span> — та же задача, но теперь у нас нет лимита на количество отрезков. Вместо этого мы платим фиксированный «штраф», равный <span class="math inline">\(\lambda\)</span>, за использование отрезка.</p>
-<p>Давайте сделаем бинпоиск по <span class="math inline">\(\lambda\)</span>. Понятно, что для каких-то лямбд мы будем использовать ровно <span class="math inline">\(j\)</span> отрезков. Тогда ответ на динамику <span class="math inline">\(f[i, j] = g[i] - \lambda k\)</span>.</p>
+<p><strong>Примечание.</strong> В научной литературе метод известен как дискретный метод множителей Лагранжа.</p>
+<p>Рассмотрим немного другую задачу. Пусть нам нужно покрыть те же точки, но теперь нас не ограничивают жёстко в количестве отрезков, а просто штрафуют на какую-то константу <span class="math inline">\(\lambda\)</span> за использование каждого. Нашу оптимизируемую функцию <span class="math inline">\(g\)</span> можно выразить через <span class="math inline">\(f\)</span> следующим образом:</p>
+<p><span class="math display">\[
+g[i] = \min_{k &lt; i} \{f[i, k] + k \cdot \lambda \}
+\]</span></p>
+<p>Однако её можно считать по более оптимальной формуле, не сводя к вычислению <span class="math inline">\(f\)</span>:</p>
+<p><span class="math display">\[
+g[i] = \lambda + \min_{k &lt; i} \{g[k] + (x_{i-1} - x_k)^2 \}
+\]</span></p>
+<p>Эту динамику можно посчитать за <span class="math inline">\(O(n)\)</span> — мы это делали полстраницы назад с помощью Convex Hull Trick.</p>
+<p><strong>Наблюдение 1.</strong> Если в оптимальном решении для <span class="math inline">\(g_i\)</span> мы для какого-то <span class="math inline">\(\lambda\)</span> использовали ровно <span class="math inline">\(k\)</span> отрезков, то это же решение будет оптимальным и для <span class="math inline">\(f[i][k]\)</span>.</p>
+<p><strong>Наблюдение 2.</strong> Если уменьшать <span class="math inline">\(\lambda\)</span>, то оптимальное количество отрезков для для <span class="math inline">\(g_i\)</span> будет увеличиваться.</p>
+<p>Основная идея оптимизации: сделаем бинпоиск по <span class="math inline">\(\lambda\)</span>, внутри которого будем находить оптимальное решение для <span class="math inline">\(g_i\)</span> с таким <span class="math inline">\(\lambda\)</span>. Если оптимальное <span class="math inline">\(k\)</span> больше <span class="math inline">\(j\)</span>, то следующая <span class="math inline">\(\lambda\)</span> должна быть меньше, а в противном случае наоборот. Когда <span class="math inline">\(k\)</span> совпадёт с <span class="math inline">\(j\)</span>, просто выведем «чистую» стоимость получившегося решения.</p>
+<p>Таким образом, задача решается за <span class="math inline">\(O(n \log n + n \log m)\)</span>, если сортировку точек для CHT делать заранее, а не внутри бинпоиска.</p>
+<p>Мы не учли только одну деталь: почему вообще существует такая <span class="math inline">\(\lambda\)</span>, что оптимальное <span class="math inline">\(k = j\)</span>. Возможно, что функция <span class="math inline">\(k(\lambda)\)</span> через него «перескакивает». В общем случае это действительно проблема: одной лишь монотонности не достаточно, чтобы решать подобным образом произвольные задачи с ограничением на число объектов.</p>
+<p><strong>Утверждение.</strong> Функция <span class="math inline">\(f[i, j]\)</span> <em>нестрого вогнутая</em> (то есть выпуклая вверх) по своему второму аргументу, то есть:</p>
+<p><span class="math display">\[
+f[i, j] - f[i, j-1] \leq f[i, j+1] - f[i, j]
+\]</span></p>
+<p>Иными словами, «выгода» добавления следующего отрезка с каждым разом не увеличивается.</p>
+<p>TODO</p>
 <h2 id="суммируем">Суммируем</h2>
 <p>TODO: сделать табличку</p>
 <ul>
@@ -208,10 +227,5 @@ f[k, j-1] + x_{i-1}^2
 <li>CHT: <span class="math inline">\(O(nm)\)</span>. В оптимизируемой функции нужно увидеть скалярное произведение.</li>
 <li>Лагранж: <span class="math inline">\(O(n \log n)\)</span>. Функция должна быть выпуклой.</li>
 </ul>
-<h2 id="другие-задачи">Другие задачи</h2>
-<p>Как мы увидели, часто оптимизации динамики взаимо заменяемые. Сведение оставляется читателю как упражнение.</p>
-<blockquote>
-<p>Есть <span class="math inline">\(n\)</span> ферм на длинной прямой дороге. Каждая ферма каждую осень производит сколько-то мешков зерна. Требуеттся так поставить <span class="math inline">\(m\)</span> амбаров в некоторых фермах, чтобы суммарная стоимость транспортировки зерна была минимальной. Перевезти 1 мешок зерна на 1 метр стоит 1 доллар.</p>
-</blockquote>
 </body>
 </html>
