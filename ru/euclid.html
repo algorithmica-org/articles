@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Алгоритм Евклида</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+  });
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Алгоритм Евклида</h1>
+</header>
+<h1 id="алгоритм-евклида">Алгоритм Евклида</h1>
+<p><em>Наименьшим общим делителем</em> (англ. <em>greatest common divisor</em>) целых неотрицательных чисел <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> называется наибольшое число <span class="math inline">\(x\)</span>, которое делит одновременно и <span class="math inline">\(a\)</span>, и <span class="math inline">\(b\)</span>.</p>
+<p><span class="math display">\[
+\gcd(a, b) = \max_{k: \; k|a \, \land \, k | b} k
+\]</span></p>
+<p>Когда оба числа равны нулю, результат не определён — подойдёт сколько угодно большое число. Однако в этом случае мы положим в этом случае <span class="math inline">\(\gcd\)</span> равным тоже нулю, чтобы можно было использовать следующее правило: если одно из чисел равно нулю, то их <span class="math inline">\(\gcd\)</span> равен второму числу.</p>
+<p>Алгоритм Евклида находит <span class="math inline">\(gcd\)</span> двух чисел <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> за <span class="math inline">\(O(\log \min(a, b))\)</span>. Он известен с IV века до нашей эры, а возможно и ранее.</p>
+<p>Сам алгоритм основывается на следующей формуле, которую мы докажем позже:</p>
+<p><span class="math display">\[
+\gcd(a, b) = \begin{cases}
+a, &amp; b = 0 \\
+\gcd(b,\, a \bmod b), &amp; b &gt; 0
+\end{cases}
+\]</span></p>
+<p>Эту формулу очень просто реализовать:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="cf">if</span> (b == <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3">        return a;</a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="cf">else</span></a>
+<a class="sourceLine" id="cb1-5" title="5">        return gcd(b, a % b);</a>
+<a class="sourceLine" id="cb1-6" title="6">}</a></code></pre></div>
+<p>Чуть более быстрая итеративная форма:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    wihle (b &gt; <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb2-3" title="3">        a %= b;</a>
+<a class="sourceLine" id="cb2-4" title="4">        swap(a, b);</a>
+<a class="sourceLine" id="cb2-5" title="5">    }</a>
+<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">return</span> a;</a>
+<a class="sourceLine" id="cb2-7" title="7">}</a></code></pre></div>
+<p>В компиляторе <code>gcc</code> для этого уже есть встроенная функция <code>__gcd</code>.</p>
+<h2 id="корректность">Корректность</h2>
+<p>Из того, что второй аргумент <span class="math inline">\(\gcd\)</span> всегда уменьшается и не может стать отрицательным, будет следовать, что алгоритм Евклида всегда хотя бы завершается.</p>
+<p>Чтобы доказать корректность алгоритма, нам нужно доказать равенство <span class="math inline">\(g = \gcd(a, b) = \gcd(b, a \bmod b)\)</span> для любых <span class="math inline">\(a \geq 0\)</span>, <span class="math inline">\(b &gt; 0\)</span>.</p>
+<p>Разложим остаток от деления <span class="math inline">\(a\)</span> на <span class="math inline">\(b\)</span> через их частное:</p>
+<p><span class="math display">\[
+a \bmod b = a - b \cdot \Big \lfloor \frac{a}{b} \Big \rfloor
+\]</span></p>
+<p>По определению, <span class="math inline">\(g = \gcd(a, b)\)</span> делит <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>. Следовательно, <span class="math inline">\(g\)</span> делит и эту разность, а значит и <span class="math inline">\((a \bmod b)\)</span>.</p>
+<p>Так как <span class="math inline">\(g\)</span> делит числа <span class="math inline">\(b\)</span> и <span class="math inline">\((a \bmod b)\)</span>, то оно должно также делить <span class="math inline">\(\gcd(b, a \bmod b)\)</span>.</p>
+<p>Мы получили, что <span class="math inline">\(g = \gcd(a, b)\)</span> делит <span class="math inline">\(\gcd(b, a \bmod b)\)</span>. Можно провести симметричные рассуждения и показать, что <span class="math inline">\(\gcd(b, a \bmod b)\)</span> делит <span class="math inline">\(\gcd(a, b)\)</span>, из чего будет следовать, что они равны.</p>
+<h2 id="асимптотика">Асимптотика</h2>
+<p>Заметим, что в алгоритме поддерживается инвариант <span class="math inline">\(a &gt; b\)</span>, кроме, возможно, первой итерации. Так как <span class="math inline">\(a \bmod b &lt; b\)</span> и <span class="math inline">\(a &gt; b\)</span>, то <span class="math inline">\(a\)</span> уменьшится хотя бы в два раза.</p>
+<p>Самые худшие входные данные для алгоритма — последовательность Фибоначчи.</p>
+<p>Также по этой причине нахождение <span class="math inline">\(\gcd\)</span> от <span class="math inline">\(n\)</span> чисел будет работать за <span class="math inline">\(O(n + \log x)\)</span>, где <span class="math inline">\(x\)</span> это минимальное из них.</p>
+<h2 id="решение-диофантовых-уравнений">Решение диофантовых уравнений</h2>
+<p>Для обычного использования <span class="math inline">\(gcd\)</span> не нужно даже знать, как алгоритм устроен — он есть даже в компиляторе.</p>
+<p><em>Расширенный алгоритм Евклида</em> находит помимо <span class="math inline">\(g = \gcd(a, b)\)</span> также коэффициенты <span class="math inline">\(x\)</span> и <span class="math inline">\(y\)</span> такие, что</p>
+<p><span class="math display">\[
+a \cdot x + b \cdot y = g
+\]</span></p>
+<p>Эта версия значима, потому что с помощью неё можно искать обратный элемент по модулю: нужно найти такой элемент <span class="math inline">\(a^{-1}\)</span>, что <span class="math inline">\(a \cdot a^{1} \equiv 1\)</span>, что то же самое, что:</p>
+<p><span class="math display">\[
+a^{-1} \cdot a + k \cdot m = 1
+\]</span></p>
+<p>Модифицируем стандартный алгоритм Евклида, чтобы учесть в нём нахождение этих коэффициентов.</p>
+<p>Пусть мы посчитали эти коэффициенты когда рекурсивно считали <span class="math inline">\(gcd(b, a \bmod b)\)</span>. Иными словами, у нас есть решение <span class="math inline">\((x, y)\)</span> для пары <span class="math inline">\((b, a \bmod b)\)</span>:</p>
+<p>$$</p>
+<p>$$</p>
+<p>Чтобы получить решение для исходной пары, преобразуем величину <span class="math inline">\((a \bmod b)\)</span> как <span class="math inline">\(todo\)</span> и подставим в преведённое выше выражение:</p>
+<p>$$</p>
+<p>$$</p>
+<p>Если выполнить перегруппировку слагаемых, можно получить:</p>
+<p>$$</p>
+<p>$$</p>
+<h3 id="реализация">Реализация</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b, <span class="dt">int</span> &amp; x, <span class="dt">int</span> &amp; y) {</a>
+<a class="sourceLine" id="cb3-2" title="2">    <span class="cf">if</span> (a == <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb3-3" title="3">        x = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb3-4" title="4">        y = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb3-5" title="5">        <span class="cf">return</span> b;</a>
+<a class="sourceLine" id="cb3-6" title="6">    }</a>
+<a class="sourceLine" id="cb3-7" title="7">    <span class="dt">int</span> x1, y1;</a>
+<a class="sourceLine" id="cb3-8" title="8">    <span class="dt">int</span> d = gcd(b%a, a, x1, y1);</a>
+<a class="sourceLine" id="cb3-9" title="9">    x = y1 - (b / a) * x1;</a>
+<a class="sourceLine" id="cb3-10" title="10">    y = x1;</a>
+<a class="sourceLine" id="cb3-11" title="11">    <span class="cf">return</span> d;</a>
+<a class="sourceLine" id="cb3-12" title="12">}</a></code></pre></div>
+<p>Эта рекурсивная функция по прежнему возвращает значение <span class="math inline">\(gcd(a, b)\)</span>, но помимо этого записывает в <span class="math inline">\(x\)</span> и <span class="math inline">\(y\)</span> искомые коэффициенты.</p>
+</body>
+</html>
