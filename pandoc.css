@@ -57,9 +57,9 @@ body {
 
 .contents li {
     font-size: 8px;
-    color: #CCC;
+    color: lightgrey;
     font-family: 'Open Sans', sans;
-    height: 28px;
+    height: 30px;
     line-height: 8px;
 }
 
@@ -81,7 +81,7 @@ body {
     font-family: 'Times New Roman', sans-serif;
     display: block;
     font-size: 16px;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
 }
 
 a {
