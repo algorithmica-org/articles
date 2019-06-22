@@ -114,77 +114,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \gcd(a, b) = \max_{k: \; k|a \, \land \, k | b} k
 \]</span></p>
 <p>Когда оба числа равны нулю, результат не определён — подойдёт сколько угодно большое число. Однако в этом случае мы положим в этом случае <span class="math inline">\(\gcd\)</span> равным тоже нулю, чтобы можно было использовать следующее правило: если одно из чисел равно нулю, то их <span class="math inline">\(\gcd\)</span> равен второму числу.</p>
-<p>Алгоритм Евклида находит <span class="math inline">\(gcd\)</span> двух чисел <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> за <span class="math inline">\(O(\log \min(a, b))\)</span>. Он известен с IV века до нашей эры, а возможно и ранее.</p>
-<p>Сам алгоритм основывается на следующей формуле, которую мы докажем позже:</p>
+<p>Алгоритм Евклида находит <span class="math inline">\(\gcd\)</span> двух чисел <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> за <span class="math inline">\(O(\log \min(a, b))\)</span>. Он известен ещё с IV века до нашей эры, а возможно и ранее.</p>
+<p>Алгоритм основывается на следующей несложной формуле:</p>
+<p><span class="math display">\[
+\gcd(a, b) = \begin{cases}
+a, &amp; b = 0 \\
+\gcd(b,\, a - b), &amp; b &gt; 0
+\end{cases}
+\]</span></p>
+<p>Здесь предполагается, что <span class="math inline">\(a &gt; b\)</span>.</p>
+<p>Докажем корректность этой формулы:</p>
+<ul>
+<li><p>Если <span class="math inline">\(g = \gcd(a, b)\)</span> делит и <span class="math inline">\(a\)</span>, и <span class="math inline">\(b\)</span>, то их разность <span class="math inline">\((a-b)\)</span> тоже будет делиться на <span class="math inline">\(g\)</span>.</p></li>
+<li><p>Никакой больший делитель <span class="math inline">\(d\)</span> числа <span class="math inline">\(b\)</span> не может делить число <span class="math inline">\((a-b)\)</span>: если <span class="math inline">\(d &gt; g\)</span>, то <span class="math inline">\(d\)</span> не может делить <span class="math inline">\(a\)</span>, а значит и не делит <span class="math inline">\((a - b)\)</span>.</p></li>
+</ul>
+<p>Прямая рекурсивная реализация:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
+<a class="sourceLine" id="cb1-2" title="2">    if (a &lt; b)</a>
+<a class="sourceLine" id="cb1-3" title="3">        swap(a, b);</a>
+<a class="sourceLine" id="cb1-4" title="4">    if (b == <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb1-5" title="5">        return a;</a>
+<a class="sourceLine" id="cb1-6" title="6">    else</a>
+<a class="sourceLine" id="cb1-7" title="7">        return gcd(b, a - b);</a>
+<a class="sourceLine" id="cb1-8" title="8">}</a></code></pre></div>
+<p>Этот алгоритм может работать долго — например, на паре <span class="math inline">\((10^9, 1)\)</span> он сделает миллиард итераций. Идея дальнейшей оптимизации в том, чтобы вычитать из <span class="math inline">\(a\)</span> не одно <span class="math inline">\(b\)</span> за раз, а столько, чтобы в следующий раз <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> уже поменялись местами — чтобы новое <span class="math inline">\(b\)</span> стало меньше нового <span class="math inline">\(a\)</span>.</p>
+<p>Простой способ этого достичь — просто вычесть <span class="math inline">\(b\)</span> из <span class="math inline">\(a\)</span> сразу максимально возможное число раз, то есть взять вместо нового <span class="math inline">\(b\)</span> остаток от деления <span class="math inline">\(a\)</span> на <span class="math inline">\(b\)</span>:</p>
 <p><span class="math display">\[
 \gcd(a, b) = \begin{cases}
 a, &amp; b = 0 \\
 \gcd(b,\, a \bmod b), &amp; b &gt; 0
 \end{cases}
 \]</span></p>
-<p>Эту формулу очень просто реализовать:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="cf">if</span> (b == <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3">        return a;</a>
-<a class="sourceLine" id="cb1-4" title="4">    <span class="cf">else</span></a>
-<a class="sourceLine" id="cb1-5" title="5">        return gcd(b, a % b);</a>
-<a class="sourceLine" id="cb1-6" title="6">}</a></code></pre></div>
-<p>Чуть более быстрая итеративная форма:</p>
+<p>Можно показать, что каждые две итерации меньшее число уменьшится хотя бы в два раза, а следовательно алгоритм работает за <span class="math inline">\(O(\log \min (a, b))\)</span>.</p>
+<p>Реализация:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
-<a class="sourceLine" id="cb2-2" title="2">    wihle (b &gt; <span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb2-3" title="3">        a %= b;</a>
-<a class="sourceLine" id="cb2-4" title="4">        swap(a, b);</a>
-<a class="sourceLine" id="cb2-5" title="5">    }</a>
-<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">return</span> a;</a>
-<a class="sourceLine" id="cb2-7" title="7">}</a></code></pre></div>
-<p>В компиляторе <code>gcc</code> для этого уже есть встроенная функция <code>__gcd</code>.</p>
-<h2 id="корректность">Корректность</h2>
-<p>Из того, что второй аргумент <span class="math inline">\(\gcd\)</span> всегда уменьшается и не может стать отрицательным, будет следовать, что алгоритм Евклида всегда хотя бы завершается.</p>
-<p>Чтобы доказать корректность алгоритма, нам нужно доказать равенство <span class="math inline">\(g = \gcd(a, b) = \gcd(b, a \bmod b)\)</span> для любых <span class="math inline">\(a \geq 0\)</span>, <span class="math inline">\(b &gt; 0\)</span>.</p>
-<p>Разложим остаток от деления <span class="math inline">\(a\)</span> на <span class="math inline">\(b\)</span> через их частное:</p>
-<p><span class="math display">\[
-a \bmod b = a - b \cdot \Big \lfloor \frac{a}{b} \Big \rfloor
-\]</span></p>
-<p>По определению, <span class="math inline">\(g = \gcd(a, b)\)</span> делит <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>. Следовательно, <span class="math inline">\(g\)</span> делит и эту разность, а значит и <span class="math inline">\((a \bmod b)\)</span>.</p>
-<p>Так как <span class="math inline">\(g\)</span> делит числа <span class="math inline">\(b\)</span> и <span class="math inline">\((a \bmod b)\)</span>, то оно должно также делить <span class="math inline">\(\gcd(b, a \bmod b)\)</span>.</p>
-<p>Мы получили, что <span class="math inline">\(g = \gcd(a, b)\)</span> делит <span class="math inline">\(\gcd(b, a \bmod b)\)</span>. Можно провести симметричные рассуждения и показать, что <span class="math inline">\(\gcd(b, a \bmod b)\)</span> делит <span class="math inline">\(\gcd(a, b)\)</span>, из чего будет следовать, что они равны.</p>
-<h2 id="асимптотика">Асимптотика</h2>
-<p>Заметим, что в алгоритме поддерживается инвариант <span class="math inline">\(a &gt; b\)</span>, кроме, возможно, первой итерации. Так как <span class="math inline">\(a \bmod b &lt; b\)</span> и <span class="math inline">\(a &gt; b\)</span>, то <span class="math inline">\(a\)</span> уменьшится хотя бы в два раза.</p>
-<p>Самые худшие входные данные для алгоритма — последовательность Фибоначчи.</p>
-<p>Также по этой причине нахождение <span class="math inline">\(\gcd\)</span> от <span class="math inline">\(n\)</span> чисел будет работать за <span class="math inline">\(O(n + \log x)\)</span>, где <span class="math inline">\(x\)</span> это минимальное из них.</p>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="cf">if</span> (b == <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3">        <span class="cf">return</span> a;</a>
+<a class="sourceLine" id="cb2-4" title="4">    <span class="cf">else</span></a>
+<a class="sourceLine" id="cb2-5" title="5">        <span class="cf">return</span> gcd(b, a % b);</a>
+<a class="sourceLine" id="cb2-6" title="6">}</a></code></pre></div>
+<p>Чуть более быстрая итеративная форма:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
+<a class="sourceLine" id="cb3-2" title="2">    wihle (b &gt; <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb3-3" title="3">        a %= b;</a>
+<a class="sourceLine" id="cb3-4" title="4">        swap(a, b);</a>
+<a class="sourceLine" id="cb3-5" title="5">    }</a>
+<a class="sourceLine" id="cb3-6" title="6">    <span class="cf">return</span> a;</a>
+<a class="sourceLine" id="cb3-7" title="7">}</a></code></pre></div>
+<p>В компиляторе <code>gcc</code> для этого уже есть встроенная функция <code>__gcd</code>, которая, впрочем, может непредсказуемо себя вести на отрицательных числах и <span class="math inline">\((0, 0)\)</span>.</p>
+<h3 id="время-работы">Время работы</h3>
+<p>Оценка <span class="math inline">\(O(\log n)\)</span> относится к худшему случаю. Асимптотика <em>в среднем</em> это <a href="https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%95%D0%B2%D0%BA%D0%BB%D0%B8%D0%B4%D0%B0#%D0%92%D1%8B%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F_%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D1%8C_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D0%B0">более интересный вопрос</a>, играющий существенную роль в <a href="https://algorithmica.org/ru/pollard">некоторых алгоритмах</a>.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Euclidean_Algorithm_Running_Time.svg/2560px-Euclidean_Algorithm_Running_Time.svg.png" /></p>
+<p>Примечательно, что худшие входные данные для алгоритма — это соседние числа Фибоначчи. На графике они видны как синие точки в пропорциях золотого сечения.</p>
+<p>Также иногда полезно знать, что нахождение <span class="math inline">\(\gcd\)</span> группы из <span class="math inline">\(n\)</span> чисел от <span class="math inline">\(1\)</span> до <span class="math inline">\(A\)</span> будет работать не за <span class="math inline">\(O(n \log A)\)</span>, а за <span class="math inline">\(O(n + \log A)\)</span> — это несложно доказать по индукции.</p>
 <h2 id="решение-диофантовых-уравнений">Решение диофантовых уравнений</h2>
 <p>Для обычного использования <span class="math inline">\(gcd\)</span> не нужно даже знать, как алгоритм устроен — он есть даже в компиляторе.</p>
-<p><em>Расширенный алгоритм Евклида</em> находит помимо <span class="math inline">\(g = \gcd(a, b)\)</span> также коэффициенты <span class="math inline">\(x\)</span> и <span class="math inline">\(y\)</span> такие, что</p>
+<p><em>Расширенный алгоритм Евклида</em> находит, помимо <span class="math inline">\(g = \gcd(a, b)\)</span>, такие целые коэффициенты <span class="math inline">\(x\)</span> и <span class="math inline">\(y\)</span>, что</p>
 <p><span class="math display">\[
 a \cdot x + b \cdot y = g
 \]</span></p>
-<p>Эта версия значима, потому что с помощью неё можно искать обратный элемент по модулю: нужно найти такой элемент <span class="math inline">\(a^{-1}\)</span>, что <span class="math inline">\(a \cdot a^{1} \equiv 1\)</span>, что то же самое, что:</p>
+<p>Эта модификация алгоритма интересна, потому что с помощью неё можно искать <a href="https://algoritmhica.org/ru/reciprocal">обратный элемент по модулю</a>: такой элемент <span class="math inline">\(a^{-1}\)</span>, что <span class="math inline">\(a \cdot a^{1} \equiv 1\)</span>, что то же самое, что найти решение в целых числах:</p>
 <p><span class="math display">\[
 a^{-1} \cdot a + k \cdot m = 1
 \]</span></p>
-<p>Модифицируем стандартный алгоритм Евклида, чтобы учесть в нём нахождение этих коэффициентов.</p>
-<p>Пусть мы посчитали эти коэффициенты когда рекурсивно считали <span class="math inline">\(gcd(b, a \bmod b)\)</span>. Иными словами, у нас есть решение <span class="math inline">\((x, y)\)</span> для пары <span class="math inline">\((b, a \bmod b)\)</span>:</p>
-<p>$$</p>
-<p>$$</p>
-<p>Чтобы получить решение для исходной пары, преобразуем величину <span class="math inline">\((a \bmod b)\)</span> как <span class="math inline">\(todo\)</span> и подставим в преведённое выше выражение:</p>
-<p>$$</p>
-<p>$$</p>
-<p>Если выполнить перегруппировку слагаемых, можно получить:</p>
-<p>$$</p>
-<p>$$</p>
-<h3 id="реализация">Реализация</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b, <span class="dt">int</span> &amp; x, <span class="dt">int</span> &amp; y) {</a>
-<a class="sourceLine" id="cb3-2" title="2">    <span class="cf">if</span> (a == <span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb3-3" title="3">        x = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb3-4" title="4">        y = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb3-5" title="5">        <span class="cf">return</span> b;</a>
-<a class="sourceLine" id="cb3-6" title="6">    }</a>
-<a class="sourceLine" id="cb3-7" title="7">    <span class="dt">int</span> x1, y1;</a>
-<a class="sourceLine" id="cb3-8" title="8">    <span class="dt">int</span> d = gcd(b%a, a, x1, y1);</a>
-<a class="sourceLine" id="cb3-9" title="9">    x = y1 - (b / a) * x1;</a>
-<a class="sourceLine" id="cb3-10" title="10">    y = x1;</a>
-<a class="sourceLine" id="cb3-11" title="11">    <span class="cf">return</span> d;</a>
-<a class="sourceLine" id="cb3-12" title="12">}</a></code></pre></div>
-<p>Эта рекурсивная функция по прежнему возвращает значение <span class="math inline">\(gcd(a, b)\)</span>, но помимо этого записывает в <span class="math inline">\(x\)</span> и <span class="math inline">\(y\)</span> искомые коэффициенты.</p>
+<p>Заметим также, что решений бесконечно много: можно <span class="math inline">\(x\)</span> увеличить на <span class="math inline">\(b \cdot y\)</span>, а <span class="math inline">\(y\)</span> уменьшить на <span class="math inline">\(a \cdot x\)</span>, и равенство при этом не изменится.</p>
+<p><strong>Алгоритм</strong> будет тоже рекурсивный. Пусть мы посчитали нужные коэффициенты <span class="math inline">\(x&#39;\)</span> и <span class="math inline">\(y&#39;\)</span>, когда рекурсивно считали <span class="math inline">\(\gcd(b, a \bmod b)\)</span>. Иными словами, у нас есть решение <span class="math inline">\((x&#39;, y&#39;)\)</span> для пары <span class="math inline">\((b, a \bmod b)\)</span>:</p>
+<p><span class="math display">\[
+b \cdot x&#39; + (a \bmod b) \cdot y&#39; = g
+\]</span></p>
+<p>Чтобы получить решение для исходной пары, запишем выражение <span class="math inline">\((a \bmod b)\)</span> как <span class="math inline">\((a - \lfloor \frac{a}{b} \rfloor \cdot b)\)</span> и подставим в преведенное выше равенство:</p>
+<p><span class="math display">\[
+b \cdot x&#39; + (a - \Big \lfloor \frac{a}{b} \Big \rfloor \cdot b) \cdot y&#39; = g
+\]</span></p>
+<p>Теперь выполним перегруппировку слагаемых (сгруппируем по исходным <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>) и получим:</p>
+<p><span class="math display">\[
+a \cdot \underbrace{y&#39;}_x + b \cdot \underbrace{(x&#39; - \Big \lfloor \frac{a}{b} \Big \rfloor \cdot y&#39;)}_y = g
+\]</span></p>
+<p>Сравнивая это с исходным выражением, получаем, что для иходных <span class="math inline">\(x\)</span> и <span class="math inline">\(y\)</span> подходят коэффициенты при <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>.</p>
+<p>Реализация:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b, <span class="dt">int</span> &amp;x, <span class="dt">int</span> &amp;y) {</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="cf">if</span> (a == <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb4-3" title="3">        x = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb4-4" title="4">        y = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb4-5" title="5">        <span class="cf">return</span> b;</a>
+<a class="sourceLine" id="cb4-6" title="6">    }</a>
+<a class="sourceLine" id="cb4-7" title="7">    <span class="dt">int</span> x1, y1;</a>
+<a class="sourceLine" id="cb4-8" title="8">    <span class="dt">int</span> d = gcd(b % a, a, x1, y1);</a>
+<a class="sourceLine" id="cb4-9" title="9">    x = y1 - (b / a) * x1;</a>
+<a class="sourceLine" id="cb4-10" title="10">    y = x1;</a>
+<a class="sourceLine" id="cb4-11" title="11">    <span class="cf">return</span> d;</a>
+<a class="sourceLine" id="cb4-12" title="12">}</a></code></pre></div>
+<p>Эта рекурсивная функция по прежнему возвращает значение <span class="math inline">\(\gcd(a, b)\)</span>, но помимо этого записывает в переданные по ссылке переменные <span class="math inline">\(x\)</span> и <span class="math inline">\(y\)</span> искомые коэффициенты.</p>
 </body>
 </html>
