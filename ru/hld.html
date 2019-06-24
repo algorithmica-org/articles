@@ -192,5 +192,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb4-19" title="19">    <span class="cf">return</span> ans;</a>
 <a class="sourceLine" id="cb4-20" title="20">}</a></code></pre></div>
 <p><img src='https://codeforces.com/predownloaded/be/01/be019bbaa15bbf621a0cf018b15e778c02aeb104.jpg'></p>
+<h2 id="замечания">Замечания</h2>
+<ul>
+<li>Если в рамках задачи нет запросов обновления, то можно прокэшировать запросы — заметим, что большинство запросов к структуре, которые надо сделать, находятся на префиксах тяжелых путей, и на них можно отвечать за <span class="math inline">\(O(1)\)</span>, и таких будет <span class="math inline">\(O(\log n)\)</span> на запрос. Также придется сделать <span class="math inline">\(O(1)\)</span> запросов к структуре, которые будут работать за <span class="math inline">\(O(\log n)\)</span>. Получаем <span class="math inline">\(O(\log n)\)</span> на запрос.</li>
+<li>Так как наша реализация HLD строит структуру данных на эйлеровом обходе дерева, то мы можем добавить запросы к поддеревьям (ведь поддеревья — это подотрезки эйлерова обхода).</li>
+</ul>
 </body>
 </html>
