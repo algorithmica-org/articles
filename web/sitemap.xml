@@ -9,182 +9,167 @@
 
 <url>
   <loc>https://algorithmica.org/</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/en/</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/segtree</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/treap</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/fenwick</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/sparse-table</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/sqrt</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/bitset</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/dp-optimizations</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/linalg</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://algorithmica.org/ru/probability</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/karatsuba</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/fft</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://algorithmica.org/ru/euclid</loc>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://algorithmica.org/ru/eratosphenes</loc>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/reciprocal</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/matroid</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/pollard</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/mst</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://algorithmica.org/ru/matching</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://algorithmica.org/ru/mincost-maxflow</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/lca</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://algorithmica.org/ru/matching</loc>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://algorithmica.org/ru/mincost-maxflow</loc>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/centroid</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/hld</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/hashing</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://algorithmica.org/ru/strings</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://algorithmica.org/ru/trie</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <loc>https://algorithmica.org/ru/string-searching</loc>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/aho-corasick</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/suffix-array</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://algorithmica.org/ru/suffix-automaton</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/palindromes</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/geometry</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/convex-hulls</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://algorithmica.org/ru/games</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://algorithmica.org/ru/imperfect-information</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/annealing</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://algorithmica.org/ru/stress-test</loc>
-  <lastmod>2019-06-14T18:25:26+00:00</lastmod>
+  <lastmod>2019-06-24T11:01:16+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 
