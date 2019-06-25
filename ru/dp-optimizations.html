@@ -196,7 +196,42 @@ f[k, j-1] + x_{i-1}^2
 <p><img src="../img/scooby-doo.jpg" /></p>
 <p>Пусть мы хотим найти оптимальное <span class="math inline">\(k\)</span> для <span class="math inline">\(f[i][j]\)</span>. Представим все уже посчитанные релевантные динамики с предыдущего слоя как точки <span class="math inline">\((a_k, b_k)\)</span> на плоскости. Чтобы эффективно находить среди них точку с минимальным скалярным произведением, можно поддерживать их <em>нижнюю огибающую</em> (вектор <span class="math inline">\((1, x_{i-1})\)</span> «смотрит» всегда вверх, поэтому нам интересна только она) и просто бинпоиском будем находить оптимальную точку.</p>
 <p>Хранить нижнюю огибающую можно просто в стэке. Так как добавляемые точки отсортированы по <span class="math inline">\(x\)</span>, её построение будет занимать линейное время, а асимптотика всего алгоритму будет упираться в асимптотику бинарного поиска, то есть будет равна <span class="math inline">\(O(n m \log n)\)</span></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: закомитьте кто-нибудь реализацию на гитхаб</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">struct</span> line {</a>
+<a class="sourceLine" id="cb5-2" title="2">    <span class="dt">int</span> k, b;</a>
+<a class="sourceLine" id="cb5-3" title="3">    line() {}</a>
+<a class="sourceLine" id="cb5-4" title="4">    line(<span class="dt">int</span> a, <span class="dt">int</span> _b) { k = a, b = _b; }</a>
+<a class="sourceLine" id="cb5-5" title="5">    <span class="dt">int</span> get(<span class="dt">int</span> x) { <span class="cf">return</span> k * x + b; }</a>
+<a class="sourceLine" id="cb5-6" title="6">};</a>
+<a class="sourceLine" id="cb5-7" title="7"></a>
+<a class="sourceLine" id="cb5-8" title="8">vector&lt;line&gt; lines; <span class="co">// храним прямые нижней огибающей</span></a>
+<a class="sourceLine" id="cb5-9" title="9">vector&lt;<span class="dt">int</span>&gt; dots; <span class="co">// храним x-координаты точек нижней огибающей</span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co">//     ^ первое правило вещественных чисел</span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="co">//      считаем, что в dots лежит округленная вниз x-координата</span></a>
+<a class="sourceLine" id="cb5-12" title="12"></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="dt">int</span> cross(line a, line b) { <span class="co">// считаем точку пересечения</span></a>
+<a class="sourceLine" id="cb5-14" title="14">                            <span class="co">// считаем a.k &gt; b.k</span></a>
+<a class="sourceLine" id="cb5-15" title="15">    <span class="dt">int</span> x = (b.b - a.b) / (a.k - b.k);</a>
+<a class="sourceLine" id="cb5-16" title="16">    <span class="cf">if</span> (b.b &lt; a.b) x--; <span class="co">// боремся с округлением у отрицательных чисел</span></a>
+<a class="sourceLine" id="cb5-17" title="17">    <span class="cf">return</span> x;</a>
+<a class="sourceLine" id="cb5-18" title="18">}</a>
+<a class="sourceLine" id="cb5-19" title="19"></a>
+<a class="sourceLine" id="cb5-20" title="20"></a>
+<a class="sourceLine" id="cb5-21" title="21"><span class="dt">void</span> add(line cur) {</a>
+<a class="sourceLine" id="cb5-22" title="22">    <span class="cf">while</span> (lines.size() &amp;&amp; lines.back().get(dots.back()) &gt; cur.get(dots.back())) {</a>
+<a class="sourceLine" id="cb5-23" title="23">        lines.pop_back();</a>
+<a class="sourceLine" id="cb5-24" title="24">        dots.pop_back();</a>
+<a class="sourceLine" id="cb5-25" title="25">    }</a>
+<a class="sourceLine" id="cb5-26" title="26">    <span class="cf">if</span> (lines.empty())</a>
+<a class="sourceLine" id="cb5-27" title="27">        dots.push_back(-inf);</a>
+<a class="sourceLine" id="cb5-28" title="28">    <span class="cf">else</span> </a>
+<a class="sourceLine" id="cb5-29" title="29">        dots.push_back(cross(lines.back(), cur));</a>
+<a class="sourceLine" id="cb5-30" title="30">    lines.push_back(cur);</a>
+<a class="sourceLine" id="cb5-31" title="31">}</a>
+<a class="sourceLine" id="cb5-32" title="32"></a>
+<a class="sourceLine" id="cb5-33" title="33"><span class="dt">int</span> get(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb5-34" title="34">    <span class="dt">int</span> pos = lower_bound(dots.begin(), dots.end(), x) - dots.begin() - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb5-35" title="35">    <span class="cf">return</span> lines[pos].get(x);</a>
+<a class="sourceLine" id="cb5-36" title="36">}</a></code></pre></div>
 <p>В случае нашей конкретной задачи, алгоритм можно и дальше соптимизировать, если вспомнить, что <span class="math inline">\(opt[i, j] \leq opt[i][j+1]\)</span>, то есть что оптимальная точка всегда будет «правее». Это позволяет вместо бинпоиска применить метод двух указателей:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: закомитьте кто-нибудь реализацию на гитхаб</span></a></code></pre></div>
 <p>Мы избавились от бинпоиска, и теперь алгоритм работает за <span class="math inline">\(O(n \cdot m)\)</span>.</p>
