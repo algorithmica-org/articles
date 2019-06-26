@@ -75,6 +75,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -112,34 +113,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Метод поиска багов, заключающийся в генерации случайных тестов и сравнивании результатов двух решений</li>
 <li>Очень полезен на школьных олимпиадах, когда есть много времени, или когда уже написано решение на маленькие подгруппы</li>
 </ul>
-<p>Суть такая: * Есть решение <code>smart</code> — быстрое, но в котором есть баг, который хотим найти * Пишем решение <code>stupid</code> — медленное, но точно корректное * Пишем генератор <code>gen</code> — печатает какой-то корректный тест, сгенерированный случайно * Кормим всё в скрипт <code>checker</code>, который n раз генерирует тест, даёт его на ввод <code>stupid</code>-у и <code>smart</code>-у, сравнивает выводы и останавливается, когда они отличаются</p>
-<p>Примерный код скрипта:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="im">import</span> os, sys</a>
-<a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3">f1, f2, gen, iters <span class="op">=</span> sys.argv</a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">int</span>(iters)):</a>
-<a class="sourceLine" id="cb1-6" title="6">    <span class="bu">print</span>(<span class="st">&#39;Test&#39;</span>, i<span class="op">+</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb1-7" title="7">    os.popen(<span class="st">&#39;python3 </span><span class="sc">%s</span><span class="st"> &gt; test.txt&#39;</span> <span class="op">%</span> gen)</a>
-<a class="sourceLine" id="cb1-8" title="8">    v1 <span class="op">=</span> os.popen(<span class="st">&#39;./</span><span class="sc">%s</span><span class="st"> &lt; test.txt&#39;</span> <span class="op">%</span> f1).read()</a>
-<a class="sourceLine" id="cb1-9" title="9">    v2 <span class="op">=</span> os.popen(<span class="st">&#39;./</span><span class="sc">%s</span><span class="st"> &lt; test.txt&#39;</span> <span class="op">%</span> f2).read()</a>
-<a class="sourceLine" id="cb1-10" title="10">    <span class="cf">if</span> v1 <span class="op">!=</span> v2:</a>
-<a class="sourceLine" id="cb1-11" title="11">        <span class="bu">print</span> test</a>
-<a class="sourceLine" id="cb1-12" title="12">        <span class="bu">print</span>(<span class="st">&quot;Correct:&quot;</span>)</a>
-<a class="sourceLine" id="cb1-13" title="13">        <span class="bu">print</span> v1</a>
-<a class="sourceLine" id="cb1-14" title="14">        <span class="bu">print</span>(<span class="st">&quot;Wrong:&quot;</span>)</a>
-<a class="sourceLine" id="cb1-15" title="15">        <span class="bu">print</span> v2</a>
-<a class="sourceLine" id="cb1-16" title="16">        <span class="cf">break</span></a></code></pre></div>
-<p>Автор обычно запускает его командой <code>python3 checker.py stupid smart gen.py 100</code>, предварительно скомпилировав <code>stupid</code> и <code>smart</code> в ту же директорию, что и сам <code>checker.py</code>.</p>
+<p>Суть такая:</p>
+<ul>
+<li>Есть решение <code>smart</code> — быстрое, но в котором есть баг, который хотим найти</li>
+<li>Пишем решение <code>stupid</code> — медленное, но точно корректное</li>
+<li>Пишем генератор <code>gen</code> — печатает какой-то корректный тест, сгенерированный случайно</li>
+<li>Кормим всё в скрипт <code>checker</code>, который n раз генерирует тест, даёт его на ввод <code>stupid</code>-у и <code>smart</code>-у, сравнивает выводы и останавливается, когда они отличаются</li>
+</ul>
+<h2 id="как-это-выглядит-в-реальной-жизни">Как это выглядит в реальной жизни</h2>
+<p><strong>Задача</strong>. Есть два числа <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>, <span class="math inline">\(1 \le a, b \le 2 * 10^9\)</span>. Вычислите <span class="math inline">\(a *b\)</span>.</p>
+<p><em>Примечание</em>. На пробных турах всех школьных олимпиад автор проверял свои стресс-тесты именно на этой задаче.</p>
+<p>Приведем код решения <code>smart</code>, которое не учитывает проблему переполнения 32-битного типа данных <code>int</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">void</span> stupid() {</a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> a, b;</a>
+<a class="sourceLine" id="cb1-3" title="3">    cin &gt;&gt; a &gt;&gt; b;</a>
+<a class="sourceLine" id="cb1-4" title="4">    cout &lt;&lt; a * b;</a>
+<a class="sourceLine" id="cb1-5" title="5">}</a></code></pre></div>
+<p>Приведем код решения <code>stupid</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">void</span> smart() {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="dt">int</span> a, b;</a>
+<a class="sourceLine" id="cb2-3" title="3">    cin &gt;&gt; a &gt;&gt; b;</a>
+<a class="sourceLine" id="cb2-4" title="4">    cout &lt;&lt; <span class="dv">1</span><span class="bu">ll</span> * a * b;</a>
+<a class="sourceLine" id="cb2-5" title="5">}</a></code></pre></div>
+<p>Если программист начнёт тестировать код руками, то проверить так называемый макстест ему придет в голову далеко не сразу. При этом, если сказать, что решение не работает на тесте <code>1234567890 1987654321</code>, то программист сразу поймет, в чем ошибка.</p>
+<h2 id="стресс-тестирование-inline">Стресс-тестирование inline</h2>
+<p><em>Примечание</em>. Автор не рекомендует так делать, но многим такой подход кажется проще для понимания.</p>
+<p>Суть в следующем:</p>
+<ul>
+<li>Все решения и генераторы помещаются в отдельные методы.</li>
+<li>Тесты рекомендуется передавать либо строками, либо через файл, но особо уверенные в себе могут использовать глобальные переменные.</li>
+<li>Быть аккуратным с очищением глобальных переменных.</li>
+<li>Запустить и получить тест.</li>
+<li>Profit.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> a, b;</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="dt">int</span> smart()</a>
+<a class="sourceLine" id="cb3-4" title="4">    <span class="cf">return</span> a * b;</a>
+<a class="sourceLine" id="cb3-5" title="5"></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="dt">long</span> <span class="dt">long</span> stupid() <span class="co">// с точки зрения сигнатуры функций </span></a>
+<a class="sourceLine" id="cb3-7" title="7">                   <span class="co">// пример неудачный — баг очевидный</span></a>
+<a class="sourceLine" id="cb3-8" title="8">    <span class="cf">return</span> <span class="dv">1</span><span class="bu">ll</span> * a * b;</a>
+<a class="sourceLine" id="cb3-9" title="9"></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="dt">void</span> gen() {</a>
+<a class="sourceLine" id="cb3-11" title="11">    a = rand(); <span class="co">// автор рекомендует нормальный рандом, но и так сойдет</span></a>
+<a class="sourceLine" id="cb3-12" title="12">    b = rand();</a>
+<a class="sourceLine" id="cb3-13" title="13">}</a>
+<a class="sourceLine" id="cb3-14" title="14"></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="dt">int</span> main() {</a>
+<a class="sourceLine" id="cb3-16" title="16">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">100</span>; i++) {</a>
+<a class="sourceLine" id="cb3-17" title="17">        gen();</a>
+<a class="sourceLine" id="cb3-18" title="18">        <span class="cf">if</span> (smart() != stupid()) {</a>
+<a class="sourceLine" id="cb3-19" title="19">            cout &lt;&lt; <span class="st">&quot;WA&quot;</span> &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-20" title="20">            cout &lt;&lt; a &lt;&lt; <span class="ch">&#39; &#39;</span> &lt;&lt; b &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-21" title="21">            <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb3-22" title="22">        }</a>
+<a class="sourceLine" id="cb3-23" title="23">        cout &lt;&lt; <span class="st">&quot;OK&quot;</span> &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-24" title="24">    }</a>
+<a class="sourceLine" id="cb3-25" title="25">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb3-26" title="26">}</a></code></pre></div>
+<h2 id="script-based-стресс-тестирование">Script-based стресс-тестирование</h2>
+<p>Суть в следующем:</p>
+<ul>
+<li>Все решения и генераторы помещаются в отдельные файлы.</li>
+<li>Тесты рекомендуется передавать через перенаправление потоков ввода-вывода.</li>
+<li>Быть аккуратным не надо — мы работаем с тем же самым решением, которое отправим в тестирующую систему.</li>
+<li>Запустить и получить тест.</li>
+<li>Если вы не работаете под Linux, то начните уже наконец работать под Linux.</li>
+<li>Если вы не знаете Python, то выучите уже наконец Python.</li>
+<li>Profit.</li>
+</ul>
+<p>Файлы <code>stupid.cpp</code>, <code>smart.cpp</code> и <code>gen.py</code> содержат уже понятный нам код.</p>
+<p>Вот примерный код скрипта <code>checker.py</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1"><span class="im">import</span> os, sys</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3">f1, f2, gen, iters <span class="op">=</span> sys.argv</a>
+<a class="sourceLine" id="cb4-4" title="4"></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">int</span>(iters)):</a>
+<a class="sourceLine" id="cb4-6" title="6">    <span class="bu">print</span>(<span class="st">&#39;Test&#39;</span>, i<span class="op">+</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-7" title="7">    os.popen(<span class="st">&#39;python3 </span><span class="sc">%s</span><span class="st"> &gt; test.txt&#39;</span> <span class="op">%</span> gen)</a>
+<a class="sourceLine" id="cb4-8" title="8">    v1 <span class="op">=</span> os.popen(<span class="st">&#39;./</span><span class="sc">%s</span><span class="st"> &lt; test.txt&#39;</span> <span class="op">%</span> f1).read()</a>
+<a class="sourceLine" id="cb4-9" title="9">    v2 <span class="op">=</span> os.popen(<span class="st">&#39;./</span><span class="sc">%s</span><span class="st"> &lt; test.txt&#39;</span> <span class="op">%</span> f2).read()</a>
+<a class="sourceLine" id="cb4-10" title="10">    <span class="cf">if</span> v1 <span class="op">!=</span> v2:</a>
+<a class="sourceLine" id="cb4-11" title="11">        <span class="bu">print</span> test</a>
+<a class="sourceLine" id="cb4-12" title="12">        <span class="bu">print</span>(<span class="st">&quot;Correct:&quot;</span>)</a>
+<a class="sourceLine" id="cb4-13" title="13">        <span class="bu">print</span> v1</a>
+<a class="sourceLine" id="cb4-14" title="14">        <span class="bu">print</span>(<span class="st">&quot;Wrong:&quot;</span>)</a>
+<a class="sourceLine" id="cb4-15" title="15">        <span class="bu">print</span> v2</a>
+<a class="sourceLine" id="cb4-16" title="16">        <span class="cf">break</span></a></code></pre></div>
+<p>Автор обычно запускает его командой <code>python3 checker.py stupid smart gen.py 100</code>, предварительно скомпилировав <code>stupid</code> и <code>smart</code> в ту же директорию, что и сам <code>checker.py</code>. При желании можно компилировать прямо внутри скрипта.</p>
 <p>Скрипт написан под Linux. Для Windows нужно убрать «<code>./</code>» во всех системных вызовах.</p>
-<p><code>gen.py</code> автор тоже обычно пишет на питоне, но вообще его тоже можно писать на чём угодно, сделать исполняемым и вызывать через <code>./gen</code>. Пример <code>gen</code>-а, генерирующего случайную строку из символов “a”, “b” и “c” длины от 1 до 10:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1"><span class="im">from</span> random <span class="im">import</span> randint, choice</a>
-<a class="sourceLine" id="cb2-2" title="2"></a>
-<a class="sourceLine" id="cb2-3" title="3">n <span class="op">=</span> randint(<span class="dv">1</span>, <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb2-4" title="4"></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="bu">print</span>(n)</a>
-<a class="sourceLine" id="cb2-6" title="6"></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n):</a>
-<a class="sourceLine" id="cb2-8" title="8">    <span class="bu">print</span>(choice(<span class="st">&#39;abc&#39;</span>), end<span class="op">=</span><span class="st">&#39;&#39;</span>)</a></code></pre></div>
+<p><em>Примечание</em>. Ну такой вот примерно рецепт усредненный, потому что вариаций масса. Берется неправильное решение, оно не работает, рабочий код — это не про код моего бати. Он берет это решение, вываливает его в скрипт и начинает запускать. Добавляет огромное количество тестов, крайних случаев, рандома и МАКСТЕСТОВ! для проверки. Все это прогоняется вместе с медленным решением. Потом скрипт находит баг и системный блок остужается на балконе. Потом батя заносит тест и щедро заполнив код отладочным выводом начинает дебажить. При этом параллельно ест и засыпает крошками клавиатуру. Ест и приговаривает полушепотом ух ###. При этом у него на лбу аж пот выступает. Любезно мне иногда предлагает подебажить, но я отказываюсь. Надо ли говорить о том какой код получается потом? Вонища такая, что тестирующая система падает.</p>
 </body>
 </html>
