@@ -121,21 +121,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Кормим всё в скрипт <code>checker</code>, который n раз генерирует тест, даёт его на ввод <code>stupid</code>-у и <code>smart</code>-у, сравнивает выводы и останавливается, когда они отличаются</li>
 </ul>
 <h2 id="как-это-выглядит-в-реальной-жизни">Как это выглядит в реальной жизни</h2>
-<p><strong>Задача</strong>. Есть два числа <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>, <span class="math inline">\(1 \le a, b \le 2 * 10^9\)</span>. Вычислите <span class="math inline">\(a *b\)</span>.</p>
-<p><em>Примечание</em>. На пробных турах всех школьных олимпиад автор проверял свои стресс-тесты именно на этой задаче.</p>
-<p>Приведем код решения <code>smart</code>, которое не учитывает проблему переполнения 32-битного типа данных <code>int</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">void</span> stupid() {</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> a, b;</a>
-<a class="sourceLine" id="cb1-3" title="3">    cin &gt;&gt; a &gt;&gt; b;</a>
-<a class="sourceLine" id="cb1-4" title="4">    cout &lt;&lt; a * b;</a>
-<a class="sourceLine" id="cb1-5" title="5">}</a></code></pre></div>
-<p>Приведем код решения <code>stupid</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">void</span> smart() {</a>
-<a class="sourceLine" id="cb2-2" title="2">    <span class="dt">int</span> a, b;</a>
-<a class="sourceLine" id="cb2-3" title="3">    cin &gt;&gt; a &gt;&gt; b;</a>
-<a class="sourceLine" id="cb2-4" title="4">    cout &lt;&lt; <span class="dv">1</span><span class="bu">ll</span> * a * b;</a>
-<a class="sourceLine" id="cb2-5" title="5">}</a></code></pre></div>
-<p>Если программист начнёт тестировать код руками, то проверить так называемый макстест ему придет в голову далеко не сразу. При этом, если сказать, что решение не работает на тесте <code>1234567890 1987654321</code>, то программист сразу поймет, в чем ошибка.</p>
+<p><strong>Задача</strong>. Есть массив чисел <span class="math inline">\(1 \le a_1 ... a_n \le 10^9\)</span>. Найдите значение минимального элемента.</p>
+<p>Приведем код решения <code>stupid</code>, который будем использовать в качестве эталонного:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> a[maxn];</a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dt">void</span> stupid() {</a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> n;</a>
+<a class="sourceLine" id="cb1-5" title="5">    cin &gt;&gt; n;</a>
+<a class="sourceLine" id="cb1-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb1-7" title="7">        cin &gt;&gt; a[i];</a>
+<a class="sourceLine" id="cb1-8" title="8">    <span class="dt">int</span> ans = <span class="fl">1e9</span>;</a>
+<a class="sourceLine" id="cb1-9" title="9">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb1-10" title="10">        ans = min(ans, a[i]);</a>
+<a class="sourceLine" id="cb1-11" title="11">    cout &lt;&lt; ans;</a>
+<a class="sourceLine" id="cb1-12" title="12">}</a></code></pre></div>
+<p>Пусть у нас есть решение <code>smart</code>, которое содержит ошибку в границах цикла:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> a[maxn];</a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="dt">void</span> smart() {</a>
+<a class="sourceLine" id="cb2-4" title="4">    <span class="dt">int</span> n;</a>
+<a class="sourceLine" id="cb2-5" title="5">    cin &gt;&gt; n;</a>
+<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb2-7" title="7">        cin &gt;&gt; a[i];</a>
+<a class="sourceLine" id="cb2-8" title="8">    <span class="dt">int</span> ans = <span class="fl">1e9</span>;</a>
+<a class="sourceLine" id="cb2-9" title="9">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb2-10" title="10">        ans = min(ans, a[i]);</a>
+<a class="sourceLine" id="cb2-11" title="11">    cout &lt;&lt; ans;</a>
+<a class="sourceLine" id="cb2-12" title="12">}</a></code></pre></div>
+<p>Даже в таком примере можно долго искать ошибку, если подбирать случайные тесты руками и проверять ответ на правильность, поэтому мы хотим найти тест, на котором два решения будут давать разный ответ, чтобы впоследствии найти ошибку в <code>smart</code>.</p>
 <h2 id="стресс-тестирование-inline">Стресс-тестирование inline</h2>
 <p><em>Примечание</em>. Автор не рекомендует так делать, но многим такой подход кажется проще для понимания.</p>
 <p>Суть в следующем:</p>
@@ -146,32 +159,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Запустить и получить тест.</li>
 <li>Profit.</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> a, b;</a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="dt">int</span> smart()</a>
-<a class="sourceLine" id="cb3-4" title="4">    <span class="cf">return</span> a * b;</a>
-<a class="sourceLine" id="cb3-5" title="5"></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="dt">long</span> <span class="dt">long</span> stupid() <span class="co">// с точки зрения сигнатуры функций </span></a>
-<a class="sourceLine" id="cb3-7" title="7">                   <span class="co">// пример неудачный — баг очевидный</span></a>
-<a class="sourceLine" id="cb3-8" title="8">    <span class="cf">return</span> <span class="dv">1</span><span class="bu">ll</span> * a * b;</a>
-<a class="sourceLine" id="cb3-9" title="9"></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="dt">void</span> gen() {</a>
-<a class="sourceLine" id="cb3-11" title="11">    a = rand(); <span class="co">// автор рекомендует нормальный рандом, но и так сойдет</span></a>
-<a class="sourceLine" id="cb3-12" title="12">    b = rand();</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> a[maxn];</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="dt">int</span> n;</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="dt">int</span> stupid() {</a>
+<a class="sourceLine" id="cb3-5" title="5">    <span class="dt">int</span> n;</a>
+<a class="sourceLine" id="cb3-6" title="6">    cin &gt;&gt; n;</a>
+<a class="sourceLine" id="cb3-7" title="7">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb3-8" title="8">        cin &gt;&gt; a[i];</a>
+<a class="sourceLine" id="cb3-9" title="9">    <span class="dt">int</span> ans = <span class="fl">1e9</span>;</a>
+<a class="sourceLine" id="cb3-10" title="10">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb3-11" title="11">        ans = min(ans, a[i]);</a>
+<a class="sourceLine" id="cb3-12" title="12">    <span class="cf">return</span> ans;</a>
 <a class="sourceLine" id="cb3-13" title="13">}</a>
 <a class="sourceLine" id="cb3-14" title="14"></a>
-<a class="sourceLine" id="cb3-15" title="15"><span class="dt">int</span> main() {</a>
-<a class="sourceLine" id="cb3-16" title="16">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">100</span>; i++) {</a>
-<a class="sourceLine" id="cb3-17" title="17">        gen();</a>
-<a class="sourceLine" id="cb3-18" title="18">        <span class="cf">if</span> (smart() != stupid()) {</a>
-<a class="sourceLine" id="cb3-19" title="19">            cout &lt;&lt; <span class="st">&quot;WA&quot;</span> &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb3-20" title="20">            cout &lt;&lt; a &lt;&lt; <span class="ch">&#39; &#39;</span> &lt;&lt; b &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb3-21" title="21">            <span class="cf">break</span>;</a>
-<a class="sourceLine" id="cb3-22" title="22">        }</a>
-<a class="sourceLine" id="cb3-23" title="23">        cout &lt;&lt; <span class="st">&quot;OK&quot;</span> &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb3-24" title="24">    }</a>
-<a class="sourceLine" id="cb3-25" title="25">    <span class="cf">return</span> <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb3-26" title="26">}</a></code></pre></div>
+<a class="sourceLine" id="cb3-15" title="15"><span class="dt">int</span> smart() {</a>
+<a class="sourceLine" id="cb3-16" title="16">    <span class="dt">int</span> n;</a>
+<a class="sourceLine" id="cb3-17" title="17">    cin &gt;&gt; n;</a>
+<a class="sourceLine" id="cb3-18" title="18">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb3-19" title="19">        cin &gt;&gt; a[i];</a>
+<a class="sourceLine" id="cb3-20" title="20">    <span class="dt">int</span> ans = <span class="fl">1e9</span>;</a>
+<a class="sourceLine" id="cb3-21" title="21">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb3-22" title="22">        ans = min(ans, a[i]);</a>
+<a class="sourceLine" id="cb3-23" title="23">    <span class="cf">return</span> ans;</a>
+<a class="sourceLine" id="cb3-24" title="24">}</a>
+<a class="sourceLine" id="cb3-25" title="25"></a>
+<a class="sourceLine" id="cb3-26" title="26"><span class="dt">void</span> gen() {</a>
+<a class="sourceLine" id="cb3-27" title="27">    n = rand() % <span class="dv">10</span> + <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb3-28" title="28">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
+<a class="sourceLine" id="cb3-29" title="29">        a[i] = rand();</a>
+<a class="sourceLine" id="cb3-30" title="30">    }</a>
+<a class="sourceLine" id="cb3-31" title="31">}</a>
+<a class="sourceLine" id="cb3-32" title="32"></a>
+<a class="sourceLine" id="cb3-33" title="33"><span class="dt">int</span> main() {</a>
+<a class="sourceLine" id="cb3-34" title="34">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">100</span>; i++) {</a>
+<a class="sourceLine" id="cb3-35" title="35">        gen();</a>
+<a class="sourceLine" id="cb3-36" title="36">        <span class="cf">if</span> (smart() != stupid()) {</a>
+<a class="sourceLine" id="cb3-37" title="37">            cout &lt;&lt; <span class="st">&quot;WA&quot;</span> &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-38" title="38">            cout &lt;&lt; n &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-39" title="39">            <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; j++) {</a>
+<a class="sourceLine" id="cb3-40" title="40">                cout &lt;&lt; a[j] &lt;&lt; <span class="ch">&#39; &#39;</span>;</a>
+<a class="sourceLine" id="cb3-41" title="41">            }</a>
+<a class="sourceLine" id="cb3-42" title="42">            <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb3-43" title="43">        }</a>
+<a class="sourceLine" id="cb3-44" title="44">        cout &lt;&lt; <span class="st">&quot;OK&quot;</span> &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-45" title="45">    }</a>
+<a class="sourceLine" id="cb3-46" title="46">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb3-47" title="47">}</a></code></pre></div>
 <h2 id="script-based-стресс-тестирование">Script-based стресс-тестирование</h2>
 <p>Суть в следующем:</p>
 <ul>
@@ -201,8 +235,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb4-14" title="14">        <span class="bu">print</span>(<span class="st">&quot;Wrong:&quot;</span>)</a>
 <a class="sourceLine" id="cb4-15" title="15">        <span class="bu">print</span> v2</a>
 <a class="sourceLine" id="cb4-16" title="16">        <span class="cf">break</span></a></code></pre></div>
-<p>Автор обычно запускает его командой <code>python3 checker.py stupid smart gen.py 100</code>, предварительно скомпилировав <code>stupid</code> и <code>smart</code> в ту же директорию, что и сам <code>checker.py</code>. При желании можно компилировать прямо внутри скрипта.</p>
-<p>Скрипт написан под Linux. Для Windows нужно убрать «<code>./</code>» во всех системных вызовах.</p>
+<ul>
+<li>Автор обычно запускает его командой <code>python3 checker.py stupid smart gen.py 100</code>, предварительно скомпилировав <code>stupid</code> и <code>smart</code> в ту же директорию, что и сам <code>checker.py</code>.</li>
+<li>При желании можно компилировать прямо внутри скрипта.</li>
+<li>Если задача подразумевает неоднозначный вывод (к примеру, вывести индекс минимума — таких может быть несколько), то вместо <code>v1 != v2</code> следует использовать сторонний скрипт <code>compare.py</code>.</li>
+<li>Скрипт написан под Linux. Для Windows нужно убрать «<code>./</code>» во всех системных вызовах.</li>
+</ul>
 <p><em>Примечание</em>. Ну такой вот примерно рецепт усредненный, потому что вариаций масса. Берется неправильное решение, оно не работает, рабочий код — это не про код моего бати. Он берет это решение, вываливает его в скрипт и начинает запускать. Добавляет огромное количество тестов, крайних случаев, рандома и МАКСТЕСТОВ! для проверки. Все это прогоняется вместе с медленным решением. Потом скрипт находит баг и системный блок остужается на балконе. Потом батя заносит тест и щедро заполнив код отладочным выводом начинает дебажить. При этом параллельно ест и засыпает крошками клавиатуру. Ест и приговаривает полушепотом ух ###. При этом у него на лбу аж пот выступает. Любезно мне иногда предлагает подебажить, но я отказываюсь. Надо ли говорить о том какой код получается потом? Вонища такая, что тестирующая система падает.</p>
 </body>
 </html>
