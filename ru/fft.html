@@ -298,8 +298,12 @@ w^{2t}=w^{2t \bmod 2k}=w^{2(t \bmod k)}
 \]</span></p>
 <p>Зная это, исходную формулу для значения многочлена в точке <span class="math inline">\(w^t\)</span> можно записать так:</p>
 <p><span class="math display">\[
-P(w^t)=A\left(w^{2(t\bmod k)}\right)+w^tB\left(w^{2(t\bmod k)}\right)
+P(w^t)
+= A(w^{2t}) + w^t B(w^{2t})
+= A\left(w^{2(t\bmod k)}\right)+w^tB\left(w^{2(t\bmod k)}\right)
 \]</span></p>
+<p>Ключевое замечание: корней вида <span class="math inline">\(w^{2t}\)</span> в два раза меньше, потому что <span class="math inline">\(w^n = w^0\)</span>, и можно сказать, что.</p>
+<p>У нас по сути в два раза меньше корней (но они так же равномерно распределены на единичной окружности) и в два раза меньше коэффициентов — мы только что успешно уменьшили нашу задачу в два раз.</p>
 <p>Сам алгоритм заключается в следующем: рекурсивно посчитаем БПФ для многочленов <span class="math inline">\(A\)</span> и <span class="math inline">\(B\)</span> и объединим ответы с помощью формулы выше. При этом в рекурсии нам нужно считать значения на корнях степени не <span class="math inline">\(n\)</span>, а <span class="math inline">\(k = \frac{n}{2}\)</span>, то есть на всех «чётных» корнях степени <span class="math inline">\(n\)</span> (вида <span class="math inline">\(w^{2t}\)</span>).</p>
 <p>Заметим, что если <span class="math inline">\(w\)</span> это образующий корень степени <span class="math inline">\(n = 2k\)</span> из единицы, то <span class="math inline">\(w^2\)</span> будет образующим корнем степени <span class="math inline">\(k\)</span>, то есть в рекурсию мы можем просто передать другое значение образующего корня.</p>
 <p>Таким образом, мы свели преобразование размера <span class="math inline">\(n\)</span> к двум преобразованиям размера <span class="math inline">\(\dfrac n 2\)</span>. Следовательно, общее время вычислений составит</p>
@@ -308,7 +312,7 @@ T(n)=2T\left(\dfrac n 2\right)+O(n)=O(n\log n)
 \]</span></p>
 <p>Заметим, что предположение о делимости <span class="math inline">\(n\)</span> на <span class="math inline">\(2\)</span> имело существенную роль. Значит, <span class="math inline">\(n\)</span> должно быть чётным на каждом уровне, кроме последнего, из чего следует, что <span class="math inline">\(n\)</span> должно быть степенью двойки.</p>
 <h2 id="реализация">Реализация</h2>
-<p>Приведём код, считающий БПФ по схеме Кули-Тьюки:</p>
+<p>Приведём код, вычисляющий БПФ по схеме Кули-Тьюки:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">typedef</span> complex&lt;<span class="dt">double</span>&gt; ftype;</a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="at">const</span> <span class="dt">double</span> pi = acos(-<span class="dv">1</span>);</a>
 <a class="sourceLine" id="cb3-3" title="3"></a>
@@ -350,11 +354,11 @@ T(n)=2T\left(\dfrac n 2\right)+O(n)=O(n\log n)
 <a class="sourceLine" id="cb4-8" title="8">}</a></code></pre></div>
 <p>Теперь мы умеем перемножать два многочлена за <span class="math inline">\(O(n \log n)\)</span>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1">vector&lt;<span class="dt">int</span>&gt; poly_multiply(vector&lt;<span class="dt">int</span>&gt; a, vector&lt;<span class="dt">int</span>&gt; b) {</a>
-<a class="sourceLine" id="cb5-2" title="2">    vector&lt;<span class="dt">int</span>&gt; A = fft(a);</a>
-<a class="sourceLine" id="cb5-3" title="3">    vector&lt;<span class="dt">int</span>&gt; B = fft(b);</a>
-<a class="sourceLine" id="cb5-4" title="4">    for (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; A.size(); i++)</a>
-<a class="sourceLine" id="cb5-5" title="5">        A[i] *= B[i];</a>
-<a class="sourceLine" id="cb5-6" title="6">    return interpolate(A);</a>
+<a class="sourceLine" id="cb5-2" title="2">    vector&lt;<span class="dt">int</span>&gt; A = fft(a);</a>
+<a class="sourceLine" id="cb5-3" title="3">    vector&lt;<span class="dt">int</span>&gt; B = fft(b);</a>
+<a class="sourceLine" id="cb5-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; A.size(); i++)</a>
+<a class="sourceLine" id="cb5-5" title="5">        A[i] *= B[i];</a>
+<a class="sourceLine" id="cb5-6" title="6">    <span class="cf">return</span> interpolate(A);</a>
 <a class="sourceLine" id="cb5-7" title="7">}</a></code></pre></div>
 <p><strong>Примечание.</strong> Приведённый выше код, являясь корректным и имея асимптотику <span class="math inline">\(O(n\log n)\)</span>, едва ли пригоден для использования на реальных контестах. Он имеет большую константу и далеко не так численно устойчивый, чем оптимальные варианты написания быстрого преобразования Фурье. Мы его приводим, потому что он относительно простой.</p>
 <p>Читателю рекомендуется самостоятельно задуматься о том, как можно улучшить время работы и точность вычислений. Из наиболее важных недостатков:</p>
@@ -368,6 +372,15 @@ T(n)=2T\left(\dfrac n 2\right)+O(n)=O(n\log n)
 <p><a href="https://ideone.com/whaSln">Здесь</a> приведена одна из условно пригодных реализаций.</p>
 <p>Но главная проблема в численной стабильности — мы нарушили первое правило действительных чисел. Однако, от неё можно избавиться.</p>
 <h3 id="number-theoretic-transform">Number-theoretic transform</h3>
+<p>Для любого модуля такие штуки <a href="https://e-maxx.ru/algo/discrete_log">всегда находятся</a>.</p>
+<p><span class="math display">\[
+m = 998244353 = 7 \cdot 17 \cdot 2^{23} + 1
+\]</span></p>
+<p>Заметим, что <span class="math inline">\(m\)</span> простое. У простых чисел существует <em>первообразный корень</em>: такое число, что <span class="math inline">\(a^{p-1} = 1\)</span>, но <span class="math inline">\(a^l \neq 1\)</span> для всех <span class="math inline">\(l &lt; p - 1\)</span>, то есть степени <span class="math inline">\(g\)</span> проходятся по всем возможным остаткам, кроме нуля.</p>
+<p>Проблемсеттеры иногда не хотят выдавать, про FFT задача или нет.</p>
+<p>Нам нужно просто найти такую пару <span class="math inline">\(p\)</span> и <span class="math inline">\(g\)</span> (играющую роль <span class="math inline">\(w_n^1\)</span>), такую что <span class="math inline">\(g^n \equiv 1 \pmod p\)</span> и при этом все остальные степени не различны, что означает, что <span class="math inline">\(n\)</span> это минимальняя такая штука.</p>
+<p>Очень удобное выбрать какое-то число, такое что . Тогда можно в качестве <span class="math inline">\(g\)</span> выбрать любое число,потому что</p>
+<p>Очень удобно выбрать какое-нибудь простое число плюс один, потому что</p>
 <p>Нам от комплексных чисел на самом деле нужно было только одно свойство: что у единицы есть <span class="math inline">\(n\)</span> комплексных корней. На самом деле, это не единственные алгебраические объекты, обладающие таким свойством.</p>
 <p>В данном случае нас интересуют поля остатков по модулю простых чисел. Известно, что в любом таком поле есть образующий элемент — такое число, что его степени пробегают все элементы, кроме нуля.</p>
 <p>Значит, для любого простого p в поле остатков от деления на него есть корень <span class="math inline">\(g\)</span> степени <span class="math inline">\(p-1\)</span> из единицы. Если при этом <span class="math inline">\((p-1)=c\cdot 2^k\)</span>, то <span class="math inline">\(g^{c}\)</span> будет корнем степени <span class="math inline">\(2^k\)</span>, что позволяет применять метод Кули-Тьюки. Отсюда следует, что <span class="math inline">\(p=c\cdot2^k+1\)</span>. Практика показывает, что чисел такого вида очень много.</p>
@@ -376,6 +389,8 @@ T(n)=2T\left(\dfrac n 2\right)+O(n)=O(n\log n)
 <p>В алгоритме мы по сути приближаем это преобразование, рассматривая не все точки, а только некоторые.</p>
 <p>Каждый раз, когда вы открываете джипег или проигрываете .mp3, где-то в компьютере считается БПФ.</p>
 <p>Почти во всех алгоритмах обработки звука и эффективных алгоритмах обработки изображений оно используется.</p>
+<h3 id="комбинаторика">Комбинаторика</h3>
+<p><a href="https://codeforces.com/contest/632/problem/E">632E — Вор в магазине</a>.</p>
 <h4 id="свёртки-и-корреляции">Свёртки и корреляции</h4>
 <p>Пусть есть <span class="math inline">\(\{a_i\}_{i=0}^{n}\)</span> и <span class="math inline">\(\{b_j\}_{j=0}^{m}\)</span>. Тогда свёрткой называют <span class="math inline">\(\{c_k\}_{k=0}^{m+n}\)</span>:</p>
 <p><span class="math display">\[c_k=\sum\limits_{i=0}^{n} a_i b_{k-i}\]</span></p>

@@ -4,12 +4,75 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Введение {#введение .unnumbered .unnumbered}</title>
+  <title>Суффиксный автомат</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
@@ -43,25 +106,44 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Введение {#введение .unnumbered .unnumbered}</h1>
+<h1 class="title">Суффиксный автомат</h1>
 </header>
-<h1 id="введение" class="unnumbered unnumbered">Введение</h1>
-<p>Рассмотрим задачу поиска образцов в тексте. Дан текст <span class="math inline">\(T\)</span> и <span class="math inline">\(n\)</span> образцов <span class="math inline">\(S_i\)</span>, для каждого из образцов нужно узнать, встречается ли он в тексте. Есть два основных подхода к решению этой задачи. Первый — алгоритм Ахо-Корасик, который строит по набору образцов автомат, распознающий строки, в которых встречаются данные образцы. Второй — использование суффиксных структур, под которыми обычно подразумевают суффиксный массив, суффиксный автомат или суффиксное дерево. Данная лекция по большей части будет посвящена последним двум из них, их связи и применении в решении задач.</p>
-<h1 id="наивное-решение" class="unnumbered unnumbered">Наивное решение</h1>
-<p>Возьмём все суффиксы <span class="math inline">\(T\)</span> и объединим их в бор, в нём каждой подстроке <span class="math inline">\(T\)</span> будет соответствовать ровно одна вершина. Теперь мы можем за <span class="math inline">\(O(|T|^2)\)</span> времени на построение бора и <span class="math inline">\(O(|S_i|)\)</span> на запрос узнавать, входит ли <span class="math inline">\(S_i\)</span> в <span class="math inline">\(T\)</span>. От квадратичной сложности можно уйти двумя способами, ведущими к суффиксному дереву и суффиксному автомату соответственно.</p>
-
-<figure>
-<img src="img/abbcbc_automaton.png" alt="Суффиксное дерево cbcbba" /><figcaption>Суффиксное дерево <span class="math inline">\(cbcbba\)</span></figcaption>
-</figure>
-
-<figure>
-<img src="img/cbcbba_tree.png" alt="Суффиксное дерево cbcbba" /><figcaption>Суффиксное дерево <span class="math inline">\(cbcbba\)</span></figcaption>
-</figure>
-<h1 id="суффиксное-дерево">Суффиксное дерево</h1>
-<p>Любой нисходящий путь в этом боре будет подстрокой <span class="math inline">\(T\)</span>, значит если из вершины <span class="math inline">\(v\)</span> нет других исходящих рёбер, можно заменить путь <span class="math inline">\(u \topto{\al} v \topto{\bb} w\)</span> на ребро <span class="math inline">\(u \topto{\al \bb} w\)</span>, храня при этом строку <span class="math inline">\(\al \bb\)</span> в виде пары чисел <span class="math inline">\([l;r]\)</span>, указывающей на её местоположение в <span class="math inline">\(T\)</span>. Такая сжатая структура называется суффиксным деревом и занимает <span class="math inline">\(O(|T|)\)</span> памяти.</p>
 <h1 id="суффиксный-автомат">Суффиксный автомат</h1>
+<p>Если вы не знаете, что такое префиксное дерево или автомат, рекомендуется сначала почитать про Ахо-Корасик.</p>
+<p>Рассмотрим задачу:</p>
+<blockquote>
+<p>Дан текст <span class="math inline">\(T\)</span> и <span class="math inline">\(n\)</span> строк <span class="math inline">\(s_i\)</span>, для каждой из которых нужно узнать, встречается ли она в тексте.</p>
+</blockquote>
+<p>Есть два основных подхода к решению этой задачи. Первый: алгоритм Ахо-Корасик, который строит по набору строк автомат, распознающий эти строки в потоке текста. Второй: использование суффиксных структур, под которыми обычно подразумневают суффиксный массив, суффиксный автомат или суффикское дерево.</p>
+<p>Данная статья посвящена последним двум их них.</p>
+<h2 id="наивное-решение">Наивное решение</h2>
+<p>Возьмем все суффиксы <span class="math inline">\(T\)</span> и объединим их в бор, в котором каждой подстроке <span class="math inline">\(T\)</span> будет соответствовать ровно одна вершина. С его помощью можно за <span class="math inline">\(O(|T|^2)\)</span> времени на построение и <span class="math inline">\(O(|s_i|)\)</span> времени на запрос узнавать, входит ли <span class="math inline">\(s_i\)</span> в <span class="math inline">\(T\)</span>.</p>
+<p>Идея дальнейшей оптимизации заключается в убирании «лишних» состояний в этом боре.</p>
+<p>От квадратиченой сложности можно избавиться двумя разными способами — ведущими, соответственно, либо к суффиксному автомату, либо к суфффиксному дереву.</p>
+<p><strong>Сжатое суффиксное дерево.</strong> Любой путь от корня в этом боре будет подстрокой <span class="math inline">\(T\)</span>, а значит, если из вершины <span class="math inline">\(v\)</span> нет исходящий рёбер, то можно заменить путь на ребро, храня рядом с ним всю строку. Непосредственно хранить строку при этом не обязательно — она есть где-то как подстрока <span class="math inline">\(T\)</span>, а значит можно просто хранить пару чисел <span class="math inline">\([l, r]\)</span>, указывающую на её местоположение.</p>
+<p>Выясняется, что такая структура данных занимает <span class="math inline">\(O(|T|)\)</span> памяти. Чтобы это понять, нужно оценить количество «развилок» — мест, где путь разъеденяется на два.</p>
+<p>Пусть мы бор строли путем добавления суффиксов. Тогда, каждая новая строка совпадала каким-то префиксом с уже имеющейся, а потом отпочковалась и породила новый путь. Получается, что вершин тут не больше, чем строк.</p>
+<p>Сжатое суффиксное дерево тоже годится для нашей задачи: только теперь по рёбрам нужно шагать виртуально, просматривая один символ за другим.</p>
+<p>Существуют алгоритмы, которые строят сжатое суффиксное дерево эффективно — например, алгортим Укконена. Мы их рассматривать в этой статье не будем и сразу перейдём ко второму методу.</p>
+<p><strong>Суффиксным автоматом</strong> строки <span class="math inline">\(s\)</span> называется <em>минимальный</em> (с наименьшим количеством вершин) автомат, принимающий все суффиксы строки <span class="math inline">\(s\)</span> и только их.</p>
+<p>Выясняется, что он тоже маленький и его можно построить за линейное время.</p>
+<p>Поразмышляем немного над его природой:</p>
+<ul>
+<li><p>Суффиксный автомат ацикличен — иначе можно было бы принимать бесконечно большие строки, а мы его строили только для суффиксов.</p></li>
+<li><p>Пусть <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> — строки, которые принимает состояние <span class="math inline">\(v\)</span> суффиксного автомата. Тогда для любой строки <span class="math inline">\(c\)</span> строки <span class="math inline">\(ac\)</span> и <span class="math inline">\(bc\)</span> принимаются</p>
+<p>или не принимаются одновременно. Иными словами, независимо от того, как мы «пришли» в состояние <span class="math inline">\(v\)</span>, если мы пройдём из него по пути, соответствующему строке <span class="math inline">\(c\)</span>, мы всегда сможем точно сказать, в какое состояние мы попадём.</p></li>
+<li><p>В каком-то смысле все строки разделяются на <em>классы эквивалентности</em> в зависимости от того, в какое состояние они приводят.</p></li>
+<li><p>Назовём <em>правым контекстом</em> строки (или состояния) множество всех строк-продолжений, которые принимает автомат.</p></li>
+</ul>
+<p>Если правый контекст какой-то вершины пуст, то её можно удалить.</p>
+<p>Если два правых контекста какой-то вершины совпали, то эти вершины можно слить в одну, ничего не сломав — значит автомат, в котором такое возможно, не является минимальным.</p>
+<p>Рассмотрим множество <span class="math inline">\(R\)</span> непустых правых контекстов всех возможных слов над <span class="math inline">\(\Sigma\)</span>. В любом автомате, задающем данный язык будет хотя бы <span class="math inline">\(|R|\)</span> состояние.</p>
+<p>Рассмотрим любой правый контекст в <span class="math inline">\(R\)</span>. Пусть он порождён строкой <span class="math inline">\(a\)</span>, тогда в автомате должно быть некоторое состояние <span class="math inline">\(q\)</span>, принимающее строку <span class="math inline">\(a\)</span> и имеющее такой правый контекст, иначе автомат бы не смог принять строку <span class="math inline">\(ax\)</span>. При этом все эти состояния будут различными, так как у них будут различный правые контексты.</p>
+<p><strong>tl;dr:</strong> Автомат является минимальным тогда и только тогда, когда правые контексты всех его состояний попарно различны и не пусты.</p>
+<p><strong>Утверждение.</strong> Любое состояние суффиксного автомата принимает какую-то строку и какое-то множество её самых длинных суффиксов.</p>
+<h1 id="суффиксный-автомат-1">Суффиксный автомат</h1>
 <p>Детерминированный конечный автомат (далее автомат) — это пятёрка <span class="math inline">\(A = (Q, \Sigma, \delta, q_0, F)\)</span>, где <span class="math inline">\(Q\)</span> — множество состояний, <span class="math inline">\(\Sigma\)</span> — алфавит, <span class="math inline">\(\delta \subset Q \times \Sigma \times Q\)</span> — множество переходов, <span class="math inline">\(q_0 \in Q\)</span> — начальное состояние, <span class="math inline">\(F \subset Q\)</span> — множество финальных состояний.</p>
-<p>Всякому автомату можно сопоставить ориентированный граф такой что состояния автомата — это вершины графа, а переходы — это дуги помеченные символами из алфавита. Соответственно, в таком графе должна быть выделена некоторая вершина <span class="math inline">\(q_0\)</span> (начальное состояние) и набор вершин <span class="math inline">\(F\)</span> (финальные состояния). Кроме того, из любого состояния не может быть двух переходов по одному и тому же символу (детерминированность).</p>
+<p>Всякому автомату можно сопоставить ориентированный граф такой что состояния автомата — это вершины графа, а переходы — это дуги помеченные символами из алфавита. Соответственно, в таком графе должна быть выделена некоторая вершина <span class="math inline">\(q_0\)</span> (начальное состояние) и набор вершин <span class="math inline">\(F\)</span> (финальные состояния). Кроме того, из любого состояния не может быть двух переходов по одному и тому же символу (детерминированность).</p>
 <p>Состояние <span class="math inline">\(q\)</span> принимает строку <span class="math inline">\(s\)</span>, если есть путь из <span class="math inline">\(q_0\)</span> в <span class="math inline">\(q\)</span> такой что если выписать все символы, которые мы встретили на этом пути, мы получим строку <span class="math inline">\(s\)</span>. Автомат принимает строку <span class="math inline">\(s\)</span>, если её принимает хотя бы одно из финальных состояний. Множество строк принимаемых автоматом будем называть его языком.</p>
 <p>Суффиксным автоматом строки <span class="math inline">\(s\)</span> будем называть <em>минимальный</em> автомат, который принимает все суффиксы строки и только их. Под минимальностью подразумевается, что число состояний в нём должно быть наименьшим возможным.</p>
 <p>Суффиксный автомат не только ориентированный, но и ациклический граф, ведь множество принимаемых им строк конечно, а цикл позволил бы принять сколь угодно длинную строку. Рассмотрим факты, позволяющие нам уточнить природу суффиксного автомата.</p>
@@ -69,14 +151,14 @@
 <p>Независимо от того, как мы “пришли” в состояние <span class="math inline">\(q\)</span>, если мы пройдём из него по пути, соответствующему строке <span class="math inline">\(x\)</span>, мы сможем точно сказать, в какое состояние мы попадём и, в частности, будет ли оно финальным.</p>
 <p>Правым контекстом <span class="math inline">\(X(q)\)</span> состояния <span class="math inline">\(q\)</span> назовём множество строк <span class="math inline">\(x\)</span>, переводящих <span class="math inline">\(q\)</span> в одно из финальных состояний. Соответственно, назовём правым контекстом строки <span class="math inline">\(a\)</span> множество <span class="math inline">\(X(a)\)</span> строк <span class="math inline">\(x\)</span> таких что <span class="math inline">\(ax\)</span> принимается автоматом.</p>
 <p>Правый контекст строки совпадает с правым контекстом состояния, которое её принимает, поэтому правые контексты языка можно рассматривать независимо от конкретного автомата:</p>
-<p>Рассмотрим множество <span class="math inline">\(R\)</span> непустых правых контекстов всех возможных слов над <span class="math inline">\(\Sigma\)</span>. В любом автомате, задающем данный язык будет хотя бы <span class="math inline">\(|R|\)</span> состояние.</p>
+<p>Рассмотрим множество <span class="math inline">\(R\)</span> непустых правых контекстов всех возможных слов над <span class="math inline">\(\Sigma\)</span>. В любом автомате, задающем данный язык, будет хотя бы <span class="math inline">\(|R|\)</span> состояний.</p>
 <p>Рассмотрим любой правый контекст в <span class="math inline">\(R\)</span>. Пусть он порождён строкой <span class="math inline">\(a\)</span>, тогда в автомате должно быть некоторое состояние <span class="math inline">\(q\)</span>, принимающее строку <span class="math inline">\(a\)</span> и имеющее такой правый контекст, иначе автомат бы не смог принять строку <span class="math inline">\(ax\)</span>. При этом все эти состояния будут различными, так как у них будут различный правые контексты.</p>
 <p>Существует автомат, на котором эта оценка достигается.</p>
 <p>Если в автомате есть состояние с пустым правым контекстом, мы можем удалить его, не изменим принимаемый язык. Иначе пусть в автомате есть два состояния <span class="math inline">\(q_1\)</span>, <span class="math inline">\(q_2\)</span> такие что <span class="math inline">\(X(q_1) = X(q_2)\)</span>. Мы можем удалить состояние <span class="math inline">\(q_2\)</span> и перевести переходы, ведущие в него в состояние <span class="math inline">\(q_1\)</span>. Множество принимаемых строк от этого не изменится, следовательно, мы можем продолжать эту процедуру, пока число состояний не будет равно числу различных непустных правых контекстов.</p>
 <p>Таким образом, мы доказали:</p>
 <p>Автомат является минимальным тогда и только тогда, когда правые контексты всех его состояний попарно различны и не пусты.</p>
 <p>В случае суффиксного автомата правый контекст <span class="math inline">\(X(a)\)</span> строки <span class="math inline">\(a\)</span> взаимно однозначно соответствует множеству правых позиций вхождений строки <span class="math inline">\(a\)</span> в строку <span class="math inline">\(s\)</span>. Действительно, если <span class="math inline">\(ax\)</span> принимается автоматом, то есть, является суффиксом, то <span class="math inline">\(s = yax\)</span>, а строке <span class="math inline">\(x\)</span> мы можем сопоставить позицию <span class="math inline">\(|s|-|x|-1\)</span>. Таким образом, каждое состояние автомата принимает строки с одинаковым множеством <em>правых</em> позиций их вхождений и обратно, все строки с таким множеством позиций принимаются этим состоянием.</p>
-<h2 id="связь-между-суффиксным-автоматом-и-суффиксным-деревом" class="unnumbered unnumbered">Связь между суффиксным автоматом и суффиксным деревом</h2>
+<h2 id="связь-между-суффиксным-автоматом-и-суффиксным-деревом">Связь между суффиксным автоматом и суффиксным деревом</h2>
 <p>Рассмотрим ребро в суффиксном дереве строки <span class="math inline">\(T\)</span>, а точнее все подстроки <span class="math inline">\(T\)</span>, которым соответствует или “внутренняя” вершина ребра, или вершина, в которой ребро заканчивается. Для любой строки <span class="math inline">\(x\)</span> и любой пары строк <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> из рассматриваемого множества строк, строки <span class="math inline">\(xa\)</span> и <span class="math inline">\(xb\)</span> являются или не являются префиксами строки <span class="math inline">\(s\)</span> одновременно.</p>
 <p>Пусть <span class="math inline">\(|a| &lt; |b|\)</span>. Тогда <span class="math inline">\(a\)</span> является предком <span class="math inline">\(b\)</span> в боре, то есть, её префиксом, значит, её множество вхождений точно содержит множество вхождений строки <span class="math inline">\(b\)</span>. Допустим, существует позиция <span class="math inline">\(|x|\)</span>, в которой есть вхождение строки <span class="math inline">\(a\)</span>, но не строки <span class="math inline">\(b\)</span>.</p>
 <p>Рассмотрим строку <span class="math inline">\(a&#39;\)</span>, которая является максимальным префиксом строки <span class="math inline">\(b\)</span>, который можно встретить в той позиции. Если <span class="math inline">\(a&#39;\)</span> не упирается в конец строки, то её можно продолжить, как минимум, двумя различными символами чтобы она осталась подстрокой <span class="math inline">\(T\)</span>. Значит, соответствующая ей вершина в дереве имеет степень больше двух и должна разбивать ребро, на котором находится, что конфликтует с предположением о том, что <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> взяты с одного ребра.</p>
@@ -84,7 +166,7 @@
 <p>Аналогичным образом можно показать, что для любой строки <span class="math inline">\(a\)</span> все строки <span class="math inline">\(b\)</span> с таким же множеством строк <span class="math inline">\(x\)</span> находятся на соответствующем строке <span class="math inline">\(a\)</span> ребре, то есть, есть биекция между рёбрами суффиксного дерева и множествами левых позиций вхождений строк в <span class="math inline">\(T\)</span>. Отсюда:</p>
 <p>Для любого состояния <span class="math inline">\(q\)</span> суффиксного автомата строки <span class="math inline">\(T\)</span> найдётся вершина <span class="math inline">\(q&#39;\)</span> суффиксного дерева развернутой строки <span class="math inline">\(T\)</span> такая, что множество строк, принимаемых состоянием <span class="math inline">\(q\)</span>, совпадает с развёрнутым множеством строк, таких что соответствующая им вершина в дереве лежит на ребре, ведущем в <span class="math inline">\(q&#39;\)</span> (включая строку, соответствующую <span class="math inline">\(q&#39;\)</span>).</p>
 <p>Это целиком описывает состояния автомата и позволяет разработать алгоритм его построения.</p>
-<h1 id="построение-суффиксного-автомата">Построение суффиксного автомата</h1>
+<h2 id="построение-суффиксного-автомата">Построение суффиксного автомата</h2>
 <p>Пусть длина самой короткой строки, которая принимается состоянием <span class="math inline">\(q\)</span> равна <span class="math inline">\(k\)</span>. Тогда суффиксная ссылка <span class="math inline">\(link(q)\)</span> будет вести из этого состояния в состояние, которое принимает эту же строку без первого символа.</p>
 <p>Обратившись к суффиксному дереву мы поймём, что в нём она будет вести в предка вершины <span class="math inline">\(q&#39;\)</span>. Таким образом, суффиксные ссылки образуют дерево, которое соответствует суффиксному дереву развернутой строки. Также будем обозначать длину самой длинной строки, которая принимается состоянием <span class="math inline">\(q\)</span> как <span class="math inline">\(len(q)\)</span>. Длина самой короткой строки из <span class="math inline">\(q\)</span> будет равна <span class="math inline">\(len(link(q)) + 1\)</span>.</p>
 <p>Будем дописывать символы в конец строки <span class="math inline">\(T\)</span> по одному и при этом поддерживать для неё корректный автомат с деревом суффиксных ссылок. Пусть у нас есть автомат для строки <span class="math inline">\(T\)</span> и она принимается его состоянием <span class="math inline">\(last\)</span>. Мы хотим получить автомат для строки <span class="math inline">\(Tc\)</span>. Нам нужно, чтобы для каждого суффикса новой строки существовало состояние, которое его примет. При этом нам нужно сохранить минимальность автомата.</p>
@@ -93,8 +175,41 @@
 <p>Иначе мы нашли состояние <span class="math inline">\(q&#39;\)</span>, из которого переход по символу <span class="math inline">\(c\)</span> уже есть. Значит, суффиксы длины <span class="math inline">\(\leq len(q&#39;) + 1\)</span> уже встречались в строке, и новых переходов в состояние <span class="math inline">\(new\)</span> мы проводить не будем. Однако, для состояния <span class="math inline">\(new\)</span> ещё нужно посчитать суффиксную ссылку. Наибольшей строкой в ней будет суффикс строки <span class="math inline">\(Tc\)</span> длины <span class="math inline">\(len(q&#39;) + 1\)</span>. В данный момент он находится в состоянии <span class="math inline">\(t\)</span>, в которое ведёт переход по символу <span class="math inline">\(c\)</span> из состояния <span class="math inline">\(q&#39;\)</span>, но в нём могуть быть также строки большей длины. Таким образом, если <span class="math inline">\(len(t) = len(q&#39;) + 1\)</span>, то <span class="math inline">\(t\)</span> и есть искомая суффиксная ссылка. Проведя её, мы завершим обновление автомата.</p>
 <p>Иначе <span class="math inline">\(t\)</span> — состояние, которое принимает как строки, являющиеся суффиксами строки, так и строки, которые ими не являются, из-за этого мы не можем корректно определить его финальность. Чтобы решить данный конфликт мы должны будем отщепить от <span class="math inline">\(t\)</span> состояние <span class="math inline">\(t&#39;\)</span>, которое примет все строки, которые принимаются <span class="math inline">\(t\)</span>, но имеют длину <span class="math inline">\(\leq len(q&#39;) + 1\)</span>, то есть, тот самый кусок с суффиксами. Для этого скопируем в <span class="math inline">\(t&#39;\)</span> переходы и суффиксную ссылку из <span class="math inline">\(t\)</span>, а длину установим равной <span class="math inline">\(len(q&#39;) + 1\)</span>. Затем установим <span class="math inline">\(link(new) = link(t) = t&#39;\)</span>. Наконец, чтобы “перебросить” в него нужные строки из <span class="math inline">\(t\)</span>, пройдёмся по суффиксным ссылкам состояния <span class="math inline">\(q&#39;\)</span> пока переходы по <span class="math inline">\(c\)</span> ведут в <span class="math inline">\(t\)</span> и переправим эти переходы в <span class="math inline">\(t&#39;\)</span>. Таким образом, мы перенаправим все пути интересующей нас длины, которые ранее проходили через вершину <span class="math inline">\(t\)</span> в вершину <span class="math inline">\(t&#39;\)</span>.</p>
 <p>В некотором смысле эта процедура соответствует построению суффиксного дерева добавлением суффиксов в возрастающем (по длине) порядке, приведём код на языке C++, выполняющий её:</p>
-<p>``` {.c++ language=“C++”} const int maxn = 2e5 + 42; // Максимальное число состояний map&lt;char, int&gt; to[maxn]; // Переходы int link[maxn]; // Суффиксные ссылки int len[maxn]; // Длины максимальных строк в состояниях int last = 0; // Состояние, соответствующее всей строке int sz = 1; // Общее число состояний</p>
-<p>void add_letter(char c) // Дописываем символ в конец { int p = last; // Записываем в p состояние строки s last = sz++; // Создаём для строки sc новое состояние len[last] = len[p] + 1; for(; to[p][c] == 0; p = link[p]) // (1) to[p][c] = last; // Прыгаем по ссылкам, создавая переходы if(to[p][c] == last) { // Если мы оказались здесь, то символ c встречен впервые link[last] = 0; return; } int q = to[p][c]; if(len[q] == len[p] + 1) { // Если переход сплошной, то q - суфф ссылка link[last] = q; return; } // Расщепляем q на два состояния, одно из которых cl, // А второе получит тот же номер, что и q имело ранее int cl = sz++; to[cl] = to[q]; // (2) link[cl] = link[q]; len[cl] = len[p] + 1; link[last] = link[q] = cl; for(; to[p][c] == q; p = link[p]) // (3) to[p][c] = cl; // Перенаправляем переходы там, где нужно } ```</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">2e5</span> + <span class="dv">42</span>; <span class="co">// Максимальное число состояний</span></a>
+<a class="sourceLine" id="cb1-2" title="2">map&lt;<span class="dt">char</span>, <span class="dt">int</span>&gt; to[maxn]; <span class="co">// Переходы</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> link[maxn]; <span class="co">// Суффиксные ссылки</span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="dt">int</span> len[maxn]; <span class="co">// Длины максимальных строк в состояниях</span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="dt">int</span> last = <span class="dv">0</span>; <span class="co">// Состояние, соответствующее всей строке</span></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="dt">int</span> sz = <span class="dv">1</span>; <span class="co">// Общее число состояний</span></a>
+<a class="sourceLine" id="cb1-7" title="7"></a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="dt">void</span> add_letter(<span class="dt">char</span> c) <span class="co">// Дописываем символ в конец</span></a>
+<a class="sourceLine" id="cb1-9" title="9">{</a>
+<a class="sourceLine" id="cb1-10" title="10">    <span class="dt">int</span> p = last; <span class="co">// Записываем в p состояние строки s</span></a>
+<a class="sourceLine" id="cb1-11" title="11">    last = sz++; <span class="co">// Создаём для строки sc новое состояние</span></a>
+<a class="sourceLine" id="cb1-12" title="12">    len[last] = len[p] + <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-13" title="13">    <span class="cf">for</span>(; to[p][c] == <span class="dv">0</span>; p = link[p]) <span class="co">// (1)</span></a>
+<a class="sourceLine" id="cb1-14" title="14">        to[p][c] = last; <span class="co">// Прыгаем по ссылкам, создавая переходы</span></a>
+<a class="sourceLine" id="cb1-15" title="15">    <span class="cf">if</span>(to[p][c] == last)</a>
+<a class="sourceLine" id="cb1-16" title="16">    { <span class="co">// Если мы оказались здесь, то символ c встречен впервые</span></a>
+<a class="sourceLine" id="cb1-17" title="17">        link[last] = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-18" title="18">        <span class="cf">return</span>; </a>
+<a class="sourceLine" id="cb1-19" title="19">    }</a>
+<a class="sourceLine" id="cb1-20" title="20">    <span class="dt">int</span> q = to[p][c]; </a>
+<a class="sourceLine" id="cb1-21" title="21">    <span class="cf">if</span>(len[q] == len[p] + <span class="dv">1</span>) </a>
+<a class="sourceLine" id="cb1-22" title="22">    { <span class="co">// Если переход сплошной, то q - суфф ссылка</span></a>
+<a class="sourceLine" id="cb1-23" title="23">        link[last] = q; </a>
+<a class="sourceLine" id="cb1-24" title="24">        <span class="cf">return</span>;</a>
+<a class="sourceLine" id="cb1-25" title="25">    }</a>
+<a class="sourceLine" id="cb1-26" title="26">    <span class="co">// Расщепляем q на два состояния, одно из которых cl,</span></a>
+<a class="sourceLine" id="cb1-27" title="27">    <span class="co">// А второе получит тот же номер, что и q имело ранее</span></a>
+<a class="sourceLine" id="cb1-28" title="28">    <span class="dt">int</span> cl = sz++; </a>
+<a class="sourceLine" id="cb1-29" title="29">    to[cl] = to[q]; <span class="co">// (2)</span></a>
+<a class="sourceLine" id="cb1-30" title="30">    link[cl] = link[q]; </a>
+<a class="sourceLine" id="cb1-31" title="31">    len[cl] = len[p] + <span class="dv">1</span>; </a>
+<a class="sourceLine" id="cb1-32" title="32">    link[last] = link[q] = cl;</a>
+<a class="sourceLine" id="cb1-33" title="33">    <span class="cf">for</span>(; to[p][c] == q; p = link[p]) <span class="co">// (3)</span></a>
+<a class="sourceLine" id="cb1-34" title="34">        to[p][c] = cl; <span class="co">// Перенаправляем переходы там, где нужно</span></a>
+<a class="sourceLine" id="cb1-35" title="35">}</a></code></pre></div>
 <h1 id="время-работы">Время работы</h1>
 <p>Покажем линейность работы данного алгоритма. На каждом шаге есть три места, которые выполняются не за <span class="math inline">\(O(1)\)</span>:</p>
 <ol type="1">
@@ -112,14 +227,64 @@
 <p>Наконец, собирая всё полученное воедино, получим такое неравенство: <span class="math inline">\(len(link(link(last))) + 1 \geq len(link(p)) + 1 \geq len(link(q)) = len(link(link(new)),\)</span> отсюда <span class="math inline">\(len(link(link(last))) + 1 \geq len(link(link(new)))\)</span>, которое означает, что на каждом шаге длина второй суффиксной ссылки либо уменьшилась, либо увеличилась не больше, чем на единицу (а значит, её суммарное уменьшение не превосходит <span class="math inline">\(O(n)\)</span>). Линейность алгоритма доказана!</p>
 <h1 id="применение-в-решении-задач">Применение в решении задач</h1>
 <ol type="1">
-<li><p><strong>Число различных подстрок.</strong> Дана строка <span class="math inline">\(s\)</span>, необходимо посчитать количество её различных подстрок. В каждом состоянии встречаются строки длины от <span class="math inline">\(len(link(q)) + 1\)</span> до <span class="math inline">\(len(q)\)</span>. Всего <span class="math inline">\(len(q) - len(link(q))\)</span> строк. Просуммировав эту величину по всем состояниям, получим ответ.</p>
-<p><em>Упражнение:</em> решите эту же задачу за <span class="math inline">\(O(n)\)</span>, учитывая, что к строке <span class="math inline">\(s\)</span> символы дописываются по одному и после каждого нового символа необходимо сказать текущее число различных подстрок строки <span class="math inline">\(s\)</span>.</p>
-<p><em>Упражнение*:</em> Возьмём задачу из предыдущего упражнения и скажем, что теперь мы можем не только дописывать символы <em>в конец</em>, но и удалять их <em>с начала</em> строки. Вам требуется отвечать на те же запросы. Время работы решения всё ещё должно линейно зависеть от размера входа. <em>Подсказка:</em> иногда алгоритм Укконена также бывает полезен.</p></li>
-<li><p><strong>Поиск подстрок в тексте.</strong> Пропустив строку через автомат мы сможем сказать, входит ли она в текст. Допустим, мы хотим узнать какую-то информацию о её вхождениях. Например, нам нужно выдать любое конкретное вхождение. Как мы уже знаем, каждому вхождению соответствует строка <span class="math inline">\(x\)</span> такая что <span class="math inline">\(ax\)</span> — суффикс <span class="math inline">\(s\)</span>. Или, проще говоря, путь из состояния <span class="math inline">\(q\)</span> в какое-то финальное состояние. Динамикой по автомату как ациклическому ориентированному графу мы можем найти длину какого-нибудь такого пути (например, для определённости минимального или максимального). Отметим, что аналогичной динамикой считаются многие другие полезные значения, например, количество строк в правом контексте состояния (или, что то же самое, количество вхождений строк из состояния в <span class="math inline">\(s\)</span>).</p>
-<p>Альтернативным решением будет обратиться к дереву суффиксных ссылок, которое, как мы помним, является суффиксным деревом для <span class="math inline">\(s^T\)</span>. Как мы упоминали в самом начале, любая подстрока строки <span class="math inline">\(s\)</span> является префиксом одного из суффиксов исходной строки. Таким образом, если мы запишем в каждую “суффиксную” вершину индекс соответствующего ей суффикса, то все позиции вхождений строки <span class="math inline">\(t\)</span> в <span class="math inline">\(s\)</span> можно будет обнаружить в поддереве вершины, которая соответствует строке <span class="math inline">\(t\)</span>. Значит, в частности, динамикой можно будет найти самое первое или самое последнее вхождение.</p>
-<p>Более того, учитывая, что в последнем случае мы работали с деревом, мы можем обойти его таким образом, чтобы на каждом шаге иметь в вершине множество возможных позиций, в которых встречаются строки из соответствующего состояния. Для этого нужно применить идею быстрого слияния множеств, когда мы всегда добавляем элементы из меньшего множества в большее, а не наоборот. Тогда такой обход потребует <span class="math inline">\(O(n \log n)\)</span> операций добавления в множество, т.к. каждый раз когда мы переносим между множествами элемент <span class="math inline">\(k\)</span>, размер нового множества будет как минимум, в два раза больше старого, в котором он хранился.</p>
-<p><em>Упражнение*:</em> дана строка <span class="math inline">\(s\)</span>. Найти число строк <span class="math inline">\(t\)</span> таких, что они имеют хотя бы <span class="math inline">\(3\)</span> <em>непересекающихся</em> вхождения в строку <span class="math inline">\(s\)</span>.</p></li>
-<li><p><strong>Наибольшая общая подстрока.</strong> Нам дано <span class="math inline">\(k\)</span> строк <span class="math inline">\(s_1, s_2, \dots, s_k\)</span>. Нужно найти наибольшую строку <span class="math inline">\(t\)</span>, которая встречается в каждой из строк <span class="math inline">\(s_i\)</span>. Одно из возможных решений — построить автомат для строки <span class="math inline">\(s_1 t_1 s_2 t_2 \dots s_n t_n\)</span>, где <span class="math inline">\(t_i\)</span> — уникальный для каждой строки символ-разделитель. Теперь мы можем завести динамику <span class="math inline">\(dp[q][i]\)</span>, в которой хранить <span class="math inline">\(1\)</span>, если из состояния <span class="math inline">\(q\)</span> можно добраться до состояния, из которого есть переход по <span class="math inline">\(t_i\)</span>, не проходя при этом через другие символы-разделители. Это будет равносильно тому, что строки из <span class="math inline">\(q\)</span> входят в <span class="math inline">\(s_i\)</span>. Как и в прошлый раз, динамику можно пересчитывать по топологической сортировке автомата как ориентированного ациклического графа. Итого решение будет работать за <span class="math inline">\(O(k \cdot \sum |s_i|)\)</span>.</p>
+<li><p><strong>Число различных подстрок.</strong> Дана строка <span class="math inline">\(s\)</span>, необходимо посчитать</p>
+<p>количество её различных подстрок. В каждом состоянии встречаются</p>
+<p>строки длины от <span class="math inline">\(len(link(q)) + 1\)</span> до <span class="math inline">\(len(q)\)</span>. Всего</p>
+<p><span class="math inline">\(len(q) - len(link(q))\)</span> строк. Просуммировав эту величину по всем</p>
+<p>состояниям, получим ответ.</p>
+<p><em>Упражнение:</em> решите эту же задачу за <span class="math inline">\(O(n)\)</span>, учитывая, что к строке</p>
+<p><span class="math inline">\(s\)</span> символы дописываются по одному и после каждого нового символа</p>
+<p>необходимо сказать текущее число различных подстрок строки <span class="math inline">\(s\)</span>.</p>
+<p><em>Упражнение*:</em> Возьмём задачу из предыдущего упражнения и скажем,</p>
+<p>что теперь мы можем не только дописывать символы <em>в конец</em>, но и</p>
+<p>удалять их <em>с начала</em> строки. Вам требуется отвечать на те же</p>
+<p>запросы. Время работы решения всё ещё должно линейно зависеть от</p>
+<p>размера входа. <em>Подсказка:</em> иногда алгоритм Укконена также бывает</p>
+<p>полезен.</p></li>
+<li><p><strong>Поиск подстрок в тексте.</strong> Пропустив строку через автомат мы</p>
+<p>сможем сказать, входит ли она в текст. Допустим, мы хотим узнать</p>
+<p>какую-то информацию о её вхождениях. Например, нам нужно выдать</p>
+<p>любое конкретное вхождение. Как мы уже знаем, каждому вхождению</p>
+<p>соответствует строка <span class="math inline">\(x\)</span> такая что <span class="math inline">\(ax\)</span> — суффикс <span class="math inline">\(s\)</span>. Или, проще</p>
+<p>говоря, путь из состояния <span class="math inline">\(q\)</span> в какое-то финальное состояние.</p>
+<p>Динамикой по автомату как ациклическому ориентированному графу мы</p>
+<p>можем найти длину какого-нибудь такого пути (например, для</p>
+<p>определённости минимального или максимального). Отметим, что</p>
+<p>аналогичной динамикой считаются многие другие полезные значения,</p>
+<p>например, количество строк в правом контексте состояния (или, что то</p>
+<p>же самое, количество вхождений строк из состояния в <span class="math inline">\(s\)</span>).</p>
+<p>Альтернативным решением будет обратиться к дереву суффиксных ссылок,</p>
+<p>которое, как мы помним, является суффиксным деревом для <span class="math inline">\(s^T\)</span>. Как</p>
+<p>мы упоминали в самом начале, любая подстрока строки <span class="math inline">\(s\)</span> является</p>
+<p>префиксом одного из суффиксов исходной строки. Таким образом, если</p>
+<p>мы запишем в каждую “суффиксную” вершину индекс соответствующего ей</p>
+<p>суффикса, то все позиции вхождений строки <span class="math inline">\(t\)</span> в <span class="math inline">\(s\)</span> можно будет</p>
+<p>обнаружить в поддереве вершины, которая соответствует строке <span class="math inline">\(t\)</span>.</p>
+<p>Значит, в частности, динамикой можно будет найти самое первое или</p>
+<p>самое последнее вхождение.</p>
+<p>Более того, учитывая, что в последнем случае мы работали с деревом,</p>
+<p>мы можем обойти его таким образом, чтобы на каждом шаге иметь в</p>
+<p>вершине множество возможных позиций, в которых встречаются строки из</p>
+<p>соответствующего состояния. Для этого нужно применить идею быстрого</p>
+<p>слияния множеств, когда мы всегда добавляем элементы из меньшего</p>
+<p>множества в большее, а не наоборот. Тогда такой обход потребует</p>
+<p><span class="math inline">\(O(n \log n)\)</span> операций добавления в множество, т.к. каждый раз когда</p>
+<p>мы переносим между множествами элемент <span class="math inline">\(k\)</span>, размер нового множества</p>
+<p>будет как минимум, в два раза больше старого, в котором он хранился.</p>
+<p><em>Упражнение*:</em> дана строка <span class="math inline">\(s\)</span>. Найти число строк <span class="math inline">\(t\)</span> таких, что</p>
+<p>они имеют хотя бы <span class="math inline">\(3\)</span> <em>непересекающихся</em> вхождения в строку <span class="math inline">\(s\)</span>.</p></li>
+<li><p><strong>Наибольшая общая подстрока.</strong> Нам дано <span class="math inline">\(k\)</span> строк</p>
+<p><span class="math inline">\(s_1, s_2, \dots, s_k\)</span>. Нужно найти наибольшую строку <span class="math inline">\(t\)</span>, которая</p>
+<p>встречается в каждой из строк <span class="math inline">\(s_i\)</span>. Одно из возможных решений —</p>
+<p>построить автомат для строки <span class="math inline">\(s_1 t_1 s_2 t_2 \dots s_n t_n\)</span>, где</p>
+<p><span class="math inline">\(t_i\)</span> — уникальный для каждой строки символ-разделитель. Теперь мы</p>
+<p>можем завести динамику <span class="math inline">\(dp[q][i]\)</span>, в которой хранить <span class="math inline">\(1\)</span>, если из</p>
+<p>состояния <span class="math inline">\(q\)</span> можно добраться до состояния, из которого есть переход</p>
+<p>по <span class="math inline">\(t_i\)</span>, не проходя при этом через другие символы-разделители. Это</p>
+<p>будет равносильно тому, что строки из <span class="math inline">\(q\)</span> входят в <span class="math inline">\(s_i\)</span>. Как и в</p>
+<p>прошлый раз, динамику можно пересчитывать по топологической</p>
+<p>сортировке автомата как ориентированного ациклического графа. Итого</p>
+<p>решение будет работать за <span class="math inline">\(O(k \cdot \sum |s_i|)\)</span>.</p>
 <p><em>Упражнение*:</em> решить указанную задачу за <span class="math inline">\(O(\sum |s_i|)\)</span>.</p></li>
 </ol>
 </body>
