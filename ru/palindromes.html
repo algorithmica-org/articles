@@ -109,17 +109,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Палиндромы</h1>
 </header>
 <h1 id="палиндромы">Палиндромы</h1>
-<p><strong>Палиндром</strong> — это строка, которая читается одинаково слева направо и справа налево. Например:</p>
+<p><strong>Палиндром</strong> — это фраза, которая читается одинаково слева направо и справа налево. Например:</p>
 <ul>
-<li><p>«abba»</p></li>
-<li><p>«abacaba»</p></li>
 <li><p>«was it a car or a cat I saw?»</p></li>
 <li><p>«а роза упала на лапу Азора»</p></li>
+<li><p>«abacaba» (палиндром нечётной длины)</p></li>
+<li><p>«abba» (палиндром чётной длины)</p></li>
 </ul>
+<p>Для простоты, мы будем рассматривать только последовательности из строчных латинских букв.</p>
 <p>Палиндромы — не самые часто встречающиеся в реальной жизни объекты, однако задачи на палиндромы любят давать на соревнованиях по спортивному программированию. В этой статье мы опишем эффективные способы их представления.</p>
 <h2 id="алгоритм-манакера">Алгоритм Манакера</h2>
 <p>Пусть есть строка <span class="math inline">\(s\)</span> и мы хотим найти в ней все подпалиндромы.</p>
-<p>Мы сразу сталкиваемся с очевидной тудностью: их в строке может быть <span class="math inline">\(O(n^2)\)</span>, что можно видеть на примере строки <span class="math inline">\(s = aa \ldots a\)</span>. Поэтому будем использовать следующий формат: для каждой позиции <span class="math inline">\(s_i\)</span> найдём наибольший палиндром, центр которого совпадает с <span class="math inline">\(s_i\)</span>. Половину его длины назовём <em>радиусом</em>. Чётные и нечётные палиндромы будем рассматривать отдельно.</p>
+<p>Мы сразу сталкиваемся с очевидной тудностью: их в строке может быть <span class="math inline">\(O(n^2)\)</span>, что можно видеть на примере строки <span class="math inline">\(s = aa \ldots a\)</span>. Поэтому будем использовать следующий формат: для каждой позиции <span class="math inline">\(s_i\)</span> найдём наибольший палиндром, центр которого совпадает с <span class="math inline">\(s_i\)</span> (чётные и нечётные палиндромы будем рассматривать отдельно). Половину его длины, округлённую вниз, будем называть <em>радиусом</em>.</p>
 <p>Наивное решение — перебрать <span class="math inline">\(s_i\)</span>, а для него вторым циклом находить наибольшую искомую длину:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1">vector&lt;<span class="dt">int</span>&gt; pal_array(string s) {</a>
 <a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> n = s.size();</a>
@@ -136,107 +137,86 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-13" title="13"></a>
 <a class="sourceLine" id="cb1-14" title="14">    <span class="cf">return</span> r;</a>
 <a class="sourceLine" id="cb1-15" title="15">}</a></code></pre></div>
-<p>Тот же пример <span class="math inline">\(s = aa\dots a\)</span> показывает, что данная реализация работает за <span class="math inline">\(O(n^2)\)</span>. Для оптимизации применим идею, знакомую из алгоритма <a href="https://algorithmica.org/ru/string-searching">z-функции</a>: при инициализации <span class="math inline">\(t_i\)</span> будем пользоваться уже посчитанными <span class="math inline">\(t\)</span>.</p>
-<p>Будем поддерживать <span class="math inline">\((l, r)\)</span> — интервал, соответствующий самому правому из найденных подпалиндромов. Тогда мы можем сказать, что часть наибольшего палиндрома с центром в <span class="math inline">\(s_i\)</span>, которая лежит в <span class="math inline">\(s_{l:r}\)</span> имеет радиус хотя бы: <span class="math inline">\(\min(r-i, t{l+r-i})\)</span>.</p>
-<p><span class="math inline">\((r-i)\)</span> означает длину при которой произошёл бы выход за <span class="math inline">\(S_{(l, r)}\)</span>, а <span class="math inline">\(len_{l+r-i}\)</span> – значение <span class="math inline">\(len\)</span> в позиции, зеркальной относительно центра <span class="math inline">\(S_{(l, r)}\)</span>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1">vector&lt;<span class="dt">int</span>&gt; manacher_odd(string s) {</a>
-<a class="sourceLine" id="cb2-2" title="2">    <span class="dt">int</span> n = s.size();</a>
-<a class="sourceLine" id="cb2-3" title="3">    s = <span class="st">&quot;@&quot;</span> + s + <span class="st">&quot;$&quot;</span>;</a>
-<a class="sourceLine" id="cb2-4" title="4">    vector&lt;<span class="dt">int</span>&gt; len(n + <span class="dv">1</span>);</a>
-<a class="sourceLine" id="cb2-5" title="5">    <span class="dt">int</span> l = <span class="dv">1</span>, r = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n; i++) {</a>
-<a class="sourceLine" id="cb2-7" title="7">        len[i] = min(r - i, len[l + (r - i)]);</a>
-<a class="sourceLine" id="cb2-8" title="8">        <span class="cf">while</span>(s[i - len[i]] == s[i + len[i]])</a>
-<a class="sourceLine" id="cb2-9" title="9">            len[i]++;</a>
-<a class="sourceLine" id="cb2-10" title="10">        <span class="cf">if</span>(i + len[i] &gt; r) {</a>
-<a class="sourceLine" id="cb2-11" title="11">            l = i - len[i];</a>
-<a class="sourceLine" id="cb2-12" title="12">            r = i + len[i];</a>
-<a class="sourceLine" id="cb2-13" title="13">        }</a>
-<a class="sourceLine" id="cb2-14" title="14">    }</a>
-<a class="sourceLine" id="cb2-15" title="15">    len.erase(begin(len));</a>
-<a class="sourceLine" id="cb2-16" title="16">    <span class="cf">return</span> len;</a>
-<a class="sourceLine" id="cb2-17" title="17">}</a></code></pre></div>
-<p>Так же, как и z-функция, алгоритм работает за линейное время.</p>
-<p>Цикл <span class="math inline">\(while\)</span> запускается только если <span class="math inline">\(len_i = r-i\)</span> (иначе палиндром уже во что-то упёрся). Значит, каждая его итерация сдвигает <span class="math inline">\(r\)</span> на единицу вправо. Таким образом, так как <span class="math inline">\(r \leq n\)</span>, получаем, что суммарно эти циклы отработают за <span class="math inline">\(O(n)\)</span>.</p>
-<p>Чтобы учесть чётные палиндромы, сделаем замену: <span class="math inline">\(S = s_1 s_2 \dots s_n \to S^* = s_1 \# s_2 \# \dots \# s_n\)</span>. Теперь нечётные палиндромы с центром в <span class="math inline">\(s_i\)</span> соответствуют нечётным палиндромам исходной строки, а нечётные палиндромы с центром в <span class="math inline">\(\#\)</span> – чётным.</p>
+<p>Тот же пример <span class="math inline">\(s = aa\dots a\)</span> показывает, что данная реализация работает за <span class="math inline">\(O(n^2)\)</span>.</p>
+<p>Для оптимизации применим идею, знакомую из алгоритма <a href="https://algorithmica.org/ru/string-searching">z-функции</a>: при инициализации <span class="math inline">\(t_i\)</span> будем пользоваться уже посчитанными <span class="math inline">\(t\)</span>. А именно, будем поддерживать <span class="math inline">\((l, r)\)</span> — интервал, соответствующий самому правому из найденных подпалиндромов. Тогда мы можем сказать, что часть наибольшего палиндрома с центром в <span class="math inline">\(s_i\)</span>, которая лежит внутри <span class="math inline">\(s_{l:r}\)</span>, имеет радиус хотя бы <span class="math inline">\(\min(r-i, \; t_{l+r-i})\)</span>. Первая величина равна длине, дальше которой произошел бы выход за пределы <span class="math inline">\(s_{l:r}\)</span>, а вторая — значению радиуса в позиции, зеркальной относительно центра палиндрома <span class="math inline">\(s_{l:r}\)</span>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"></a>
+<a class="sourceLine" id="cb2-2" title="2">vector&lt;<span class="dt">int</span>&gt; manacher_odd(string s) {</a>
+<a class="sourceLine" id="cb2-3" title="3">    <span class="dt">int</span> n = (<span class="dt">int</span>) s.size();</a>
+<a class="sourceLine" id="cb2-4" title="4">    vector&lt;<span class="dt">int</span>&gt; d(n, <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb2-5" title="5">    <span class="dt">int</span> l = <span class="dv">0</span>, r = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++) {</a>
+<a class="sourceLine" id="cb2-7" title="7">        <span class="cf">if</span> (i &lt; r)</a>
+<a class="sourceLine" id="cb2-8" title="8">            d[i] = min(r - i + <span class="dv">1</span>, d[l + r - i]);</a>
+<a class="sourceLine" id="cb2-9" title="9">        <span class="cf">while</span> (i - d[i] &gt;= <span class="dv">0</span> &amp;&amp; i + d[i] &lt; n &amp;&amp; s[i - d[i]] == s[i + d[i]])</a>
+<a class="sourceLine" id="cb2-10" title="10">            d[i]++;</a>
+<a class="sourceLine" id="cb2-11" title="11">        <span class="cf">if</span> (i + d[i] - <span class="dv">1</span> &gt; r)</a>
+<a class="sourceLine" id="cb2-12" title="12">            l = i - d[i] + <span class="dv">1</span>, r = i + d[i] - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb2-13" title="13">    }</a>
+<a class="sourceLine" id="cb2-14" title="14">    <span class="cf">return</span> d;</a>
+<a class="sourceLine" id="cb2-15" title="15">}</a></code></pre></div>
+<p>Так же, как и z-функция, алгоритм работает за линейное время: цикл <code>while</code> запускается только когда <span class="math inline">\(t_i = r - i\)</span> (иначе палиндром уже во что-то упёрся), и каждая его итерация сдвигает увеличивает <span class="math inline">\(r\)</span> на единицу. Так как <span class="math inline">\(r \leq n\)</span>, получаем, что суммарно эти циклы сделают <span class="math inline">\(O(n)\)</span> итераций.</p>
+<p>Для случая чётных палиндромов меняется только индексация:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1">vector&lt;<span class="dt">int</span>&gt; manacher_even(string s) {</a>
+<a class="sourceLine" id="cb3-2" title="2">    <span class="dt">int</span> n = (<span class="dt">int</span>) s.size();</a>
+<a class="sourceLine" id="cb3-3" title="3">    vector&lt;<span class="dt">int</span>&gt; d(n, <span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb3-4" title="4">    <span class="dt">int</span> l = -<span class="dv">1</span>, r = -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb3-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n - <span class="dv">1</span>; i++) {</a>
+<a class="sourceLine" id="cb3-6" title="6">        <span class="cf">if</span> (i &lt; r)</a>
+<a class="sourceLine" id="cb3-7" title="7">            d[i] = min(r - i, d[l + r - i - <span class="dv">1</span>]);</a>
+<a class="sourceLine" id="cb3-8" title="8">        <span class="cf">while</span> (i - d[i] &gt;= <span class="dv">0</span> &amp;&amp; i + d[i] + <span class="dv">1</span> &lt; n &amp;&amp; s[i - d[i]] == s[i + d[i] + <span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb3-9" title="9">            d[i]++;</a>
+<a class="sourceLine" id="cb3-10" title="10">        <span class="cf">if</span> (i + d[i] &gt; r)</a>
+<a class="sourceLine" id="cb3-11" title="11">            l = i - d[i] + <span class="dv">1</span>, r = i + d[i];</a>
+<a class="sourceLine" id="cb3-12" title="12">    }</a>
+<a class="sourceLine" id="cb3-13" title="13">    <span class="cf">return</span> d;</a>
+<a class="sourceLine" id="cb3-14" title="14">}</a></code></pre></div>
+<p>Также можно было не писать отдельно две реализации, а воспользоваться следующим трюком — сделать замену:</p>
+<p><span class="math display">\[
+S = s_1 s_2 \dots s_n \to S^* = s_1 \# s_2 \# \dots \# s_n
+\]</span></p>
+<p>Теперь нечётные палиндромы с центром в <span class="math inline">\(s_i\)</span> соответствуют нечётным палиндромам исходной строки, а нечётные палиндромы с центром в <span class="math inline">\(\#\)</span> — чётным.</p>
 <h2 id="дерево-палиндромов">Дерево палиндромов</h2>
 <p>Дерево палиндромов (англ. <em>palindromic tree</em>, <em>EERTREE</em>) — структура данных, использующая другой, более мощный формат хранения информации обо всех подпалиндромах, чем размеры <span class="math inline">\(n\)</span> палиндромов. Она была предложена Михаилом Рубинчиком на летних петрозаводских сборах в 2014-м году.</p>
 <p><strong>Лемма.</strong> В строке есть не более <span class="math inline">\(n\)</span> различных подпалиндромов.</p>
 <p><strong>Доказательство.</strong> Пусть мы дописываем к строке по одному символу и в данный момент, записав <span class="math inline">\(r\)</span> символов, имеем наибольший суффикс-палиндром <span class="math inline">\(s_{l:r}\)</span>. Пусть у него, в свою очередь, есть суффикс-палиндром <span class="math inline">\(s_{l&#39;:r} = t\)</span>. Тогда он также имеет более раннее вхождение в строку как <span class="math inline">\(s_{l:l+r-l&#39;} = t\)</span>. Таким образом, с каждым новым символом у строки появляется не более одного нового палиндрома, и если таковой есть, то это всегда наибольший суффикс-палиндром.</p>
 <p>Этот факт позволяет сопоставить всем палиндромам строки сопоставить следующую структуру: возьмём от каждого плаиндрома его правую половину (например, <span class="math inline">\(caba\)</span> для <span class="math inline">\(abacaba\)</span> или <span class="math inline">\(ba\)</span> для <span class="math inline">\(abba\)</span>; будем рассматривать пока что только чётные палиндромы) и добавим все эти половины в префиксное дерево — получившуюся структуру и будем называть <em>деревом палиндромов</em>.</p>
+<p>Наивный алгоритм построения будет в худшем случае работать за <span class="math inline">\(O(n^2)\)</span>, но это можно делать и более эффективно.</p>
 <h3 id="построение-за-линейное-время">Построение за линейное время</h3>
-<p>Научимся его строить эффективно. Будем поддерживать наибольший суффикс-палиндром. Когда мы будем дописывать очередной символ <span class="math inline">\(c\)</span>, нужно найти наибольший суффикс этого палиндрома, который может быть дополнен символом <span class="math inline">\(c\)</span> — это и будет новый наидлиннейший суффикс-палиндром.</p>
-<p>Для этого поступим аналогично <a href="https://algorithmica.org/ru/aho-corasick">алгоритму Ахо-Корасик</a>: будем поддерживать для каждого палиндрома суффиксную ссылку <span class="math inline">\(l(v)\)</span>, ведущую из <span class="math inline">\(v\)</span> в её наибольший суффиксный палиндром. При добавлении очередного символа, будем подниматься по суффиксным ссылкам, пока не найдём вершину, из которой можно совершить нужный переход.</p>
-<p>Если в подходящей вершине этого перехода не существовало, то нужно создать новую вершину, а для неё тоже понадобится своя суффиксная ссылка. Чтобы найти её, будем продолжать подниматься по суффиксным ссылкам предыдущего суффикс-палиндрома, пока не найдём второе такое место, которое мы можем дополнить символом <span class="math inline">\(c\)</span>.</p>
-<p><strong>Асимптотика.</strong> Покажем линейность алгоритма. Рассмотрим длину наибольшего суффикс-палиндрома строки. Каждый новый символ увеличивает её не более, чем на 2. При этом каждый переход по суффиксной ссылке уменьшает её, поэтому нахождение первого суффикс-палиндрома амортизированно работает за линеейное время.</p>
-<p>Аналогичными рассуждениями о длине второго суффикс-палиндрома получаем, что пересчёт суффиксных ссыдлк при создании новых вершин тоже суммарно работает за линейное время.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>, k = <span class="dv">25</span>;</a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3">map&lt;<span class="dt">char</span>, <span class="dt">int</span>&gt; to[maxn];</a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="dt">int</span> len[maxn], link[maxn], s[maxn];</a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="dt">int</span> sz, n, last;</a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="dt">void</span> init() <span class="co">// Начальные значения, чтобы не возиться с границами</span></a>
-<a class="sourceLine" id="cb3-7" title="7">{</a>
-<a class="sourceLine" id="cb3-8" title="8"> link[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb3-9" title="9"> len[<span class="dv">1</span>] = -<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb3-10" title="10"> s[n++] = -<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb3-11" title="11"> sz = <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb3-12" title="12">}</a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="dt">int</span> get_link(<span class="dt">int</span> v) <span class="co">// Суффикс v, который дополняется до палиндрома</span></a>
-<a class="sourceLine" id="cb3-14" title="14">{</a>
-<a class="sourceLine" id="cb3-15" title="15"> <span class="cf">while</span>(s[n - len[v] - <span class="dv">2</span>] != s[n - <span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb3-16" title="16"> v = link[v];</a>
-<a class="sourceLine" id="cb3-17" title="17"> <span class="cf">return</span> v;</a>
-<a class="sourceLine" id="cb3-18" title="18">}</a>
-<a class="sourceLine" id="cb3-19" title="19"><span class="dt">void</span> add_letter(<span class="dt">char</span> c)</a>
-<a class="sourceLine" id="cb3-20" title="20">{</a>
-<a class="sourceLine" id="cb3-21" title="21"> s[n++] = c;</a>
-<a class="sourceLine" id="cb3-22" title="22"> last = get_link(last);</a>
-<a class="sourceLine" id="cb3-23" title="23"> <span class="cf">if</span>(!to[last][c])</a>
-<a class="sourceLine" id="cb3-24" title="24"> {</a>
-<a class="sourceLine" id="cb3-25" title="25"> len[sz] = len[last] + <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb3-26" title="26"> link[sz] = to[get_link(link[last])][c];</a>
-<a class="sourceLine" id="cb3-27" title="27"> to[last][c] = sz++;</a>
-<a class="sourceLine" id="cb3-28" title="28"> }</a>
-<a class="sourceLine" id="cb3-29" title="29"> last = to[last][c];</a>
-<a class="sourceLine" id="cb3-30" title="30">}</a></code></pre></div>
-<p>Здесь мы использовали массив для хранения переходов.</p>
-<p>Как и в случае с Ахо-Корасик, существуют неамортизированные O(n ) и O(n ) версии.</p>
-<p>TODO</p>
-<p>Покажем линейность. Рассмотрим длину наибольшего суффикс-палиндрома строки. Каждый новый символ увеличивает её не более, чем на <span class="math inline">\(2\)</span>. При этом каждый подъём по суффиксной ссылке в цикле уменьшает её, поэтому основной цикл работает линейное время. Аналогичными рассуждениями о втором суффикс-палиндроме получаем, что пересчёт суффиксных ссылок при создании новых вершин также работает за линейное время суммарно.</p>
-<p>Наконец, приведём реализацию указанного алгоритма:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span> + <span class="dv">42</span>;</a>
-<a class="sourceLine" id="cb4-2" title="2">map&lt;<span class="dt">char</span>, <span class="dt">int</span>&gt; to[maxn];</a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="dt">int</span> len[maxn], link[maxn], s[maxn];</a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="dt">int</span> sz, n, last;</a>
-<a class="sourceLine" id="cb4-5" title="5"></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="dt">void</span> init() <span class="co">// Начальные значения, чтобы не возиться с границами</span></a>
-<a class="sourceLine" id="cb4-7" title="7">{</a>
-<a class="sourceLine" id="cb4-8" title="8">    link[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb4-9" title="9">    len[<span class="dv">1</span>] = -<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb4-10" title="10">    s[n++] = -<span class="dv">1</span>;</a>
+<p>Будем поддерживать наибольший суффикс-палиндром. Когда мы будем дописывать очередной символ <span class="math inline">\(c\)</span>, нужно найти наибольший суффикс этого палиндрома, который может быть дополнен символом <span class="math inline">\(c\)</span> — это и будет новый наидлиннейший суффикс-палиндром.</p>
+<p>Для этого поступим аналогично <a href="https://algorithmica.org/ru/aho-corasick">алгоритму Ахо-Корасик</a>: будем поддерживать для каждого палиндрома суффиксную ссылку <span class="math inline">\(l(v)\)</span>, ведущую из <span class="math inline">\(v\)</span> в её наибольший суффикс-палиндром. При добавлении очередного символа, будем подниматься по суффиксным ссылкам, пока не найдём вершину, из которой можно совершить нужный переход.</p>
+<p>Если в подходящей вершине этого перехода не существовало, то нужно создать новую вершину, и для неё тоже понадобится своя суффиксная ссылка. Чтобы найти её, будем продолжать подниматься по суффиксным ссылкам предыдущего суффикс-палиндрома, пока не найдём второе такое место, которое мы можем дополнить символом <span class="math inline">\(c\)</span>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>, k = <span class="dv">26</span>;</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="dt">int</span> s[maxn], len[maxn], link[maxn], to[maxn][k];</a>
+<a class="sourceLine" id="cb4-4" title="4"></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="dt">int</span> n, last, sz;</a>
+<a class="sourceLine" id="cb4-6" title="6"></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="dt">void</span> init() {</a>
+<a class="sourceLine" id="cb4-8" title="8">    s[n++] = -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb4-9" title="9">    link[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb4-10" title="10">    len[<span class="dv">1</span>] = -<span class="dv">1</span>;</a>
 <a class="sourceLine" id="cb4-11" title="11">    sz = <span class="dv">2</span>;</a>
 <a class="sourceLine" id="cb4-12" title="12">}</a>
 <a class="sourceLine" id="cb4-13" title="13"></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="dt">int</span> get_link(<span class="dt">int</span> v) <span class="co">// Суффикс v, который дополняется до палиндрома</span></a>
-<a class="sourceLine" id="cb4-15" title="15">{</a>
-<a class="sourceLine" id="cb4-16" title="16">    <span class="cf">while</span>(s[n - len[v] - <span class="dv">2</span>] != s[n - <span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb4-17" title="17">        v = link[v];</a>
-<a class="sourceLine" id="cb4-18" title="18">    <span class="cf">return</span> v;</a>
-<a class="sourceLine" id="cb4-19" title="19">}</a>
-<a class="sourceLine" id="cb4-20" title="20"></a>
-<a class="sourceLine" id="cb4-21" title="21"><span class="dt">void</span> add_letter(<span class="dt">char</span> c)</a>
-<a class="sourceLine" id="cb4-22" title="22">{</a>
-<a class="sourceLine" id="cb4-23" title="23">    s[n++] = c;</a>
-<a class="sourceLine" id="cb4-24" title="24">    last = get_link(last);</a>
-<a class="sourceLine" id="cb4-25" title="25">    <span class="cf">if</span>(!to[last][c])</a>
-<a class="sourceLine" id="cb4-26" title="26">    {</a>
-<a class="sourceLine" id="cb4-27" title="27">        len[sz] = len[last] + <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb4-28" title="28">        link[sz] = to[get_link(link[last])][c];</a>
-<a class="sourceLine" id="cb4-29" title="29">        to[last][c] = sz++;</a>
-<a class="sourceLine" id="cb4-30" title="30">    }</a>
-<a class="sourceLine" id="cb4-31" title="31">    last = to[last][c];</a>
-<a class="sourceLine" id="cb4-32" title="32">}</a></code></pre></div>
-<p>Как и в случае с Ахо-Корасик, существуют неамортизированные <span class="math inline">\(O(n \Sigma)\)</span> и <span class="math inline">\(O(n \log \Sigma)\)</span> версии.</p>
+<a class="sourceLine" id="cb4-14" title="14"><span class="dt">int</span> get_link(<span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb4-15" title="15">    <span class="cf">while</span> (s[n-len[v]-<span class="dv">2</span>] != s[n-<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb4-16" title="16">        v = link[v];</a>
+<a class="sourceLine" id="cb4-17" title="17">    <span class="cf">return</span> v;</a>
+<a class="sourceLine" id="cb4-18" title="18">}</a>
+<a class="sourceLine" id="cb4-19" title="19"></a>
+<a class="sourceLine" id="cb4-20" title="20"><span class="dt">void</span> add_char(<span class="dt">int</span> c) {</a>
+<a class="sourceLine" id="cb4-21" title="21">    s[n++] = c;</a>
+<a class="sourceLine" id="cb4-22" title="22">    last = get_link(last);</a>
+<a class="sourceLine" id="cb4-23" title="23">    <span class="cf">if</span> (!to[last][c]) {</a>
+<a class="sourceLine" id="cb4-24" title="24">        len[sz] = len[last] + <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb4-25" title="25">        link[sz] = to[get_link(link[last])][c];</a>
+<a class="sourceLine" id="cb4-26" title="26">        to[last][c] = sz++;</a>
+<a class="sourceLine" id="cb4-27" title="27">    }</a>
+<a class="sourceLine" id="cb4-28" title="28">    last = to[last][c];</a>
+<a class="sourceLine" id="cb4-29" title="29">}</a></code></pre></div>
+<p>Здесь мы использовали обычный массив для хранения переходов. Как и для любых префиксных деревьев, вместо него можно использовтать бинарное дерево поиска, хэш-таблицу, односвязный список и другие структуры, позволяющие обменять время на память, немного изменив асимптотику.</p>
+<h3 id="асимптотика">Асимптотика</h3>
+<p>Покажем линейность алгоритма. Рассмотрим длину наибольшего суффикс-палиндрома строки. Каждый новый символ увеличивает её не более, чем на 2. При этом каждый переход по суффиксной ссылке уменьшает её, поэтому нахождение первого суффикс-палиндрома амортизированно работает за линеейное время.</p>
+<p>Аналогичными рассуждениями о длине второго суффикс-палиндрома (его длина увеличивается тоже не более, чем на 2) получаем, что пересчёт суффиксных ссылок при создании новых вершин тоже суммарно работает за линейное время.</p>
 </body>
 </html>
