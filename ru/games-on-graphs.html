@@ -160,7 +160,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-18" title="18"><span class="co">            if (status[v] == loss)</span></a>
 <a class="sourceLine" id="cb1-19" title="19"><span class="co">                status[u] = win;</span></a>
 <a class="sourceLine" id="cb1-20" title="20"><span class="co">            // все ребра u ведут в выигрышные вершины -- значит она проигрышная</span></a>
-<a class="sourceLine" id="cb1-21" title="21"><span class="co">            if (status[v] == win &amp;&amp; cnt[u] == 0) {</span></a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="co">            if (status[v] == win &amp;&amp; cnt[u] == 0)</span></a>
 <a class="sourceLine" id="cb1-22" title="22"><span class="co">                status[u] = loss;</span></a>
 <a class="sourceLine" id="cb1-23" title="23"><span class="co">            // если после проверок у вершины определилась выигрышность, то её можно добавить в очередь</span></a>
 <a class="sourceLine" id="cb1-24" title="24"><span class="co">            if (status[v] != unknown)</span></a>
