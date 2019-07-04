@@ -209,14 +209,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Наивная реализация, которую мы потом ускорим:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> _p[maxn];</a>
 <a class="sourceLine" id="cb4-2" title="2"></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="dt">int</span> p (<span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="dt">int</span> p(<span class="dt">int</span> v) {</a>
 <a class="sourceLine" id="cb4-4" title="4">    <span class="cf">if</span> (_p[v] == v)</a>
 <a class="sourceLine" id="cb4-5" title="5">        <span class="cf">return</span> v;</a>
 <a class="sourceLine" id="cb4-6" title="6">    <span class="cf">else</span></a>
 <a class="sourceLine" id="cb4-7" title="7">        <span class="cf">return</span> p(_p[v]);</a>
 <a class="sourceLine" id="cb4-8" title="8">}</a>
 <a class="sourceLine" id="cb4-9" title="9"></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="dt">void</span> unite (<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="dt">void</span> unite(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
 <a class="sourceLine" id="cb4-11" title="11">    a = p(a), b = p(b);</a>
 <a class="sourceLine" id="cb4-12" title="12">    _p[a] = b;</a>
 <a class="sourceLine" id="cb4-13" title="13">}</a>
@@ -235,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-2" title="2"></a>
 <a class="sourceLine" id="cb5-3" title="3"><span class="dt">int</span> p (<span class="dt">int</span> v) { <span class="cf">return</span> (_p[v] == v) ? v : _p[v] = p(_p[v]); }</a>
 <a class="sourceLine" id="cb5-4" title="4"></a>
-<a class="sourceLine" id="cb5-5" title="5"><span class="dt">void</span> unite (<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="dt">void</span> unite(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
 <a class="sourceLine" id="cb5-6" title="6">    a = p(a), b = p(b);</a>
 <a class="sourceLine" id="cb5-7" title="7">    <span class="cf">if</span> (s[a] &gt; s[b])</a>
 <a class="sourceLine" id="cb5-8" title="8">        swap(a, b);</a>
