@@ -226,37 +226,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Пусть все запросы даны нам заранее, и запросов обновления нет. Опять же притворимся, что про префиксные суммы мы не слышали.</p>
 <p>Сгруппируем все запросы в корневые блоки по их левой границе, внутри каждого блока отсортируем запросы по правой границе и будем обрабатывать каждый такой блок по отдельности. Будем проходиться по запросам блока, поддерживая сумму текущего отрезка. Для первого отрезка посчитаем сумму честно, а для всех остальных будем каждый раз сдвигать его границы и обновлять сумму — по одному элементу за раз.</p>
 <p>Трюк в том, что правая граница суммарно сдвинется на <span class="math inline">\(O(n)\)</span>, потому что отрезки отсортированы, а левая — каждый раз на <span class="math inline">\(O(\sqrt n)\)</span>. Итоговая асимптотика решения будет <span class="math inline">\(O(q \sqrt n + n \sqrt n)\)</span>: изменение левых границ суммарно по всем блокам займёт <span class="math inline">\(O(q \sqrt n)\)</span> операций, а правых — <span class="math inline">\(O(n \sqrt n)\)</span>,</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">struct</span> query { <span class="dt">int</span> l, r, idx; };</a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="co">// idx -- это номер запроса, на который нужно ответить</span></a>
-<a class="sourceLine" id="cb6-3" title="3"></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="dt">int</span> a[maxn];</a>
-<a class="sourceLine" id="cb6-5" title="5">vector&lt;query&gt; b[c];</a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="dt">int</span> ans[maxq]; <span class="co">// массив ответов на запросы</span></a>
-<a class="sourceLine" id="cb6-7" title="7"></a>
-<a class="sourceLine" id="cb6-8" title="8"></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="co">// где-то в main:</span></a>
-<a class="sourceLine" id="cb6-10" title="10"></a>
-<a class="sourceLine" id="cb6-11" title="11"><span class="cf">for</span> (query q : queries)</a>
-<a class="sourceLine" id="cb6-12" title="12">    b[q.l / c].push_back(q);</a>
-<a class="sourceLine" id="cb6-13" title="13"></a>
-<a class="sourceLine" id="cb6-14" title="14"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; c; i++) {</a>
-<a class="sourceLine" id="cb6-15" title="15">    sort(b[i].begin(), b[i].end(), [](query a, query b){</a>
-<a class="sourceLine" id="cb6-16" title="16">        <span class="cf">return</span> a.r &lt; b.r;</a>
-<a class="sourceLine" id="cb6-17" title="17">    });</a>
-<a class="sourceLine" id="cb6-18" title="18">}</a>
-<a class="sourceLine" id="cb6-19" title="19"></a>
-<a class="sourceLine" id="cb6-20" title="20"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; c; i++) {</a>
-<a class="sourceLine" id="cb6-21" title="21">    <span class="dt">int</span> l = i * c, r = i * c - <span class="dv">1</span>; <span class="co">// границы текущего отрезка</span></a>
-<a class="sourceLine" id="cb6-22" title="22">    <span class="dt">int</span> s = <span class="dv">0</span>; <span class="co">// сумма на текущем отрезке</span></a>
-<a class="sourceLine" id="cb6-23" title="23">    <span class="cf">for</span> (query q : b[i]) {</a>
-<a class="sourceLine" id="cb6-24" title="24">        <span class="cf">while</span> (r &lt; q.r)</a>
-<a class="sourceLine" id="cb6-25" title="25">            s += a[++r];</a>
-<a class="sourceLine" id="cb6-26" title="26">        <span class="cf">while</span> (l &lt; q.l)</a>
-<a class="sourceLine" id="cb6-27" title="27">            s -= a[l++];</a>
-<a class="sourceLine" id="cb6-28" title="28">        while (l &gt; q.l)</a>
-<a class="sourceLine" id="cb6-29" title="29">            s += a[--l];</a>
-<a class="sourceLine" id="cb6-30" title="30">        ans[q.idx] = s;</a>
-<a class="sourceLine" id="cb6-31" title="31">}</a></code></pre></div>
+<pre><code>struct query { int l, r, idx; };
+// idx -- это номер запроса, на который нужно ответить
+
+int a[maxn];
+vector&lt;query&gt; b[c];
+int ans[maxq]; // массив ответов на запросы
+
+
+// где-то в main:
+
+for (query q : queries)
+    b[q.l / c].push_back(q);
+
+for (int i = 0; i &lt; c; i++) {
+    sort(b[i].begin(), b[i].end(), [](query a, query b){
+        return a.r &lt; b.r;
+    });
+}
+
+for (int i = 0; i &lt; c; i++) {
+    int l = i * c, r = i * c - 1; // границы текущего отрезка
+    int s = 0; // сумма на текущем отрезке
+    for (query q : b[i]) {
+        while (r &lt; q.r)
+            s += a[++r];
+        while (l &lt; q.l)
+            s -= a[l++];
+        while (l &gt; q.l)
+            s += a[--l];
+        ans[q.idx] = s;
+    }
+}</code></pre>
 <p>Конкретно для этой задачи этот алгоритм не нужен, однако он полезен для ответа на более сложные вопросы: найти <span class="math inline">\(k\)</span>-ую порядковую статистику на отрезке, его медиану, количество различных элементов, наиболее часто встречающийся элемент и так далее. Во всех этих случаях нужно просто вместо суммы поддерживать какую-нибудь структуру — например, хэш-таблицу — отвечающую за множество элементов на отрезке, и пересоздавать её между блоками.</p>
 <h2 id="деление-на-тяжелые-и-легкие-объекты">Деление на тяжелые и легкие объекты</h2>
 <p>Всем известный алгортим факторизации за корень операется на тот факт, что каждому «большому» делителю <span class="math inline">\(d \geq \sqrt n\)</span> числа <span class="math inline">\(n\)</span> соответствует какой-то «маленький» делитель <span class="math inline">\(\frac{n}{d} \leq n\)</span>.</p>
