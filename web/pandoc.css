@@ -61,27 +61,44 @@ body {
     font-family: 'Open Sans', sans;
     height: 30px;
     line-height: 8px;
+    list-style-type: none;
+    white-space: pre-line;
 }
 
 .contents li:hover {
     color: black;
 }
 
-.contents li::before {
-    content: '•';
-    display: inline-block;
-    position: absolute;
-    left: 11px;
-    margin-top: 1px;
-    color: black;
-    font-size: 18px;
+.contents li:first-letter {
+    font-size: 13px;
+    height: 0;
 }
 
 .contents a {
     font-family: 'Times New Roman', sans-serif;
-    display: block;
     font-size: 16px;
-    margin-bottom: 5px;
+    line-height: 1em;
+    display: inline-block;
+    width: 240px;
+}
+
+.contents a:first-letter {
+    font-size: 16px; /* the only way to fix */
+}
+
+.contents a:after {
+    content: "\A";
+    white-space: pre;
+}
+
+.contents li:before {
+    content: '•';
+    display: inline-block;
+    position: absolute;
+    left: 11px;
+    margin-top: 5px;
+    color: black !important;
+    font-size: 18px;
 }
 
 a {
