@@ -109,10 +109,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Корневая эвристика</h1>
 </header>
 <h1 id="корневая-эвристика">Корневая эвристика</h1>
-<p>Корневая эвристика — обобщённое название методов и структур данных, опирающихся</p>
+<p>Корневая эвристика — обобщённое название различных методов и структур данных, опирающихся на тот факт, что если мы разделим какое-то множество из <span class="math inline">\(n\)</span> элементов на блоки по <span class="math inline">\(\sqrt{n}\)</span> элементов, то самих этих блоков будет не более <span class="math inline">\(\sqrt{n}\)</span>.</p>
 <p>Центральное равенство этой статьи: <span class="math inline">\(\sqrt x = \frac{x}{\sqrt x}\)</span>.</p>
 <h2 id="корневая-декомпозиция-на-массивах">Корневая декомпозиция на массивах</h2>
-<p>Сделаем вид, что про дерево отрезков мы не знаем, и рассмотрим следующую задачу:</p>
+<p>Сделаем вид, что про <a href="https://algorithmica.org/ru/segtree">дерево отрезков</a> мы не знаем, и рассмотрим следующую задачу:</p>
 <blockquote>
 <p>Дан массив <span class="math inline">\(a\)</span> длины <span class="math inline">\(n\)</span> и <span class="math inline">\(q\)</span> запросов одного из двух типов:</p>
 <ol type="1">
@@ -121,13 +121,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 </blockquote>
 <p>Разделим весь массив на блоки по <span class="math inline">\(c \approx \sqrt{n}\)</span> элементов и посчитаем сумму на каждом блоке. Так как блоки не пересекаются, суммарно это будет работать за <span class="math inline">\(O(n)\)</span>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="co">// c это и количество блоков, и их размер -- оно должно быть чуть больше корня</span></a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="co">// c это и количество блоков, а также     их размер -- оно должно быть чуть больше корня</span></a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>, c = <span class="dv">330</span>;</a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> a[maxn], b[c];</a>
 <a class="sourceLine" id="cb1-4" title="4"><span class="dt">int</span> add[c];</a>
 <a class="sourceLine" id="cb1-5" title="5"></a>
 <a class="sourceLine" id="cb1-6" title="6"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb1-7" title="7">    b[i / c] += a[i];</a></code></pre></div>
+<a class="sourceLine" id="cb1-7" title="7">    b[i / c] += a[i];</a></code></pre></div>
 <p>Заведем также массив <code>add</code> размера <span class="math inline">\(\sqrt n\)</span>, который будем использовать для отложенной операции прибавления на блоке. Будем считать, что реальное значение <span class="math inline">\(i\)</span>-го элемента равно <code>a[i]</code> + <code>add[i / c]</code>.</p>
 <p>Теперь мы можем отвечать на запросы первого типа за <span class="math inline">\(O(\sqrt n)\)</span> на запрос:</p>
 <ol type="1">
@@ -135,33 +135,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Для блоков, пересекающихся с запросом только частично (их два — правый и левый), проитерируемся по нужным элементам и прибавим к ответу.</p></li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> sum(<span class="dt">int</span> l, <span class="dt">int</span> r) {</a>
-<a class="sourceLine" id="cb2-2" title="2">    int res = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="dt">int</span> res = <span class="dv">0</span>;</a>
 <a class="sourceLine" id="cb2-3" title="3">    <span class="cf">while</span> (l &lt;= r) {</a>
-<a class="sourceLine" id="cb2-4" title="4">        <span class="co">// если мы находимся в начале блока и он целиком в запросе</span></a>
+<a class="sourceLine" id="cb2-4" title="4">        <span class="co">// если мы находимся в начале блока и он целиком в запросе</span></a>
 <a class="sourceLine" id="cb2-5" title="5">        <span class="cf">if</span> (l % c == <span class="dv">0</span> &amp;&amp; l + c - <span class="dv">1</span> &lt;= r) {</a>
-<a class="sourceLine" id="cb2-6" title="6">            res += b[l / c];</a>
-<a class="sourceLine" id="cb2-7" title="7">            l += c; <span class="co">// мы можем прыгнуть сразу на блок</span></a>
+<a class="sourceLine" id="cb2-6" title="6">            res += b[l / c];</a>
+<a class="sourceLine" id="cb2-7" title="7">            l += c; <span class="co">// мы можем прыгнуть сразу на блок</span></a>
 <a class="sourceLine" id="cb2-8" title="8">        }</a>
 <a class="sourceLine" id="cb2-9" title="9">        <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb2-10" title="10">            res += a[l] + add[l / c];</a>
-<a class="sourceLine" id="cb2-11" title="11">            l += <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb2-10" title="10">            res += a[l] + add[l / c];</a>
+<a class="sourceLine" id="cb2-11" title="11">            l += <span class="dv">1</span>;</a>
 <a class="sourceLine" id="cb2-12" title="12">        }</a>
 <a class="sourceLine" id="cb2-13" title="13">    }</a>
-<a class="sourceLine" id="cb2-14" title="14">    return res;</a>
+<a class="sourceLine" id="cb2-14" title="14">    <span class="cf">return</span> res;</a>
 <a class="sourceLine" id="cb2-15" title="15">}</a></code></pre></div>
 <p>Обновление пишется примерно так же:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">void</span> upd(<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb3-2" title="2">    while (l &lt;= r) {</a>
-<a class="sourceLine" id="cb3-3" title="3">        if (l % c == <span class="dv">0</span> &amp;&amp; l + c - <span class="dv">1</span> &lt;= r) {</a>
-<a class="sourceLine" id="cb3-4" title="4">            b[l / c] += c * x;</a>
-<a class="sourceLine" id="cb3-5" title="5">            add[l / c] += x;</a>
-<a class="sourceLine" id="cb3-6" title="6">            l += c;</a>
-<a class="sourceLine" id="cb3-7" title="7">        }</a>
-<a class="sourceLine" id="cb3-8" title="8">        else {</a>
-<a class="sourceLine" id="cb3-9" title="9">            a[l] += x;</a>
-<a class="sourceLine" id="cb3-10" title="10">            l++;</a>
-<a class="sourceLine" id="cb3-11" title="11">        }</a>
-<a class="sourceLine" id="cb3-12" title="12">    }</a>
+<a class="sourceLine" id="cb3-2" title="2">    <span class="cf">while</span> (l &lt;= r) {</a>
+<a class="sourceLine" id="cb3-3" title="3">        <span class="cf">if</span> (l % c == <span class="dv">0</span> &amp;&amp; l + c - <span class="dv">1</span> &lt;= r) {</a>
+<a class="sourceLine" id="cb3-4" title="4">            b[l / c] += c * x;</a>
+<a class="sourceLine" id="cb3-5" title="5">            add[l / c] += x;</a>
+<a class="sourceLine" id="cb3-6" title="6">            l += c;</a>
+<a class="sourceLine" id="cb3-7" title="7">        }</a>
+<a class="sourceLine" id="cb3-8" title="8">        <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb3-9" title="9">            a[l] += x;</a>
+<a class="sourceLine" id="cb3-10" title="10">            l++;</a>
+<a class="sourceLine" id="cb3-11" title="11">        }</a>
+<a class="sourceLine" id="cb3-12" title="12">    }</a>
 <a class="sourceLine" id="cb3-13" title="13"> }</a></code></pre></div>
 <p>Обе операции будут работать за <span class="math inline">\(O(\sqrt n)\)</span>, потому что нужных «центральных» блоков всегда не более <span class="math inline">\(\sqrt n\)</span>, а в граничных блоках суммарно не более <span class="math inline">\(2 \sqrt n\)</span> элементов.</p>
 <h2 id="корневая-эвристика-на-запросах">Корневая эвристика на запросах</h2>
@@ -177,23 +177,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-2" title="2">vector&lt;query&gt; buffer; <span class="co">// запросы, не учтенные в префиксных суммах</span></a>
 <a class="sourceLine" id="cb5-3" title="3"></a>
 <a class="sourceLine" id="cb5-4" title="4"><span class="dt">int</span> sum(<span class="dt">int</span> l, <span class="dt">int</span> r) {</a>
-<a class="sourceLine" id="cb5-5" title="5">    int res = s[r+<span class="dv">1</span>] - s[l];</a>
-<a class="sourceLine" id="cb5-6" title="6">    for (query q : buffer)</a>
-<a class="sourceLine" id="cb5-7" title="7">        <span class="co">// пересечем запрос суммы со всеми запросами</span></a>
-<a class="sourceLine" id="cb5-8" title="8">        res += q.x * max(<span class="dv">0</span>, min(r, q.r) - max(l, q.l));</a>
-<a class="sourceLine" id="cb5-9" title="9">    return res;</a>
+<a class="sourceLine" id="cb5-5" title="5">    <span class="dt">int</span> res = s[r+<span class="dv">1</span>] - s[l];</a>
+<a class="sourceLine" id="cb5-6" title="6">    <span class="cf">for</span> (query q : buffer)</a>
+<a class="sourceLine" id="cb5-7" title="7">        <span class="co">// пересечем запрос суммы со всеми запросами</span></a>
+<a class="sourceLine" id="cb5-8" title="8">        res += q.x * max(<span class="dv">0</span>, min(r, q.r) - max(l, q.l));</a>
+<a class="sourceLine" id="cb5-9" title="9">    <span class="cf">return</span> res;</a>
 <a class="sourceLine" id="cb5-10" title="10">}</a>
 <a class="sourceLine" id="cb5-11" title="11"></a>
 <a class="sourceLine" id="cb5-12" title="12"><span class="dt">void</span> rebuild() {</a>
-<a class="sourceLine" id="cb5-13" title="13">    vector&lt;<span class="dt">int</span>&gt; d(n, <span class="dv">0</span>);</a>
-<a class="sourceLine" id="cb5-14" title="14">    <span class="co">// массив дельт</span></a>
-<a class="sourceLine" id="cb5-15" title="15">    </a>
+<a class="sourceLine" id="cb5-13" title="13">    vector&lt;<span class="dt">int</span>&gt; d(n, <span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb5-14" title="14">    <span class="co">// массив дельт</span></a>
+<a class="sourceLine" id="cb5-15" title="15"></a>
 <a class="sourceLine" id="cb5-16" title="16">    <span class="cf">for</span> (query q : buffer) {</a>
 <a class="sourceLine" id="cb5-17" title="17">        d[q.l] += x;</a>
 <a class="sourceLine" id="cb5-18" title="18">        d[q.r + <span class="dv">1</span>] -= x;</a>
 <a class="sourceLine" id="cb5-19" title="19">    }</a>
 <a class="sourceLine" id="cb5-20" title="20">    buffer.clear();</a>
-<a class="sourceLine" id="cb5-21" title="21">    </a>
+<a class="sourceLine" id="cb5-21" title="21"></a>
 <a class="sourceLine" id="cb5-22" title="22">    <span class="dt">int</span> delta = <span class="dv">0</span>, running_sum = <span class="dv">0</span>;</a>
 <a class="sourceLine" id="cb5-23" title="23">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n; i++) {</a>
 <a class="sourceLine" id="cb5-24" title="24">        p[i] += running_sum;</a>
@@ -203,10 +203,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-28" title="28">}</a>
 <a class="sourceLine" id="cb5-29" title="29"></a>
 <a class="sourceLine" id="cb5-30" title="30"><span class="dt">void</span> upd(<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb5-31" title="31">    buffer.push_back({l, r, x});</a>
-<a class="sourceLine" id="cb5-32" title="32">    if (buffer.size() == c)</a>
-<a class="sourceLine" id="cb5-33" title="33">        <span class="co">// буфер слишком большой; надо пересчитать префиксные суммы и очистить его</span></a>
-<a class="sourceLine" id="cb5-34" title="34">        rebuild();</a>
+<a class="sourceLine" id="cb5-31" title="31">    buffer.push_back({l, r, x});</a>
+<a class="sourceLine" id="cb5-32" title="32">    <span class="cf">if</span> (buffer.size() == c)</a>
+<a class="sourceLine" id="cb5-33" title="33">        <span class="co">// буфер слишком большой; надо пересчитать префиксные суммы и очистить его</span></a>
+<a class="sourceLine" id="cb5-34" title="34">        rebuild();</a>
 <a class="sourceLine" id="cb5-35" title="35">}</a></code></pre></div>
 <p>Такое решение будет работать за <span class="math inline">\(O(n \sqrt q + q \sqrt q)\)</span>.</p>
 <h3 id="превращение-статических-структур-в-динамические">Превращение статических структур в динамические</h3>
@@ -222,57 +222,81 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Разбьём запросы на блоки явно, и будем обрабатывать их по отдельности. На каждом блоке построим выпуклую оболочку только тех точек, которые существуют на всём её блоке, а остальные запросы сохраним в буфер. При ответе на запрос касательной помимо кандидата из построенной оболочки будем рассматривать все точки, которые существуют на момент данного запроса — найти все такие точки можно за <span class="math inline">\(\sqrt q\)</span>, проанализировав историю текущего блока.</p>
 <p>Часто, если удалений в задаче нет или их можно как-то эмулировать, можно применить похожую, но более мощную технику: поддерживать <span class="math inline">\(O(\log n)\)</span> структур (например, выпуклых оболочек) размеров степени двойки, причём так, что нет двух структур одинакового размера. При добавлении новой точки мы создаем для неё новую структуру размера 1. Дальше, если структура размера 1 уже существует, то мы объединяем эти две структуры и создаём структуру размера 2. Если структура размера 2 уже существовала, то мы объединяем её и создаём структуру размера 4, и так далее. Запрос мы будем передавать во все <span class="math inline">\(O(\log n)\)</span> базовых структур и объединять ответы.</p>
 <h2 id="алгоритм-мо">«Алгоритм Мо»</h2>
-<p>Теперь обсудим еще одно решение этой же задачи. На этот раз мы будем группировать запросы и по временным, и по пространственным признакам.</p>
-<p>Пусть все запросы даны нам заранее, и запросов обновления нет. Сгруппируем все запросы в корневые блоки по их левой границе, а затем внутри каждого блока отсортируем запросы по правой границе.</p>
-<pre><code>vector&lt; pair&lt;int, int&gt; &gt; b[c];
-s_dec[l / c].a.push_back({l, r});</code></pre>
-<p>Будем обрабатывать каждый такой блок по отдельности.</p>
-<p>Затем внутри каждого блока отсортируем запросы по правой границе. Теперь пройдемся по каждому блоку, поддерживая текущий отрезок, на который мы знаем ответ. И если текущий отрезок равен отрезку из запроса запоминать его, как ответ.</p>
+<p>Обсудим еще одно решение этой же задачи. На этот раз будем группировать запросы и по временным, и по пространственным признакам.</p>
+<p>Пусть все запросы даны нам заранее, и запросов обновления нет. Опять же притворимся, что про префиксные суммы мы не слышали.</p>
+<p>Сгруппируем все запросы в корневые блоки по их левой границе, внутри каждого блока отсортируем запросы по правой границе и будем обрабатывать каждый такой блок по отдельности. Будем проходиться по запросам блока, поддерживая сумму текущего отрезка. Для первого отрезка посчитаем сумму честно, а для всех остальных будем каждый раз сдвигать его границы и обновлять сумму — по одному элементу за раз.</p>
+<p>Трюк в том, что правая граница суммарно сдвинется на <span class="math inline">\(O(n)\)</span>, потому что отрезки отсортированы, а левая — каждый раз на <span class="math inline">\(O(\sqrt n)\)</span>. Итоговая асимптотика решения будет <span class="math inline">\(O(q \sqrt n + n \sqrt n)\)</span>: изменение левых границ суммарно по всем блокам займёт <span class="math inline">\(O(q \sqrt n)\)</span> операций, а правых — <span class="math inline">\(O(n \sqrt n)\)</span>,</p>
 <pre><code>struct query { int l, r, idx; };
 // idx -- это номер запроса, на который нужно ответить
-struct block {
-    vector&lt;q&gt; a;
-};
 
-for(int i = 0; i &lt; q; i++) {
-    s_dec[l / s].a.push_back({l, r, i});
+int a[maxn];
+vector&lt;query&gt; b[c];
+int ans[maxq]; // массив ответов на запросы
+
+
+// где-то в main:
+
+for (query q : queries)
+    b[q.l / c].push_back(q);
+
+for (int i = 0; i &lt; c; i++) {
+    sort(b[i].begin(), b[i].end(), [](query a, query b){
+        return a.r &lt; b.r;
+    });
 }
 
-for(int i = 0; i &lt; s; i++) {
-    sort(all(s_dec[i].a), comp);
-}
-
-for(int i = 0; i &lt; s; i++) {
-    int l = i * s, r = i * s;
-    int ans = 0;
-    for(int j = 0; j &lt; s_dec[i].a.size(); j++) {
-        int tl = s_dec[i].a[j].l, tr = s_dec[i].a[j].r;
-        while (r &gt; tr){
-            r—;
-            ans -= a[r];
-        }
-        while(r &lt; tr) {
-            ans += a[r];
-            r++;
-        }
-        while(l &gt; tl) {
-            l--;
-            ans += a[l];
-        }
-        while(l &lt; tl) {
-            ans -= a[l];
-            l++;
-        }
-        answ[s_dec[i].a[j].index] = ans;
+for (int i = 0; i &lt; c; i++) {
+    int l = i * c, r = i * c - 1; // границы текущего отрезка
+    int s = 0; // сумма на текущем отрезке
+    for (query q : b[i]) {
+        while (r &lt; q.r)
+            s += a[++r];
+        while (l &lt; q.l)
+            s -= a[l++];
+        while (l &gt; q.l)
+            s += a[--l];
+        ans[q.idx] = s;
 }</code></pre>
-<p>Подумаем над асимптотикой данного алгоритма, для каждого запроса левая граница пройдет не более, чем длину блока, но при этом правая граница идет только вперед, а следовательно для одного блока пройдет не более, чем длину массива, то есть суммарно алгоритм работает за <span class="math inline">\(O(N*\sqrt(M) + M*\sqrt(N))\)</span>.</p>
-<p>Но зачем для такой легкой задачи использовать такой сложный алгоритм? Алгоритм Мо может помочь нам в ответе на гораздо более сложные вопросы - k-ая статистика на отрезке, медиана отрезка, наиболее встречающийся элемент на отрезке и так далее.</p>
-<h1 id="деление-на-тяжелые-и-легкие-объекты">Деление на тяжелые и легкие объекты</h1>
-<p>В математике очень часто встречается идея рассмотреть все объекты с каким-то свойством &lt; <span class="math inline">\(\sqrt{N}\)</span> и больше.</p>
-<p>Например всем известный алгоритм проверки на простоту чисел(рассмотрим делители &lt; <span class="math inline">\(\sqrt{N}\)</span> и больше, но так как для любого делителя больше корня можно найти делитель меньше корня =&gt; нам надо честно рассмотреть только первые) или например факт, что если суммарная длина строк = <span class="math inline">\(N\)</span>, то различных длин строк будет не более <span class="math inline">\(\sqrt{N}\)</span> или если вы увидели ограничение <span class="math inline">\(A * B &lt;= N\)</span>, то одно из чисел &lt; <span class="math inline">\(\sqrt{N}\)</span>.</p>
-<h1 id="подбор-константы">Подбор константы</h1>
-<p>В корневой декомпозиции очень важен размер блока. Обычно брать s = <span class="math inline">\(\sqrt{N}\)</span> или близкое к ней число(желательно, чтобы делилось на максимально возможную степень двойки) оптимально, но сейчас мы поговорим об особых случаях. Пусть s - размер блока и мы знаем, что алгоритм работает за <span class="math inline">\(O(N * s + \frac{N ^ 2 * \log(N)}{ s})\)</span>, тогда если взять s = <span class="math inline">\(\sqrt{N} * 4\)</span>, то алгоритм будет работать быстрее, чем при s = <span class="math inline">\(\sqrt{N}\)</span>, то есть при определении размера блока первым делом надо смотреть на асимптотику.</p>
-<h2 id="корзины">Корзины</h2>
-<p>Оптимизация заключается в объеденении двух подходов. Теперь мы не просто делим массив на блоки, но еще и каждый корень запросов, пересчитываем блоки, это может быть полезно, если вы нам нужно вставлять/удалять из произвольного места в массиве и вычислять что-то на отрезках.</p>
+<p>Конкретно для этой задачи этот алгоритм не нужен, однако он полезен для ответа на более сложные вопросы: найти <span class="math inline">\(k\)</span>-ую порядковую статистику на отрезке, его медиану, количество различных элементов, наиболее часто встречающийся элемент и так далее. Во всех этих случаях нужно просто вместо суммы поддерживать какую-нибудь структуру — например, хэш-таблицу — отвечающую за множество элементов на отрезке, и пересоздавать её между блоками.</p>
+<h2 id="деление-на-тяжелые-и-легкие-объекты">Деление на тяжелые и легкие объекты</h2>
+<p>Всем известный алгортим факторизации за корень операется на тот факт, что каждому «большому» делителю <span class="math inline">\(d \geq \sqrt n\)</span> числа <span class="math inline">\(n\)</span> соответствует какой-то «маленький» делитель <span class="math inline">\(\frac{n}{d} \leq n\)</span>.</p>
+<p>Подобное полезное свойство (что маленькие объекты маленькие, а больших объектов не много) можно найти и у других объектов.</p>
+<p><a href="https://codeforces.com/contest/710/problem/F">710F. Операции над множеством строк</a>. Требутся в онлайне обрабатывать три типа операций над множеством строк:</p>
+<ol type="1">
+<li>Добавить строку в множество.</li>
+<li>Удалить строку из множества.</li>
+<li>Для заданной строки, найти количество её вхождений как подстроку среди всех строк множества.</li>
+</ol>
+<p>Одно из решений следующее: разделим все строки на <em>короткие</em> (<span class="math inline">\(|s| &lt; \sqrt l\)</span>) и <em>длинные</em> (<span class="math inline">\(|s| \geq \sqrt l\)</span>), где <span class="math inline">\(l\)</span> означает суммарную длину всех строк. Заметим, что длинных строк немного — не более <span class="math inline">\(\sqrt l\)</span>.</p>
+<p>С запросами будем справляться так:</p>
+<ul>
+<li><p>Заведём хэш-таблицу, и когда будем обрабатывать запрос добавления или удаления, будем прибавлять или отнимать соответственно единицу по <a href="https://algorithmica.org/ru/hashing">хэшам</a> всех её коротких подстрок. Это можно сделать суммарно за <span class="math inline">\(O(l \sqrt l)\)</span>: для каждой строки нужно перебрать <span class="math inline">\(O(\sqrt l)\)</span> разных длин и окном пройтись по всей строке.</p></li>
+<li><p>Для запроса третьего типа для короткой строки, просто посчитаем её хэш и посмотрим на значение в хэш-таблице.</p></li>
+<li><p>Для запроса третьего типа для длинной строки, мы можем позволить себе посмотреть на все неудалённые строки, потому что таких случаев будет немного, и если мы можем за линейное время найти все вхождения новой строки, то работать это будет тоже за <span class="math inline">\(O(l \sqrt l)\)</span>. Например, можно посчитать <a href="https://algorithmica.org/ru/string-searching">z-функцию</a> для всех строк вида <span class="math inline">\(s\#t\)</span>, где <span class="math inline">\(s\)</span> это строка из запроса, а <span class="math inline">\(t\)</span> это строка из множества; здесь, правда, есть нюанс: <span class="math inline">\(s\)</span> может быть большой, а маленьких строк <span class="math inline">\(t\)</span> много — нужно посчитать z-функцию сначала только от <span class="math inline">\(s\)</span>, а затем виртуально дописывать к ней каждую <span class="math inline">\(t\)</span> и досчитывать функцию.</p></li>
+</ul>
+<p>Иногда отдельный подход к тяжелым и лёгким объектам не требуется, но сама идея помогает увидеть, что некоторые простые решения работают быстрее, чем кажется. Рассмотрим другую задачу:</p>
+<blockquote>
+<p>Дан граф из <span class="math inline">\(n\)</span> вершин и <span class="math inline">\(m \approx n\)</span> рёбер. Требуется найти количество циклов длины три в нём.</p>
+</blockquote>
+<p>Будем называть вершину <em>тяжелой</em>, если она соединена с более чем <span class="math inline">\(\sqrt n\)</span> другими вершинами, и <em>лёгкой</em> в противном случае.</p>
+<p>Попытаемся оценить количество соединённых вместе троек вершин, рассмотрев все возможные 4 варианта:</p>
+<ol start="0" type="1">
+<li><p>В цикле нет тяжелых вершин. Рассмотрим какое-нибудь ребро <span class="math inline">\((a, b)\)</span> цикла. Третяя вершина <span class="math inline">\(c\)</span> должна лежать в объединении списков смежности <span class="math inline">\(g_a\)</span> и <span class="math inline">\(g_b\)</span>, а раз обе эти вершины лёгкие, то таких вершин найдётся не более <span class="math inline">\(\sqrt n\)</span>. Значит, всего циклов этого типа может быть не более <span class="math inline">\(O(m \sqrt n)\)</span>.</p></li>
+<li><p>В цикле одна тяжелая вершина. Аналогично — есть одно «лёгкое» ребро, а значит таких циклов тоже <span class="math inline">\(O(m \sqrt n)\)</span>.</p></li>
+<li><p>В цикле две тяжелые вершины — обозначим их как <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>, а лёгкую как <span class="math inline">\(c\)</span>. Зафиксируем пару <span class="math inline">\((a, c)\)</span> — способов это сделать <span class="math inline">\(O(m)\)</span>, потому что всего столько рёбер. Для этого ребра будет не более <span class="math inline">\(O(\sqrt n)\)</span> рёбер <span class="math inline">\((a, b)\)</span>, потому что столько всего тяжелых вершин. Получается, что всего таких циклов может быть не более <span class="math inline">\(O(m \sqrt n)\)</span>.</p></li>
+<li><p>Все вершины тяжелые. Аналогично — тип третьей вершины в разборе предыдущего случая нигде не использовался; важно лишь то, что тяжелых вершин <span class="math inline">\(b\)</span> немного.</p></li>
+</ol>
+<p>Само решение максимально простое:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: законтрибьютите кто-нибудь реализацию</span></a></code></pre></div>
+<h2 id="бакеты">Бакеты</h2>
+<p>Пусть нам нужно находить всё ту же сумму, но теперь у нас запрос обновления выглядит так: <span class="math inline">\(i\)</span>-тый элемент <em>прыгает</em> на <span class="math inline">\(d\)</span> позиций вправо или влево, смещая, соответственно, <span class="math inline">\(d\)</span> элементов между начальной и конечной позицией на единицу вправо или влево. Сумму нужно находить уже в новой индексации. Про <a href="https://algorithmica.org/ru/treap">декартово дерево</a> автор снова просит читателя на время забыть.</p>
+<p>Объединим предыдущие подходы: теперь не только будем делить массив на блоки <em>примерно</em> по корню, но и каждый корень запросов будем всё перестраивать.</p>
+<p>Теперь у нас не чётко разделённые блоки, а плавающие корзины разного размера, в которых просто хранятся маленькие массивы с элементами, а также сумма на всей карзине. В самом начале добавим в них примерно по корню последовательных элементов, а при запросе обновления найдём две нужные корзины и полностью перестроим — за их суммарный размер. Чтобы корзины не стали слишком большими, просто каждый корень запросов будем их полностью перестраивать.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: законтрибьютите кто-нибудь реализацию</span></a></code></pre></div>
+<h2 id="подбор-константы">Подбор константы</h2>
+<p>На скорость работы очень сильно влияет размер блока. Мы для простоты использовали одну и ту же константу и для количества блоков, и для их размера, но на практике их часто нужно подбирать.</p>
+<p><img src="https://pp.userapi.com/c851420/v851420187/140d89/zp7lDsoCFCM.jpg" /></p>
+<p>Иногда асимптотики «тяжелой» и «лёгкой» части получаются разными, потому что мы где-то не смогли обойтись без какой-нибудь структуры, которая внесла лишний логарифм.</p>
+<p>Чаще всего, в качестве оптимального размера блока <span class="math inline">\(c^*\)</span> можно взять что-то близкое к решению уравнения <span class="math inline">\(g \cdot \frac{n}{c} = f \cdot c\)</span>, где <span class="math inline">\(f\)</span> и <span class="math inline">\(g\)</span> это асимптотики блочной и не-блочной частей соответственно. Впрочем, надо также учитывать, что походы в какое-нибудь декартово дерево совсем не в логарифм раз медленнее линейного прохода по массиву.</p>
 </body>
 </html>
