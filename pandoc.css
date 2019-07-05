@@ -24,6 +24,10 @@ html {
   -ms-text-size-adjust: 100%;
 }
 
+a {
+    white-space: pre; /* for some weird reason this affects pre blocks */
+}
+
 body {
   /* color: #444; */
   font-family: 'Times New Roman', Palatino, 'Palatino Linotype', Times, serif;
@@ -452,10 +456,6 @@ a[href^='https://algorithmica.org']:before {
 */
 
 /* https://habrahabr.ru/favicon.ico */
-
-a {
-    white-space: nowrap;
-}
 
 a[href^='https://neerc.ifmo.ru']:before {
     content: url('https://neerc.ifmo.ru/favicon.ico');
