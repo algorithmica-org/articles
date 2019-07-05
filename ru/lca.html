@@ -118,9 +118,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>просто множество как-то вложенных объектов (ссылка на крысу-роботягу).</li>
 </ul>
 <p>Сегодня мы поговорим о разных задачах на корневых деревьях. Они все бесполезны в реальной жизни, но очень красивые, и поэтому часто встречаются на олимпиадах.</p>
-<figure>
-<img src="https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/master/img/LCA_Euler.png" alt="dfs" /><figcaption>dfs</figcaption>
-</figure>
+<p><img src="https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/master/img/LCA_Euler.png" /></p>
 <h2 id="напоминание-dfs">Напоминание: DFS</h2>
 <p>Посчитаем для каждой вершины времена входа (<span class="math inline">\(tin\)</span>) и выхода (<span class="math inline">\(tout\)</span>) из неё во время эйлерова прохода.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1">vector&lt;<span class="dt">int</span>&gt; g[maxn];</a>
@@ -160,9 +158,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Дано корневое дерево. Требуется отвечать на запросы нахождения наименьшего общего предка вершин <span class="math inline">\(u_i\)</span> и <span class="math inline">\(v_i\)</span>, то есть вершины <span class="math inline">\(w\)</span>, которая лежит на пути от корня до <span class="math inline">\(u_i\)</span>, на пути от корня до <span class="math inline">\(v_i\)</span>, и при этом самую глубокую (нижнюю) из всех таких.</p>
 </blockquote>
 <p>По-английский эта задача называется <em>Least Common Ancestor</em>. Есть много разных способов её решать, и мы рассмотрим основные.</p>
-<figure>
-<img src="http://homepages.kcbbs.gen.nz/tonyg/pictures/least-common-ancestor.png" alt="lca" /><figcaption>lca</figcaption>
-</figure>
+<p><img src="http://homepages.kcbbs.gen.nz/tonyg/pictures/least-common-ancestor.png" /></p>
 <p>Для лучшего понимания: медленно (за линейное время) это можно делать так:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">bool</span> a (<span class="dt">int</span> u, <span class="dt">int</span> v) {</a>
 <a class="sourceLine" id="cb2-2" title="2">    <span class="cf">return</span> tin[u] &lt;= tin[v] &amp;&amp; tin[v] &lt; tout[u];</a>
