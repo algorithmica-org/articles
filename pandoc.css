@@ -453,9 +453,15 @@ a[href^='https://algorithmica.org']:before {
 
 /* https://habrahabr.ru/favicon.ico */
 
+a {
+    white-space: nowrap;
+}
+
 a[href^='https://neerc.ifmo.ru']:before {
     content: url('https://neerc.ifmo.ru/favicon.ico');
     margin-right: 4px;
+    position: relative;
+    top: 4px;
 }
 
 a[href^='https://www.youtube.com']:before {
