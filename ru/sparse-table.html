@@ -110,7 +110,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 <h1 id="разреженная-таблица">Разреженная таблица</h1>
 <p>Разреженная таблица (англ. <em>sparse table</em>) — структура данных, позволяющая отвечать на запросы минимума на отрезке за <span class="math inline">\(O(1)\)</span> с препроцессингом за <span class="math inline">\(O(n \log n)\)</span> времени и памяти.</p>
-<p>Разреженная таблица — это следующий двумерный массив размера <span class="math inline">\(n \times\log n\)</span>:</p>
+<p><strong>Определение.</strong> Разреженная таблица — это следующий двумерный массив размера <span class="math inline">\(n \times\log n\)</span>:</p>
 <p><span class="math display">\[
 t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1} \}
 \]</span></p>
@@ -124,80 +124,95 @@ t[i][k] = \min(t[i][k-1], t[i+2^{k-1}][k-1])
 <p>Последняя деталь: для того, чтобы константа на запрос стала настоящей, вместо функции log нужно предпосчитать массив округленных вниз логарифмов.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> a[maxn], lg[maxn], mn[maxn][logn];</a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> rmq (<span class="dt">int</span> l, <span class="dt">int</span> r) { <span class="co">// полуинтервал [l; r)</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> rmq(<span class="dt">int</span> l, <span class="dt">int</span> r) { <span class="co">// полуинтервал [l; r)</span></a>
 <a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> t = lg[r-l];</a>
-<a class="sourceLine" id="cb1-5" title="5">    <span class="cf">return</span> min(mn[l][t], mn[r-(<span class="dv">1</span>&lt;&lt;t)][t]);</a>
+<a class="sourceLine" id="cb1-5" title="5">    <span class="cf">return</span> min(mn[l][t], mn[r - (<span class="dv">1</span> &lt;&lt; t)][t]);</a>
 <a class="sourceLine" id="cb1-6" title="6">}</a>
 <a class="sourceLine" id="cb1-7" title="7"></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="co">// Это считается уже где-то в первых строчках main:</span></a>
-<a class="sourceLine" id="cb1-9" title="9"></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn; l++)</a>
-<a class="sourceLine" id="cb1-11" title="11">    <span class="cf">for</span> (<span class="dt">int</span> i = (<span class="dv">1</span>&lt;&lt;l); i &lt; maxn; i++)</a>
-<a class="sourceLine" id="cb1-12" title="12">        lg[i] = l;</a>
-<a class="sourceLine" id="cb1-13" title="13"></a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="cf">for</span> (<span class="dt">int</span> i = n-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--) {</a>
-<a class="sourceLine" id="cb1-15" title="15">    mn[i][<span class="dv">0</span>] = a[i];</a>
-<a class="sourceLine" id="cb1-16" title="16">    <span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn-<span class="dv">1</span>; l++)</a>
-<a class="sourceLine" id="cb1-17" title="17">        mn[i][l+<span class="dv">1</span>] = min(mn[i][l], mn[i+(<span class="dv">1</span>&lt;&lt;l)][l]);</a>
-<a class="sourceLine" id="cb1-18" title="18">}</a></code></pre></div>
+<a class="sourceLine" id="cb1-8" title="8"></a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="co">// Это считается где-то в первых строчках main:</span></a>
+<a class="sourceLine" id="cb1-10" title="10"></a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn; l++)</a>
+<a class="sourceLine" id="cb1-12" title="12">    <span class="cf">for</span> (<span class="dt">int</span> i = (<span class="dv">1</span>&lt;&lt;l); i &lt; maxn; i++)</a>
+<a class="sourceLine" id="cb1-13" title="13">        lg[i] = l;</a>
+<a class="sourceLine" id="cb1-14" title="14"></a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="cf">for</span> (<span class="dt">int</span> i = n-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--) {</a>
+<a class="sourceLine" id="cb1-16" title="16">    mn[i][<span class="dv">0</span>] = a[i];</a>
+<a class="sourceLine" id="cb1-17" title="17">    <span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn-<span class="dv">1</span>; l++)</a>
+<a class="sourceLine" id="cb1-18" title="18">        mn[i][l+<span class="dv">1</span>] = min(mn[i][l], mn[i+(<span class="dv">1</span>&lt;&lt;l)][l]);</a>
+<a class="sourceLine" id="cb1-19" title="19">}</a></code></pre></div>
+<p>Для больших таблиц порядок итерирования и расположение данных в памяти сильно влияет на скорость построения — это связано с работой кэшей.</p>
+<p><strong>Упражнение.</strong> Какой из 4 вариантов итерирования и layout-а самый эффективный? (Подсказка: не тот, который приведен выше.)</p>
+<h3 id="применения">Применения</h3>
+<p>Разреженная таблица является статической структурой данных, то есть её нельзя дёшево обновлять (но можно достраивать на ходу — см. задачу «<a href="http://neerc.ifmo.ru/school/archive/2016-2017/ru-olymp-roi-2017-editorial.pdf">Антиматерия</a>» с РОИ-2017).</p>
+<p>Разреженную таблицу часто применяют для решения задачи о <a href="http://algorithmica.org/ru/lca">наименьшем общем предке</a>, так как её можно свести к RMQ.</p>
 <h2 id="d-static-rmq">2d Static RMQ</h2>
 <p>Эту структуру тоже можно обобщить на б<em>о</em>льшие размерности. Пусть мы хотим посчитать RMQ на подквадратах. Тогда вместо массива <code>t[i][k]</code> у нас будет массив <code>t[i][j][k]</code>, в котором вместо минимума на отрезах будет храниться минимум на <em>квадратах</em> тех же степеней двоек. Получение минимума на произвольном квадрате тогда уже распадется на четыре минимума на квадратах длины <span class="math inline">\(2^k\)</span>.</p>
-<p>В общем же случае от нас просят минимум тоже на прямоугольниках. Тогда делаем предподсчет, аналогичный предыдущему случаю, только теперь тут будет <span class="math inline">\(O(n \log^d n)\)</span> памяти и времени на предподсчет.</p>
-<h2 id="примечания">Примечания</h2>
-<p>В отличие от дерева отрезков, разреженная таблица является статической структурой данных, то есть её нельзя дёшево обновлять (но можно достраивать на ходу — см. задачу «<a href="http://neerc.ifmo.ru/school/archive/2016-2017/ru-olymp-roi-2017-editorial.pdf">Антиматерия</a>» с РОИ-2017).</p>
-<p>Разреженную таблицу часто применяют для решения задачи о <a href="http://algorithmica.org/ru/lca">наименьшем общем предке</a>, так как её можно свести к RMQ.</p>
-<p>Разреженную таблицу можно применять не только для минимума или максимума. От операции требуется только ассоциативность (<span class="math inline">\(a ∘ (b ∘ c) = (a ∘ b) ∘ c\)</span>), коммутативность (<span class="math inline">\(a ∘ b = b ∘ a\)</span>) и идемпотентность (<span class="math inline">\(a ∘ a = a\)</span>). Например, её можно применять для нахождения gcd.</p>
-<p>Для больших таблиц порядок итерирования и расположение данных в памяти сильно влияет на скорость построения — это связано с работой кэшей.</p>
-<p><strong>Упражнение.</strong> Какой из 4 вариантов итерирования и layout-а самый эффективный? (Подсказка: не тот, который приведен в этой статье.)</p>
+<p>В общем же случае от нас просят минимум на прямоугольниках <span class="math inline">\(d\)</span>-мерного массива. Тогда делаем предподсчет, аналогичный предыдущему случаю, только теперь тут будет <span class="math inline">\(O(n \log^d n)\)</span> памяти и времени на предподсчет — нужно хранить минимумы на всех гипер-прямоугольниках со сторонами степени двойки.</p>
+<h2 id="ограничения-на-операцию">Ограничения на операцию</h2>
+<p>Разреженную таблицу можно применять не только для минимума или максимума. От операции требуется только ассоциативность (<span class="math inline">\(a ∘ (b ∘ c) = (a ∘ b) ∘ c\)</span>), коммутативность (<span class="math inline">\(a ∘ b = b ∘ a\)</span>) и идемпотентность (<span class="math inline">\(a ∘ a = a\)</span>). Например, её можно применять для нахождения <span class="math inline">\(\gcd\)</span>.</p>
+<p>Если операция не идемпотентна, то для нахождения её результата можно действовать так: возьмём самый длинный упирающийся в левую границу запроса отрезок, прибавим его к ответу, сдвинем указатель на его правый конец и будем так продолжать, пока не обработаем весь запрос целиком.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> sum(<span class="dt">int</span> l, <span class="dt">int</span> r) { <span class="co">// [l, r)</span></a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="dt">int</span> res = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb2-3" title="3">    <span class="cf">for</span> (<span class="dt">int</span> d = logn - <span class="dv">1</span>; d &gt;= <span class="dv">0</span>; d--) {</a>
+<a class="sourceLine" id="cb2-4" title="4">        if (l + (<span class="dv">1</span> &lt;&lt; d) &lt; r) {</a>
+<a class="sourceLine" id="cb2-5" title="5">            res += t[l][d];</a>
+<a class="sourceLine" id="cb2-6" title="6">            l += (<span class="dv">1</span> &lt;&lt; d);</a>
+<a class="sourceLine" id="cb2-7" title="7">        }</a>
+<a class="sourceLine" id="cb2-8" title="8">    }</a>
+<a class="sourceLine" id="cb2-9" title="9">    <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb2-10" title="10">}</a></code></pre></div>
+<p>Это работает быстрее, чем, например, <a href="http://algorithmica.org/ru/segtree">дерево отрезков</a>, но тоже асимптотически за <span class="math inline">\(O(\log n)\)</span>, да ещё и с дополнительной памятью. Но есть способ это ускорить.</p>
 <h2 id="disjoint-sparse-table">Disjoint Sparse Table</h2>
-<p>Представим себе, что мы очень-очень хотим написать <code>sparse table</code> для нахождения функции <code>f</code> на отрезке, но <code>f</code> не удовлетворяет идемпотентности. Тогда мы не можем испольовать наш стандартный трюк — нельзя взять <span class="math inline">\(O(1)\)</span> пересекающихся отрезков. Но можно придумать способ разбивать запрос на <span class="math inline">\(O(1)\)</span> непересекающихся отрезков. Реализация окажется медленнее и сложнее, но будет более гибкой, чем обычный <code>sparse table</code>.</p>
-<p>Мысленно построим на массиве <a href="http://algorithmica.org/ru/segtree">дерево отрезков</a>. Пусть корень дерева отвечает за отрезок длины <span class="math inline">\(n\)</span>, его сыновья за отрезки длины <span class="math inline">\(\frac{n}{2}\)</span>, итд. Введем понятие <strong>центрального элемента</strong> — для полуинтервала <span class="math inline">\([l; r)\)</span> назовем центральным элемент с индексом <span class="math inline">\(\frac{l + r}{2}\)</span>.</p>
-<p><img src="https://i.imgur.com/7sOeJ14.png" /></p>
-<p>Для каждого отрезка преподсчитаем <code>f</code> на всех подотрезках с правыми концами в центральном элементе и с левыми концами в его правом соседе: <span class="math inline">\(T([l; r)) = \{[l; \frac{l + r}{2} + 1), ..., [\frac{l + r}{2} + 1, r) \}\)</span>.</p>
-<p><em>Утверждение</em>. Любой полуинтервал запроса <span class="math inline">\([l, r)\)</span> разбивается на <span class="math inline">\(O(1)\)</span> непересекающихся преподсчитанных интервалов.</p>
-<p><em>Доказательство</em>. Возьмем самый высокий центральный элемент, принадлежащий запросу. Если он разбивает запрос на три и более интервалов, то тогда он не самый высокий. Противоречие.</p>
-<p>Тогда отвечать на запрос достаточно просто — надо найти нужный центральный элемент, и сделать два запроса для него. Осталось найти центральный элемент за <span class="math inline">\(O(1)\)</span>. Тут мы подходим к тонкостям реализации:</p>
-<ul>
-<li>Будем писать код так, как будто говорим про <a href="http://algorithmica.org/ru/segtree">дерево отрезков</a>, причем дополним его размер до степени двойки</li>
-<li>Будем хранить всю структуру данных так же, как и обычный sparse table, в массиве <span class="math inline">\(t[logn][maxn]\)</span>, где первым параметром мы будем хранить глубину центрального элемента, а вторым — правую границу соответствующего полуинтервала</li>
-<li>Если предыдущий пункт непонятен, то представьте себе разрезанное по слоям дерево отрезков.</li>
-<li>Для ответа на запрос нам нужно найти глубину оптимального центрального элемента. Посмотрим на двоичную запись <span class="math inline">\(l\)</span> и <span class="math inline">\(r\)</span>. <span class="math inline">\(h_{[l, r)} = maxlog - 1 - maxbit(l \oplus r)\)</span>, если <span class="math inline">\(n = 2^{maxlog}\)</span>, а <span class="math inline">\(maxbit(x) = \lfloor{\log_2{x}}\rfloor\)</span>. Доказательство методом пристального изучения картинки.</li>
-</ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> a[maxn], lg[maxn], t[maxn][logn];</a>
-<a class="sourceLine" id="cb2-2" title="2"></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="dt">int</span> neutral = <span class="dv">1</span>; <span class="co">// зависит от f</span></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="dt">int</span> f(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="co">// любая f, в нашем случае</span></a>
-<a class="sourceLine" id="cb2-5" title="5">    <span class="cf">return</span> (a * b) % <span class="dv">228</span>; <span class="co">// произведение по составному модулю</span></a>
-<a class="sourceLine" id="cb2-6" title="6">}</a>
-<a class="sourceLine" id="cb2-7" title="7"></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="dt">void</span> build(<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> level=<span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb2-9" title="9">    <span class="dt">int</span> mid = (l + r) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb2-10" title="10">    <span class="dt">int</span> cur = neutral;</a>
-<a class="sourceLine" id="cb2-11" title="11">    <span class="cf">for</span> (<span class="dt">int</span> i = mid + <span class="dv">1</span>; i &lt; r; i++) {</a>
-<a class="sourceLine" id="cb2-12" title="12">        cur = f(cur, a[i]);</a>
-<a class="sourceLine" id="cb2-13" title="13">        t[level][i] = cur;</a>
-<a class="sourceLine" id="cb2-14" title="14">    }</a>
-<a class="sourceLine" id="cb2-15" title="15">    cur = neutral;</a>
-<a class="sourceLine" id="cb2-16" title="16">    <span class="cf">for</span> (<span class="dt">int</span> i = mid; i &gt;= l; i--) {</a>
-<a class="sourceLine" id="cb2-17" title="17">        cur = f(cur, a[i]);</a>
-<a class="sourceLine" id="cb2-18" title="18">        t[level][i] = cur;</a>
-<a class="sourceLine" id="cb2-19" title="19">    }</a>
-<a class="sourceLine" id="cb2-20" title="20">    <span class="cf">if</span> (r - l == <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb2-21" title="21">        <span class="cf">return</span>;</a>
-<a class="sourceLine" id="cb2-22" title="22">    build(l, mid, level+<span class="dv">1</span>);</a>
-<a class="sourceLine" id="cb2-23" title="23">    build(mid, r, level+<span class="dv">1</span>);</a>
-<a class="sourceLine" id="cb2-24" title="24">}</a>
-<a class="sourceLine" id="cb2-25" title="25"></a>
-<a class="sourceLine" id="cb2-26" title="26"><span class="dt">int</span> rmq (<span class="dt">int</span> l, <span class="dt">int</span> r) { <span class="co">// полуинтервал [l; r)</span></a>
-<a class="sourceLine" id="cb2-27" title="27">    <span class="dt">int</span> level = logn-<span class="dv">1</span>-lg[l^r];</a>
-<a class="sourceLine" id="cb2-28" title="28">    <span class="dt">int</span> res = t[level][l];</a>
-<a class="sourceLine" id="cb2-29" title="29">    <span class="cf">if</span> (r &amp; ((<span class="dv">1</span> &lt;&lt; lg[l ^ r]) - <span class="dv">1</span>))) <span class="co">// проверяем, что правый отрезок не пустой</span></a>
-<a class="sourceLine" id="cb2-30" title="30">        res = f(res, t[level][r]);</a>
-<a class="sourceLine" id="cb2-31" title="31">    <span class="cf">return</span> res;</a>
-<a class="sourceLine" id="cb2-32" title="32">}</a>
-<a class="sourceLine" id="cb2-33" title="33"></a>
-<a class="sourceLine" id="cb2-34" title="34"><span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn; l++)</a>
-<a class="sourceLine" id="cb2-35" title="35">    <span class="cf">for</span> (<span class="dt">int</span> i = (<span class="dv">1</span>&lt;&lt;l); i &lt; maxn; i++)</a>
-<a class="sourceLine" id="cb2-36" title="36">        lg[i] = l;</a></code></pre></div>
+<p>Мы хотим иметь какую-то структуру, которая может считать функцию <span class="math inline">\(f\)</span> на отрезке, при том что <span class="math inline">\(f\)</span> не удовлетворяет условию идемпотентности. Стандартная разреженная таблица тут не подойдёт — в ней нельзя найти <span class="math inline">\(O(1)\)</span> непересекающихся отрезков.</p>
+<p>Сделаем сделующее: мысленно построим на массиве дерево отрезков и (уже не мысленно) для каждого его отрезка <span class="math inline">\([l, r)\)</span> посчитаем <span class="math inline">\(f\)</span> на всех отрезках от его центрального элемента — то есть от элемента с индексом <span class="math inline">\(m = \lfloor \frac{l + r}{2} \rfloor\)</span> — до всех остальных элементов <span class="math inline">\(k \in [l, r)\)</span>. Для каждого элемента массива будет <span class="math inline">\(O(\log n)\)</span> центральных, а значит суммарно на это потребуются те же <span class="math inline">\(O(n \log n)\)</span> времени и памяти.</p>
+<p><strong>Утверждение.</strong> Любой запрос <span class="math inline">\([l, r)\)</span> разбивается на <span class="math inline">\(O(1)\)</span> непересекающихся преподсчитанных интервалов.</p>
+<p><strong>Доказательство.</strong> Возьмем самый высокий центральный элемент <span class="math inline">\(m\)</span>, принадлежащий запросу. Его отрезок полностью покрыает запрос — если бы это было не так, то самым высоким был бы не <span class="math inline">\(m\)</span>, а какая-то из его границ . Раз отрезок запроса <span class="math inline">\([l, r)\)</span> полностью покрыт, и <span class="math inline">\(m\)</span> лежит внутри него, то <span class="math inline">\([l, r)\)</span> можно разбить на предпосчитанные <span class="math inline">\([l, m)\)</span> и <span class="math inline">\([m, r)\)</span>.</p>
+<p>Решать задачу мы так и будем: найдём нужный центральный элемент и сделаем два запроса от него.</p>
+<h3 id="реализация">Реализация</h3>
+<p>Сложная часть — найти этот центральный элемент за константное время — станет чуть проще, если мы будем работать только с массивами длины степени двойки и, соответственно, полными деревьями отрезков. Массивы неподходящей длины дополним до ближайшей степени двойки специальным нейтральным элементом, зависящим от самой операции (например, <span class="math inline">\(0\)</span> для сложения или <span class="math inline">\(1\)</span> для умножения).</p>
+<p>Будем хранить всю структуру (предпосчитанные значения на отрезках) в массиве <code>t[logn][maxn]</code>, в котором первым параметром будет уровень в дереве отрезков (число <span class="math inline">\(d\)</span> для отрезков размера <span class="math inline">\(2^d\)</span>), а вторым — граница соответствующего интервала (число <span class="math inline">\(k\)</span>). Этой информации достаточно, чтобы однозначно восстановить отрезок.</p>
+<p>Для ответа на запрос нам достаточно найти только уровень нужного центрального элемента. Чтобы научиться делать это эффективно, нам понадобится немного поразмышлять о природе дерева отрезков.</p>
+<p>Заметим, что любая вершина <span class="math inline">\(k\)</span>-того уровня соответствует какому-то отрезку <span class="math inline">\([l, l + 2^k)\)</span>, причём <span class="math inline">\(l\)</span> делится на <span class="math inline">\(2^k\)</span>. Двоичное представление всех индексов на этом отрезке будет иметь какой-то общий префикс, а последние <span class="math inline">\(k\)</span> знаков будут различными.</p>
+<p>Нам нужно найти уровень нужного центрального элемента — это то же самое, что и уровень наименьшего общего отрезка для элементов <span class="math inline">\(l\)</span> и <span class="math inline">\(r\)</span>. Используя предыдущий факт, получаем, что искомый уровень будет равен позиции самого значимого бита, который отличается у чисел <span class="math inline">\(l\)</span> и <span class="math inline">\(r\)</span>. Его можно найти за константное время выражением <span class="math inline">\(h_{[l,r)]} = \lfloor \log_2 (l \oplus r) \rfloor\)</span>, если заранее предпосчитать логарифмы.</p>
+<p>Для примера, построим DST для умножения по составному модулю:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = (<span class="dv">1</span> &lt;&lt; logn);</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="dt">int</span> a[maxn], lg[maxn], t[logn][maxn];</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="at">const</span> <span class="dt">int</span> neutral = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="dt">int</span> f(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
+<a class="sourceLine" id="cb3-6" title="6">    <span class="cf">return</span> (a * b) % <span class="dv">1000</span>;</a>
+<a class="sourceLine" id="cb3-7" title="7">}</a>
+<a class="sourceLine" id="cb3-8" title="8"></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="dt">void</span> build(<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> level = logn - <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb3-10" title="10">    <span class="dt">int</span> m = (l + r) / <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb3-11" title="11">    </a>
+<a class="sourceLine" id="cb3-12" title="12">    <span class="dt">int</span> cur = neutral;</a>
+<a class="sourceLine" id="cb3-13" title="13">    <span class="cf">for</span> (<span class="dt">int</span> i = m + <span class="dv">1</span>; i &lt; r; i++) {</a>
+<a class="sourceLine" id="cb3-14" title="14">        cur = f(cur, a[i]);</a>
+<a class="sourceLine" id="cb3-15" title="15">        t[level][i] = cur;</a>
+<a class="sourceLine" id="cb3-16" title="16">    }</a>
+<a class="sourceLine" id="cb3-17" title="17">    </a>
+<a class="sourceLine" id="cb3-18" title="18">    cur = neutral;</a>
+<a class="sourceLine" id="cb3-19" title="19">    <span class="cf">for</span> (<span class="dt">int</span> i = m; i &gt;= l; i--) {</a>
+<a class="sourceLine" id="cb3-20" title="20">        cur = f(cur, a[i]);</a>
+<a class="sourceLine" id="cb3-21" title="21">        t[level][i] = cur;</a>
+<a class="sourceLine" id="cb3-22" title="22">    }</a>
+<a class="sourceLine" id="cb3-23" title="23">    </a>
+<a class="sourceLine" id="cb3-24" title="24">    <span class="cf">if</span> (r - l &gt; <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb3-25" title="25">        build(l, mid, level+<span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb3-26" title="26">        build(mid, r, level+<span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb3-27" title="27">    }</a>
+<a class="sourceLine" id="cb3-28" title="28">}</a>
+<a class="sourceLine" id="cb3-29" title="29"></a>
+<a class="sourceLine" id="cb3-30" title="30"><span class="dt">int</span> rmq(<span class="dt">int</span> l, <span class="dt">int</span> r) { <span class="co">// [l, r)</span></a>
+<a class="sourceLine" id="cb3-31" title="31">    <span class="dt">int</span> level = lg[l ^ r];</a>
+<a class="sourceLine" id="cb3-32" title="32">    <span class="dt">int</span> res = t[level][l];</a>
+<a class="sourceLine" id="cb3-33" title="33">    <span class="co">// и, если правый отрезок не пустой:</span></a>
+<a class="sourceLine" id="cb3-34" title="34">    <span class="cf">if</span> (r &amp; ((<span class="dv">1</span> &lt;&lt; lg[l ^ r]) - <span class="dv">1</span>)))</a>
+<a class="sourceLine" id="cb3-35" title="35">        res = f(res, t[level][r]);</a>
+<a class="sourceLine" id="cb3-36" title="36">    <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb3-37" title="37">}</a></code></pre></div>
+<p>TODO: скорее всего, тут есть баги.</p>
 </body>
 </html>
