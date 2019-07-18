@@ -155,13 +155,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>В этой статье мы сфокусируемся на отдельным виде инструкций, которые позволяют выполнять одну и ту же операцию сразу на какой-то последовательности данных. Эта концепция называется <a href="https://en.wikipedia.org/wiki/SIMD">SIMD</a>-параллелизмом (англ. <em>single instruction, multiple data</em>).</p>
 <h2 id="streaming-simd-extensions">Streaming SIMD Extensions</h2>
 <p>SSE — это обобщённое называние всех SIMD-инструкций для x86.</p>
-<p>Работают они следующим образом. Помимо обычных регистров (самых близких к процессору ячеек памяти, с которыми он непосредственно работает), есть дополнительные, вмещающие не 64, а 128, 256 или даже 512 бит — в зависимости от поддерживаемой версии SSE. В эти регистры загружается последовательный блок из памяти, над ним производится какая-то последовательность операций, а итоговый результат записывается обратно в память. Сами операции обычно разбивают эту булеву последовательность на блоки, например, по 32 бит, и логически работают уже с ними.</p>
+<p>Работают они следующим образом. Помимо обычных регистров (самых близких к процессору ячеек памяти, с которыми он непосредственно работает), есть дополнительные, вмещающие не 64, а 128, 256 или даже 512 бит — в зависимости от поддерживаемой версии SSE. В эти регистры загружается последовательные блоки из памяти, над ним производится какая-то последовательность операций, и итоговый результат записывается обратно в память. Сами операции обычно разбивают эту булеву последовательность на блоки, например, по 32 бит, и логически работают уже с ними.</p>
 <p>Довольно легко получается оптимизировать простые циклы, производящие какие-нибудь независимые друг от друга операции над векторами (массивами) — поэтому сам такой подход называют <em>векторизацией</em>.</p>
 <p>Например, какое-нибудь сложение двух int-овых массивов удаётся таким образом соптимизировать в <span class="math inline">\(\frac{512}{32} = 16\)</span> раз, если процессор поддерживает AVX512, а операции <a href="https://algorithmica.org/ru/bitset">битсета</a> — в 512 раз (реализация из STL, <a href="https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/std/bitset#L77">по всей видимости</a>, SSE не использует).</p>
 <p>Очень часто SSE используют для работы с действительными числами, и вы этой ситуации возникает прямой trade-off между точностью вычислений и скоростью работы: например, вместо double можно использовать float, и тогда в один и тот же регистр поместится в два раза больше чисел. По этой причине в последнее время стали развиваться различные методы <a href="https://en.wikipedia.org/wiki/Quantization">квантизации</a>: перевода исходых данных в какой-то более дискретизированный формат на входе какой-нибудь процедуры (например, <a href="https://github.com/google/gemmlowp">матричного умножения</a>) и восстановления в исходный формат на выходе.</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/SIMD.svg/1200px-SIMD.svg.png" /></p>
 <p>Конкретный набор инструкций и размеры регистров зависит от вендора и поколения архитектуры. На данный момент (лето 2019 года) <a href="https://www.cpubenchmark.net/market_share.html">большинство процессоров</a> архитектуры x86 производит Intel, поэтому мы сконцентрируемся именно на их наборе инструкций.</p>
-<p>Поддержка SIMD-инструкций добавлялись постепенно, сохраняя обратную совместимость. Если третий пентиум в 1999-м году умел работать с регистрами размера 128, то в самых современных i7 есть 512-битные регистры.</p>
+<p>Поддержка SIMD-инструкций добавлялись постепенно, сохраняя обратную совместимость. Если третий пентиум в 1999-м году умел работать с регистрами размера 128, то в самых современных i7 есть 512-битные регистры. Автор не является специалистом в проектировании микропроцессоров, но предполагает, то регистры больше 64 байт (512 бит) появятся очень не скоро, потому что это уже больше размера <a href="https://en.wikipedia.org/wiki/CPU_cache">кэш-линии</a></p>
 <p><img src="https://i0.wp.com/www.urtech.ca/wp-content/uploads/2017/11/Intel-mmx-sse-sse2-avx-AVX-512.png" /></p>
 <p>Чтобы разработчикам не нужно было предоставлять отдельные оптимизированные бинарники под каждую конкретную архитектуру, информация о поддержке наборов инструкций процессором зашита в ассемблерную инструкцию <code>cpuid</code>, которую можно просто вызвать в рантайме и всё узнать: <a href="https://gist.github.com/hi2p-perim/7855506">например так</a>.</p>
 <p>В GCC есть встроенная функция <code>__builtin_cpu_supports</code>, которая берёт строчку-название набора инструкций (“sse”, “avx2”, “avx512f” и т. п.) и возвращает целое число — ноль или какую-то степень двойки. Эта функция работает так: входная строка во время компиляции переводится в нужную степень двойки, которая в рантайме просто AND-ится с маской из cpuid и возвращается — всё ради эффективности.</p>
@@ -201,7 +201,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p><code>_mm256_broadcast_sd</code> — бродкастит (копирует) <code>double</code> из памяти во все четыре слота в регистре.</p></li>
 <li><p><code>_mm256_ceil_pd</code> — округляет <code>double</code> к ближайшему <code>int</code>-у вверх.</p></li>
 </ul>
-<p>Полная документация по SSE-интринзикам — <a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/">Intel Intrinsics Guide</a> — лежит в закладках браузера у каждого уважающего себя performance engineer-а.</p>
+<p>Комбинаторно получается огромное количество различных функций. Полная документация по SSE-интринзикам — <a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/">Intel Intrinsics Guide</a> — лежит в закладках браузера у каждого уважающего себя performance engineer-а.</p>
 <p><strong>Выравнивание.</strong> У операций чтения и записи есть по две версии: <code>load</code> / <code>loadu</code> и <code>store</code> / <code>storeu</code>. Буква «u» здесь означает «unaligned» (англ. невыровненный). Первая корректно работает только тогда, когда весь считываемый блок помещается на одну кэш-линию (в противном случае она вызывает segfault в рантайме), в то время как unaligned версия работает всегда и везде.</p>
 <p>Это имело очень большое значение на старых компьютерах — если не получалось «выровнять» память, то производительность могла резко упасть (в два и более раз), потому что нарушался паттерн последовательного доступа. На современных компьютерах это не так значительно: будет медленне, но в пределах 5%. Вручную «выровнять» память для последовательного чтения через <code>load</code> в случае с массивами можно так:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">alignas</span>(<span class="dv">32</span>) <span class="dt">int</span> a;</a>
@@ -213,67 +213,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-7" title="7">    <span class="co">// ...</span></a>
 <a class="sourceLine" id="cb5-8" title="8">}</a></code></pre></div>
 <p>Вообще, загружать и сохранять данные интринзиками и вообще использовать <code>__m</code>-типы на самом деле не обязательно — всё можно сделать и reinterpret_cast-ом. Все данные хранятся в одном и том же формате, и это просто нужно для проверки типов и избежания связанных ошибок.</p>
-<h2 id="автовекторизация">Автовекторизация</h2>
-<p>В самом начале статьи мы увидели пример, когда оптимальный результат был получен без какого-либо переписывания. Зачем вообще</p>
-<p>Иногда — очень редко — программист всё-таки умнее компилятора и знает что-то больше.</p>
-<p>На высоких уровнях оптимизации</p>
-<p>Как мы убедились раньше, компилятор и без нас справляется оптимизировать циклы. Зачем вообще программисту что-либо делать, кроме подключения нужного таргета компиляции?</p>
-<p>Обратите внимание, что . На старых компьютерах это было существенно (потеря производительности разница в более чем два раза), на современных же</p>
-<h2 id="выравнивание">Выравнивание</h2>
-<p>Ликбез о том, как работают кэши:</p>
-<p>На самом деле, очень часто основным ограничением является работа памяти. Когда массив не будет помещаться в кэш, существенного ускорения уже не будет.</p>
-<p>Ещё одна вещь, про которую нужно думать — это выравнивание (англ. <em>alignment</em>) в памяти.</p>
-<h2 id="автовекторизация-1">Автовекторизация</h2>
-<p>Почему компилятор сам это не делает?</p>
-<p>В случае с сложением двух массивов может возникнуть такая проблема, что массивы пересекаются — мы ведь не знаем, что там находится.</p>
-<p>Иногда компилятор просто-напросто не имеет достаточно информации, чтобы убедиться в корректности. Например, складываемые отрезки могут на самом деле пересекаться. При достаточно больших циклах на высоком уровне оптимизации компилятор сделает эту проверку прямо в рантайме, но в некоторых случаев этого не хватит.</p>
-<p>От Intel есть гайд как оставлять намёки компилятору.</p>
-<h2 id="на-контестах">На контестах</h2>
-<p>Как правило, ограничение по времени в задачах подбирается следующим образом. Берётся решение жюри с оптимальной асимптотикой, берётся В задачах</p>
-<h2 id="бинарное-возведение-в-степень">Бинарное возведение в степень</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> ll;</a>
-<a class="sourceLine" id="cb6-2" title="2"></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="at">const</span> <span class="dt">int</span> mod = <span class="fl">1e9</span> + <span class="dv">7</span>;</a>
-<a class="sourceLine" id="cb6-4" title="4"></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="kw">inline</span> ll binpow(ll a, <span class="dt">int</span> n) {</a>
-<a class="sourceLine" id="cb6-6" title="6">    ll res = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb6-7" title="7">    <span class="cf">while</span> (n &gt; <span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb6-8" title="8">       <span class="cf">if</span> (n &amp; <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb6-9" title="9">           res = (res * a) % mod;</a>
-<a class="sourceLine" id="cb6-10" title="10">       a = (a * a) % mod;</a>
-<a class="sourceLine" id="cb6-11" title="11">       n &gt;&gt;= <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb6-12" title="12">    }</a>
-<a class="sourceLine" id="cb6-13" title="13">    <span class="cf">return</span> res;</a>
-<a class="sourceLine" id="cb6-14" title="14">}</a></code></pre></div>
+<h2 id="трудности-автовекторизации">Трудности автовекторизации</h2>
+<p>В самом начале статьи мы приводили пример кода, в котором уже оптимизированный бинарник получается без каких-либо изменений, кроме подключения нужного таргета компиляции.</p>
+<p>Зачем тогда вообще программисту делать что-либо ещё? Дело в том, что иногда — очень редко — программист всё-таки умнее компилятора, потому что знает про задачу чуть больше.</p>
+<p>Рассмотрим этот же пример, убрав из него всё лишнее:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="dt">void</span> sum(<span class="dt">int</span> a[], <span class="dt">int</span> b[], <span class="dt">int</span> c[], <span class="dt">int</span> n) {</a>
+<a class="sourceLine" id="cb6-2" title="2">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb6-3" title="3">        c[i] = a[i] + b[i];</a>
+<a class="sourceLine" id="cb6-4" title="4">}</a></code></pre></div>
+<p>Почему эту функцию нельзя заменить на векторизованный-вариант автоматически?</p>
+<p>Во-первых, потому что это не всегда корректно. Предположим, что <code>a[]</code> и <code>c[]</code> пересекаются, причём так, что указатели на начало массивов отличаются на 1-2 позиции. Ну, мало ли — может, мы такой изощрённой свёрткой хотели посчитать последовательность Фибоначчи. Тогда в simd-блоках данные будут пересекаться, и наблюдаемое поведение будет совсем не то, которое мы хотели.</p>
+<p>Во-вторых, мы ничнго не знаем ничего про выравнивание этих массивов, и можем потерять производительность здесь (компилятор скорее всего сгенерирует инструкции с <code>loadu</code>).</p>
+<p>На самом деле, для достаточно больших циклов на высоких уровнях оптимизации компилятор вставит проверки на эти случаи и сгенерирует много разных вариантов. Но эти проверки выполняются в рантайме.</p>
+<p>Иногда мы можем считать внутри цикла что-то сложнее суммы — например, что-то, использующее <code>if</code>-ы или какие-нибудь нетривиальные внешние функции, для которых, тем не менее, есть SSE-аналог.</p>
+<p>Существуют различные способы намекнуть компилятору, что конкретно мы имели в виду, но часто проще написать всё самому.</p>
+<h2 id="нетривиальный-пример">Нетривиальный пример</h2>
+<p>Пусть мы хотим возвести <span class="math inline">\(10^7\)</span> чисел в какие-то степени и перемножить.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> ll;</a>
+<a class="sourceLine" id="cb7-2" title="2"></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="at">const</span> <span class="dt">int</span> mod = <span class="fl">1e9</span> + <span class="dv">7</span>;</a>
+<a class="sourceLine" id="cb7-4" title="4"></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="kw">inline</span> ll binpow(ll a, <span class="dt">int</span> n) {</a>
+<a class="sourceLine" id="cb7-6" title="6">    ll res = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb7-7" title="7">    <span class="cf">while</span> (n &gt; <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb7-8" title="8">       <span class="cf">if</span> (n &amp; <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb7-9" title="9">           res = (res * a) % mod;</a>
+<a class="sourceLine" id="cb7-10" title="10">       a = (a * a) % mod;</a>
+<a class="sourceLine" id="cb7-11" title="11">       n &gt;&gt;= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb7-12" title="12">    }</a>
+<a class="sourceLine" id="cb7-13" title="13">    <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb7-14" title="14">}</a></code></pre></div>
 <p>Возведём миллион (точнее, <span class="math inline">\(2^{20}\)</span>) чисел в степень:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="at">const</span> <span class="dt">int</span> n = (<span class="dv">1</span> &lt;&lt; <span class="dv">20</span>);</a>
-<a class="sourceLine" id="cb7-2" title="2">ll a[n], p[n];</a>
-<a class="sourceLine" id="cb7-3" title="3"></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb7-5" title="5">    a[i] = rand();</a>
-<a class="sourceLine" id="cb7-6" title="6">    p[i] = rand();</a>
-<a class="sourceLine" id="cb7-7" title="7">}</a>
-<a class="sourceLine" id="cb7-8" title="8"></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb7-10" title="10">    binpow(a[i], p[i]);</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="at">const</span> <span class="dt">int</span> n = (<span class="dv">1</span> &lt;&lt; <span class="dv">20</span>);</a>
+<a class="sourceLine" id="cb8-2" title="2">ll a[n], p[n];</a>
+<a class="sourceLine" id="cb8-3" title="3"></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
+<a class="sourceLine" id="cb8-5" title="5">    a[i] = rand();</a>
+<a class="sourceLine" id="cb8-6" title="6">    p[i] = rand();</a>
+<a class="sourceLine" id="cb8-7" title="7">}</a>
+<a class="sourceLine" id="cb8-8" title="8"></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
+<a class="sourceLine" id="cb8-10" title="10">    binpow(a[i], p[i]);</a></code></pre></div>
 <p>Этот код работает за X секунд.</p>
 <p>Для оптимизации, напишем sse-версию:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">inline</span> ll binpow_sse(reg a, reg n) {</a>
-<a class="sourceLine" id="cb8-2" title="2">    ll res = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb8-3" title="3">    <span class="co">// на самом деле, здесь никакого цикла не будет</span></a>
-<a class="sourceLine" id="cb8-4" title="4">    <span class="co">// -- компилятор это раскроет в 30 отдельных операций для скорости</span></a>
-<a class="sourceLine" id="cb8-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">30</span>; i++)</a>
-<a class="sourceLine" id="cb8-6" title="6">        <span class="co">// посчитаем маску тех элементов, которые нужно домножать к res</span></a>
-<a class="sourceLine" id="cb8-7" title="7"></a>
-<a class="sourceLine" id="cb8-8" title="8">        <span class="co">// сделаем умножение и взятие по модулю</span></a>
-<a class="sourceLine" id="cb8-9" title="9">        res = (res * a) % mod;</a>
-<a class="sourceLine" id="cb8-10" title="10">        <span class="co">// возведём число a в квадрат, в любом случае</span></a>
-<a class="sourceLine" id="cb8-11" title="11">        a = (a * a) % mod;</a>
-<a class="sourceLine" id="cb8-12" title="12">        <span class="co">// сдвинем все показатели на один байт</span></a>
-<a class="sourceLine" id="cb8-13" title="13">        n &gt;&gt;= <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb8-14" title="14">    }</a>
-<a class="sourceLine" id="cb8-15" title="15">    <span class="cf">return</span> res;</a>
-<a class="sourceLine" id="cb8-16" title="16">}</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">inline</span> ll binpow_sse(reg a, reg n) {</a>
+<a class="sourceLine" id="cb9-2" title="2">    ll res = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb9-3" title="3">    <span class="co">// на самом деле, здесь никакого цикла не будет</span></a>
+<a class="sourceLine" id="cb9-4" title="4">    <span class="co">// -- компилятор это раскроет в 30 отдельных операций для скорости</span></a>
+<a class="sourceLine" id="cb9-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">30</span>; i++)</a>
+<a class="sourceLine" id="cb9-6" title="6">        <span class="co">// посчитаем маску тех элементов, которые нужно домножать к res</span></a>
+<a class="sourceLine" id="cb9-7" title="7"></a>
+<a class="sourceLine" id="cb9-8" title="8">        <span class="co">// сделаем умножение и взятие по модулю</span></a>
+<a class="sourceLine" id="cb9-9" title="9">        res = (res * a) % mod;</a>
+<a class="sourceLine" id="cb9-10" title="10">        <span class="co">// возведём число a в квадрат, в любом случае</span></a>
+<a class="sourceLine" id="cb9-11" title="11">        a = (a * a) % mod;</a>
+<a class="sourceLine" id="cb9-12" title="12">        <span class="co">// сдвинем все показатели на один байт</span></a>
+<a class="sourceLine" id="cb9-13" title="13">        n &gt;&gt;= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb9-14" title="14">    }</a>
+<a class="sourceLine" id="cb9-15" title="15">    <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb9-16" title="16">}</a></code></pre></div>
 <p>mixed precision</p>
 </body>
 </html>
