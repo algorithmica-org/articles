@@ -140,7 +140,7 @@ a \times b = x_a y_b - y_a x_b
 </figure>
 <p>Его свойства:</p>
 <ul>
-<li>Скалярное произведение <strong>анти</strong>симметрично: <span class="math inline">\(a \times b = - (b \times a)\)</span>.</li>
+<li>Векторное произведение <strong>анти</strong>симметрично: <span class="math inline">\(a \times b = - (b \times a)\)</span>.</li>
 <li>Коллинеарные вектора должны иметь нулевое векторное произведение.</li>
 <li>Если <span class="math inline">\(b\)</span> «слева» от <span class="math inline">\(a\)</span>, то векторное произведение положительное.</li>
 <li>Если <span class="math inline">\(b\)</span> «справа» от <span class="math inline">\(a\)</span>, то векторное произведение отрицательное.</li>
@@ -210,7 +210,7 @@ y = - \frac{A_1 C_2 - A_2 C_1}{A_1 B_2 - A_2 B_1}
 <div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">double</span> len(r a) { <span class="cf">return</span> sqrt(a.x*a.x + a.y*a.y); }</a></code></pre></div>
 <h3 id="операторы">Операторы</h3>
 <p>В C++ можно <em>перегружать</em> почти все стандартные операторы, например, <code>+</code>, <code>-</code>, <code>&lt;&lt;</code> и т. д.</p>
-<p>Переобрадилим для будущих нужд <code>+</code> и <code>-</code>:</p>
+<p>Переопределим для будущих нужд <code>+</code> и <code>-</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1">r <span class="kw">operator</span>+(r a, r b) { <span class="cf">return</span> r(a.x+b.x, a.y+b.y); }</a>
 <a class="sourceLine" id="cb3-2" title="2">r <span class="kw">operator</span>-(r a, r b) { <span class="cf">return</span> r(a.x-b.x, a.y-b.y); }</a></code></pre></div>
 <p>Скалярное произведение:</p>

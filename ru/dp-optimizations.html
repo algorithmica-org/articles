@@ -303,8 +303,43 @@ g[i] = \lambda + \min_{k &lt; i} \{g[k] + (x_{i-1} - x_k)^2 \}
 <p><span class="math display">\[
 f[i, j] - f[i, j-1] \leq f[i, j+1] - f[i, j]
 \]</span></p>
-<p>Иными словами, «выгода» добавления следующего отрезка с каждым разом не увеличивается.</p>
-<p>TODO</p>
+<p>Иными словами, «выгода» добавления следующего отрезка с каждым разом не увеличивается. Тогда если мы найдем минимальную <span class="math inline">\(\lambda\)</span> такую, что <span class="math inline">\(k \ge j\)</span>, то <span class="math inline">\(f[i, k] = f[i, j]\)</span>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1">pair&lt;ll, <span class="dt">int</span>&gt; dp[maxn]; <span class="co">// dp[i] - (ответ, число отрезков)</span></a>
+<a class="sourceLine" id="cb8-2" title="2"></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="dt">void</span> init() {</a>
+<a class="sourceLine" id="cb8-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; maxn; i++) {</a>
+<a class="sourceLine" id="cb8-5" title="5">        dp[i] = make_pair(inf, <span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb8-6" title="6">    }</a>
+<a class="sourceLine" id="cb8-7" title="7">}</a>
+<a class="sourceLine" id="cb8-8" title="8"></a>
+<a class="sourceLine" id="cb8-9" title="9">pair&lt;ll, <span class="dt">int</span>&gt; check(ll x) { <span class="co">// это можно соптимизировать</span></a>
+<a class="sourceLine" id="cb8-10" title="10">    init();</a>
+<a class="sourceLine" id="cb8-11" title="11">    dp[<span class="dv">0</span>] = make_pair(<span class="dv">0</span><span class="bu">ll</span>, <span class="dv">0</span>); <span class="co">// 1-индексация</span></a>
+<a class="sourceLine" id="cb8-12" title="12">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n; i++) {</a>
+<a class="sourceLine" id="cb8-13" title="13">        <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; i; j++) {</a>
+<a class="sourceLine" id="cb8-14" title="14">            dp[i] = min(dp[i], {dp[j].first + cost[j + <span class="dv">1</span>][i] + x, dp[j].second + <span class="dv">1</span>});</a>
+<a class="sourceLine" id="cb8-15" title="15">        }</a>
+<a class="sourceLine" id="cb8-16" title="16">    }</a>
+<a class="sourceLine" id="cb8-17" title="17">    <span class="cf">return</span> dp[n];</a>
+<a class="sourceLine" id="cb8-18" title="18">}</a>
+<a class="sourceLine" id="cb8-19" title="19"></a>
+<a class="sourceLine" id="cb8-20" title="20">ll solve() {</a>
+<a class="sourceLine" id="cb8-21" title="21">    ll l = -<span class="fl">1e14</span>; <span class="co">// границы надо подбирать очень аккуратно!</span></a>
+<a class="sourceLine" id="cb8-22" title="22">    ll r = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb8-23" title="23">    <span class="cf">while</span> (l + <span class="dv">1</span> &lt; r) {</a>
+<a class="sourceLine" id="cb8-24" title="24">        ll mid = (l + r) / <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb8-25" title="25">        pair&lt;ll, <span class="dt">int</span>&gt; x = check(mid);</a>
+<a class="sourceLine" id="cb8-26" title="26">        <span class="cf">if</span> (x.second &gt;= k) {</a>
+<a class="sourceLine" id="cb8-27" title="27">            l = mid;</a>
+<a class="sourceLine" id="cb8-28" title="28">        }</a>
+<a class="sourceLine" id="cb8-29" title="29">        <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb8-30" title="30">            r = mid;</a>
+<a class="sourceLine" id="cb8-31" title="31">        }</a>
+<a class="sourceLine" id="cb8-32" title="32">    }</a>
+<a class="sourceLine" id="cb8-33" title="33">    pair&lt;ll, <span class="dt">int</span>&gt; result = check(l);</a>
+<a class="sourceLine" id="cb8-34" title="34">    <span class="cf">return</span> result.first - l * <span class="cf">return</span>.second; <span class="co">// вычитаем штрафы</span></a>
+<a class="sourceLine" id="cb8-35" title="35">}</a>
+<a class="sourceLine" id="cb8-36" title="36">}</a></code></pre></div>
 <h2 id="суммируем">Суммируем</h2>
 <p>TODO: сделать табличку</p>
 <ul>
