@@ -196,16 +196,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Конвенция именования интринзиков такая же, как самих инструкций, а она такая же, как в ассемблере — то есть максимально короткая и непонятная.</p>
 <p>Большинство команд кодируются как <code>_mm&lt;размерность&gt;_&lt;действие&gt;_&lt;тип&gt;</code>. Например:</p>
 <ul>
-<li><p><code>_mm_add_epi16</code> — складывает две пачки 16-битных <em>extended packed integer</em>, проще говоря <span class="math inline">\(\frac{128}{16} = 8\)</span> <code>short</code>-ов (в инструкциях, где размер регистра не указан, он равен 128).</p></li>
+<li><p><code>_mm_add_epi16</code> — складывает две группы 16-битных <em>extended packed integer</em>, проще говоря <span class="math inline">\(\frac{128}{16} = 8\)</span> <code>short</code>-ов (в инструкциях, где размер регистра не указан, он равен 128).</p></li>
 <li><p><code>_mm256_acos_pd</code> — принимает один регистр, содержащий 4 <code>double</code>-ов, и возвращает их арк-косинусы.</p></li>
 <li><p><code>_mm256_broadcast_sd</code> — бродкастит (копирует) <code>double</code> из памяти во все четыре слота в регистре.</p></li>
 <li><p><code>_mm256_ceil_pd</code> — округляет <code>double</code> к ближайшему <code>int</code>-у вверх.</p></li>
 <li><p><code>_mm256_cmpeq_epi32</code> — сравнивает запакованные <code>int</code>-ы и возвращает вектор-маску, в которой для полностью совпавших элементов будет по 32 единицы.</p></li>
-<li><p><code>_mm256_blendv_ps</code> — по заданной маске берёт значения либо из первого массива, либо из второго. Часто применяется для замены <code>if</code>-а</p></li>
+<li><p><code>_mm256_blendv_ps</code> — по заданной маске берёт значения либо из первого массива, либо из второго. Часто применяется для замены <code>if</code>-а.</p></li>
 </ul>
-<p>Комбинаторно получается огромное количество различных функций. Полная документация по SSE-интринзикам — <a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/">Intel Intrinsics Guide</a> — лежит в закладках браузера у каждого уважающего себя performance engineer-а.</p>
-<p><strong>Выравнивание.</strong> У операций чтения и записи есть по две версии: <code>load</code> / <code>loadu</code> и <code>store</code> / <code>storeu</code>. Буква «u» здесь означает «unaligned» (англ. невыровненный). Первая корректно работает только тогда, когда весь считываемый блок помещается на одну кэш-линию (в противном случае она вызывает segfault в рантайме), в то время как unaligned версия работает всегда и везде.</p>
-<p>Это имело очень большое значение на старых компьютерах — если не получалось «выровнять» память, то производительность могла резко упасть (в два и более раз), потому что нарушался паттерн последовательного доступа. На современных компьютерах это не так значительно: будет медленне, но в пределах 5%. Вручную «выровнять» память для последовательного чтения через <code>load</code> в случае с массивами можно так:</p>
+<p>Комбинаторно получается огромное количество различных SSE-интринзиков. Полная документация по ним — <a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/">Intel Intrinsics Guide</a> — лежит в закладках браузера у каждого уважающего себя performance engineer-а.</p>
+<p><strong>Выравнивание.</strong> Отдельно стоит отметить одну делать: операции чтения и записи имеют по две версии: <code>load</code> / <code>loadu</code> и <code>store</code> / <code>storeu</code>. Буква «u» здесь означает «unaligned» (англ. <em>невыровненный</em>). Первая корректно работает только тогда, когда весь считываемый блок помещается на одну кэш-линию (если это не так, то в рантаеме вызвется segfault), в то время как unaligned версия работает всегда и везде.</p>
+<p>Это отличие имело очень большое значение на старых компьютерах — если не получалось «выровнять» память, то производительность могла резко упасть (в два и более раз), так как нарушался паттерн последовательного доступа. На современных компьютерах это не так существенно: unaligned версия будет медленне, но в пределах 5%. Вручную «выровнять» память для последовательного чтения через <code>load</code> в случае с массивами можно так:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">alignas</span>(<span class="dv">32</span>) <span class="dt">int</span> a;</a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="co">// указатель на начало массива теперь будет кратен 32 байтам,</span></a>
 <a class="sourceLine" id="cb5-3" title="3"><span class="co">// то есть размеру sse-блока; теперь любое чтение будет внутри кэш-линии</span></a>
@@ -214,10 +214,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-6" title="6">    __m256i x = _mm256_load_epi32(&amp;a[i]);</a>
 <a class="sourceLine" id="cb5-7" title="7">    <span class="co">// ...</span></a>
 <a class="sourceLine" id="cb5-8" title="8">}</a></code></pre></div>
-<p>Вообще, загружать и сохранять данные интринзиками и вообще использовать <code>__m</code>-типы на самом деле не обязательно — всё можно сделать и reinterpret_cast-ом. Все данные хранятся в одном и том же формате, и это просто нужно для проверки типов и избежания связанных ошибок.</p>
+<p><strong>Типизация.</strong> Вообще, загружать и сохранять данные интринзиками и вообще использовать <code>__m</code>-типы на самом деле не обязательно — всё можно сделать и обычным reinterpret_cast-ом. Все данные хранятся в одном и том же формате, и разные типы нужны просто для проверки типов и избежания связанных ошибок.</p>
+<p>Некоторые операции есть только для какого-то одного типа, например, тот же <code>_mm256_blendv_ps</code> не имеет аналога для 32-битных <code>int</code>-ов, однако будет работать с ними абсолютно так же. Поэтому to make compiler happy можно применять к ним преобразания типов, которые не будут стоить дополнительных инструкций в рантайме. Они все имеют такой формат: <code>_mm&lt;размерность&gt;_cast&lt;откуда&gt;_&lt;куда&gt;</code>.</p>
 <h2 id="трудности-автовекторизации">Трудности автовекторизации</h2>
-<p>В самом начале статьи мы приводили пример кода, в котором уже оптимизированный бинарник получается без каких-либо изменений, кроме подключения нужного таргета компиляции.</p>
-<p>Зачем тогда вообще программисту делать что-либо ещё? Дело в том, что иногда — очень редко — программист всё-таки умнее компилятора, потому что знает про задачу чуть больше.</p>
+<p>В самом начале статьи мы приводили пример кода, в котором уже оптимизированный бинарник получается без каких-либо изменений, кроме подключения нужного таргета компиляции. Зачем тогда вообще программисту делать что-либо ещё?</p>
+<p>Дело в том, что иногда — очень редко — программист всё-таки умнее компилятора, потому что знает про задачу чуть больше.</p>
 <p>Рассмотрим этот же пример, убрав из него всё лишнее:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="dt">void</span> sum(<span class="dt">int</span> a[], <span class="dt">int</span> b[], <span class="dt">int</span> c[], <span class="dt">int</span> n) {</a>
 <a class="sourceLine" id="cb6-2" title="2">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>)</a>
@@ -225,147 +226,121 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb6-4" title="4">}</a></code></pre></div>
 <p>Почему эту функцию нельзя заменить на векторизованный-вариант автоматически?</p>
 <p>Во-первых, потому что это не всегда корректно. Предположим, что <code>a[]</code> и <code>c[]</code> пересекаются, причём так, что указатели на начало массивов отличаются на 1-2 позиции. Ну, мало ли — может, мы такой изощрённой свёрткой хотели посчитать последовательность Фибоначчи. Тогда в simd-блоках данные будут пересекаться, и наблюдаемое поведение будет совсем не то, которое мы хотели.</p>
-<p>Во-вторых, мы ничнго не знаем ничего про выравнивание этих массивов, и можем потерять производительность здесь (компилятор скорее всего сгенерирует инструкции с <code>loadu</code>).</p>
-<p>На самом деле, для достаточно больших циклов на высоких уровнях оптимизации компилятор вставит проверки на эти случаи и сгенерирует много разных вариантов. Но эти проверки выполняются в рантайме.</p>
-<p>Иногда мы можем считать внутри цикла что-то сложнее суммы — например, что-то, использующее <code>if</code>-ы или какие-нибудь нетривиальные внешние функции, для которых, тем не менее, есть SSE-аналог.</p>
-<p>Существуют различные способы намекнуть компилятору, что конкретно мы имели в виду, но часто проще написать всё самому.</p>
+<p>Во-вторых, мы ничего не знаем про выравнивание этих массивов, и можем потерять производительность здесь (компилятор скорее всего сгенерирует инструкции с <code>loadu</code>).</p>
+<p>На самом деле, для достаточно больших циклов на высоких уровнях оптимизации компилятор вставит проверки на эти случаи и сгенерирует два разных варианта: через SSE и обычный. Но эти проверки выполняются в рантайме и стоят лишних инструкций.</p>
+<p>Существуют <a href="https://software.intel.com/sites/default/files/m/4/8/8/2/a/31848-CompilerAutovectorizationGuide.pdf">различные способы</a> намекнуть компилятору, что конкретно мы имели в виду, но в сложных случаях — когда внутри цикла используются <code>if</code>-ы или какие-нибудь внешние функции — проще спуститься до уровня интринзиков и написать всё самому.</p>
 <h2 id="нетривиальный-пример">Нетривиальный пример</h2>
-<p>Пусть мы хотим возвести <span class="math inline">\(10^7\)</span> чисел в какие-то степени и перемножить.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> ll;</a>
-<a class="sourceLine" id="cb7-2" title="2"></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="at">const</span> <span class="dt">int</span> mod = <span class="fl">1e9</span> + <span class="dv">7</span>;</a>
-<a class="sourceLine" id="cb7-4" title="4"></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="kw">inline</span> ll binpow(ll a, <span class="dt">int</span> n) {</a>
-<a class="sourceLine" id="cb7-6" title="6">    ll res = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb7-7" title="7">    <span class="cf">while</span> (n &gt; <span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb7-8" title="8">       <span class="cf">if</span> (n &amp; <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb7-9" title="9">           res = (res * a) % mod;</a>
-<a class="sourceLine" id="cb7-10" title="10">       a = (a * a) % mod;</a>
-<a class="sourceLine" id="cb7-11" title="11">       n &gt;&gt;= <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb7-12" title="12">    }</a>
-<a class="sourceLine" id="cb7-13" title="13">    <span class="cf">return</span> res;</a>
-<a class="sourceLine" id="cb7-14" title="14">}</a></code></pre></div>
-<p>Возведём миллион (точнее, <span class="math inline">\(2^{20}\)</span>) чисел в степень:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="at">const</span> <span class="dt">int</span> n = (<span class="dv">1</span> &lt;&lt; <span class="dv">20</span>);</a>
-<a class="sourceLine" id="cb8-2" title="2">ll a[n], p[n];</a>
-<a class="sourceLine" id="cb8-3" title="3"></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb8-5" title="5">    a[i] = rand();</a>
-<a class="sourceLine" id="cb8-6" title="6">    p[i] = rand();</a>
-<a class="sourceLine" id="cb8-7" title="7">}</a>
-<a class="sourceLine" id="cb8-8" title="8"></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb8-10" title="10">    binpow(a[i], p[i]);</a></code></pre></div>
-<p>Этот код работает за X секунд.</p>
-<p>Для оптимизации, напишем sse-версию:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">inline</span> ll binpow_sse(reg a, reg n) {</a>
-<a class="sourceLine" id="cb9-2" title="2">    ll res = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb9-3" title="3">    <span class="co">// на самом деле, здесь никакого цикла не будет</span></a>
-<a class="sourceLine" id="cb9-4" title="4">    <span class="co">// -- компилятор это раскроет в 30 отдельных операций для скорости</span></a>
-<a class="sourceLine" id="cb9-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">30</span>; i++)</a>
-<a class="sourceLine" id="cb9-6" title="6">        <span class="co">// посчитаем маску тех элементов, которые нужно домножать к res</span></a>
-<a class="sourceLine" id="cb9-7" title="7"></a>
-<a class="sourceLine" id="cb9-8" title="8">        <span class="co">// сделаем умножение и взятие по модулю</span></a>
-<a class="sourceLine" id="cb9-9" title="9">        res = (res * a) % mod;</a>
-<a class="sourceLine" id="cb9-10" title="10">        <span class="co">// возведём число a в квадрат, в любом случае</span></a>
-<a class="sourceLine" id="cb9-11" title="11">        a = (a * a) % mod;</a>
-<a class="sourceLine" id="cb9-12" title="12">        <span class="co">// сдвинем все показатели на один байт</span></a>
-<a class="sourceLine" id="cb9-13" title="13">        n &gt;&gt;= <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb9-14" title="14">    }</a>
-<a class="sourceLine" id="cb9-15" title="15">    <span class="cf">return</span> res;</a>
-<a class="sourceLine" id="cb9-16" title="16">}</a></code></pre></div>
-<p>Почему мы для примера взяли unsigned, а не обычное умножение по какому-нибудь модулю, например <span class="math inline">\(10^9+7\)</span>?</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb10-1" title="1"><span class="pp">#pragma GCC optimize(&quot;O3&quot;)</span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="pp">#pragma GCC target(&quot;avx2&quot;)</span></a>
-<a class="sourceLine" id="cb10-3" title="3"></a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="pp">#include </span><span class="im">&lt;x86intrin.h&gt;</span></a>
-<a class="sourceLine" id="cb10-5" title="5"><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></a>
-<a class="sourceLine" id="cb10-6" title="6"></a>
-<a class="sourceLine" id="cb10-7" title="7"><span class="kw">using</span> <span class="kw">namespace</span> std;</a>
-<a class="sourceLine" id="cb10-8" title="8"></a>
-<a class="sourceLine" id="cb10-9" title="9"><span class="kw">typedef</span> <span class="dt">unsigned</span> <span class="dt">long</span> <span class="dt">long</span> ull;</a>
-<a class="sourceLine" id="cb10-10" title="10"><span class="kw">typedef</span> __m256i reg;</a>
-<a class="sourceLine" id="cb10-11" title="11"></a>
-<a class="sourceLine" id="cb10-12" title="12"><span class="at">const</span> <span class="dt">int</span> n = <span class="fl">1e8</span>;</a>
-<a class="sourceLine" id="cb10-13" title="13"><span class="kw">alignas</span>(<span class="dv">32</span>) <span class="dt">unsigned</span> bases[n], results[n], powers[n];</a>
-<a class="sourceLine" id="cb10-14" title="14"></a>
-<a class="sourceLine" id="cb10-15" title="15"><span class="dt">void</span> binpow_simple() {</a>
-<a class="sourceLine" id="cb10-16" title="16">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb10-17" title="17">        <span class="dt">unsigned</span> a = bases[i], p = powers[i];</a>
-<a class="sourceLine" id="cb10-18" title="18"></a>
-<a class="sourceLine" id="cb10-19" title="19">        <span class="dt">unsigned</span> res = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb10-20" title="20">        <span class="cf">while</span> (p &gt; <span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb10-21" title="21">            <span class="cf">if</span> (p &amp; <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb10-22" title="22">                res = (res * a);</a>
-<a class="sourceLine" id="cb10-23" title="23">            a = (a * a);</a>
-<a class="sourceLine" id="cb10-24" title="24">            p &gt;&gt;= <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb10-25" title="25">        }</a>
-<a class="sourceLine" id="cb10-26" title="26"></a>
-<a class="sourceLine" id="cb10-27" title="27">        results[i] = res;</a>
-<a class="sourceLine" id="cb10-28" title="28">    }</a>
-<a class="sourceLine" id="cb10-29" title="29">}</a>
-<a class="sourceLine" id="cb10-30" title="30"></a>
-<a class="sourceLine" id="cb10-31" title="31"><span class="kw">template</span>&lt;<span class="kw">typename</span> T&gt;</a>
-<a class="sourceLine" id="cb10-32" title="32"><span class="dt">void</span> print(T var) {</a>
-<a class="sourceLine" id="cb10-33" title="33">    <span class="dt">unsigned</span> *val = (<span class="dt">unsigned</span>*) &amp;var;</a>
-<a class="sourceLine" id="cb10-34" title="34">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">3</span>; i++)</a>
-<a class="sourceLine" id="cb10-35" title="35">        cout &lt;&lt; bitset&lt;<span class="dv">32</span>&gt;(val[i]) &lt;&lt; <span class="st">&quot; &quot;</span>;</a>
-<a class="sourceLine" id="cb10-36" title="36">    cout &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb10-37" title="37">}</a>
-<a class="sourceLine" id="cb10-38" title="38"></a>
-<a class="sourceLine" id="cb10-39" title="39"><span class="dt">void</span> binpow_sse() {</a>
-<a class="sourceLine" id="cb10-40" title="40">    <span class="at">const</span> reg ones = _mm256_set_epi32(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>);</a>
-<a class="sourceLine" id="cb10-41" title="41">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i += <span class="dv">8</span>) {</a>
-<a class="sourceLine" id="cb10-42" title="42">        reg a = _mm256_load_si256((__m256i*) &amp;bases[i]);</a>
-<a class="sourceLine" id="cb10-43" title="43">        reg p = _mm256_load_si256((__m256i*) &amp;powers[i]);</a>
-<a class="sourceLine" id="cb10-44" title="44">        reg res = ones;</a>
-<a class="sourceLine" id="cb10-45" title="45">        </a>
-<a class="sourceLine" id="cb10-46" title="46">        <span class="co">// на самом деле, здесь никакого цикла не будет</span></a>
-<a class="sourceLine" id="cb10-47" title="47">        <span class="co">// -- компилятор это развернёт в 30 отдельных операций</span></a>
-<a class="sourceLine" id="cb10-48" title="48">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">32</span>; i++) {</a>
-<a class="sourceLine" id="cb10-49" title="49">            <span class="co">// чтобы не писать лишний if, посчитаем для каждого элемента его множитель:</span></a>
-<a class="sourceLine" id="cb10-50" title="50">            <span class="co">// это будет либо единица, либо a, в зависимости от значения нижнего бита p</span></a>
-<a class="sourceLine" id="cb10-51" title="51"></a>
-<a class="sourceLine" id="cb10-52" title="52">            <span class="co">// маски элементов, которые нужно домножать на a:</span></a>
-<a class="sourceLine" id="cb10-53" title="53">            reg mask = _mm256_cmpeq_epi32(_mm256_and_si256(p, ones), ones);</a>
-<a class="sourceLine" id="cb10-54" title="54">            <span class="co">// эта операция смешивает два вектора по маске:</span></a>
-<a class="sourceLine" id="cb10-55" title="55">            reg mul = _mm256_blendv_epi8(ones, a, mask);</a>
-<a class="sourceLine" id="cb10-56" title="56"></a>
-<a class="sourceLine" id="cb10-57" title="57">            <span class="co">// res *= mul:</span></a>
-<a class="sourceLine" id="cb10-58" title="58">            res = _mm256_mullo_epi32(res, mul);</a>
-<a class="sourceLine" id="cb10-59" title="59">            <span class="co">// (mullo = mul low -- оставляет только нижние 32 бита)</span></a>
-<a class="sourceLine" id="cb10-60" title="60"></a>
-<a class="sourceLine" id="cb10-61" title="61">            <span class="co">// a *= a:</span></a>
-<a class="sourceLine" id="cb10-62" title="62">            a = _mm256_mullo_epi32(a, a);</a>
-<a class="sourceLine" id="cb10-63" title="63"></a>
-<a class="sourceLine" id="cb10-64" title="64">            <span class="co">// p &gt;&gt;= 1:</span></a>
-<a class="sourceLine" id="cb10-65" title="65">            p = _mm256_srli_epi32(p, <span class="dv">1</span>);</a>
-<a class="sourceLine" id="cb10-66" title="66">        }</a>
-<a class="sourceLine" id="cb10-67" title="67"></a>
-<a class="sourceLine" id="cb10-68" title="68">        _mm256_store_si256((__m256i*) &amp;results[i], res);</a>
-<a class="sourceLine" id="cb10-69" title="69">    }</a>
-<a class="sourceLine" id="cb10-70" title="70">}</a>
-<a class="sourceLine" id="cb10-71" title="71"></a>
-<a class="sourceLine" id="cb10-72" title="72"><span class="dt">void</span> timeit(<span class="dt">void</span> (*f)()) {</a>
-<a class="sourceLine" id="cb10-73" title="73">    <span class="dt">clock_t</span> start = clock();</a>
-<a class="sourceLine" id="cb10-74" title="74">    f();</a>
-<a class="sourceLine" id="cb10-75" title="75">    cout &lt;&lt; <span class="dt">double</span>(clock() - start) / CLOCKS_PER_SEC &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb10-76" title="76"></a>
-<a class="sourceLine" id="cb10-77" title="77">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">10</span>; i++)</a>
-<a class="sourceLine" id="cb10-78" title="78">        cout &lt;&lt; results[i] &lt;&lt; <span class="st">&quot; &quot;</span>;</a>
-<a class="sourceLine" id="cb10-79" title="79">    cout &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb10-80" title="80">}</a>
-<a class="sourceLine" id="cb10-81" title="81"></a>
-<a class="sourceLine" id="cb10-82" title="82"><span class="dt">int</span> main() {</a>
-<a class="sourceLine" id="cb10-83" title="83">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb10-84" title="84">        bases[i] = rand();</a>
-<a class="sourceLine" id="cb10-85" title="85">        powers[i] = rand();</a>
-<a class="sourceLine" id="cb10-86" title="86">    }</a>
-<a class="sourceLine" id="cb10-87" title="87"></a>
-<a class="sourceLine" id="cb10-88" title="88">    timeit(binpow_simple);</a>
-<a class="sourceLine" id="cb10-89" title="89">    timeit(binpow_sse);</a>
-<a class="sourceLine" id="cb10-90" title="90">    </a>
-<a class="sourceLine" id="cb10-91" title="91">    <span class="cf">return</span> <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb10-92" title="92">}</a></code></pre></div>
+<p>Пусть нам зачем-то понадобилось возвести <span class="math inline">\(10^8\)</span> чисел в какие-то степени.</p>
+<p>В SSE весьма сложно делить <code>int</code>-ы (см. примечания ниже), поэтому будем считать всё по модулю <span class="math inline">\(2^{32}\)</span>, то есть просто переполняя естественным образом <code>unsigned int</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="pp">#pragma GCC optimize(&quot;O3&quot;)</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="pp">#pragma GCC target(&quot;avx2&quot;)</span></a>
+<a class="sourceLine" id="cb7-3" title="3"></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="pp">#include </span><span class="im">&lt;x86intrin.h&gt;</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></a>
+<a class="sourceLine" id="cb7-6" title="6"></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="kw">using</span> <span class="kw">namespace</span> std;</a>
+<a class="sourceLine" id="cb7-8" title="8"></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="kw">typedef</span> <span class="dt">unsigned</span> <span class="dt">long</span> <span class="dt">long</span> ull;</a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="kw">typedef</span> __m256i reg;</a>
+<a class="sourceLine" id="cb7-11" title="11"></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="at">const</span> <span class="dt">int</span> n = <span class="fl">1e8</span>;</a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="kw">alignas</span>(<span class="dv">32</span>) <span class="dt">unsigned</span> bases[n], results[n], powers[n];</a>
+<a class="sourceLine" id="cb7-14" title="14"></a>
+<a class="sourceLine" id="cb7-15" title="15"><span class="dt">void</span> timeit(<span class="dt">void</span> (*f)()) {</a>
+<a class="sourceLine" id="cb7-16" title="16">    <span class="co">// запускает другую функцию и меряет время её исполнения</span></a>
+<a class="sourceLine" id="cb7-17" title="17">    <span class="dt">clock_t</span> start = clock();</a>
+<a class="sourceLine" id="cb7-18" title="18">    f();</a>
+<a class="sourceLine" id="cb7-19" title="19">    cout &lt;&lt; <span class="dt">double</span>(clock() - start) / CLOCKS_PER_SEC &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb7-20" title="20"></a>
+<a class="sourceLine" id="cb7-21" title="21">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">10</span>; i++)</a>
+<a class="sourceLine" id="cb7-22" title="22">        cout &lt;&lt; results[i] &lt;&lt; <span class="st">&quot; &quot;</span>;</a>
+<a class="sourceLine" id="cb7-23" title="23">    cout &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb7-24" title="24">}</a>
+<a class="sourceLine" id="cb7-25" title="25"></a>
+<a class="sourceLine" id="cb7-26" title="26"><span class="dt">int</span> main() {</a>
+<a class="sourceLine" id="cb7-27" title="27">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
+<a class="sourceLine" id="cb7-28" title="28">        bases[i] = rand();</a>
+<a class="sourceLine" id="cb7-29" title="29">        powers[i] = rand();</a>
+<a class="sourceLine" id="cb7-30" title="30">    }</a>
+<a class="sourceLine" id="cb7-31" title="31">    </a>
+<a class="sourceLine" id="cb7-32" title="32">    <span class="co">// timeit(binpow_simple);</span></a>
+<a class="sourceLine" id="cb7-33" title="33">    <span class="co">// timeit(binpow_sse);</span></a>
+<a class="sourceLine" id="cb7-34" title="34">    </a>
+<a class="sourceLine" id="cb7-35" title="35">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb7-36" title="36">}</a></code></pre></div>
+<p>Напишем стандартное итеративное бинарное возведение в степень:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="dt">void</span> binpow_simple() {</a>
+<a class="sourceLine" id="cb8-2" title="2">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
+<a class="sourceLine" id="cb8-3" title="3">        <span class="dt">unsigned</span> a = bases[i], p = powers[i];</a>
+<a class="sourceLine" id="cb8-4" title="4"></a>
+<a class="sourceLine" id="cb8-5" title="5">        <span class="dt">unsigned</span> res = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb8-6" title="6">        <span class="cf">while</span> (p &gt; <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb8-7" title="7">            <span class="cf">if</span> (p &amp; <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb8-8" title="8">                res = (res * a);</a>
+<a class="sourceLine" id="cb8-9" title="9">            a = (a * a);</a>
+<a class="sourceLine" id="cb8-10" title="10">            p &gt;&gt;= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb8-11" title="11">        }</a>
+<a class="sourceLine" id="cb8-12" title="12"></a>
+<a class="sourceLine" id="cb8-13" title="13">        results[i] = res;</a>
+<a class="sourceLine" id="cb8-14" title="14">    }</a>
+<a class="sourceLine" id="cb8-15" title="15">}</a></code></pre></div>
+<p>Этот код работает за 9.47 секунды.</p>
+<p>Теперь попробуем векторизованную версию:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" title="1"><span class="dt">void</span> binpow_sse() {</a>
+<a class="sourceLine" id="cb9-2" title="2">    <span class="at">const</span> reg ones = _mm256_set_epi32(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb9-3" title="3">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i += <span class="dv">8</span>) {</a>
+<a class="sourceLine" id="cb9-4" title="4">        reg a = _mm256_load_si256((__m256i*) &amp;bases[i]);</a>
+<a class="sourceLine" id="cb9-5" title="5">        reg p = _mm256_load_si256((__m256i*) &amp;powers[i]);</a>
+<a class="sourceLine" id="cb9-6" title="6">        reg res = ones;</a>
+<a class="sourceLine" id="cb9-7" title="7">        </a>
+<a class="sourceLine" id="cb9-8" title="8">        <span class="co">// на самом деле, здесь никакого цикла не будет</span></a>
+<a class="sourceLine" id="cb9-9" title="9">        <span class="co">// -- компилятор это развернёт в 30 отдельных операций</span></a>
+<a class="sourceLine" id="cb9-10" title="10">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">32</span>; i++) {</a>
+<a class="sourceLine" id="cb9-11" title="11">            <span class="co">// чтобы не писать лишний иф, посчитаем для каждого элемента его множитель:</span></a>
+<a class="sourceLine" id="cb9-12" title="12">            <span class="co">// это будет либо единица, либо a, в зависимости от значения нижнего бита p</span></a>
+<a class="sourceLine" id="cb9-13" title="13"></a>
+<a class="sourceLine" id="cb9-14" title="14">            <span class="co">// маски элементов, которые нужно домножать на a:</span></a>
+<a class="sourceLine" id="cb9-15" title="15">            reg mask = _mm256_cmpeq_epi32(_mm256_and_si256(p, ones), ones);</a>
+<a class="sourceLine" id="cb9-16" title="16">            <span class="co">// эта операция смешивает два вектора по маске:</span></a>
+<a class="sourceLine" id="cb9-17" title="17">            reg mul = _mm256_blendv_epi8(ones, a, mask);</a>
+<a class="sourceLine" id="cb9-18" title="18"></a>
+<a class="sourceLine" id="cb9-19" title="19">            <span class="co">// res *= mul:</span></a>
+<a class="sourceLine" id="cb9-20" title="20">            res = _mm256_mullo_epi32(res, mul);</a>
+<a class="sourceLine" id="cb9-21" title="21"></a>
+<a class="sourceLine" id="cb9-22" title="22">            <span class="co">// a *= a:</span></a>
+<a class="sourceLine" id="cb9-23" title="23">            a = _mm256_mullo_epi32(a, a);</a>
+<a class="sourceLine" id="cb9-24" title="24"></a>
+<a class="sourceLine" id="cb9-25" title="25">            <span class="co">// p &gt;&gt;= 1:</span></a>
+<a class="sourceLine" id="cb9-26" title="26">            p = _mm256_srli_epi32(p, <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb9-27" title="27">        }</a>
+<a class="sourceLine" id="cb9-28" title="28"></a>
+<a class="sourceLine" id="cb9-29" title="29">        _mm256_store_si256((__m256i*) &amp;results[i], res);</a>
+<a class="sourceLine" id="cb9-30" title="30">    }</a>
+<a class="sourceLine" id="cb9-31" title="31">}</a></code></pre></div>
+<p>Она уже работает за 0.7 секунды — в 13.5 раз быстрее. При этом там и дальше есть, что оптимизировать.</p>
+<h2 id="разное">Разное</h2>
+<p><strong>С++ в ассемблер.</strong> Посмотреть на генерируемые инструкции можно так:</p>
+<pre><code>g++ -S program.cpp -o program.s</code></pre>
+<p>Это позволяет понять, векторизует ли уже компилятор код или нет. Во многих IDE есть удобные плагины, позволяющие выяснять это для конкретных функций.</p>
+<p><strong>Распечатать вектор.</strong> Для дебага помогает такой код:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">template</span>&lt;<span class="kw">typename</span> T&gt;</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="dt">void</span> print(T var) {</a>
+<a class="sourceLine" id="cb11-3" title="3">    <span class="dt">unsigned</span> *val = (<span class="dt">unsigned</span>*) &amp;var;</a>
+<a class="sourceLine" id="cb11-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">4</span>; i++)</a>
+<a class="sourceLine" id="cb11-5" title="5">        cout &lt;&lt; bitset&lt;<span class="dv">32</span>&gt;(val[i]) &lt;&lt; <span class="st">&quot; &quot;</span>;</a>
+<a class="sourceLine" id="cb11-6" title="6">    cout &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb11-7" title="7">}</a></code></pre></div>
+<p>В данном случае он выводит 4 группы по 32 бита из 128-битного вектора.</p>
+<p><strong>Деление.</strong> В SSE нет операции деления <code>int</code>-ов, но есть для <code>float</code>-ов и производных. Также нет взятия остатка от деления, что осложняет вычисления в комбинаторике.</p>
+<p>Для деления 32-битных целых чисел их можно аккуратно скастовать к даблу, поделить так, и скастовать обратно — точности хватит, хоть это и будет медленно.</p>
+<p>Умножение работает в несколько раз быстрее деления, и поэтому для ускорения деления на известную константу <span class="math inline">\(d\)</span> есть следующий <a href="https://ridiculousfish.com/blog/posts/labor-of-division-episode-iii.html">трюк</a>: заменить выражение <span class="math inline">\(x / d\)</span> на <span class="math inline">\(x \cdot \frac{1}{d}\)</span>, и при этом <span class="math inline">\(\frac{1}{d}\)</span> посчитать во время компиляции. Это уже идеально работает с <code>float</code>-ами, а для <code>int</code>-ов нужно приблизить <span class="math inline">\(\frac{1}{d}\)</span>, подобрав «магическое» число <span class="math inline">\(m\)</span> и степень двойки <span class="math inline">\(s\)</span>, такое что <code>x / d == (x * m*) &gt;&gt; s</code> для всех <code>x</code>, то есть мы заменяем деление на умножение и битовый сдвиг.</p>
+<p>Можно показать, что такая пара чисел всегда существует, и компилятор сам оптимизирует деление на константу подобным образом. Вот, например, сгенерированные инструкции для деления <code>unsigned long long</code> на <span class="math inline">\(10^9 + 7\)</span>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode nasm"><code class="sourceCode nasm"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">movq</span>    <span class="ot">%rdi, %rax</span></a>
+<a class="sourceLine" id="cb12-2" title="2">movabsq <span class="dv">$</span>-<span class="dv">8543223828751151131</span>, <span class="ot">%rdx ; загружает магическую константу в регистр</span></a>
+<a class="sourceLine" id="cb12-3" title="3">mulq    <span class="ot">%rdx                        ; делает умножение</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="kw">movq</span>    <span class="ot">%rdx, %rax</span></a>
+<a class="sourceLine" id="cb12-5" title="5">shrq<span class="bn">    $29, </span><span class="ot">%rax                   ; делает битовый сдвиг результата</span></a></code></pre></div>
+<p>Здесь для умножения используется «mixed precision» инструкция <code>mulq</code>, которая берёт два 64-битных числа и записывает 128-битный результат их умножения в два 64-битных регистра (lo, hi).</p>
+<p>Для деления <code>long</code>-ов на SSE такой способ пока что не работает: аналогичная инструкция добавилась только в AVX512.</p>
 </body>
 </html>
