@@ -259,20 +259,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Если предположить, что в первом варианте начало массива совпадает с началом кэш-линии, а её размер 64 байта, то примерно половина <code>loadu</code> и <code>storeu</code> будут «плохими».</p>
 <p>Вручную «выровнять» память для последовательного чтения через <code>load</code> в случае с массивами можно так:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">alignas</span>(<span class="dv">32</span>) <span class="dt">float</span> a[n];</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="co">// указатель на начало массива теперь будет кратен 32 байтам,</span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="co">// то есть размеру sse-блока; теперь любое чтение будет внутри кэш-линии</span></a>
-<a class="sourceLine" id="cb9-4" title="4"></a>
-<a class="sourceLine" id="cb9-5" title="5"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i += <span class="dv">8</span>) {</a>
-<a class="sourceLine" id="cb9-6" title="6">    __m256 x = _mm256_load_ps(&amp;a[i]);</a>
-<a class="sourceLine" id="cb9-7" title="7">    <span class="co">// ...</span></a>
-<a class="sourceLine" id="cb9-8" title="8">}</a></code></pre></div>
+<a class="sourceLine" id="cb9-2" title="2"></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i += <span class="dv">8</span>) {</a>
+<a class="sourceLine" id="cb9-4" title="4">    __m256 x = _mm256_load_ps(&amp;a[i]);</a>
+<a class="sourceLine" id="cb9-5" title="5">    <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb9-6" title="6">}</a></code></pre></div>
+<p>Указатель на начало массива теперь будет кратен 32 байтам, то есть размеру sse-блока. Теперь любое чтение и запись гарантированно будет внутри кэш-линии.</p>
 <p><strong>Типизация.</strong> Вообще, загружать и сохранять данные интринзиками и вообще использовать <code>__m</code>-типы на самом деле не обязательно — всё можно сделать и обычным reinterpret_cast-ом. Все данные хранятся в одном и том же формате, и разные типы нужны просто для проверки типов и избежания связанных ошибок.</p>
 <p>Для каждой размерности регистра есть 3 типа данных. На примере AVX: <code>__m256</code> для <code>float</code>, <code>__m256d</code> для <code>double</code> и <code>__m256i</code> для разных <code>int</code>-ов.</p>
 <p>Некоторые операции есть только для какого-то одного типа (например, тот же <code>_mm256_blendv_ps</code> не имеет аналога для 32-битных <code>int</code>-ов), однако будут работать с другими типами абсолютно так же. Поэтому, to make compiler happy, нужно применять к ним преобразования типов, которые не будут стоить дополнительных инструкций в рантайме. Они все имеют такой формат: <code>_mm&lt;размерность&gt;_cast&lt;откуда&gt;_&lt;куда&gt;</code>.</p>
 <p><strong>Loop unrolling.</strong> Добавление флага <code>unroll-loops</code> (<code>#pragma GCC optimize("unroll-loops")</code>) позволяет компилятору делать «<a href="https://en.wikipedia.org/wiki/Loop_unrolling">размотку</a>» циклов, то есть преобразовывать код вида:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb10-1" title="1"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb10-2" title="2">    a[i] = (i % b[i]);</a></code></pre></div>
-<p>во что-то такое:</p>
+<p>…во что-то такое:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb11-1" title="1"><span class="dt">int</span> i;</a>
 <a class="sourceLine" id="cb11-2" title="2"><span class="cf">for</span> (i = <span class="dv">1</span>; i &lt; n - <span class="dv">3</span>; i += <span class="dv">4</span>) {</a>
 <a class="sourceLine" id="cb11-3" title="3">    a[i] = (i % b[i]);</a>
@@ -356,7 +355,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb14-12" title="12">            <span class="co">// это либо единица, либо a, в зависимости от значения нижнего бита p</span></a>
 <a class="sourceLine" id="cb14-13" title="13">            <span class="co">// маски элементов, которые нужно домножать на a:</span></a>
 <a class="sourceLine" id="cb14-14" title="14">            reg mask = _mm256_cmpeq_epi32(_mm256_and_si256(p, ones), ones);</a>
-<a class="sourceLine" id="cb14-15" title="15">            <span class="co">// эта операция смешивает два вектора по маске:</span></a>
+<a class="sourceLine" id="cb14-15" title="15">            <span class="co">// смешаем два вектора по маске:</span></a>
 <a class="sourceLine" id="cb14-16" title="16">            reg mul = _mm256_blendv_epi8(ones, a, mask);</a>
 <a class="sourceLine" id="cb14-17" title="17">            <span class="co">// res *= mul:</span></a>
 <a class="sourceLine" id="cb14-18" title="18">            res = _mm256_mullo_epi32(res, mul);</a>
@@ -375,7 +374,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Дело в том, что иногда — очень редко — программист всё-таки умнее компилятора, потому что знает про задачу чуть больше.</p>
 <p>Рассмотрим этот же пример, убрав из него всё лишнее:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb15-1" title="1"><span class="dt">void</span> sum(<span class="dt">int</span> a[], <span class="dt">int</span> b[], <span class="dt">int</span> c[], <span class="dt">int</span> n) {</a>
-<a class="sourceLine" id="cb15-2" title="2">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb15-2" title="2">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb15-3" title="3">        c[i] = a[i] + b[i];</a>
 <a class="sourceLine" id="cb15-4" title="4">}</a></code></pre></div>
 <p>Почему эту функцию нельзя заменить на векторизованный-вариант автоматически?</p>
@@ -385,7 +384,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Но выполнять эти проверки в рантайме не хочется, поэтому можно сообщить компилятору, что мы уверены, что ничего не сломается:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb16-1" title="1"><span class="pp">#pragma GCC ivdep</span></a>
 <a class="sourceLine" id="cb16-2" title="2"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb16-3" title="3">    <span class="co">// ...</span></a></code></pre></div>
+<a class="sourceLine" id="cb16-3" title="3">    <span class="co">// ...</span></a></code></pre></div>
 <p>Здесь «ivdep» означает <strong>i</strong>gnore <strong>v</strong>ector <strong>dep</strong>endencies — данные внутри цикла ни от чего не зависят.</p>
 <p>Существует <a href="https://software.intel.com/sites/default/files/m/4/8/8/2/a/31848-CompilerAutovectorizationGuide.pdf">много других способов</a> намекнуть компилятору, что конкретно мы имели в виду, но в сложных случаях — когда внутри цикла используются <code>if</code>-ы или вызываются какие-нибудь внешние функции — проще спуститься до уровня интринзиков и написать всё самому.</p>
 <h2 id="разное">Разное</h2>
