@@ -4,14 +4,14 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Ро-алгоритм Полларда</title>
-  <style>
+  <title>Ро-алгоритм Полларда - Алгоритмика</title>
+  <style type="text/css">
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <style>
+  <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
@@ -105,9 +105,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
 </head>
 <body>
-<header id="title-block-header">
-<h1 class="title">Ро-алгоритм Полларда</h1>
-</header>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/aho-corasick.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/pollard.md'>История изменений</a>-->
+    </div>
+</div>
 <h1 id="ро-алгоритм-полларда">Ро-алгоритм Полларда</h1>
 <p>Наука умеет раскладывать целые числа на множители за <span class="math inline">\(O(n^\frac{1}{4})\)</span>. Описываемый в этой статье алгоритм рандомизированный, поэтому нам сначала понадобится доказать одно утверждение из теории вероятностей.</p>
 <h2 id="парадокс-дней-рождений">Парадокс дней рождений</h2>

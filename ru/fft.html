@@ -4,14 +4,14 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Быстрое преобразование Фурье</title>
-  <style>
+  <title>Быстрое преобразование Фурье - Алгоритмика</title>
+  <style type="text/css">
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <style>
+  <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
@@ -105,9 +105,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
 </head>
 <body>
-<header id="title-block-header">
-<h1 class="title">Быстрое преобразование Фурье</h1>
-</header>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/aho-corasick.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/fft.md'>История изменений</a>-->
+    </div>
+</div>
 <h1 id="быстрое-преобразование-фурье">Быстрое преобразование Фурье</h1>
 <p>Рассмотрим такую распространённую операцию как умножение двух целых чисел. Квадратичный алгоритм — умножения в столбик — все знают со школы. Долгое время предполагалось, что ничего быстрее придумать нельзя.</p>
 <p>Первым эту гипотезу опроверг Анатолий Карацуба. Его <a href="https://algorithmica.org/ru/karatsuba">алгоритм</a> сводит умножение двух <span class="math inline">\(n\)</span>-значных чисел к трём умножениям <span class="math inline">\(\frac{n}{2}\)</span>-значных чисел, что даёт оценку времени работы</p>

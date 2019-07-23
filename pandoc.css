@@ -41,6 +41,36 @@ body {
   padding-bottom: 25px;
 }
 
+#header {
+    height: 10px;
+    margin-top: 14px;
+}
+
+#links {
+    display: inline-block;
+    text-align: right;
+    font-size: 16px;
+    width: 600px;
+}
+
+#links a {
+     margin-left: 20px;
+}
+
+#header a:hover {
+    color: #0645ad!important;
+}
+
+#header a {
+    color: #111 !important;
+    display: inline-block;
+}
+
+#logo {
+    font-size: 22px;
+    font-family: 'Garamond', serif;
+}
+
 .contents {
     position: inline-block;
     float: left;
@@ -48,9 +78,6 @@ body {
     left: 55px;
     width: 275px;
     text-align: left;
-}
-
-.contents h3 {
 }
 
 .contents ul {
