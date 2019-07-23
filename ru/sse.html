@@ -165,15 +165,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw">using</span> <span class="kw">namespace</span> std;</a>
 <a class="sourceLine" id="cb3-3" title="3"></a>
 <a class="sourceLine" id="cb3-4" title="4"><span class="dt">int</span> main() {</a>
-<a class="sourceLine" id="cb3-5" title="5"></a>
-<a class="sourceLine" id="cb3-6" title="6">    cout &lt;&lt; <span class="fu">__builtin_cpu_supports</span>(<span class="st">&quot;sse&quot;</span>) &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb3-7" title="7">    cout &lt;&lt; <span class="fu">__builtin_cpu_supports</span>(<span class="st">&quot;sse2&quot;</span>) &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb3-8" title="8">    cout &lt;&lt; <span class="fu">__builtin_cpu_supports</span>(<span class="st">&quot;avx&quot;</span>) &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb3-9" title="9">    cout &lt;&lt; <span class="fu">__builtin_cpu_supports</span>(<span class="st">&quot;avx2&quot;</span>) &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb3-10" title="10">    cout &lt;&lt; <span class="fu">__builtin_cpu_supports</span>(<span class="st">&quot;avx512f&quot;</span>) &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb3-11" title="11"></a>
-<a class="sourceLine" id="cb3-12" title="12">    <span class="cf">return</span> <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb3-13" title="13">}</a></code></pre></div>
+<a class="sourceLine" id="cb3-5" title="5">    cout &lt;&lt; <span class="fu">__builtin_cpu_supports</span>(<span class="st">&quot;sse&quot;</span>) &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-6" title="6">    cout &lt;&lt; <span class="fu">__builtin_cpu_supports</span>(<span class="st">&quot;sse2&quot;</span>) &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-7" title="7">    cout &lt;&lt; <span class="fu">__builtin_cpu_supports</span>(<span class="st">&quot;avx&quot;</span>) &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-8" title="8">    cout &lt;&lt; <span class="fu">__builtin_cpu_supports</span>(<span class="st">&quot;avx2&quot;</span>) &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-9" title="9">    cout &lt;&lt; <span class="fu">__builtin_cpu_supports</span>(<span class="st">&quot;avx512f&quot;</span>) &lt;&lt; endl;</a>
+<a class="sourceLine" id="cb3-10" title="10"></a>
+<a class="sourceLine" id="cb3-11" title="11">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb3-12" title="12">}</a></code></pre></div>
 <p>Экономя время читателю: сервера CodeForces и большинство онлайн джаджей на момент написания статьи поддерживают AVX2, то есть умеют полноценно работать с 256-битными регистрами.</p>
 <h2 id="c-intrinsics">C++ intrinsics</h2>
 <p>SSE это те же чистые ассемблерные инструкции. Языки с каким-либо более верхним <a href="https://en.wikipedia.org/wiki/Java_virtual_machine">уровнем абстракции</a> напрямую работать с ними уже не могут. Однако не обязательно писать на чистом ассемблере, чтобы их использовать — разработчики компиляторов уже позаботились об этом за вас и сделали встроенные функции-обёртки, которые называют <em>интринзиками</em> (англ. <em>intrinsic</em> — «внутренний»).</p>
@@ -265,7 +264,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb9-8" title="8"></a>
 <a class="sourceLine" id="cb9-9" title="9"><span class="cf">for</span> (; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb9-10" title="10">    a[i] = (i % b[i]);</a></code></pre></div>
-<p>Такая техника может сильно ускорить лёгкие циклы, в которых пересчёт индикатора занимает сравнимое с телом цикла время, но увеличивает количество инструкций. Сам бинарник будет весить больше, а также, если ёмкости кэша команд не хватит для тела цикла, то его эффективность может даже существенно снизиться.</p>
+<p>Такая техника может сильно ускорить лёгкие циклы, в которых пересчёт индикатора занимает сравнимое с телом цикла время, но увеличивает количество инструкций. Это не всегда полезно: сам бинарник будет весить больше, а также, если ёмкости кэша команд не хватит, то эффективность цикла может даже существенно снизиться.</p>
 <h2 id="нетривиальный-пример">Нетривиальный пример</h2>
 <p>Пусть нам зачем-то понадобилось возвести <span class="math inline">\(10^8\)</span> чисел в какие-то степени.</p>
 <p>Тестировать и сравнивать решения будем таким кодом:</p>
@@ -371,7 +370,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Это позволяет понять, векторизует ли уже компилятор код или нет (названия векторных инструкций начинаются с буквы v). Во многих IDE есть удобные плагины, позволяющие выяснять это для конкретных функций.</p>
 <p>Если указать флаг <code>-fopt-info-vec-optimized</code>, то компилятор прямо укажет на операции, которые он смог векторизовать:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode powershell"><code class="sourceCode powershell"><a class="sourceLine" id="cb15-1" title="1">g++ -fopt-info-vec-optimized program.<span class="fu">cpp</span> -o run</a></code></pre></div>
-<p>Можно поменять <code>optimized</code> на <code>missed</code> или <code>all</code> , чтобы посмотреть причины, почему не получилось векторизовать другие.</p>
+<p>Можно поменять <code>optimized</code> на <code>missed</code> или <code>all</code>, чтобы посмотреть причины, почему не получилось векторизовать другие.</p>
 <p><strong>Распечатать вектор.</strong> Для дебага помогает такой код:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">template</span>&lt;<span class="kw">typename</span> T&gt;</a>
 <a class="sourceLine" id="cb16-2" title="2"><span class="dt">void</span> print(T var) {</a>
