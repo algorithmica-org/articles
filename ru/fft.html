@@ -110,7 +110,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 <h1 id="быстрое-преобразование-фурье">Быстрое преобразование Фурье</h1>
 <p>Рассмотрим такую распространённую операцию как умножение двух целых чисел. Квадратичный алгоритм — умножения в столбик — все знают со школы. Долгое время предполагалось, что ничего быстрее придумать нельзя.</p>
-<p>Первым эту гипотезу опроверг Анатолий Карацуба. Его <a href="https://algorithmica.org/ru/karatsuba">алгоритм</a> сводит умножение двух <span class="math inline">\(n\)</span>-значиных чисел к трём умножениям <span class="math inline">\(\frac{n}{2}\)</span>-значных чисел, что даёт оценку времени работы</p>
+<p>Первым эту гипотезу опроверг Анатолий Карацуба. Его <a href="https://algorithmica.org/ru/karatsuba">алгоритм</a> сводит умножение двух <span class="math inline">\(n\)</span>-значных чисел к трём умножениям <span class="math inline">\(\frac{n}{2}\)</span>-значных чисел, что даёт оценку времени работы</p>
 <p><span class="math display">\[
 T(n)=3T\left(\dfrac n 2\right)+O(n)=O\left(n^{\log_2 3}\right)\approx O(n^{1.58})
 \]</span></p>
@@ -244,7 +244,7 @@ w_n = e^{i \tau \frac{n}{n}} = e^{i \tau} = e^{i \cdot 0} = w_0 = 1
 <p><span class="math display">\[
 y_j = \sum_{k=0}^{n-1} x_n e^{i\tau \frac{kj}{n}} = \sum_{k=0}^{n-1} x_n w_1^{kj}
 \]</span></p>
-<p><em>Обратным дискретным преобразованием Фурье</em> назвается, как можно догадаться, обратная операция — интерполяция коэффициентов <span class="math inline">\(x_i\)</span> по значениям <span class="math inline">\(X_i\)</span>.</p>
+<p><em>Обратным дискретным преобразованием Фурье</em> называется, как можно догадаться, обратная операция — интерполяция коэффициентов <span class="math inline">\(x_i\)</span> по значениям <span class="math inline">\(X_i\)</span>.</p>
 <p><span class="math display">\[
 x_j = \frac{1}{n} \sum_{k=0}^{n-1} y_n e^{-i\tau \frac{kj}{n}} = \frac{1}{n} \sum_{k=0}^{n-1} y_n w_{n-1}^{kj}
 \]</span></p>
@@ -379,7 +379,7 @@ m = 998244353 = 7 \cdot 17 \cdot 2^{23} + 1
 \]</span></p>
 <p>Это число простое, и при этом является ровно на единицу больше числа, делящегося на большую степень двойки. Можно в качестве <span class="math inline">\(g\)</span> взять <span class="math inline">\(7 \cdot 17 \cdot 2^k\)</span> для какого-нибудь <span class="math inline">\(k\)</span>, и тогда по модулю <span class="math inline">\(n = 2^{23-k}\)</span> это <span class="math inline">\(g\)</span> будет подходить вследствие малой теоремы Ферма.</p>
 <p>Реализация никак не отличается.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: кто-нибудь законтрибьютите более быструю реализацию</span></a></code></pre></div>
-<p>С недавнего врмеени некоторые проблемсеттеры начали использовать именно этот модулю вместо стандартного <span class="math inline">\(10^9+7\)</span>, чтобы намекнуть (или сбить с толку), что задача на FFT.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: кто-нибудь законтрибьюте более быструю реализацию</span></a></code></pre></div>
+<p>С недавнего времени некоторые проблемсеттеры начали использовать именно этот модулю вместо стандартного <span class="math inline">\(10^9+7\)</span>, чтобы намекнуть (или сбить с толку), что задача на FFT.</p>
 </body>
 </html>

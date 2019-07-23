@@ -109,7 +109,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Метод отжига</h1>
 </header>
 <h1 id="метод-отжига">Метод отжига</h1>
-<p>Алгоритм иммитации отжига (англ. <em>simulated annealing</em>) — эвристический алгоритм глобальной оптимизации, особенно эффективный при решении дискретных и комбинаторных задач.</p>
+<p>Алгоритм имитации отжига (англ. <em>simulated annealing</em>) — эвристический алгоритм глобальной оптимизации, особенно эффективный при решении дискретных и комбинаторных задач.</p>
 <p>Алгоритм вдохновлён процессом <a href="https://ru.wikipedia.org/wiki/%D0%9E%D1%82%D0%B6%D0%B8%D0%B3">отжига</a> в металлургии — техники, заключающейся в нагревании и контролируемом охлаждении металла, чтобы увеличить его кристаллизованность и уменьшить дефекты. Симулированние отжига в переборных задачах может быть использовано для приближённого нахождения глобального минимума функций с большим количеством свободных переменных.</p>
 <p>Алгоритм вероятностный и не даёт почти никаких гарантий сходимости, однако хорошо работает на практике при решении NP-полных задач. Иногда на контестах им удаётся сдать сложные комбинаторные задачи, у которых есть нормальное решение: <a href="http://codeforces.com/contest/745/submission/23067030">Ильдар Гайнуллин сдает отжигом div2E на динамику по подмножествам</a>.</p>
 <p><img src="https://camo.githubusercontent.com/574bf26bf301827efaa18748440fa77fab8c5a4f/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f642f64352f48696c6c5f436c696d62696e675f776974685f53696d756c617465645f416e6e65616c696e672e676966" /></p>
@@ -169,7 +169,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-17" title="17"><span class="dt">double</span> rnd() { <span class="cf">return</span> <span class="dt">double</span>(rand()) / RAND_MAX; }</a>
 <a class="sourceLine" id="cb1-18" title="18"></a>
 <a class="sourceLine" id="cb1-19" title="19"><span class="dt">int</span> main() {</a>
-<a class="sourceLine" id="cb1-20" title="20">    <span class="co">// генерируем начальную пререстановку</span></a>
+<a class="sourceLine" id="cb1-20" title="20">    <span class="co">// генерируем начальную перестановку</span></a>
 <a class="sourceLine" id="cb1-21" title="21">    vector&lt;<span class="dt">int</span>&gt; v(n);</a>
 <a class="sourceLine" id="cb1-22" title="22">    iota(v.begin(), v.end(), <span class="dv">0</span>);</a>
 <a class="sourceLine" id="cb1-23" title="23">    shuffle(v.begin(), v.end());</a>

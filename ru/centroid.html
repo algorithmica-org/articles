@@ -205,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb2-50" title="50">        <span class="cf">if</span> (!used[u])</a>
 <a class="sourceLine" id="cb2-51" title="51">            solve(centroid(u, v, s[u]));</a>
 <a class="sourceLine" id="cb2-52" title="52">}</a></code></pre></div>
-<p><strong>Асимптотика</strong> <span class="math inline">\(O(n \log n)\)</span>, потому что на каждую из <span class="math inline">\(O(n)\)</span> верщин мы потратим <span class="math inline">\(O(1)\)</span> операций на каждом из <span class="math inline">\(O(\log n)\)</span> «уровней» центроидной декомпозиции.</p>
+<p><strong>Асимптотика</strong> <span class="math inline">\(O(n \log n)\)</span>, потому что на каждую из <span class="math inline">\(O(n)\)</span> вершин мы потратим <span class="math inline">\(O(1)\)</span> операций на каждом из <span class="math inline">\(O(\log n)\)</span> «уровней» центроидной декомпозиции.</p>
 <h2 id="запросы-на-путях-offline">Запросы на путях — offline</h2>
 <p>Мы находим всё, что нам надо, сразу после того, как получили новую компоненту. Если у нас есть список запросов «посчитать что-то на пути», то мы часто можем обработать их в offline.</p>
 <p>А именно, мы можем хранить вместе с вершиной список относящихся к ней ещё не отвеченных запросов. Этот список мы будем просматривать во время обработки очередной компоненты, и если центроид лежит на этом запросе, то мы ответим на этот запрос и удалим его из списка, а в обратном случае просто проигнорируем.</p>

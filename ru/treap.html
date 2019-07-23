@@ -113,7 +113,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Рене Декарт не является создателем декартова дерева, но он является создателем декартовой системы координат, которую мы все знаем и любим.</p>
 <p>Декартово дерево же определяется и строится так:</p>
 <ul>
-<li>Нанесём на плоскость набор из <span class="math inline">\(n\)</span> точек. Их <span class="math inline">\(x\)</span> зачем-то назовем <em>ключем</em>, а <span class="math inline">\(y\)</span> <em>приоритетом</em>.</li>
+<li>Нанесём на плоскость набор из <span class="math inline">\(n\)</span> точек. Их <span class="math inline">\(x\)</span> зачем-то назовем <em>ключом</em>, а <span class="math inline">\(y\)</span> <em>приоритетом</em>.</li>
 <li>Выберем самую верхнюю точку (с наибольшим <span class="math inline">\(y\)</span>, а если таких несколько — любую) и назовём её <em>корнем</em>.</li>
 <li>От всех вершин, лежащих слева (с меньшим <span class="math inline">\(x\)</span>) от корня, рекурсивно запустим этот же процесс. Если слева была хоть одна вершина, то присоединим корень левой части в качестве левого сына текущего корня.</li>
 <li>Аналогично, запустимся от правой части и добавим корню правого сына.</li>
@@ -313,7 +313,7 @@ E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum_{
 <a class="sourceLine" id="cb14-4" title="4">}</a></code></pre></div>
 <h3 id="пример-переворот">Пример: переворот</h3>
 <p>Нужно за <span class="math inline">\(O(\log n)\)</span> обрабатывать запросы переворота произвольных подстрок: значение <span class="math inline">\(a_l\)</span> поменять с <span class="math inline">\(a_r\)</span>, <span class="math inline">\(a_{l+1}\)</span> поменять с <span class="math inline">\(a_{r-1}\)</span> и т. д.</p>
-<p>Будем хранить в кажой вершине флаг, который будет означать, что её подотрезок перевернут:</p>
+<p>Будем хранить в каждой вершине флаг, который будет означать, что её подотрезок перевернут:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">struct</span> Node {</a>
 <a class="sourceLine" id="cb15-2" title="2">    <span class="dt">bool</span> rev;</a>
 <a class="sourceLine" id="cb15-3" title="3">    <span class="co">// ...</span></a>

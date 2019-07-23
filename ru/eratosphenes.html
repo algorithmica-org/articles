@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Простых чисел от <span class="math inline">\(1\)</span> до <span class="math inline">\(n\)</span> примерно <span class="math inline">\(\frac{n}{\ln n}\)</span> .</p></li>
 <li><p>Простые числа распределены без больших «разрывов» и «скоплений», то есть <span class="math inline">\(k\)</span>-тое простое число примерно равно <span class="math inline">\(k \ln k\)</span>.</p></li>
 </ol>
-<p>Мы можем упрощённо считать, что число <span class="math inline">\(k\)</span> является простым с «вероятностью» <span class="math inline">\(\frac{1}{\ln n}\)</span>. Тогда, время работы алгоритма божно более точнее оценить как</p>
+<p>Мы можем упрощённо считать, что число <span class="math inline">\(k\)</span> является простым с «вероятностью» <span class="math inline">\(\frac{1}{\ln n}\)</span>. Тогда, время работы алгоритма можно более точнее оценить как</p>
 <p><span class="math display">\[
 \sum_k \frac{1}{\ln k} \frac{n}{k}
 \approx n \int \frac{1}{k \ln k}
@@ -156,7 +156,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 id="алгоритм">Алгоритм</h3>
 <p>Немного обобщим задачу — теперь мы хотим посчитать для каждого числа <span class="math inline">\(k\)</span> на отрезке <span class="math inline">\([2, n]\)</span> его минимальный простой делитель <span class="math inline">\(d_k\)</span>, а не только определить его простоту.</p>
 <p>Изначально массив <span class="math inline">\(d\)</span> заполним нулями, что означает, что все числа предполагаются простыми. В ходе работы алгортима этот массив будет постепенно заполняться. Помимо этого, будем поддерживать список <span class="math inline">\(p\)</span> всех найденных на текущий момент простых чисел.</p>
-<p>Теперь будем перебирать число <span class="math inline">\(k\)</span> от <span class="math inline">\(2\)</span> до <span class="math inline">\(n\)</span>. Если это число простое, то есть <span class="math inline">\(d_k = 0\)</span>, то просвоим <span class="math inline">\(d_k = k\)</span> и добавим <span class="math inline">\(k\)</span> в список <span class="math inline">\(p\)</span>.</p>
+<p>Теперь будем перебирать число <span class="math inline">\(k\)</span> от <span class="math inline">\(2\)</span> до <span class="math inline">\(n\)</span>. Если это число простое, то есть <span class="math inline">\(d_k = 0\)</span>, то присвоим <span class="math inline">\(d_k = k\)</span> и добавим <span class="math inline">\(k\)</span> в список <span class="math inline">\(p\)</span>.</p>
 <p>Дальше, вне зависимости от простоты <span class="math inline">\(k\)</span>, начнём процесс расстановки значений в массиве <span class="math inline">\(d\)</span> — переберем найденные простые числа <span class="math inline">\(p_i\)</span>, не превосходящие <span class="math inline">\(d_k\)</span>, и сделаем присвоение <span class="math inline">\(d_{p_i k} = p_i\)</span>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="at">const</span> <span class="dt">int</span> n = <span class="fl">1e6</span>;</a>
 <a class="sourceLine" id="cb2-2" title="2"></a>
