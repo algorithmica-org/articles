@@ -382,9 +382,43 @@ T(n)=2T\left(\dfrac n 2\right)+O(n)=O(n\log n)
 <p><span class="math display">\[
 m = 998244353 = 7 \cdot 17 \cdot 2^{23} + 1
 \]</span></p>
-<p>Это число простое, и при этом является ровно на единицу больше числа, делящегося на большую степень двойки. Можно в качестве <span class="math inline">\(g\)</span> взять <span class="math inline">\(7 \cdot 17 \cdot 2^k\)</span> для какого-нибудь <span class="math inline">\(k\)</span>, и тогда по модулю <span class="math inline">\(n = 2^{23-k}\)</span> это <span class="math inline">\(g\)</span> будет подходить вследствие малой теоремы Ферма.</p>
-<p>Реализация никак не отличается.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: кто-нибудь законтрибьюте более быструю реализацию</span></a></code></pre></div>
+<p>Это число простое, и при этом является ровно на единицу больше числа, делящегося на большую степень двойки. При <span class="math inline">\(n=2^23\)</span> подходящим <span class="math inline">\(g\)</span> является число <span class="math inline">\(31\)</span>. Заметим, что, как и для комплексных чисел, если для некоторого <span class="math inline">\(n=2^k\)</span> первообразный корень - <span class="math inline">\(g\)</span>, то для <span class="math inline">\(n=2^{k-1}\)</span> первообразным корнем будет <span class="math inline">\(g^2 (mod m)\)</span>. Таким образом, для <span class="math inline">\(m=998244353\)</span> и <span class="math inline">\(n=2^k\)</span> первообразный корень будет равен <span class="math inline">\(g=31 \cdot 2^{23-k} (mod m)\)</span>.</p>
+<p>Реализация практически не отличается.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="at">const</span> <span class="dt">int</span> MOD = <span class="dv">998244353</span>, W = <span class="dv">805775211</span>, IW = <span class="dv">46809892</span>;</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="at">const</span> <span class="dt">int</span> MAXN = (<span class="dv">1</span> &lt;&lt; <span class="dv">19</span>), INV2 = <span class="dv">499122177</span>;</a>
+<a class="sourceLine" id="cb6-3" title="3"></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co">// W - первообразный корень MAXN-ной степени из 1, IW - обратное по модулю MOD к W</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">// Первообразный корень (1 &lt;&lt; 23)-й степени из 1 по модулю MOD равен 31; тогда первообразный корень (1 &lt;&lt; X)-й степени для X от 1 до 23 равен (31 * (1 &lt;&lt; (23 - X))) % MOD</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="co">// INV2 - обратное к двум по модулю MOD</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">// Данная реализация FFT перемножает два целых числа длиной до 250000 цифр за ~0.13 секунд без проблем с точностью и занимает всего 30 строк кода</span></a>
+<a class="sourceLine" id="cb6-8" title="8"></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="dt">int</span> pws[MAXN + <span class="dv">1</span>], ipws[MAXN + <span class="dv">1</span>];</a>
+<a class="sourceLine" id="cb6-10" title="10"></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="dt">void</span> init() {</a>
+<a class="sourceLine" id="cb6-12" title="12">    pws[MAXN] = W; ipws[MAXN] = IW;</a>
+<a class="sourceLine" id="cb6-13" title="13">    <span class="cf">for</span> (<span class="dt">int</span> i = MAXN / <span class="dv">2</span>; i &gt;= <span class="dv">1</span>; i /= <span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb6-14" title="14">        pws[i] = (pws[i * <span class="dv">2</span>] * <span class="dv">1</span><span class="bu">ll</span> * pws[i * <span class="dv">2</span>]) % MOD;</a>
+<a class="sourceLine" id="cb6-15" title="15">        ipws[i] = (ipws[i * <span class="dv">2</span>] * <span class="dv">1</span><span class="bu">ll</span> * ipws[i * <span class="dv">2</span>]) % MOD;</a>
+<a class="sourceLine" id="cb6-16" title="16">    }</a>
+<a class="sourceLine" id="cb6-17" title="17">}</a>
+<a class="sourceLine" id="cb6-18" title="18"></a>
+<a class="sourceLine" id="cb6-19" title="19"><span class="dt">void</span> fft(vector&lt;<span class="dt">int</span>&gt; &amp;a, vector&lt;<span class="dt">int</span>&gt; &amp;ans, <span class="dt">int</span> l, <span class="dt">int</span> cl, <span class="dt">int</span> step, <span class="dt">int</span> n, <span class="dt">bool</span> inv) {</a>
+<a class="sourceLine" id="cb6-20" title="20">    <span class="cf">if</span> (n == <span class="dv">1</span>) { ans[l] = a[cl]; <span class="cf">return</span>; }</a>
+<a class="sourceLine" id="cb6-21" title="21">    fft(a, ans, l, cl, step * <span class="dv">2</span>, n / <span class="dv">2</span>, inv);</a>
+<a class="sourceLine" id="cb6-22" title="22">    fft(a, ans, l + n / <span class="dv">2</span>, cl + step, step * <span class="dv">2</span>, n / <span class="dv">2</span>, inv);</a>
+<a class="sourceLine" id="cb6-23" title="23">    <span class="dt">int</span> cw = <span class="dv">1</span>, gw = (inv ? ipws[n] : pws[n]);</a>
+<a class="sourceLine" id="cb6-24" title="24">    <span class="cf">for</span> (<span class="dt">int</span> i = l; i &lt; l + n / <span class="dv">2</span>; i++) {</a>
+<a class="sourceLine" id="cb6-25" title="25">        <span class="dt">int</span> u = ans[i], v = (cw * <span class="dv">1</span><span class="bu">ll</span> * ans[i + n / <span class="dv">2</span>]) % MOD;</a>
+<a class="sourceLine" id="cb6-26" title="26">        ans[i] = (u + v) % MOD;</a>
+<a class="sourceLine" id="cb6-27" title="27">        ans[i + n / <span class="dv">2</span>] = (u - v) % MOD;</a>
+<a class="sourceLine" id="cb6-28" title="28">        <span class="cf">if</span> (ans[i + n / <span class="dv">2</span>] &lt; <span class="dv">0</span>) ans[i + n / <span class="dv">2</span>] += MOD;</a>
+<a class="sourceLine" id="cb6-29" title="29">        <span class="cf">if</span> (inv) {</a>
+<a class="sourceLine" id="cb6-30" title="30">            ans[i] = (ans[i] * <span class="dv">1</span><span class="bu">ll</span> * INV2) % MOD;</a>
+<a class="sourceLine" id="cb6-31" title="31">            ans[i + n / <span class="dv">2</span>] = (ans[i + n / <span class="dv">2</span>] * <span class="dv">1</span><span class="bu">ll</span> * INV2) % MOD;</a>
+<a class="sourceLine" id="cb6-32" title="32">        }</a>
+<a class="sourceLine" id="cb6-33" title="33">        cw = (cw * <span class="dv">1</span><span class="bu">ll</span> * gw) % MOD;</a>
+<a class="sourceLine" id="cb6-34" title="34">    }</a>
+<a class="sourceLine" id="cb6-35" title="35">}</a></code></pre></div>
 <p>С недавнего времени некоторые проблемсеттеры начали использовать именно этот модулю вместо стандартного <span class="math inline">\(10^9+7\)</span>, чтобы намекнуть (или сбить с толку), что задача на FFT.</p>
 </body>
 </html>
