@@ -3,6 +3,11 @@
  */
 
 @font-face {
+    font-family: 'CMU';
+    src: url(fonts/cmu.woff2);
+}
+
+@font-face {
     font-family: 'Inconsolata';
     src: url(fonts/inconsolata.woff2);
 }
@@ -30,7 +35,7 @@ a {
 
 body {
   /* color: #444; */
-  font-family: "Times New Roman", Times, serif;
+  font-family: "CMU", "Times New Roman", Times, serif;
   font-size: 16px;
   line-height: 1.7;
   padding: 8px;
@@ -76,8 +81,8 @@ body {
     position: inline-block;
     float: left;
     position: relative;
-    left: 20px;
-    width: 275px;
+    left: 12px;
+    width: 285px;
     text-align: left;
 }
 
@@ -107,11 +112,11 @@ body {
 }
 
 .contents a {
-    font-family: 'Times New Roman', sans-serif;
-    font-size: 16px;
+    font-family: "CMU", "Times New Roman", Times, serif;
+    font-size: 15px;
     line-height: 1em;
     display: inline-block;
-    width: 240px;
+    width: 250px;
 }
 
 .contents a:first-letter {
@@ -128,7 +133,7 @@ body {
     display: inline-block;
     position: absolute;
     left: 11px;
-    margin-top: 5px;
+    margin-top: 4px;
     color: black !important;
     font-size: 18px;
 }
