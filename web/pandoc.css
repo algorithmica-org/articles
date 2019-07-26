@@ -4,17 +4,17 @@
 
 @font-face {
     font-family: 'Inconsolata';
-    src: url(fonts/inconsolata.ttf);
+    src: url(fonts/inconsolata.woff2);
 }
 
 @font-face {
     font-family: 'Garamond';
-    src: url(fonts/garamond.ttf);
+    src: url(fonts/garamond.woff2);
 }
 
 @font-face {
     font-family: "Open Sans";
-    src: url(fonts/opensans.ttf);
+    src: url(fonts/opensans.woff2);
 }
 
 html {
