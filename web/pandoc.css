@@ -33,7 +33,7 @@ body {
   font-family: 'Times New Roman', Palatino, 'Palatino Linotype', Times, serif;
   font-size: 16px;
   line-height: 1.7;
-  padding: 15m;
+  padding: 8px;
   margin: auto;
   width: 750px;
   background: #fefefe;
@@ -42,15 +42,15 @@ body {
 }
 
 #header {
-    height: 10px;
-    margin-top: 14px;
+    height: 35px;
+    margin-top: -8px;
 }
 
 #links {
     display: inline-block;
     text-align: right;
     font-size: 16px;
-    width: 600px;
+    width: 620px;
 }
 
 #links a {
@@ -67,6 +67,7 @@ body {
 }
 
 #logo {
+    margin-left: 0px;
     font-size: 22px;
     font-family: 'Garamond', serif;
 }
@@ -75,7 +76,7 @@ body {
     position: inline-block;
     float: left;
     position: relative;
-    left: 55px;
+    left: 20px;
     width: 275px;
     text-align: left;
 }
@@ -185,6 +186,7 @@ h4, h5, h6 {
 
 h1 {
   font-size: 2.5em;
+  margin-top: 0.8em;
 }
 
 h2 {
