@@ -123,7 +123,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-5" title="5"></a>
 <a class="sourceLine" id="cb1-6" title="6"><span class="im">import</span> seaborn <span class="im">as</span> sns</a>
 <a class="sourceLine" id="cb1-7" title="7">sns.<span class="bu">set</span>()</a></code></pre></div>
+<h2 id="плотность-распределения">Плотность распределения</h2>
+<p>Пусть есть некоторая случайная величина <span class="math inline">\(X\)</span>. <em>Плотностью распределения</em> <span class="math inline">\(X\)</span> называется функция <span class="math inline">\(p(x)\)</span>, отражающая относительную вероятность наступления события <span class="math inline">\(X=x\)</span> (то есть относительно всех остальных возможных событий). Например, для случайной величины с конечным множеством элементарных исходов <span class="math inline">\(\Omega\)</span> <span class="math inline">\(p(x)=P(X=x)\)</span> (где <span class="math inline">\(P(A)\)</span> - вероятность наступления события <span class="math inline">\(A\)</span>). Обычно функция плотности вероятности предполагается нормированной на единицу (то есть площадь под графиком равна 1). <em>Функцией распределения</em> случайной численной величины <span class="math inline">\(F(x)\)</span> называется вероятность попадания <span class="math inline">\(X\)</span> в луч <span class="math inline">\((-\infty;\,x]\)</span> (или <span class="math inline">\(\int_{-\infty}^{x}p(x)\,dx\)</span>).</p>
 <h2 id="матожидание">Матожидание</h2>
+<p>Предположим, у нас есть случайная численная величина <span class="math inline">\(X\)</span> с функцией плотности <span class="math inline">\(p(x)\)</span>. Тогда математическое ожидание случайной величины равно сумме <span class="math inline">\(P(A) \cdot A\)</span> для всех возможных исходов <span class="math inline">\(A\)</span>. TODO</p>
 <h2 id="дисперсия">Дисперсия</h2>
 <p>Какие два числа лучше всего описывают распределение?</p>
 <h2 id="нормальное-распределение">Нормальное распределение</h2>

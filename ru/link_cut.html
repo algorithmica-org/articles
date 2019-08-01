@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Splay-дерево - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/link_cut.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/link_cut.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="splay-дерево">Splay-дерево</h1>
+<p><strong>Splay-дерево</strong> (дерево Тарьяна-Слейтора) - двоичное дерево поиска, созданное Робертом Тарьяном и Даниелем Слейтером специально для ускорения работы другой структуры данных, которую мы рассмотрим позже. Splay-дерево позволяет быстро получать доступ к недавно использованным данным (вершинам) засчёт их “поднятия” к корню и имеет амортизированное время работы <span class="math inline">\(\hat{O}(n\,log\,n)\)</span>.</p>
+<h2 id="свойства">Свойства</h2>
+<p>Основная операция в splay-дереве - это операция <span class="math inline">\(expose(v)\)</span>, выполняющая балансировку дерева. Она при помощи серии операций <span class="math inline">\(rotate\)</span> делает вершину <span class="math inline">\(v\)</span> корнем дерева. <em>Поворот</em> вокруг ребра <span class="math inline">\((v, u)\)</span> (где <span class="math inline">\(u\)</span> - предок <span class="math inline">\(v\)</span>; будем обозначать эту операцию за <span class="math inline">\(rotate(v)\)</span>) “поднимает” <span class="math inline">\(v\)</span> на уровень вверх, при этом “опуская” <span class="math inline">\(u\)</span> и не нарушая свойств двоичного дерева поиска. <img src="https://neerc.ifmo.ru/wiki/images/2/24/Зиг.png" /> По сути, splay-дерево - это детерминированное <a href="https://algorithmica.org/ru/treap">декартово дерево</a> с амортизированным временем работы (из-за чего нельзя эффективно сделать splay-дерево персистентным). Базовая функция для работы splay-дерева - <span class="math inline">\(find(x)\)</span> - находит вершину <span class="math inline">\(u\)</span> с максимальным ключом, не большим <span class="math inline">\(x\)</span>. Реализуется <span class="math inline">\(find(x)\)</span> так же, как и в других деревьях поиска - обычным спуском, но после обязательно нужно выполнить <span class="math inline">\(expose(u)\)</span>. Через <span class="math inline">\(find(x)\)</span> реализуются операции <span class="math inline">\(split\)</span> и <span class="math inline">\(merge\)</span>: + <span class="math inline">\(split(x, k)\)</span> - так же, как и в декартовом дереве, принимает исходное дерево <span class="math inline">\(x\)</span> и возвращает два дерева <span class="math inline">\(l\)</span> и <span class="math inline">\(r\)</span>, причём все ключи в <span class="math inline">\(l\)</span> меньше <span class="math inline">\(k\)</span>, а все ключи в <span class="math inline">\(r\)</span> - не меньше <span class="math inline">\(k\)</span>. Выполним операцию <span class="math inline">\(find(k)\)</span> в дереве <span class="math inline">\(x\)</span>, после которой найденная вершина <span class="math inline">\(u\)</span> окажется корнем <span class="math inline">\(x\)</span>; заметим, что тогда ключи всех вершин в поддереве левого сына <span class="math inline">\(u\)</span> (обозначим его за <span class="math inline">\(l\)</span>) будут меньше <span class="math inline">\(k\)</span>, то есть мы можем “отрезать” левое поддерево от <span class="math inline">\(u\)</span> и вернуть пару <span class="math inline">\({l, u}\)</span>. + <span class="math inline">\(merge(l, r)\)</span> - принимает два дерева <span class="math inline">\(l\)</span> и <span class="math inline">\(r\)</span> (причём все ключи в <span class="math inline">\(l\)</span> меньше всех ключей в <span class="math inline">\(r\)</span>) и возвращает новое дерево <span class="math inline">\(x\)</span>, состоящее из всех вершин <span class="math inline">\(l\)</span> и <span class="math inline">\(r\)</span>. При помощи операции <span class="math inline">\(find\)</span> найдём в <span class="math inline">\(r\)</span> вершину с минимальным ключом, после чего она станет корнем <span class="math inline">\(r\)</span>; заметим, что у неё не будет левого сына, тогда мы просто сделаем этим левым сыном всё дерево <span class="math inline">\(l\)</span>. Остальные операции реализуются через эти три (например, <span class="math inline">\(add(x)\)</span>, <span class="math inline">\(remove(x)\)</span> и т.д).</p>
+<h2 id="реализация-exposev">Реализация <span class="math inline">\(expose(v)\)</span></h2>
+<p>Если реализовать <span class="math inline">\(expose(v)\)</span> простой серией поворотов <span class="math inline">\(rotate(v)\)</span> (пока <span class="math inline">\(v\)</span> не станет корнем), то можно подобрать пример, когда она всегда будет отрабатывать за <span class="math inline">\(O(n)\)</span> (например, если дерево - это один путь, подвешенный за конец, и <span class="math inline">\(find\)</span> каждый раз затрагивает другой конец пути). Для достижения асимптотики <span class="math inline">\(\hat{O}(n\,log\,n)\)</span> при реализации <span class="math inline">\(expose(v)\)</span> используются три вспомогательные операции - <em>zig</em>, <em>zig-zig</em> и <em>zig-zag</em> - которые являются комбинациями операций <span class="math inline">\(rotate\)</span>.</p>
+<h3 id="zig-zigv"><span class="math inline">\(zig-zig(v)\)</span></h3>
+<p>Обозначим за <span class="math inline">\(p(x)\)</span> предка вершины <span class="math inline">\(x\)</span>, а за <span class="math inline">\(L(x)\)</span> - функцию, возвращающую 0, если <span class="math inline">\(x\)</span> - левый сын <span class="math inline">\(p(x)\)</span> или <span class="math inline">\(p(x)\)</span> не существует, и 1, если <span class="math inline">\(x\)</span> - правый сын <span class="math inline">\(p(x)\)</span>. Операция <span class="math inline">\(zig-zig(v)\)</span> применяется в том случае, если <span class="math inline">\(v\)</span> не является непосредственным сыном корня, и <span class="math inline">\(L(x)=L(p(x))\)</span>. <span class="math inline">\(zig-zig(v)\)</span> состоит из двух операций - <span class="math inline">\(rotate(v)\)</span> и <span class="math inline">\(rotate(w)\)</span> (где <span class="math inline">\(w\)</span> - предок <span class="math inline">\(v\)</span> до выполнения <span class="math inline">\(zig-zig(v)\)</span>) - которые выполняются именно в таком порядке.</p>
+<h3 id="zig-zagv"><span class="math inline">\(zig-zag(v)\)</span></h3>
+<p>Операция <span class="math inline">\(zig-zag(v)\)</span> применяется в том случае, если <span class="math inline">\(v\)</span> не является непосредственным сыном корня, и <span class="math inline">\(L(x)\neq L(p(x))\)</span>. <span class="math inline">\(zig-zig(v)\)</span> состоит из двух операций - <span class="math inline">\(rotate(w)\)</span> и <span class="math inline">\(rotate(v)\)</span> (где <span class="math inline">\(w\)</span> - предок <span class="math inline">\(v\)</span> до выполнения <span class="math inline">\(zig-zag(v)\)</span>) - которые выполняются именно в таком порядке.</p>
+<h3 id="zigv"><span class="math inline">\(zig(v)\)</span></h3>
+<p>Операция <span class="math inline">\(zig(v)\)</span> применяется в том случае, если <span class="math inline">\(v\)</span> является непосредственным сыном корня, и представляет собой одну операцию <span class="math inline">\(rotate(v)\)</span>.</p>
+<h3 id="итоговый-алгоритм">Итоговый алгоритм</h3>
+<p>Таким образом, для реализации <span class="math inline">\(expose(v)\)</span> мы просто в цикле до тех пор, пока <span class="math inline">\(v\)</span> не станет корнем, рассматриваем три случая: 1. <span class="math inline">\(v\)</span> - непосредственный сын корня. Тогда выполняем <span class="math inline">\(zig(v)\)</span>. 2. <span class="math inline">\(L(v) = L(p(v))\)</span> - тогда выполняем <span class="math inline">\(zig-zig(v)\)</span>. 3. <span class="math inline">\(L(v) \neq L(p(v)\)</span> - тогда выполняем <span class="math inline">\(zig-zag(v)\)</span>.</p>
+<h2 id="неявное-splay-дерево">Неявное splay-дерево</h2>
+<p>Давайте считать, что splay-дерево хранит некоторый массив, причём все элементы массива, за которые отвечают вершины в левом поддереве <span class="math inline">\(x\)</span>, находятся левее элемента <span class="math inline">\(x\)</span>, а все элементы в правом поддереве - правее <span class="math inline">\(x\)</span> - как в декартовом дереве по неявному ключу. Тогда <span class="math inline">\(find(k)\)</span> будет искать в дереве вершину, отвечающую за <span class="math inline">\(k\)</span>-й слева элемент этого массива. Таким образом, неявное splay-дерево решает те же задачи, что и неявное декартово дерево. На практике splay-дерево обычно оказывается в несколько раз быстрее, чем декартово дерево, из-за малой константы (см. время работы), поэтому если не получается упихать декартово дерево, есть много времени и опыт написания splay-дерева, то можно попытаться использовать его (однако, опять же, персистентность прикрутить не получится).</p>
+<h2 id="реализация">Реализация</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">struct</span> node {</a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> x, sz = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-3" title="3">    <span class="dt">int</span> p = -<span class="dv">1</span>, l = -<span class="dv">1</span>, r = -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="dt">bool</span> lft = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-5" title="5"></a>
+<a class="sourceLine" id="cb1-6" title="6">    node() {}</a>
+<a class="sourceLine" id="cb1-7" title="7"></a>
+<a class="sourceLine" id="cb1-8" title="8">    node(<span class="dt">int</span> x) : x(x) {}</a>
+<a class="sourceLine" id="cb1-9" title="9">};</a>
+<a class="sourceLine" id="cb1-10" title="10"></a>
+<a class="sourceLine" id="cb1-11" title="11">node v[maxn];</a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="dt">int</span> root = -<span class="dv">1</span>, mx = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-13" title="13"></a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="dt">int</span> gsz(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb1-15" title="15">    <span class="cf">return</span> (x == -<span class="dv">1</span> ? <span class="dv">0</span> : v[x].sz);</a>
+<a class="sourceLine" id="cb1-16" title="16">}</a>
+<a class="sourceLine" id="cb1-17" title="17"></a>
+<a class="sourceLine" id="cb1-18" title="18"><span class="dt">void</span> upd(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb1-19" title="19">    v[x].sz = <span class="dv">1</span> + gsz(v[x].l) + gsz(v[x].r);</a>
+<a class="sourceLine" id="cb1-20" title="20">}</a>
+<a class="sourceLine" id="cb1-21" title="21"></a>
+<a class="sourceLine" id="cb1-22" title="22"><span class="co">// Отсоединяет вершину от предка, обновляя необходимые параметры</span></a>
+<a class="sourceLine" id="cb1-23" title="23"></a>
+<a class="sourceLine" id="cb1-24" title="24"><span class="dt">void</span> <span class="fu">disconnect</span>(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb1-25" title="25">    <span class="cf">if</span> (x == -<span class="dv">1</span> || v[x].p == -<span class="dv">1</span>) <span class="cf">return</span>;</a>
+<a class="sourceLine" id="cb1-26" title="26">    <span class="cf">if</span> (v[v[x].p].l == x) v[v[x].p].l = -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-27" title="27">    <span class="cf">else</span> v[v[x].p].r = -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-28" title="28">    upd(v[x].p); v[x].p = -<span class="dv">1</span>; v[x].lft = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-29" title="29">}</a>
+<a class="sourceLine" id="cb1-30" title="30"></a>
+<a class="sourceLine" id="cb1-31" title="31"><span class="co">// Делает вершину x левым или правым (в зависимости от lft) сыном y</span></a>
+<a class="sourceLine" id="cb1-32" title="32"></a>
+<a class="sourceLine" id="cb1-33" title="33"><span class="dt">void</span> <span class="fu">connect</span>(<span class="dt">int</span> x, <span class="dt">int</span> y, <span class="dt">bool</span> lft) {</a>
+<a class="sourceLine" id="cb1-34" title="34">    <span class="cf">if</span> (x == -<span class="dv">1</span> || y == -<span class="dv">1</span>) <span class="cf">return</span>;</a>
+<a class="sourceLine" id="cb1-35" title="35">    v[x].lft = lft; v[x].p = y;</a>
+<a class="sourceLine" id="cb1-36" title="36">    <span class="cf">if</span> (lft) v[y].l = x;</a>
+<a class="sourceLine" id="cb1-37" title="37">    <span class="cf">else</span> v[y].r = x;</a>
+<a class="sourceLine" id="cb1-38" title="38">    upd(y);</a>
+<a class="sourceLine" id="cb1-39" title="39">}</a>
+<a class="sourceLine" id="cb1-40" title="40"></a>
+<a class="sourceLine" id="cb1-41" title="41"><span class="dt">void</span> rotate(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb1-42" title="42">    <span class="dt">int</span> y = v[x].p, z = v[y].p, yl = v[y].lft, xl = v[x].lft;</a>
+<a class="sourceLine" id="cb1-43" title="43">    <span class="fu">disconnect</span>(x); <span class="fu">disconnect</span>(y);</a>
+<a class="sourceLine" id="cb1-44" title="44">    <span class="cf">if</span> (xl) {</a>
+<a class="sourceLine" id="cb1-45" title="45">        <span class="dt">int</span> b = v[x].r;</a>
+<a class="sourceLine" id="cb1-46" title="46">        <span class="fu">disconnect</span>(b); <span class="fu">connect</span>(b, y, <span class="dv">1</span>); <span class="fu">connect</span>(y, x, <span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb1-47" title="47">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb1-48" title="48">        <span class="dt">int</span> b = v[x].l;</a>
+<a class="sourceLine" id="cb1-49" title="49">        <span class="fu">disconnect</span>(b); <span class="fu">connect</span>(b, y, <span class="dv">0</span>); <span class="fu">connect</span>(y, x, <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb1-50" title="50">    }</a>
+<a class="sourceLine" id="cb1-51" title="51">    <span class="fu">connect</span>(x, z, yl);</a>
+<a class="sourceLine" id="cb1-52" title="52">}</a>
+<a class="sourceLine" id="cb1-53" title="53"></a>
+<a class="sourceLine" id="cb1-54" title="54"><span class="co">// Если вместо expose написать splay, то больше людей поймут, что вы написали splay-дерево, посмотрев код посылки на кф </span></a>
+<a class="sourceLine" id="cb1-55" title="55"></a>
+<a class="sourceLine" id="cb1-56" title="56"><span class="dt">void</span> splay(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb1-57" title="57">    <span class="cf">if</span> (x == -<span class="dv">1</span>) <span class="cf">return</span>;</a>
+<a class="sourceLine" id="cb1-58" title="58">    <span class="cf">while</span> (v[x].p != -<span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb1-59" title="59">        <span class="dt">int</span> y = v[x].p;</a>
+<a class="sourceLine" id="cb1-60" title="60">        <span class="cf">if</span> (v[y].p == -<span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb1-61" title="61">            rotate(x);</a>
+<a class="sourceLine" id="cb1-62" title="62">            <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb1-63" title="63">        }</a>
+<a class="sourceLine" id="cb1-64" title="64">        <span class="cf">if</span> (v[x].lft == v[y].lft) {</a>
+<a class="sourceLine" id="cb1-65" title="65">            rotate(y);</a>
+<a class="sourceLine" id="cb1-66" title="66">            rotate(x);</a>
+<a class="sourceLine" id="cb1-67" title="67">        } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb1-68" title="68">            rotate(x);</a>
+<a class="sourceLine" id="cb1-69" title="69">            rotate(x);</a>
+<a class="sourceLine" id="cb1-70" title="70">        }</a>
+<a class="sourceLine" id="cb1-71" title="71">    }</a>
+<a class="sourceLine" id="cb1-72" title="72">    root = x;</a>
+<a class="sourceLine" id="cb1-73" title="73">}</a>
+<a class="sourceLine" id="cb1-74" title="74"></a>
+<a class="sourceLine" id="cb1-75" title="75"><span class="co">// Функция find, которую я зачем-то назвал get</span></a>
+<a class="sourceLine" id="cb1-76" title="76"></a>
+<a class="sourceLine" id="cb1-77" title="77"><span class="dt">int</span> get(<span class="dt">int</span> x, <span class="dt">int</span> k) {</a>
+<a class="sourceLine" id="cb1-78" title="78">    <span class="cf">if</span> (x == -<span class="dv">1</span>) <span class="cf">return</span> -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-79" title="79">    <span class="cf">while</span> (<span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb1-80" title="80">        <span class="cf">if</span> (gsz(v[x].l) == k)</a>
+<a class="sourceLine" id="cb1-81" title="81">            <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb1-82" title="82">        <span class="cf">if</span> (k &lt; gsz(v[x].l)) {</a>
+<a class="sourceLine" id="cb1-83" title="83">            x = v[x].l;</a>
+<a class="sourceLine" id="cb1-84" title="84">        } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb1-85" title="85">            k -= (gsz(v[x].l) + <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb1-86" title="86">            x = v[x].r;</a>
+<a class="sourceLine" id="cb1-87" title="87">        }</a>
+<a class="sourceLine" id="cb1-88" title="88">    }</a>
+<a class="sourceLine" id="cb1-89" title="89">    splay(x);</a>
+<a class="sourceLine" id="cb1-90" title="90">    <span class="cf">return</span> x;</a>
+<a class="sourceLine" id="cb1-91" title="91">}</a>
+<a class="sourceLine" id="cb1-92" title="92"></a>
+<a class="sourceLine" id="cb1-93" title="93">pair&lt;<span class="dt">int</span>, <span class="dt">int</span>&gt; split(<span class="dt">int</span> x, <span class="dt">int</span> k) {</a>
+<a class="sourceLine" id="cb1-94" title="94">    <span class="cf">if</span> (x == -<span class="dv">1</span>) <span class="cf">return</span> {-<span class="dv">1</span>, -<span class="dv">1</span>};</a>
+<a class="sourceLine" id="cb1-95" title="95">    <span class="cf">if</span> (k == <span class="dv">0</span>) <span class="cf">return</span> {-<span class="dv">1</span>, x};</a>
+<a class="sourceLine" id="cb1-96" title="96">    <span class="dt">int</span> aut = get(x, k - <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb1-97" title="97">    <span class="dt">int</span> gg = v[aut].r;</a>
+<a class="sourceLine" id="cb1-98" title="98">    <span class="fu">disconnect</span>(gg);</a>
+<a class="sourceLine" id="cb1-99" title="99">    <span class="cf">return</span> {aut, gg};</a>
+<a class="sourceLine" id="cb1-100" title="100">}</a>
+<a class="sourceLine" id="cb1-101" title="101"></a>
+<a class="sourceLine" id="cb1-102" title="102"><span class="dt">int</span> merge(<span class="dt">int</span> l, <span class="dt">int</span> r) {</a>
+<a class="sourceLine" id="cb1-103" title="103">    <span class="cf">if</span> (l == -<span class="dv">1</span>) <span class="cf">return</span> r;</a>
+<a class="sourceLine" id="cb1-104" title="104">    <span class="cf">if</span> (r == -<span class="dv">1</span>) <span class="cf">return</span> l;</a>
+<a class="sourceLine" id="cb1-105" title="105">    <span class="dt">int</span> bs = gsz(l);</a>
+<a class="sourceLine" id="cb1-106" title="106">    <span class="dt">int</span> aut = get(l, bs - <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb1-107" title="107">    <span class="fu">connect</span>(r, aut, <span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb1-108" title="108">    <span class="cf">return</span> aut;</a>
+<a class="sourceLine" id="cb1-109" title="109">}</a></code></pre></div>
+<p>Это первая и последняя реализация splay-дерева, которую я писал, поэтому код такой длинный. Самое болезненное - дебагать обновление параметров вершин при переподвешивании.</p>
+<h2 id="время-работы">Время работы</h2>
+<p>Сперва введём необходимые обозначения: <span class="math inline">\(t_i\)</span> - это время работы splay-дерева на <span class="math inline">\(i\)</span>-м запросе, <span class="math inline">\(T\)</span> - это суммарное время работы дерева на всех запросах. Доказательство времени работы будем проводить при помощи <em>метода потенциалов</em>. Заключается он в следующем: пусть есть структура данных размера <span class="math inline">\(n\)</span>, и мы хотим оценить амортизированное время её работы на <span class="math inline">\(q\)</span> запросах. Для каждого из <span class="math inline">\(q+1\)</span> состояний структуры введём величину <span class="math inline">\(\Phi_{i}\)</span> - потенциал. Также введём величину <span class="math inline">\(a_i=t_i+\Phi_{i}-\Phi_{i-1}\)</span> - <em>стоимость</em> <span class="math inline">\(i\)</span>-й операции. Утверждается, что если <span class="math inline">\(a_i=O(f(n,q))\)</span> для некоторой функции <span class="math inline">\(f\)</span> и <span class="math inline">\(\Phi_{i}=O(n\cdot f(n,q))\)</span>, то <span class="math inline">\(T=O(f(n,q))\)</span>. Доказательство этого факта довольно простое, мы не будем его приводить, и перейдём непосредственно к доказательству времени работы splay-дерева. Обозначим за <span class="math inline">\(C(v)\)</span> размер поддерева вершины <span class="math inline">\(v\)</span>. Тогда потенциалом <span class="math inline">\(\Phi\)</span> нашего дерева назовём сумму двоичных логарифомв <span class="math inline">\(C(v)\)</span> по всем вершинам <span class="math inline">\(v\)</span> дерева (для краткости обозначим <span class="math inline">\(r(v)=log_2\,C(v)\)</span>). Заметим, что эта величина неотрицательная и не больше <span class="math inline">\(O(n\,log\,n)\)</span>. ааааааа что за жесть интересно зачем я вообще это пишу если есть викиконспекты (видимо потому что прилагать чистый код было бы тупо)</p>
+<h1 id="link-cut-tree">Link-cut tree</h1>
+<p>Рассмотрим следующую задачу:</p>
+<blockquote>
+<p>Дан лес из <span class="math inline">\(n\)</span> вершин. Приходят запросы трёх типов: + <span class="math inline">\(link(u,\,v)\)</span> - соединить вершины <span class="math inline">\(u\)</span> и <span class="math inline">\(v\)</span> ребром + <span class="math inline">\(cut(u,\,v)\)</span> - удалить ребро между вершинами <span class="math inline">\(u\)</span> и <span class="math inline">\(v\)</span> + <span class="math inline">\(get(u,\,v)\)</span> - найти длину пути между <span class="math inline">\(u\)</span> и <span class="math inline">\(v\)</span> Нужно ответить на все запросы третьего типа. Гарантируется, что после каждого запроса граф остаётся лесом.</p>
+</blockquote>
+<p>Существует структура данных, которая решает эту задачу, с амортизированным временем работы <span class="math inline">\(O(n\,log\,n)\)</span> - <strong>Link-Cut Tree</strong>, изобретённая Тарьяном и Слейтором (именно для достижения такой оценки и создавалось splay-дерево).</p>
+<h2 id="основная-идея">Основная идея</h2>
+<p>Подвесим каждое дерево нашего леса за некоторую вершину и ориентируем рёбра в сторону корня. Введём операцию <span class="math inline">\(expose(x)\)</span>, которая делает вершину <span class="math inline">\(x\)</span> корнем своего дерева. Пусть старым корнем была вершина <span class="math inline">\(y\)</span>, и мы применили операцию <span class="math inline">\(expose(x)\)</span>. После этого нам нужно сменить ориентацию каждого ребра на пути между <span class="math inline">\(x\)</span> и <span class="math inline">\(y\)</span> на противоположную, чтобы ничего не сломалось. Рассмотрим, как мы тогда будем обрабатывать наши запросы: + <span class="math inline">\(link(u, v)\)</span> - в дереве вершины <span class="math inline">\(u\)</span> выполним операцию <span class="math inline">\(expose(u)\)</span>, в дереве вершины <span class="math inline">\(v\)</span> - операцию <span class="math inline">\(expose(v)\)</span>, и затем просто соединим <span class="math inline">\(u\)</span> с <span class="math inline">\(v\)</span> ребром, и вершина, в сторону которой будет ориентировано новое ребро, станет новым корнем дерева. + <span class="math inline">\(cut(u, v)\)</span> - просто удалим ребро между вершинами <span class="math inline">\(u\)</span> и <span class="math inline">\(v\)</span>; вершина, в сторону которой было ориентировано ребро, останется в старом дереве, а другая вершина окажется в новом, её и следует назначить корнем нового дерева. + <span class="math inline">\(get(u,\,v)\)</span> - выполним операцию <span class="math inline">\(expose(u)\)</span> и найдём глубину вершины <span class="math inline">\(v\)</span>. Если реализовать операцию <span class="math inline">\(expose\)</span> напрямую, то каждый запрос в худшем случае будет обрабатыватся за <span class="math inline">\(O(n)\)</span>; однако при помощи структур данных можно добиться амортизированного <span class="math inline">\(O(n\,log^2\,n)\)</span> или даже <span class="math inline">\(O(n\,log\,n)\)</span>.</p>
+<h2 id="ускорение-работы">Ускорение работы</h2>
+<p>Мы описали в общих чертах алгоритм; теперь нужно понять, как выполнять эти операции быстро. Оказывается, что если мы разобьём каждое дерево на набор вершинно непересекающихся вертикальных путей и будем поддерживать эти пути при помощи декартовых деревьев по неявному ключу, то суммарная асимптотика алгоритма будет равна <span class="math inline">\(O(n\,log^2\,n)\)</span>, что будет доказано в конце. Однако если вместо декартовых деревьев использовать splay-деревья, то асимптотика будет даже <span class="math inline">\(O(n\,log\,n)\)</span>, и доказательство этого факта я не знаю. Разберём, как же работает быстрый алгоритм. Изначально мы строим декомпозицию каждого дерева на пути, причём не важно, какие именно, поэтому можно просто сделать <span class="math inline">\(N\)</span> путей длины 1. Пути мы храним в виде множества splay-деревьев, и для каждого пути мы храним указатель на предка самой высокой вершины. Когда нам нужно выполнить операцию <span class="math inline">\(expose(x)\)</span>, мы “прыгаем” вверх по путям, попутно сливая их в один (то есть из вершины <span class="math inline">\(x\)</span> мы перемещаемся в верхнюю вершину пути, в котором лежит <span class="math inline">\(x\)</span>; затем мы перемещаемся на одну вершину вверх и новый путь со старым (причём может оказаться так, что мы попали не на конец пути, а на середину, и тогда придётся “обрезать” путь в этом месте), затем прыгаем вверх по этому пути и т.д.). Затем просто выполняем разворот сегмента полученного объединённого пути, отвечающего за путь <span class="math inline">\((x; y)\)</span>. Казалось бы - совсем не ясно, почему этот алгоритм работает быстрее предыдущего. Однако выясняется очень любопытный факт: какие бы запросы не приходили, структура как бы сама оптимизирует себя, и итоговая асимптотика в любом случае оказывается <span class="math inline">\(O(n\,log^{(2)}\,n)\)</span>.</p>
+<p>TODO</p>
+</body>
+</html>
