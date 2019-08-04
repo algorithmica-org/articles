@@ -115,15 +115,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </div>
 </div>
 <h1 id="битовое-сжатие">Битовое сжатие</h1>
-<p>Процессор устроен так, что работает не с индивидуальными битами, а сразу с блоками по 32 или 64 бита — эта величина называется <em>машинным словом</em>. Как следствие, операции, затрагивающие лишь один бит, на самом деле «стоят» столько же, сколько и операции над целым <code>int</code>-ом или даже <code>long long</code>-ом.</p>
-<p>Когда от нас требуется делать какие-то теоретико-множественные операции, их часто можно свести к большому количеству одинаковых операций над элементами булевого массива. Например:</p>
+<p>Процессор устроен так, что работает не с индивидуальными битами, а сразу с блоками по 32 или 64 бита — эта величина называется <em>машинным словом</em>. Как следствие, операции, затрагивающие лишь один бит, на самом деле «стоят» столько же, сколько и операции над целым <code>int</code>-ом или <code>long</code>-ом.</p>
+<p>Когда требуется делать какие-то теоретико-множественные операции, их часто можно свести к большому количеству одинаковых операций над элементами булевого массива. Например:</p>
 <ul>
-<li><p>Объединение множеств — побитовое ИЛИ.</p></li>
+<li><p>Объединение множеств — побитовое ИЛИ.</p></li>
 <li><p>Пересечение множеств — побитовое И.</p></li>
 <li><p>Симметрическая разность — побитовый XOR.</p></li>
 </ul>
-<p>Здесь появляется следующая идея оптимизации: сгруппировать элементы массива в блоки по 64 и каждый блок считать двоичным числом. Тогда мы можем применить эту битовую операцию сразу к 64 элементам и потратить на это один такт вместо 64-х.</p>
-<p>Это всё можно кодить и вручную, но в STL это уже сделали до нас, написав структуру, ведущую себя как большое двоичное число со всеми стандартными битовыми операциями: <code>bitset</code>.</p>
+<p>Здесь появляется следующая идея оптимизации: сгруппировать элементы массива в блоки размера 64 и каждый такой блок считать двоичным числом. Тогда можно применить эту битовую операцию сразу к 64 элементам и потратить на это один такт вместо 64-х.</p>
+<p>Это всё несложно кодить и вручную, но в STL это уже сделали до нас, написав структуру, ведущую себя как большое двоичное число со всеми стандартными битовыми операциями: <code>bitset</code>.</p>
 <p>Работать с ним нужно вот так:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> lim = <span class="dv">1000</span>;</a>
 <a class="sourceLine" id="cb1-2" title="2">bitset&lt;lim&gt; b; <span class="co">// создать битсет размера lim (должно быть константой)</span></a>
@@ -150,7 +150,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb3-3" title="3"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb3-4" title="4">    b |= b &lt;&lt; a[i];</a></code></pre></div>
 <h2 id="цикл-длины-3">Цикл длины 3</h2>
-<p>Пусть нам нужно узнать, есть ли цикл длины 3 в ориентированном графе из <span class="math inline">\(n\)</span> вершин, заданном своей матрицей смежности. Обернем матрицу в битсет, и тогда задача решается за <span class="math inline">\(O(n^3 / w)\)</span> следующим образом:</p>
+<p>Пусть нам нужно узнать, есть ли цикл длины 3 в ориентированном графе из <span class="math inline">\(n\)</span> вершин, заданном своей матрицей смежности. Обернем эту матрицу в битсет, и тогда задача решается за <span class="math inline">\(O(n^3 / w)\)</span> следующим образом:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1">bitset&lt;maxn&gt; g[maxn]; <span class="co">// матрица смежности</span></a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="cf">for</span> (<span class="dt">int</span> a = <span class="dv">0</span>; a &lt; n; a++) {</a>
 <a class="sourceLine" id="cb4-3" title="3">    <span class="cf">for</span> (<span class="dt">int</span> b = <span class="dv">0</span>; b &lt; n; b++) {</a>
@@ -161,11 +161,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb4-8" title="8">}</a></code></pre></div>
 <p>Бенчмарк: на серверах CodeForces этот код при <span class="math inline">\(n = 5000\)</span> работает за 7 секунд.</p>
 <h2 id="перемножение-матриц">Перемножение матриц</h2>
-<p>Зачем это может быть нужно: матрица смежности графа, возведенная в степень <span class="math inline">\(n\)</span>, имеет комбинаторный смысл: количество способов дойти из <span class="math inline">\(a\)</span> в <span class="math inline">\(b\)</span>, используя ровно <span class="math inline">\(n\)</span> переходов. Иногда нам не нужно знать число способов — нам хватит знания, можно ли вообще через <span class="math inline">\(n\)</span> ходов там оказаться. Тогда вместо числового умножения нам хватит битового умножения, то есть <code>&amp;</code>:</p>
+<p>Основное применение в олимпиадах: матрица смежности графа, возведенная в степень <span class="math inline">\(n\)</span>, имеет комбинаторный смысл — на пересечении <span class="math inline">\(a\)</span>-ой строки и <span class="math inline">\(b\)</span>-того столбца матрицы <span class="math inline">\(G^n\)</span> будет записано количество способов дойти из вершины <span class="math inline">\(a\)</span> в вершину <span class="math inline">\(b\)</span>, используя ровно <span class="math inline">\(n\)</span> переходов.</p>
+<p>В некоторых задачах нам не нужно знать именно число способов — нам хватит знания, можно ли вообще через <span class="math inline">\(n\)</span> ходов там оказаться. Тогда вместо числового умножения нам хватит битового умножения, то есть <code>&amp;</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">typedef</span> bitset&lt;maxn&gt; t;</a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="kw">typedef</span> array&lt;t, maxn&gt; matrix;</a>
 <a class="sourceLine" id="cb5-3" title="3"></a>
-<a class="sourceLine" id="cb5-4" title="4">matrix <span class="kw">operator</span>*(matrix a, matrix b) {</a>
+<a class="sourceLine" id="cb5-4" title="4">matrix matmul(matrix a, matrix b) {</a>
 <a class="sourceLine" id="cb5-5" title="5">    matrix c;</a>
 <a class="sourceLine" id="cb5-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb5-7" title="7">        <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; j++)</a>
@@ -174,8 +175,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-10" title="10">    <span class="cf">return</span> c;</a>
 <a class="sourceLine" id="cb5-11" title="11">}</a></code></pre></div>
 <h2 id="метод-гаусса">Метод Гаусса</h2>
-<p>Иногда встречаются задачи, требующие решения системы линейных уравнений. Очень большую часть из них на самом деле можно решить над полем <span class="math inline">\(\mathbb{Z}_2\)</span> — то есть взять все числа по модулю 2.</p>
-<p>Например: есть <span class="math inline">\(n\)</span> переключателей лампочек, каждый активированный переключатель меняет состояние (включает или выключает) какого-то подмножества из <span class="math inline">\(n\)</span> лампочек. Известно текущее состояние всех лампочек, нужно восстановить по нему состояние переключаетелей.</p>
+<p>Иногда встречаются задачи, требующие решения системы линейных уравнений. Большую часть из них на самом деле можно решить над полем <span class="math inline">\(\mathbb{Z}_2\)</span> — то есть взять все числа по модулю 2.</p>
+<p>Пример: есть <span class="math inline">\(n\)</span> переключателей лампочек, каждый активированный переключатель меняет состояние (включает или выключает) какого-то подмножества из <span class="math inline">\(n\)</span> лампочек. Известно текущее состояние всех лампочек, нужно восстановить по нему состояние переключаетелей.</p>
 <p>Нас по сути просят решить следующую систему:</p>
 <p><span class="math display">\[
 \begin{cases}
@@ -204,5 +205,9 @@ a_{n1} x_1 + a_{n2} x_2 + \ldots + a_{nn} x_n \equiv b_n \pmod 2
 <a class="sourceLine" id="cb6-15" title="15">    <span class="cf">return</span> x;</a>
 <a class="sourceLine" id="cb6-16" title="16">}</a></code></pre></div>
 <p>Код находит вектор <span class="math inline">\(x\)</span> из уравнения <span class="math inline">\(Ax = b\)</span> при условии, что решение существует и единственно. Для простоты кода предполагается, что вектор <span class="math inline">\(b\)</span> приписан справа к матрице <span class="math inline">\(A\)</span>.</p>
+<h2 id="самописный-bitset">Самописный bitset</h2>
+<p>На самом деле, реализация из STL очень медленная. Простой <code>for</code>, в котором and-ят <code>int</code>-ы, будет работать в несколько раз быстрее аналогичной операции битсета. Ускорение получается за счёт <a href="https://algorithmica.org/ru/sse">векторизации</a> — компилятор перестраивает цикл, используя специальные инструкции, работающие с блоками по 128 / 256 бит, а не 64.</p>
+<p>Нужно просто написать цикл с достаточно простым телом, и компилятор сделает всё сам. Трудности возникают только при реализации битовых сдвигов и <code>.count()</code>. Последнюю проще всего реализовать через встроенную в GCC быструю функцию <code>__builtin_popcount</code>, но вообще в STL для этого используется предпосчитанный массив размера 256 с числами от 0 до 8 — количеста единичных бит в записи каждого возможного значения байта.</p>
+<p>Автор предполагает, что битсет из STL реализовывали во времена, когда векторизация и отдельная инструкция <code>popcnt</code> ещё не поддерживались процессорами, поэтому всё устроено так, как устроено.</p>
 </body>
 </html>
