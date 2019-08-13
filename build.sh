@@ -2,7 +2,7 @@
 cp -r src/img web/
 mkdir -p web/{ru,en}
 cd src
-for file in `find {ru,en} -iname "*.md" -type f`
+for file in `find {en,ru,tg} -iname "*.md" -type f`
 do
     basename=`basename ${file%.md}`
     index="FALSE"  # TODO: swap true and false
