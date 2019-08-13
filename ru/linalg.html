@@ -115,12 +115,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </div>
 </div>
 <h1 id="ликбез-по-линейной-алгебре">Ликбез по линейной алгебре</h1>
-<p><strong>Определение</strong>. Функция <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}^m\)</span> называется <em>линейной</em>, если для неё выполнено</p>
+<p><strong>Определение</strong>. Функция <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}^m\)</span> называется <em>линейной</em>, если для неё выполнено:</p>
 <ol type="1">
 <li><span class="math inline">\(f(x+y) = f(x) + f(y)\)</span></li>
 <li><span class="math inline">\(f(ax) = a f(x), \; a \in \mathbb{R}\)</span></li>
 </ol>
-<p>Примеры:</p>
+<p>Например, линейными являются:</p>
 <ul>
 <li>Функция, которая «растягивает» вектор в <span class="math inline">\(k\)</span> раз: <span class="math inline">\(f(x) = k x\)</span>.</li>
 <li>Функция, которая поворачиват вектор на плоскости на угол <span class="math inline">\(\theta\)</span>.</li>
@@ -160,23 +160,25 @@ a_{m1} &amp; a_{m2} &amp; \ldots &amp; a_{mn} \\
 <p>Каждой линейной функции <span class="math inline">\(f\)</span> из <span class="math inline">\(\mathbb{R}^n\)</span> в <span class="math inline">\(\mathbb{R}^m\)</span> соответствует какая-то матрица <span class="math inline">\(A\)</span> размера <span class="math inline">\(n \times m\)</span> (первое число это количество строк, второе — столбцов) и наоборот. Элемент на пересечении <span class="math inline">\(i\)</span>-ой строки и <span class="math inline">\(j\)</span>-го столбца будем обозначать <span class="math inline">\(A_{ij}\)</span>. Не перепутайте.</p>
 <p>Если вектор — это упорядоченный набор скаляров, то матрицу можно рассматривать как вектор векторов. Вектор, в частности, можно представить как матрицу, у которой одна из размерностей равна единице — тогда его называют <em>вектор-столбец</em> либо <em>вектор-строка</em>.</p>
 <p>Напишем класс для работы с матрицами, который пока что будет просто оборачивать двумерные массивы:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">struct</span> matrix {</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> n, m;</a>
-<a class="sourceLine" id="cb1-3" title="3">    vector&lt;vector&lt;<span class="dt">int</span>&gt;&gt; t;</a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5">    matrix (<span class="dt">int</span> _n, <span class="dt">int</span> _m) {</a>
-<a class="sourceLine" id="cb1-6" title="6">        n = _n, m = _m;</a>
-<a class="sourceLine" id="cb1-7" title="7">        t.assign(n, vector&lt;<span class="dt">int</span>&gt;(m, <span class="dv">0</span>));</a>
-<a class="sourceLine" id="cb1-8" title="8">    }</a>
-<a class="sourceLine" id="cb1-9" title="9"></a>
-<a class="sourceLine" id="cb1-10" title="10">    <span class="co">// сделаем себе удобное индексирование</span></a>
-<a class="sourceLine" id="cb1-11" title="11">    <span class="dt">int</span>[] <span class="kw">operator</span>[] (<span class="dt">int</span> k) {</a>
-<a class="sourceLine" id="cb1-12" title="12">        <span class="cf">return</span> t[k*m];</a>
-<a class="sourceLine" id="cb1-13" title="13">    }</a>
-<a class="sourceLine" id="cb1-14" title="14">};</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: нормально обернуть два массива</span></a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">struct</span> matrix {</a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> n, m;</a>
+<a class="sourceLine" id="cb1-5" title="5">    vector&lt;vector&lt;<span class="dt">int</span>&gt;&gt; t;</a>
+<a class="sourceLine" id="cb1-6" title="6"></a>
+<a class="sourceLine" id="cb1-7" title="7">    matrix(<span class="dt">int</span> _n, <span class="dt">int</span> _m) {</a>
+<a class="sourceLine" id="cb1-8" title="8">        n = _n, m = _m;</a>
+<a class="sourceLine" id="cb1-9" title="9">        t.assign(n, vector&lt;<span class="dt">int</span>&gt;(m, <span class="dv">0</span>));</a>
+<a class="sourceLine" id="cb1-10" title="10">    }</a>
+<a class="sourceLine" id="cb1-11" title="11"></a>
+<a class="sourceLine" id="cb1-12" title="12">    <span class="co">// сделаем себе удобное индексирование</span></a>
+<a class="sourceLine" id="cb1-13" title="13">    <span class="dt">int</span>[] <span class="kw">operator</span>[](<span class="dt">int</span> k) {</a>
+<a class="sourceLine" id="cb1-14" title="14">        <span class="cf">return</span> t[k*m];</a>
+<a class="sourceLine" id="cb1-15" title="15">    }</a>
+<a class="sourceLine" id="cb1-16" title="16">};</a></code></pre></div>
 <p>Ещё есть <em>тензоры</em> — ими называют все объекты ещё более высокого порядка: векторы матриц (трёхмерный тензор), матрицы матриц (четырёхмерный тензор) и векторы матриц матриц и так далее.</p>
 <p><img src="https://pp.userapi.com/c854216/v854216517/2a73a/ARmNQyF_XIg.jpg" /></p>
-<p>У тензоров есть своя интересная алгебра, но в контекстах, с которыми с ними может столкнуться программист, никакая алгебра обычно не подразумневается, и термин используется лишь потому, что в словосочетании «многомерный массив» слишком много букв.</p>
+<p>У тензоров есть своя интересная алгебра, но в контекстах, в которых с ними сталкивается обычный программист, никакая алгебра обычно не подразумневается, и этот термин используется лишь потому, что в словосочетании «многомерный массив» слишком много букв.</p>
 <h3 id="матричное-умножение">Матричное умножение</h3>
 <p>Пусть линейной функции <span class="math inline">\(f\)</span> соответствует матрица <span class="math inline">\(A\)</span>, а функции <span class="math inline">\(g\)</span> соответствует матрица <span class="math inline">\(B\)</span>. Тогда композиции этих функций <span class="math inline">\(h = f \circ g\)</span> будет соответствовать <em>произведение</em> <span class="math inline">\(C\)</span> матриц <span class="math inline">\(A\)</span> и <span class="math inline">\(B\)</span>, определяемое следующим образом:</p>
 <p><span class="math display">\[
@@ -187,7 +189,7 @@ C = AB: \; C_{ij} = \sum_{i=1}^{k} A_{ik} B_{kj}
 <p><img src="https://cdn.kastatic.org/googleusercontent/rk4fR1jNJsGUfdHOc87UzuQh2zokwYDoVo3Hk1m3s6ToGDgW6KxgrsUeIj8-CJeV6cNf6WB8B6sRHt3BoGBdVY7h" /></p>
 <p>Исходное выражение для <span class="math inline">\(f(x)\)</span> теперь можно компактно записать как <span class="math inline">\(f(x) = Ax\)</span> вместо <span class="math inline">\(m\)</span> уравнений с <span class="math inline">\(n\)</span> слагаемыми в каждом.</p>
 <p>Напишем внешнюю функцию, реализующую матричное умножение:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1">matrix <span class="kw">operator</span>* (matrix a, matrix b) {</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1">matrix <span class="kw">operator</span>*(matrix a, matrix b) {</a>
 <a class="sourceLine" id="cb2-2" title="2">    matrix c(a.n, b.m);</a>
 <a class="sourceLine" id="cb2-3" title="3">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; a.n; i++)</a>
 <a class="sourceLine" id="cb2-4" title="4">        <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; b.m; j++)</a>
@@ -195,10 +197,28 @@ C = AB: \; C_{ij} = \sum_{i=1}^{k} A_{ik} B_{kj}
 <a class="sourceLine" id="cb2-6" title="6">                c[i][j] += a[i][k] * b[k][j];</a>
 <a class="sourceLine" id="cb2-7" title="7">    <span class="cf">return</span> c;</a>
 <a class="sourceLine" id="cb2-8" title="8">}</a></code></pre></div>
-<p>Эта реализация очень проста, но неоптимальна.</p>
-<p>BLAS. Кэш-линии.</p>
-<p>Транспонирование.</p>
-<p>Кстати, наука знает и <a href="https://en.wikipedia.org/wiki/Strassen_algorithm">более быстрые</a> способы перемножить матрицы, но на контестах они не нужны.</p>
+<p>Эта реализация очень проста, но неоптимальна. Если задуматься о том, как выглядят доступы к элементам <code>a</code> и <code>b</code> в памяти, то можно заметить что по <code>b</code> мы каждый раз прыгаем на <span class="math inline">\(m\)</span> шагов вперёд, что приводит к лишним загрузкам кэш-линий и не позволяет компилятору применить <a href="https://algorithmica.org/ru/sse">автовекторизацию</a>.</p>
+<p>Однако, чтобы это исправить, достаточно перед всеми циклами <em>транспонировать</em> <code>b</code>, то есть поменять каждый её <span class="math inline">\((i, j)\)</span>-тый элемент на <span class="math inline">\((j, i)\)</span>-тый (пусть, для определённости, <span class="math inline">\(i &lt; j\)</span>).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="co">// ...</span></a></code></pre></div>
+<p>Эта реализация работает раз в 5 быстрее предыдущей, и её уже довольно трудно побить. У неё возникают трудности лишь при работе большими матрицами — теми, которые не помещаются целиком в кэш. Мы для каждой строчки <span class="math inline">\(c\)</span> линейно проходимся по всем матрицам <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>. Но можно поступить следующим образом — разделить матрицы <span class="math inline">\(A\)</span> и <span class="math inline">\(B\)</span>, например, на 4 части и перемножить блочно:</p>
+<p><span class="math display">\[
+AB =
+\begin{pmatrix}
+A_{11} &amp; A_{12} \\
+A_{21} &amp; A_{22} \\
+\end{pmatrix}
+\times
+\begin{pmatrix}
+B_{11} &amp; B_{12} \\
+B_{21} &amp; B_{22} \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+A_{11} B_{11} + A_{12} B_{21} &amp; A_{11} B_{11} + A_{12} B_{21}  \\
+A_{11} B_{11} + A_{12} B_{21} &amp; A_{11} B_{11} + A_{12} B_{21} \\
+\end{pmatrix}
+\]</span></p>
+<p>Кстати, наука знает и <a href="https://en.wikipedia.org/wiki/Strassen_algorithm">более быстрые</a> способы перемножить матрицы, но они имеют весьма большую константу, и более эффективны только на матрицах от тысяч элементов.</p>
 <h3 id="свойства-матриц">Свойства матриц</h3>
 <p>К матрицам не нужно относиться как к табличкам, в которых стоят какие-то числа. Каждой матрице соответствует какая-то линейная функция, как-то преобразующая вектора. Центральными объектами линейной алгебры являются именно линейные функции, а не матрицы.</p>
 <p>Благодаря этому взаимно однозначному соотношению все ранее упомянутые свойства линейных функций переносятся и на матрицы:</p>
@@ -219,7 +239,7 @@ I_3 = \begin{pmatrix}
 \]</span></p>
 <p>Некоторые линейные функции обратимы (например, поворот на угол), некоторые — необратимы (например, проекция). Понятие обратимости можно продолжить и на матрицы.</p>
 <p><strong>Определение.</strong> Матрица <span class="math inline">\(A\)</span> является <em>обратимой</em>, если существует матрица <span class="math inline">\(A^{-1}\)</span> такая, что <span class="math inline">\(A \cdot A^{-1} = I\)</span>.</p>
-<p>Из формулы следует, что матрица <span class="math inline">\(A\)</span> должна быть хотя бы квадратной. Обратную матрицу можно находить за <span class="math inline">\(O(n^3)\)</span> методом Гаусса, который мы рассмотрим дальше. TODO</p>
+<p>Из формулы также следует, что матрица <span class="math inline">\(A\)</span> должна быть как минимум квадратной. Обратную матрицу можно находить за <span class="math inline">\(O(n^3)\)</span> методом Гаусса, который мы рассмотрим дальше. TODO</p>
 <h3 id="примеры-матриц">Примеры матриц</h3>
 <p>Матрица «увеличь всё в два раза»:</p>
 <p><span class="math display">\[
@@ -272,26 +292,26 @@ f_i = f_{i-1} G
 A^8 = A^{2^{2^{2}}} = ((AA)(AA))((AA)(AA))
 \]</span></p>
 <p>По этой формуле нам нужно <span class="math inline">\(\log k\)</span> раз перемножить две матрицы размера <span class="math inline">\(n\)</span>, что суммарно будет работать за <span class="math inline">\(O(n^3 \log k)\)</span>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1">matrix identity(<span class="dt">int</span> n) {</a>
-<a class="sourceLine" id="cb3-2" title="2">    <span class="co">// создаёт единичную матрицу</span></a>
-<a class="sourceLine" id="cb3-3" title="3">    matrix a(n, n);</a>
-<a class="sourceLine" id="cb3-4" title="4">    for (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb3-5" title="5">        a[i][i] = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb3-6" title="6">    return a;</a>
-<a class="sourceLine" id="cb3-7" title="7">}</a>
-<a class="sourceLine" id="cb3-8" title="8"></a>
-<a class="sourceLine" id="cb3-9" title="9">matrix binpow(matrix a, <span class="dt">int</span> p) {</a>
-<a class="sourceLine" id="cb3-10" title="10">    matrix b = identity(a.n);</a>
-<a class="sourceLine" id="cb3-11" title="11">    </a>
-<a class="sourceLine" id="cb3-12" title="12">    while (p &gt; <span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb3-13" title="13">        if (p &amp; <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-14" title="14">            b = b*a;</a>
-<a class="sourceLine" id="cb3-15" title="15">         a = a*a;</a>
-<a class="sourceLine" id="cb3-16" title="16">         p &gt;&gt;= <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb3-17" title="17">    }</a>
-<a class="sourceLine" id="cb3-18" title="18">    </a>
-<a class="sourceLine" id="cb3-19" title="19">    return b;</a>
-<a class="sourceLine" id="cb3-20" title="20">}</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1">matrix identity(<span class="dt">int</span> n) {</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="co">// создаёт единичную матрицу</span></a>
+<a class="sourceLine" id="cb4-3" title="3">    matrix a(n, n);</a>
+<a class="sourceLine" id="cb4-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
+<a class="sourceLine" id="cb4-5" title="5">        a[i][i] = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb4-6" title="6">    <span class="cf">return</span> a;</a>
+<a class="sourceLine" id="cb4-7" title="7">}</a>
+<a class="sourceLine" id="cb4-8" title="8"></a>
+<a class="sourceLine" id="cb4-9" title="9">matrix binpow(matrix a, <span class="dt">int</span> p) {</a>
+<a class="sourceLine" id="cb4-10" title="10">    matrix b = identity(a.n);</a>
+<a class="sourceLine" id="cb4-11" title="11"></a>
+<a class="sourceLine" id="cb4-12" title="12">    <span class="cf">while</span> (p &gt; <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb4-13" title="13">        <span class="cf">if</span> (p &amp; <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-14" title="14">            b = b*a;</a>
+<a class="sourceLine" id="cb4-15" title="15">         a = a*a;</a>
+<a class="sourceLine" id="cb4-16" title="16">         p &gt;&gt;= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb4-17" title="17">    }</a>
+<a class="sourceLine" id="cb4-18" title="18"></a>
+<a class="sourceLine" id="cb4-19" title="19">    <span class="cf">return</span> b;</a>
+<a class="sourceLine" id="cb4-20" title="20">}</a></code></pre></div>
 <p>В получившейся матрице в ячейке <span class="math inline">\(g_{ij}\)</span> будет находиться количество способов дойти из <span class="math inline">\(i\)</span>-той вершины в <span class="math inline">\(j\)</span>-тую, используя ровно <span class="math inline">\(k\)</span> переходов. Ответом нужно просто вывести <span class="math inline">\(g_{st}\)</span>.</p>
 <p>Практически не меняя алгоритм, можно решить задачу «с какой вероятностью я попаду из вершины <span class="math inline">\(s\)</span> в вершину <span class="math inline">\(t\)</span>», если вместо матрицы смежности даны вероятности, с которыми мы переходим из вершины в вершину в марковской цепи.</p>
 <p>Если нам не нужно количество способов, а только сам факт, можно ли дойти за ровно <span class="math inline">\(k\)</span> переходов, то можно обернуть матрицу в битсеты и сильно ускорить решение.</p>
@@ -362,22 +382,22 @@ a_{n1} x_1 + a_{n2} x_2 + \ldots + a_{nn} x_n \equiv b_n \pmod 2
 <p>Здесь <span class="math inline">\(x\)</span> — состояния переключателей, <span class="math inline">\(b\)</span> — состояния лампочек, <span class="math inline">\(A\)</span> — информация о том, влияет ли переключатель на лампочку.</p>
 <p>Метод Крамера неоптимален — там <span class="math inline">\(O(n^4)\)</span> операций.</p>
 <p>В таком случае можно значительно ускорить и упростить обычный метод Гаусса:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1">t gauss (matrix a) {</a>
-<a class="sourceLine" id="cb4-2" title="2">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb4-3" title="3">        <span class="dt">int</span> nonzero = i;</a>
-<a class="sourceLine" id="cb4-4" title="4">        <span class="cf">for</span> (<span class="dt">int</span> j = i+<span class="dv">1</span>; j &lt; n; j++)</a>
-<a class="sourceLine" id="cb4-5" title="5">            <span class="cf">if</span> (a[j][i])</a>
-<a class="sourceLine" id="cb4-6" title="6">                nonzero = j;</a>
-<a class="sourceLine" id="cb4-7" title="7">        swap(a[nonzero], a[i]);</a>
-<a class="sourceLine" id="cb4-8" title="8">        <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; j++)</a>
-<a class="sourceLine" id="cb4-9" title="9">            <span class="cf">if</span> (j != i &amp;&amp; a[j][i])</a>
-<a class="sourceLine" id="cb4-10" title="10">                a[j] ^= a[i];</a>
-<a class="sourceLine" id="cb4-11" title="11">    }</a>
-<a class="sourceLine" id="cb4-12" title="12">    t x;</a>
-<a class="sourceLine" id="cb4-13" title="13">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb4-14" title="14">        x[i] = a[i][n] ^ a[i][i];</a>
-<a class="sourceLine" id="cb4-15" title="15">    <span class="cf">return</span> x;</a>
-<a class="sourceLine" id="cb4-16" title="16">}</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1">t gauss (matrix a) {</a>
+<a class="sourceLine" id="cb5-2" title="2">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
+<a class="sourceLine" id="cb5-3" title="3">        <span class="dt">int</span> nonzero = i;</a>
+<a class="sourceLine" id="cb5-4" title="4">        <span class="cf">for</span> (<span class="dt">int</span> j = i+<span class="dv">1</span>; j &lt; n; j++)</a>
+<a class="sourceLine" id="cb5-5" title="5">            <span class="cf">if</span> (a[j][i])</a>
+<a class="sourceLine" id="cb5-6" title="6">                nonzero = j;</a>
+<a class="sourceLine" id="cb5-7" title="7">        swap(a[nonzero], a[i]);</a>
+<a class="sourceLine" id="cb5-8" title="8">        <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; j++)</a>
+<a class="sourceLine" id="cb5-9" title="9">            <span class="cf">if</span> (j != i &amp;&amp; a[j][i])</a>
+<a class="sourceLine" id="cb5-10" title="10">                a[j] ^= a[i];</a>
+<a class="sourceLine" id="cb5-11" title="11">    }</a>
+<a class="sourceLine" id="cb5-12" title="12">    t x;</a>
+<a class="sourceLine" id="cb5-13" title="13">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
+<a class="sourceLine" id="cb5-14" title="14">        x[i] = a[i][n] ^ a[i][i];</a>
+<a class="sourceLine" id="cb5-15" title="15">    <span class="cf">return</span> x;</a>
+<a class="sourceLine" id="cb5-16" title="16">}</a></code></pre></div>
 <p>Код находит вектор <span class="math inline">\(x\)</span> из уравнения <span class="math inline">\(Ax = b\)</span> при условии, что решение существует и единственно. Для простоты кода, предполагается, что вектор <span class="math inline">\(b\)</span> приписан справа к матрице <span class="math inline">\(A\)</span>.</p>
 <p>Часто эту систему нужно решить по модулю 2. Тогда код значительно упрощается и ускоряется (опять же, см. <a href="https://algorithmica.org/ru/bitset#%D0%93%D0%B0%D1%83%D1%81%D1%81">Битсет</a>).</p>
 </body>
