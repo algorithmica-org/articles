@@ -6,3 +6,7 @@
 	path = src/ru
 	url = https://github.com/algorithmica-org/ru
 	branch = master
+[submodule "src/tg"]
+	path = src/tg
+	url = https://github.com/algorithmica-org/tg
+	branch = master
