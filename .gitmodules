@@ -2,3 +2,7 @@
 	path = src/en
 	url = https://github.com/algorithmica-org/en.git
 	branch = master
+[submodule "src/ru"]
+	path = src/ru
+	url = https://github.com/algorithmica-org/ru
+	branch = master
