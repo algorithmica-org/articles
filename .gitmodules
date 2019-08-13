@@ -1,0 +1,4 @@
+[submodule "src/en"]
+	path = src/en
+	url = https://github.com/algorithmica-org/en.git
+	branch = master
