@@ -71,7 +71,7 @@ a T(\frac{n}{b}) + \Theta(n^c), &amp; n &gt; n_0
 <li><strong>C.</strong> Если <span class="math inline">\(c &lt; \log_b a\)</span>, то <span class="math inline">\(T(n) = \Theta(n^{\log_b a})\)</span>.</li>
 </ul>
 <hr />
-<p><img src="../img/divide-and-conquer.png" /></p>
+<p><img src="img/divide-and-conquer.png" /></p>
 <hr />
 <p><strong>Доказательство.</strong> Рассмотрим «дерево рекурсии» этого соотношения. В нём будет <span class="math inline">\(log_b n\)</span> уровней. На <span class="math inline">\(k\)</span>-том уровне будет <span class="math inline">\(a^k\)</span> вершин, каждая из которых будет стоить <span class="math inline">\((\frac{n}{b^k})^c\)</span> операций. Просуммируем значения во всех вершинах по всем уровням:</p>
 <p><span class="math display">\[

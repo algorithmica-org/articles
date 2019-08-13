@@ -199,7 +199,7 @@ f[k, j-1] + x_{i-1}^2
 \underbrace{-2x_k}_{b_k} x_{i-1}
 \]</span></p>
 <p>Это выражение можно переписать как <span class="math inline">\(\min_k (a_k, b_k) \cdot (1, x_{i-1})\)</span>, где под «<span class="math inline">\(\cdot\)</span>» имеется в виду скалярное произведение.</p>
-<p><img src="../img/scooby-doo.jpg" /></p>
+<p><img src="img/scooby-doo.jpg" /></p>
 <p>Пусть мы хотим найти оптимальное <span class="math inline">\(k\)</span> для <span class="math inline">\(f[i][j]\)</span>. Представим все уже посчитанные релевантные динамики с предыдущего слоя как точки <span class="math inline">\((a_k, b_k)\)</span> на плоскости. Чтобы эффективно находить среди них точку с минимальным скалярным произведением, можно поддерживать их <em>нижнюю огибающую</em> (вектор <span class="math inline">\((1, x_{i-1})\)</span> «смотрит» всегда вверх, поэтому нам интересна только она) и просто бинпоиском будем находить оптимальную точку.</p>
 <p>Хранить нижнюю огибающую можно просто в стеке. Так как добавляемые точки отсортированы по <span class="math inline">\(x\)</span>, её построение будет занимать линейное время, а асимптотика всего алгоритму будет упираться в асимптотику бинарного поиска, то есть будет равна <span class="math inline">\(O(n m \log n)\)</span></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">struct</span> line {</a>
@@ -246,7 +246,7 @@ f[k, j-1] + x_{i-1}^2
 <p><img src="https://i.imgur.com/TqfVWDD.png" /></p>
 <p>Применительно к нашей задаче, выражение <span class="math inline">\(\min_k (a_k, b_k) \cdot (1, x_{i-1})\)</span> можно раскрыть как <span class="math inline">\(\min_k (a_k + b_k \cdot x_{i-1})\)</span> и представить как нахождение минимума в точке среди множества прямых вида <span class="math inline">\(y = a_k + b_k \cdot x\)</span>.</p>
 <p><em>Дерево Ли Шао</em> (англ. <em>Li Chao segment tree</em>, кит. <em>李超段树</em>) — модификация дерева отрезков над множеством возможных <span class="math inline">\(x\)</span>, каждая вершина которого хранит в себе такую прямую, что если пройти по пути от корня до соответствующего листа, то максимум в данной точке будет наибольшее значение на пути.</p>
-<p><img src="https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/master/img/li_chao_vertex.png" /></p>
+<p><img src="https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/mastimg/li_chao_vertex.png" /></p>
 <p>Пусть в вершину пришло обновление — прямая <em>new</em>. Если в ней ничего не хранится, то запишем <em>new</em> в вершину и выйдем. Если там уже есть какая-то другая прямая <em>old</em>, то одна из них будет «доминировать» над другой хотя бы на одной из половин, а в другой будет либо пересекаться, либо тоже доминировать.</p>
 <p>Если одна прямая полностью доминирует над другой, то мы её просто запишем в вершину, а про вторую забудем. Если же прямая доминирует только в одной из половин, то мы запишем её, а «проигравшую» прямую передадим в рекурсию в ту половину, где она может доминировать.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">typedef</span> <span class="dt">int</span> ftype;</a>
