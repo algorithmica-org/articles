@@ -1,5 +1,5 @@
 #!/bin/bash
-cp -r src/img web/
+cp -r src/{en,ru,tg}/img web/
 mkdir -p web/{en,ru,tg}
 cd src
 for file in `find {en,ru,tg} -iname "*.md" -type f`
