@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Жадный алгоритм - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/greedy.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/greedy.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="жадный-алгоритм">Жадный алгоритм</h1>
+<p>Это не какой-то алгоритм, а скорее простая идея о том, как решаются многие задачи.</p>
+<h2 id="пример-задачи-размен-монет">Пример задачи: Размен монет</h2>
+<h3 id="условие">Условие</h3>
+<p>Есть купюры и монеты номиналами: <span class="math inline">\(1, 5, 10, 50, 100, 1000, 5000\)</span> рублей. В банкомате неограниченное количество купюр каждого номинала. Константин хочет снять со счёта <span class="math inline">\(n\)</span> рублей. Нужно определить минимальное суммарное количество купюр и монет, которое может выдать банкомат, чтобы сумма получилась ровно <span class="math inline">\(n\)</span>.</p>
+<h3 id="решение">Решение</h3>
+<p>Выпишем первые несколько ответов на задачу:</p>
+<pre><code>ans[1] = 1; # 1
+ans[2] = 2; # 1 1
+ans[3] = 3; # 1 1 1
+ans[4] = 4; # 1 1 1 1
+ans[5] = 1; # 5
+ans[6] = 2; # 5 1
+ans[7] = 3; # 5 1 1
+ans[8] = 4; # 5 1 1 1
+ans[9] = 5; # 5 1 1 1 1
+ans[10] = 1; # 10</code></pre>
+<p>Хочется сказать, что оптимальным алгоритмом будет следующее: взять максимум купюр номинала <span class="math inline">\(1000\)</span>, из остатка взять максимум купюр номинала <span class="math inline">\(500\)</span> и т.д. Причем это будет верным решением! Такой подход в решении называются “жадностью”. А алгоритмы, работающие таким образом, “жадными”.</p>
+<h3 id="общая-идея-жадного-алгоритма">Общая идея жадного алгоритма</h3>
+<p>В общем смысле жадный алгоритм - это <strong>брать элементы в порядке уменьшения чего-нибудь</strong>, <strong>брать самый большой элемент первым</strong>. Эта одна простая идея объединяет множество разных задач.</p>
+<p>Чем-то это похоже на математический “принцип крайнего” - всегда будет полезно посмотреть на самый крайний (максимальный или минимальный элемент), очень часто решение начинается именно с него.</p>
+<h3 id="доказательство-решения">Доказательство решения</h3>
+<p>Плохо просто предполагать, что в задаче жадный алгоритм работает, потому что часто бывает, что хоть жадность и кажется очевидным решением в задаче, то это оказывается неверным. Поэтому прежде, чем писать жадность, стоит её доказать.</p>
+<p>Вместо того, чтобы доказывать утверждение про жадность для конкретной задачи про числа <span class="math inline">\(1, 5, 10, 50, 100, 1000, 5000\)</span>, давайте сформулируем и докажем более сильное:</p>
+<blockquote>
+<p>Если каждый следующий номинал делится на предыдущий, то жадный алгоритм работает.</p>
+</blockquote>
+<h3 id="доказательство-утверждения">Доказательство утверждения:</h3>
+<p>Пусть купюры имели номинал <span class="math inline">\(a_1, \ldots, a_k\)</span>. Пусть максимальная купюра имеет достоинство <span class="math inline">\(a_k\)</span> и <span class="math inline">\(a_k &lt; n\)</span>, но в оптимальном ответе ее нет. Давайте рассмотрим такой оптимальный ответ и найдем противоречие.</p>
+<p>Пусть в оптимальном ответе купюра с номиналом <span class="math inline">\(a_i\)</span> встретилась <span class="math inline">\(b_i\)</span> раз. Если <span class="math inline">\(b \geq \frac{a_{i+1}}{a_i}\)</span> раз, то <span class="math inline">\(\frac{a_{i+1}}{a_i}\)</span> купюр можно легко заменить на одну купюру достоинства <span class="math inline">\(a_{i+1}\)</span>, а значит это не оптимальный ответ. Следовательно, <span class="math inline">\(b \leq \frac{a_{i+1}}{a_i} - 1\)</span></p>
+<p>Давайте посчитаем, какого достоинства может быть сумма всех достоинств всех купюр в оптимальном ответе, если не считать максимальные купюры. Это будет <span class="math display">\[a_1 b_1 + a_2 b_2 + \ldots + a_{k-1} b_{k-1} \leq a_1 (\frac{a_2}{a_1} - 1) + a_2 (\frac{a_3}{a_2} - 1) + \ldots + a_{k-1} (\frac{a_k}{a_{k-1}} - 1) 
+=\]</span> <span class="math display">\[= (a_2  - a_1) + (a_3 - a_2) + \ldots + (a_k - a_{k-1}) = a_k - a_1 &lt; a_k\]</span></p>
+<p>Из этого делаем вывод, что если <span class="math inline">\(n \geq a_k\)</span>, то в оптимальный ответ всегда придется взять максмальную купюру размера <span class="math inline">\(a_k\)</span>, потому что меньшие купюры просто не смогут оптимальном ответе давать так много. Отсюда и следует корректность жадного алгоритма.</p>
+<p>Теперь, когда жадность доказана, можно предъявить алгоритм:</p>
+<pre><code>
+vector&lt;int&gt; n = {1, 2, 5, 10, 50, 100, 1000, 2000, 5000}
+int sums, ans = 0;
+
+cin &gt;&gt; sums;
+for (int i = 8; i &gt;= 0; i--) {
+    ans += sums / n[i];
+    sums %= n[i];
+}
+cout &lt;&lt; sums &lt;&lt; endl;</code></pre>
+<h2 id="пример-задачи-задача-о-рюкзаке-с-делимыми-предметами">Пример задачи: Задача о рюкзаке с делимыми предметами</h2>
+<h3 id="условие-1">Условие</h3>
+<p>Пусть есть рюкзак с вместимостью не более, чем <span class="math inline">\(W\)</span> грамм (<span class="math inline">\(W\)</span> - целое) и <span class="math inline">\(n\)</span> предметов весом <span class="math inline">\(w_i\)</span> грамм и стоимостью <span class="math inline">\(c_i\)</span> за грамм. Мы умеем отрезать от любого предмета целое количество грамм. Требуется набрать рюкзак максимальной стоимости.</p>
+<h3 id="решение-1">Решение</h3>
+<p>Также будем решать эту задачу жадно. Отсортируем предметы по убыванию “плотности ценности” <span class="math inline">\(\frac{c_i}{w_i}\)</span> и будем брать их жадно. От последнего предмета, который не влезет полностью, возьмем часть.</p>
+<h3 id="доказательство">Доказательство</h3>
+<p>Давайте представим, что мы уже поделили все предметы на кусочки веса 1 грамм, при этом их ценность стала равна <span class="math inline">\(\frac{c_i}{w_i}\)</span>. Понятно, что из кусочков одинакого веса 1 грамм всегда оптимально просто взять кусочки с максимальной ценностью.</p>
+<p>Заметим, что в жадном алгоритме мы как раз и набираем максимальные по <span class="math inline">\(\frac{c_i}{w_i}\)</span> кусочки веса 1.</p>
+<p>Предьявим алгоритм:</p>
+<pre><code>pair&lt;int, int&gt; items[n];
+
+int c, w, W;                 // стоимость и вес предмета 
+cin &gt;&gt; W; 
+for (int i = 0; i &lt; n; ++i) { 
+    cin &gt;&gt; c &gt;&gt; w;
+    items[i] = {c, w};
+}
+
+sort(items, items + n);
+
+int ans = 0;
+for (int i = n - 1; i &gt;= 0; --i) {
+    ans += min(items[i].second, W) * items[i].first;
+    W -= min(items[i].second, W);
+}
+cout &lt;&lt; ans &lt;&lt; endl;</code></pre>
+<p>Итоговая асимптотика: <span class="math inline">\(O(n + n\log n) = O(n\log n)\)</span>.</p>
+<p>Заметим, что если предметы резать нельзя, такой алгоритм не сработает. Как решать задачу для такого случая обсудим на одной из следующих лекций.</p>
+<h2 id="пример-задачи-выбор-заявок">Пример задачи: Выбор заявок</h2>
+<p><strong>Условие</strong></p>
+<p>Даны заявки на проведение занятий в некоторой аудитории. В каждой заявке указаны начало и конец занятия <span class="math inline">\((s_i\)</span> и <span class="math inline">\(f_i\)</span> для <span class="math inline">\(i\)</span>-ой заявки). Нужно из всех заявок оставить как можно больше так, чтобы они не пересекались. При этом если одна заявка закончилась во время <span class="math inline">\(t\)</span>, а следующая началась во время <span class="math inline">\(t\)</span>, то их можно ставить подряд.</p>
+<p><strong>Решение</strong></p>
+<p>Здесь жадность становится не такой уже очевидной, потому что неясно в каком порядке рассматривать заявки, те непонятно как “жадно” их набирать.</p>
+<p>Давайте посмотрим на <strong>самую первую по времени конца заявку</strong>. Заметьте, что нам всегда выгодно включить её в оптимальный ответ - она заканчивается раньше всех остальных, а поэтому если в оптимальном ответе самая первая заявка - другая, мы можем безболезненно заменить её на самую первую по времени конца, и новых пересечений не появится, так как мы просто сдвинули самую первую заявку еще левее.</p>
+<p>Раз всегда есть оптимальный ответ, в котором выбрана эта самая левая по времени конца заявка, давайте её возьмем, и выберем <strong>самую первую по времени конца заявку из оставшихся, не пересекающихся с той</strong>.</p>
+<p>Из такого рассуждения про одну самую левую по времени конца заявку следует сразу и общее жадное решение задачи - нужно идти слева направо по заявкам, которые отсортированы по времени конца, и брать новую, если можем, то есть если её начало не раньше, чем конец самой последней уже выбранной.</p>
+<h2 id="задание">Задание</h2>
+<p>Вам нужно решить как можно больше задач из этого контеста:</p>
+<p>https://informatics.msk.ru/mod/statements/view3.php?id=35449</p>
+</body>
+</html>

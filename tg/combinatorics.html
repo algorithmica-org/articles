@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Комбинаторика - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/combinatorics.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/combinatorics.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="комбинаторика">Комбинаторика</h1>
+<p>Иногда в задачах требуется подсчитать количество некоторых объектов, количество способов сделать что-то. При этом обычно это количество слишком велико, чтобы можно было перечислить все объекты в явном виде.</p>
+<p>Например, можно посчитать количество перестановок из <span class="math inline">\(n\)</span> различных элементов следующим образом. Понятно, что на первое место в перестановке мы можем поставить любой из <span class="math inline">\(n\)</span> элементов, на второе — любой из <span class="math inline">\(n - 1\)</span> оставшихся, и так далее. Для последнего места останется только 1 элемент. Значит, число перестановок <span class="math inline">\(n\)</span> элементов равно <span class="math inline">\(n\cdot(n-1)\cdot\ldots\cdot2\cdot1\)</span>, что сокращенно обозначается как <span class="math inline">\(n!\)</span></p>
+<p>Принято считать, что <span class="math inline">\(0!=1\)</span></p>
+<h2 id="биномиальные-коэффициенты">Биномиальные коэффициенты</h2>
+<p>Посчитаем количество способов выбрать <span class="math inline">\(k\)</span> элементов из <span class="math inline">\(n\)</span> различных (называется числом сочетаний из <span class="math inline">\(n\)</span> по <span class="math inline">\(k\)</span> и обозначается <span class="math inline">\(C_n^k\)</span>). Точно так же на первое место мы можем поставить любой из <span class="math inline">\(n\)</span> элементов, на второе — любой из <span class="math inline">\(n - 1\)</span> оставшихся, на <span class="math inline">\(k\)</span>-е место останется <span class="math inline">\(n - k + 1\)</span> вариант, то есть всего вариантов получится <span class="math inline">\(n\cdot(n-1)\cdot\ldots\cdot(n-k+1)=\frac{n!}{(n-k)!}\)</span>. Заметим, что так мы посчитали число <em>упорядоченных</em> наборов из <span class="math inline">\(k\)</span> элементов и чтобы получить количество способов выбрать <span class="math inline">\(k\)</span> элементов из <span class="math inline">\(n\)</span> нужно поделить результат на <span class="math inline">\(k!\)</span>, ведь, как было установлено ранее, именно столько есть спобосов упорядочить <span class="math inline">\(k\)</span> элементов. В итоге получается <span class="math inline">\(C_n^k=\frac{n!}{k!(n-k)!}\)</span></p>
+<p>Есть и другой способ подсчета <span class="math inline">\(C_n^k\)</span> для <span class="math inline">\(0 &lt; k &lt; n\)</span>. Посмотрим на первый элемент. Если он входит в набор, то осталось выбрать <span class="math inline">\(k-1\)</span> из <span class="math inline">\(n-1\)</span> оставшихся. Иначе нужно выбрать <span class="math inline">\(k\)</span> из <span class="math inline">\(n-1\)</span> оставшихся. Значит, <span class="math inline">\(C_n^k=C_{n-1}^{k}+C_{n-1}^{k-1}\)</span>. Так можно найти все <span class="math inline">\(C_n^k\)</span> до какого-то <span class="math inline">\(n\)</span> за <span class="math inline">\(O(n^2)\)</span>.</p>
+<p>Таким образом, <span class="math inline">\(C_n^k\)</span> легко представлять в виде бесконечного треугольника, где на сторонах стоят 1, а остальные числа равны сумме двух верхних. Легко видеть, что <span class="math inline">\(C_n^k\)</span> это <span class="math inline">\(k\)</span>-е число в строке номер <span class="math inline">\(n\)</span>. Это называют треугольником Паскаля.</p>
+<figure>
+<img src="images/pascal_triangle.png" alt="Треугольник Паскаля" /><figcaption>Треугольник Паскаля</figcaption>
+</figure>
+<h2 id="число-путей-черепашки">Число путей черепашки</h2>
+<p>Пусть, в левом верхнем углу прямоугольного поля стоит черепашка, которая может ходить только на одну клетку вправо или вниз. Сколько у нее способов попасть в правый нижний угол?</p>
+<h2 id="бином-ньютона">Бином Ньютона</h2>
+<p>Рассмотрим разложение выражения <span class="math inline">\((a+b)^n\)</span>. Докажем, что коэффициент при <span class="math inline">\(a^kb^{n-k}\)</span> равен <span class="math inline">\(C_n^k\)</span>. Действительно <span class="math inline">\((a+b)^n=(a+b)(a+b)\cdots(a+b)~\)</span>(<span class="math inline">\(n\)</span> раз). Чтобы получить член <span class="math inline">\(a^kb^{n-k}\)</span> надо из <span class="math inline">\(k\)</span> скобок выбрать <span class="math inline">\(a\)</span>, а из остальных <span class="math inline">\(b\)</span>. Как мы уже знаем, это можно сделать <span class="math inline">\(C_n^k\)</span>. Значит, <span class="math inline">\((a+b)^n=\sum\limits_{k=0}^nC_n^ka^kb^{n-k}\)</span>.</p>
+<p>Из этого следует, что коэффициенты при разложении <span class="math inline">\((a+b)^n\)</span> являются строкой треугольника Паскаля.</p>
+<p>Бином Ньютона часто используется для доказательства различных комбинаторных формул.</p>
+<p>##Полиномиальные коэффициенты</p>
+<p>Посчитаем теперь количество разбиений множества на <span class="math inline">\(m\)</span> множеств размеров <span class="math inline">\(k_1,k_2\ldots,k_m\)</span>. Это называется полиномиальные коэффициенты и обозначается <span class="math inline">\(C(k_1,k_2,\ldots,k_m)\)</span> Будем набирать эти множества по очереди. Количество способов выбрать первое подмножесто равно <span class="math inline">\(C_n^{k_1}\)</span>, второе <span class="math inline">\(C_{n-k_1}^{k_2}\)</span> и так далее. Итоговая формула <span class="math inline">\(C(k_1,k_2,\ldots,k_m)=C_n^{k_1}\cdot C_{n-k_1}^{k_2}\cdots C_{k_m}^{k_m}=\frac{n!}{k_1!k_2!\cdots k_m!}\)</span>.</p>
+<p>Аналогично биному Ньютона, такие числа являются коэффициентами при членах <span class="math inline">\(x_1^{k_1}x_2^{k_2}\cdots x_m^{k_m}\)</span> выражения <span class="math inline">\((x_1+\ldots+x_m)^n\)</span>. Доказательство тоже аналогично доказательству из предыдущего раздела и оставляется в качестве упражнения.</p>
+<h2 id="числа-каталана">Числа Каталана</h2>
+<p>Посчитаем количество правильных скобочных последовательностей (ПСП). Интуитивно понятно, что это, но формально они определятюся так: - Пустая последовательность является ПСП - Если <span class="math inline">\(A\)</span> является ПСП, то <span class="math inline">\((A)\)</span> является ПСП - Если <span class="math inline">\(A\)</span> и <span class="math inline">\(B\)</span> являются ПСП, то <span class="math inline">\(AB\)</span> является ПСП.</p>
+<p>Теперь, посчитаем количество ПСП с <span class="math inline">\(2n\)</span> скобками. Это называется числами Каталана и обозначается <span class="math inline">\(C_n\)</span>. Рассмотрим первое место, где разность количества открывающих и закрывающих скобок впервые становится равна 0 и часть ПСП до этого места обозначим <span class="math inline">\((A)\)</span>, а часть после обозначим <span class="math inline">\(B\)</span>. Понятно, что <span class="math inline">\(A\)</span> и <span class="math inline">\(B\)</span> являются ПСП меньшего размера (возможно, пустыми).</p>
+<p>Теперь <span class="math inline">\(C_n\)</span> посчитать легко, перебирая размер <span class="math inline">\(A\)</span>.</p>
+<p><span class="math inline">\(C_0=1\)</span></p>
+<p><span class="math inline">\(C_n=C_0C_{n-1}+C_1C_{n-2}+\ldots+C_{n-1}C_0\)</span></p>
+<h2 id="полезные-формулы">Полезные формулы</h2>
+<ul>
+<li><span class="math inline">\(C_n^k=C_n^{n-k}\)</span></li>
+<li><span class="math inline">\(C_n^0+C_n^1+C_n^2+\ldots+C_n^n=2^n\)</span></li>
+<li><span class="math inline">\(C_n^0-C_n^1+C_n^2-\ldots+(-1)^nC_n^n=0\)</span></li>
+<li><span class="math inline">\(C_n=\frac{1}{n+1}C_{2n}^n\)</span></li>
+</ul>
+<p>В качестве упражнения попробуйте их доказать.</p>
+</body>
+</html>

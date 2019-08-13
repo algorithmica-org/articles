@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Два указателя, сортировка слиянием - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/merge-sort.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/merge-sort.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="два-указателя-сортировка-слиянием">Два указателя, сортировка слиянием</h1>
+<h2 id="количество-пар-с-разницей-больше-чем-k">Количество пар с разницей, больше чем K</h2>
+<blockquote>
+<p>Найти количество пар элементов <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> в отсортированном массиве, такие что <span class="math inline">\(b - a &gt; K\)</span>.</p>
+</blockquote>
+<p>Наивное решение: бинарный поиск. Будем считать, что массив уже отсортирован. Для каждого элемента <span class="math inline">\(a\)</span> найдем первый справа элемент <span class="math inline">\(b\)</span>, который входит в ответ в паре с <span class="math inline">\(a\)</span>. Нетрудно заметить, что все элементы, большие <span class="math inline">\(b\)</span>, также входят в ответ. Итоговая асимптотика <span class="math inline">\(O(n\log n)\)</span>.</p>
+<p>А можно ли быстрее?</p>
+<p>Да, давайте перебирать <strong>два указателя</strong> — два индекса <span class="math inline">\(first\)</span> и <span class="math inline">\(second\)</span>. Будем перебирать <span class="math inline">\(first\)</span> просто слева направо и поддерживать для каждого <span class="math inline">\(first\)</span> первый элемент справа от него, такой что <span class="math inline">\(a[second] - a[first] &gt; K\)</span> как <span class="math inline">\(second\)</span>. Тогда в пару к <span class="math inline">\(a=a[first]\)</span> подходят ровно <span class="math inline">\(n-second\)</span> элементов массив начиная с <span class="math inline">\(second\)</span>.</p>
+<pre><code>int second = 0, ans = 0;
+for (int first = 0; first &lt; n; ++first) {
+    while (second != n &amp;&amp; a[second] - a[first] &lt;= r) {
+        second++;
+    }
+    
+    ans += n - second;
+}</code></pre>
+<p>За сколько же работает это решение? С виду может показаться, что за <span class="math inline">\(O(n^2)\)</span>, но давайте посмотрим сколько раз меняется значение переменной <span class="math inline">\(second\)</span>. Так как оно изначально равняется нулю, только увеличивается и не может превысить <span class="math inline">\(n\)</span>, то суммарно операций мы сделаем <span class="math inline">\(O(n)\)</span>.</p>
+<p>Это называется метод двух указателей — так как мы двигаем два указателя first и second одновременно слева направо по каким-то правилам. Обычно его используют на одном отсортированном массиве.</p>
+<p>Давайте разберем еще примеры.</p>
+<h2 id="максимальная-разница-но-не-больше-k">Максимальная разница, но не больше K</h2>
+<blockquote>
+<p>Найти в отсортированном массиве два числа <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> такие, что <span class="math inline">\(b - a \leq K\)</span>, и при этом <span class="math inline">\(b-a\)</span> максимально.</p>
+</blockquote>
+<p>Давайте просто переберем <span class="math inline">\(first\)</span> слева направо как указатель на <span class="math inline">\(a\)</span>, и будем поддерживать <span class="math inline">\(second\)</span> как указатель на максимальный такой индекс, что <span class="math inline">\(a[second] - a[first]\leq K\)</span>. Для этого достаточно просто после каждого сдвига <span class="math inline">\(first\)</span> на один сдвигать <span class="math inline">\(second\)</span> вправо, пока это условие не перестанет выполняться.</p>
+<p>Заметим, что таким образом мы перебрем <strong>все</strong> пары <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>, такие что <span class="math inline">\(b - a \leq K\)</span>, и их при этом нельзя увеличить вправо (иначе мы бы увеличили). Очевидно, максимальная разница лежит именно в одной из такой пар, так что мы ее найдем.</p>
+<h2 id="три-массива">Три массива</h2>
+<p>Чаще всего метод двух указателей применяют к одному отсортированному массиву. Но иногда можно применить его и на несколько, например, три массива.</p>
+<blockquote>
+<p>Найти в трех отсортированных массивах элементы <span class="math inline">\(a_i\)</span>, <span class="math inline">\(b_j\)</span> и <span class="math inline">\(c_k\)</span> такие, что <span class="math inline">\(|\max(a_i, b_j, c_k) - \min(a_i, b_j, c_k)|\)</span> минимально.</p>
+</blockquote>
+<p>Для этого достаточно перебирать указатель <span class="math inline">\(first\)</span> на первый массив, <span class="math inline">\(second\)</span> на второй массив и <span class="math inline">\(third\)</span> на третий массив. Давайте теперь медленно увеличивать минимум из этих трех элементов так, чтобы максимум увеличился как можно меньше.</p>
+<p>Изначально все указатели указывают на индекс <span class="math inline">\(0\)</span>. После этого надо один из указателей сдвинуть направо. Какой? Тот, который указывает на минимальный из элементов. Почему? Если сдвинуть любой другой, то максимум возрастет, а минимум нет, такие комбинации вообще рассматривать бесполезно.</p>
+<p>Так что мы просто сдвигаем каждый раз указатель на минимум из трех элементов, если есть куда его двигать, иначе заканчиваем. Каждый раз обновляем ответ. Так мы переберем всех разумные тройки элементов.</p>
+<h2 id="слияние">Слияние</h2>
+<p>Еще пример двух указателей на нескольких массивах.</p>
+<p>Пусть у нас есть два отсортированных по неубыванию массива размера <span class="math inline">\(n\)</span> и <span class="math inline">\(m\)</span>. Хотим получить отсортированный массив размера <span class="math inline">\(n + m\)</span> из исходных.</p>
+<p>Пусть первый указатель будет указывать на начало первого массива, а второй, соответственно, на начало второго. Из двух текущих элементов, на которые указывают указатели, выберем наименьший и положим на соответствующую позицию в новом массиве, после чего сдвинем указатель. Продолжим этот процесс пока в обоих массивах не закончатся элементы. Тогда код будет выглядеть следующим образом:</p>
+<pre><code>int a[n + 1], b[m + 1], res[n + m];
+
+a[n] = INF; // Создаем в конце массива фиктивный элемент, который заведомо больше остальных
+b[m] = INF; // Чтобы избежать лишних случаев
+
+for (int i = 0; i &lt; n; ++i) {
+    cin &gt;&gt; a[i];
+}
+
+for (int j = 0; j &lt; m; ++j) {
+    cin &gt;&gt; a[j];
+}
+
+int i = 0, j = 0;
+for (int k = 0; k &lt; n + m; ++k) {
+    if (a[i] &lt; b[j]) {
+        res[k] = a[i];
+        i++;
+    } else {
+        res[k] = b[j];
+        j++;
+    }
+}</code></pre>
+<p>Итоговая асимптотика: <span class="math inline">\(O(n + m)\)</span>.</p>
+<h2 id="сортировка-слиянием">Сортировка слиянием</h2>
+<p>Давайте подробно опишем как использовать операцию слияния для сортировки за <span class="math inline">\(O(n\log n)\)</span>.</p>
+<p>Пусть у нас есть какой-то массив.</p>
+<pre><code>int a[8] = {7, 2, 5, 6, 1, 3, 4, 8};</code></pre>
+<p>Сделаем такое предположение. Пусть мы уже умеем как-то сортировать массив размера <span class="math inline">\(n\)</span>. Тогда научимся сортировать массив размера <span class="math inline">\(2n\)</span>. Давайте разобьем наш массив на две половины, отсортируем каждую из них, а после это сделаем слияние двух массивов, которое мы научились делать за <span class="math inline">\(O(n)\)</span> в данных условиях. Также заметим, что массив размера <span class="math inline">\(1\)</span> уже отсортирован, тогда мы можем делать это процедуру рекурсивно. Тогда для данного массива <span class="math inline">\(a\)</span> это будет выглядеть следующим образом:</p>
+<pre><code>// (7 2 5 6 1 3 4 8)
+// (7 2 5 6) (1 3 4 8)
+// (7 2) (5 6) (1 3) (4 8)
+// (2 7) (5 6) (1 3) (4 8)
+// (2 5 6 7) (1 3 4 8)
+// (1 2 3 4 5 6 7 8)
+
+#include &lt;algorithm&gt; // Воспользуемся встроенной функцией merge
+
+void merge_sort(vector&lt;int&gt; &amp;v, int l, int r) { // v - вектор, который хотим отсортировать
+    if (r - l == 1) {                            // l и r - полуинтервал, который хотим отсортировать
+        return;
+    }
+    
+    int mid = (l + r) / 2;
+    merge_sort(v, l, mid);
+    merge_sort(v, mid, r);
+    vector&lt;int&gt; temp(r - l); // временный вектор
+    merge(v.begin() + l, v.begin() + mid, v.begin() + mid, v.begin() + r, c.begin());
+    for (int i = 0; i &lt; r - l; ++i) {
+        v[i + l] = temp[i];
+    }
+    return;
+}</code></pre>
+<p>Так сколько же работает это решение?</p>
+<p>Пускай <span class="math inline">\(T(n)\)</span> — время сортировки массива длины <span class="math inline">\(n\)</span>, тогда для сортировки слиянием справедливо <span class="math inline">\(T(n)=2T(n/2)+O(n)\)</span> <span class="math inline">\(O(n)\)</span> — время, необходимое на то, чтобы слить два массива длины n. Распишем это соотношение:</p>
+<p><span class="math inline">\(T(n)=2T(n/2)+O(n)=4T(n/4)+2O(n)=\ldots=T(1)+\log(n)O(n)=O(n\log(n)).\)</span></p>
+<h2 id="количество-инверсий">Количество инверсий</h2>
+<p>Пусть у нас есть некоторая перестановка <span class="math inline">\(a\)</span>. Инверсией называется пара индексов <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> такая, что <span class="math inline">\(i &lt; j\)</span> и <span class="math inline">\(a[i] &gt; a[j]\)</span>. &gt; Найти количество инверсий в данной перестановке.</p>
+<p>Очевидно, что эта задача легко решается обычным перебором двух индексов за <span class="math inline">\(O(n^2)\)</span>:</p>
+<pre><code>int a[n], ans = 0;
+
+for (int i = 0; i &lt; n; ++i) {
+    for (int j = i + 1; j &lt; n; ++j) {
+        if (a[i] &gt; a[j]) {
+            ans++;
+        }
+    }
+}
+
+cout &lt;&lt; ans &lt;&lt; endl;</code></pre>
+<p>Внезапно эту задачу можно решить используя сортировку слиянием, слегка модифицируя её. Оставим ту же идею. Пусть мы умеем находить количество инверсий в массиве размера <span class="math inline">\(n\)</span>, научимся находить количество инверсий в массиве размера <span class="math inline">\(2n\)</span>.</p>
+<p>Заметим, что мы уже знаем количество инверсий в левой половине и в правой половине массива. Осталось лишь посчитать число инверсий, где одно число лежит в левой половине, а второе в правой половине. Как же их посчитать?</p>
+<p>Давайте подробнее рассмотрим операцию merge левой и правой половины (которую мы ранее заменили на вызов встроенной функции merge). Первый указатель указывает на элемент левой половины, второй указатель указывает на элемент второй половины, мы смотрим на минимум из них и этот указатель вдигаем вправо.</p>
+<p>Рассмотрим число <span class="math inline">\(A\)</span> в левой половине. В скольки инверсиях между половинами оно участвует? В стольки, сколько чисел в правой половине меньше, чем оно. Знаем ли мы это количество? Да! Ровно в тот момент, когда мы число <span class="math inline">\(A\)</span> вносим в слитый массив, второй указатель указывает на первое число в правой половине, которое больше чем <span class="math inline">\(A\)</span>.</p>
+<p>Значит в тот момент, когда мы добавляем число <span class="math inline">\(A\)</span> из левой половины, к ответу достаточно прибавить индекс второго указателя (минус начало правой половины). Так мы учтем все инверсии между половинами.</p>
+<h2 id="задание">Задание</h2>
+<p>Решите как можно больше задач из теоретического контеста https://informatics.msk.ru/mod/statements/view3.php?id=38944</p>
+<p>Решите как можно больше задач практического контеста https://codeforces.com/group/g92L0id9Yb/contest/236738</p>
+</body>
+</html>

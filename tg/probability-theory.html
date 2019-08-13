@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Теорвер для алгоритмистов - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/probability-theory.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/probability-theory.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="теорвер-для-алгоритмистов">Теорвер для алгоритмистов</h1>
+<p>Вы, наконец, узнаете, почему ДД работает за логарифм, почему быстрая сортировка быстрая, какой модуль нужно выбирать для хэшей, сколько сэмплов нужно выбирать для монте-карло и т. д.</p>
+<p>Следующие строчки позволят нам генерировать распределения и рисовать графики, не обращайте внимание.</p>
+<pre><code>import numpy as np
+
+import matplotlib as plt
+%matplotlib inline
+
+import seaborn as sns
+sns.set()</code></pre>
+<h1 id="аксиоматика">Аксиоматика</h1>
+<p>В вузах теорвер очень долго аксиоматизируют перед тем, как перейти к чему-то полезному. Сейчас поясним, зачем.</p>
+<p>[Парадокс Бертрана](https://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%B0%D0%B4%D0%BE%D0%BA%D1%81_%D0%91%D0%B5%D1%80%D1%82%D1%80%D0%B0%D0%BD%D0%B0_(%D0%B2%D0%B5%D1%80%D0%BE%D1%8F%D1%82%D0%BD%D0%BE%D1%81%D1%82%D1%8C%29):</p>
+<blockquote>
+<p>Рассмотрим равносторонний треугольник, вписанный в окружность. Наудачу выбирается хорда окружности. Какова вероятность того, что выбранная хорда длиннее стороны треугольника?</p>
+</blockquote>
+<p>Оказывается, можно придумать хотя бы три способа решать задачу, которые выглядят адекватно, но все дают разные ответы.</p>
+<ol type="1">
+<li><p>Наудачу выберем две точки на окружности и проведём через них хорду. Чтобы посчитать искомую вероятность, представим, что треугольник повёрнут так, что одна из его вершин совпадает с концом хорды. Заметим, что если другой конец хорды лежит на дуге между двумя другими вершинами треугольника, то длина хорды больше стороны треугольника. Длина рассмотренной дуги равна трети длины окружности, значит искомая вероятность равна <span class="math inline">\(\frac13\)</span>.</p></li>
+<li><p>Зафиксируем радиус окружности, наудачу выберем точку на радиусе. Построим хорду, перпендикулярную зафиксированному радиусу, проходящую через выбранную точку. Для нахождения искомой вероятности, представим, что треугольник повёрнут так, что одна из его сторон перпендикулярна зафиксированному радиусу. Хорда длиннее стороны треугольника, если её центр ближе к центру, чем точка пересечения треугольника с зафиксированным радиусом. Сторона треугольника делит пополам радиус, следовательно вероятность выбрать хорду длиннее стороны треугольника <span class="math inline">\(\frac12\)</span>.</p></li>
+<li><p>Выберем наудачу произвольную точку внутри круга и построим хорду с центром в выбранной точке. Хорда длиннее стороны равностороннего треугольника, если выбранная точка находится внутри круга, вписанного в треугольник. Площадь вписанного круга есть <span class="math inline">\(\frac14\)</span> от площади большего, значит исходная вероятность равна <span class="math inline">\(\frac14\)</span>.</p></li>
+</ol>
+<p>Как мы увидели, от формального определения «случайной хорды» непосредственно зависит ответ.</p>
+<p>Каждый раз, когда в истории математики появляется подобный приводящий к протеворечиям парадокс, математики паникуют и начинают всё формализовывать и аксиоматизировать. Так появилась теория вероятностей (внимание: не «ти», а «тей»).</p>
+<p>Перейдем к самим определениям:</p>
+<p>Функцию <span class="math inline">\(X : \Omega \to R\)</span> будем называть случайной величиной. Она сопостав- ляет каждому элементарному исходу какое-то число.</p>
+<h2 id="распределения">Распределения</h2>
+<p><strong>Геометрическое распределение</strong>.</p>
+<h2 id="парадокс-дней-рождений">Парадокс дней рождений</h2>
+<p>Пусть <span class="math inline">\(f(n, d)\)</span> это вероятность того, что в группе из <span class="math inline">\(n\)</span> человек ни у кого не совпали дни рождения. Будем считать, что дни рождения распределены независимо и равномерно в промежутке от <span class="math inline">\(1\)</span> до <span class="math inline">\(d\)</span>.</p>
+<p><span class="math display">\[f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}{d})\]</span></p>
+<p>Попытаемся оценить <span class="math inline">\(f\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+  \begin{aligned}
+    e^x &amp; = 1 + x + \frac{x^2}{2!} + \ldots &amp; \text{(ряд Тейлора для экспоненты)} \\
+    &amp; \simeq 1 + x &amp; \text{(аппроксимация для $|x| \ll 1$)} \\
+    e^{-\frac{n}{d}} &amp; \simeq 1 - \frac{n}{d} &amp; \text{(подставим $\frac{n}{d} \ll 1$)} \\
+    f(n, d) &amp; \simeq e^{-\frac{1}{d}} \times e^{-\frac{2}{d}} \times \ldots \times e^{-\frac{n-1}{d}} &amp; \\
+    &amp; = e^{-\frac{n(n-1)}{2d}} &amp; \\
+    &amp; \simeq e^{-\frac{n^2}{2d}} &amp; \\
+  \end{aligned}
+\end{align}
+\]</span></p>
+<h1 id="матожидание">Матожидание</h1>
+<p>Математическим ожиданием случайной величины <span class="math inline">\(X\)</span>, которая принимает значения <span class="math inline">\(x_1, x_2, \ldots\)</span> называется</p>
+<p><span class="math display">\[ E[X] = \sum_{x \in S} p_S(x) \cdot x \]</span></p>
+<p>Самое главное для нас свойство — ожидание линейно:</p>
+<p><span class="math display">\[
+\begin{align*}
+E[X+Y] &amp; = \sum_{x, y} (x+y) p(x, y)
+\\     &amp; = \sum_{x, y} x p(x, y) + \sum_{x, y} y p(x, y)
+\\     &amp; = \sum_x x p(x) \sum_y p(y) + \sum_y y p(y) \sum_x p(x)
+\\     &amp; = \sum_x x p(x) + \sum_y y p(y)
+\\     &amp; =  E[X] + E[Y] 
+\end{align*}
+\]</span></p>
+<p>Акцентируем внимание: <span class="math inline">\(X\)</span> и <span class="math inline">\(Y\)</span> вообще не важно какие. Возможно, они связаны как-то очень сложно, но это не важно. Как мы потом, увидем, это свойство очень упрощает вычисление матожиданий каких-то очень сложных шняг.</p>
+<p>Также, в частности его можно домножать на константу.</p>
+<p>Теперь можно перейти к практическим задачам.</p>
+<h2 id="геометрическое-распределение">Геометрическое распределение</h2>
+<blockquote>
+<p>Петя кидает монету, с вероятностью <span class="math inline">\(p\)</span> выпадает орел и он прекращает кидать ее, с вероятностью <span class="math inline">\(1-p\)</span> выпадает решка и он кидает ее еще раз. Пусть <span class="math inline">\(X\)</span> - это количество бросков. Найдите <span class="math inline">\(\rho_X(x)\)</span> и <span class="math inline">\(F_X(x)\)</span>.</p>
+</blockquote>
+<h2 id="неподвижные-точки-в-перестановке">Неподвижные точки в перестановке</h2>
+<p>Когда автор пришел на первое занятие по английскому в МФТИ, препод устроила следующую игру на знакомство: разделила всех студентов на две команды. В каждой команде про своих членов загадываются факты: кто-то мечтал стать акробатом, кто-то смотрит анимэ и всё в таком духе. Команде соперников сообщались только эти факты, и им нужно было отгадать, кому какой принадлежит. Побеждает команда, которая отгадала больше фактов о соперниках. Нас было 11 — простое число, никак не делящееся на равные команды, и поэтому в одной команде было 5 человек, а в другой 6. Автору стало интересно: если отбросить все психологические аспекты и делать все рандомно, у какой команды вероятность победить выше?</p>
+<p>Следует заметить, что все-таки ожидание правильно отгаданных вопросов не очень помогает выяснить, у какой команды есть преимущество и какое.</p>
+<h2 id="высота-декартова-дерева">Высота декартова дерева</h2>
+<p><strong>Высота дерева</strong>. Высота в среднем логарифмическая. Любознательные могут ознакомиться с типа доказательством, но это не обязательно.</p>
+<p>Глубина вершины — это количество родителей (прим. К. О.). Введем <em>индикатор</em>. $E[h] =  n $.</p>
+<h2 id="асимптотика-quicksort-а">Асимптотика quicksort-а</h2>
+<p>Тут на самом деле будет примерно так же, как с ДД. Нас интересует суммарное число сравнений. Просуммируем для каждой пары элементов вероятность, что они будут сравнены.</p>
+<p>Как для пары определить эту вероятность? Посмотрим на все элементы между ними, будь они в отсортированном массиве.</p>
+<p>Внезапно возникает гармонический ряд, ну а дальше мы знаем.</p>
+<h1 id="дисперсия">Дисперсия</h1>
+<p>Дисперсия — это количественная метрика. Это не что-то абстрактное, как могли рассказать в школе на теорвере, а формально определенная величина, имеющая кучу всяких полезных свойств.</p>
+<p>Дисперсия определяется как средний квадрат отклонения случайной величины от ее матожидания:</p>
+<p><span class="math display">\[ D[X] = E[(X − E[X])^2] \]</span></p>
+<p>Её проще считать по другой формуле, разложив квадрат внутри ожидания:</p>
+<p><span class="math display">\[
+\begin{align}
+D[X] &amp;= E[(X − E[X])^2]
+\\   &amp;= E[X^2 - 2 \cdot X \cdot E[X] + E[X]^2]
+\\   &amp;= E[X^2] - E [\underbrace{2 \cdot E[X]}_{const} \cdot X ] + E[E[X]^2]
+\\   &amp;= E[X^2] - 2 E[X]^2 + E[X]^2
+\\   &amp;= E[X^2] - E[X]^2
+\end{align}
+\]</span></p>
+<p>Эту формулу мы будем использовать для вывода разных свойств.</p>
+<p>У дисперсии очень много крутых свойств.</p>
+<p><span class="math display">\[ D[k X] = E[k^2 X^2] - E[k X]^2 = k^2 (E[X^2] - E[X]^2) = k^2 D[X] \]</span></p>
+<p>Предполагаем, что <span class="math inline">\(X\)</span> и <span class="math inline">\(Y\)</span> независимы.</p>
+<p><span class="math display">\[
+\begin{align}
+D[X + Y] &amp;= E[(X+Y)^2] - E[X+Y]^2
+\\       &amp;= E[X^2 + X Y + Y^2] - (E[X] + E[Y])^2
+\\       &amp;= E[X^2] + E[Y^2] - E[X]^2 - E[Y]^2
+\\       &amp;= D[X] + D[Y]
+\end{align}
+\]</span></p>
+<p>Важное отличие от свойств матожидания: дисперсию так просто можно считать только для независимых величин.</p>
+<h2 id="закон-больших-чисел">Закон больших чисел</h2>
+<p>Закон больших чисел — принцип, который описывает результат выполнения одного и того же эксперимента много раз. Согласно закону, среднее значение конечной выборки из фиксированного распределения близко к математическому ожиданию этого распределения.</p>
+<p>У матожидания (константы) стандартное обозначение <span class="math inline">\(\mu\)</span> (мю), а у дисперсии <span class="math inline">\(\sigma\)</span> (сигма).</p>
+<p><span class="math display">\[ M_n = \frac{X_1 + \ldots + X_n}{n} \]</span></p>
+<p><span class="math display">\[ E[M_n] = \frac1n E[X_1 + \ldots + X_n] = \mu \]</span></p>
+<p>Это немного очевидное равенство. Теперь нас интересует, насколько точно оно в реальности достигается:</p>
+<p><span class="math display">\[ D[M_n] = \frac{1}{n^2} D[X_1 + \ldots + X_n] = \frac{\sigma}{n} \]</span></p>
+<p>С одной стороны, оно домножается на <span class="math inline">\(\frac{1}[n^2}\)</span> из-за усреднения, с другой — на <span class="math inline">\(n\)</span> из-за суммирования.</p>
+<h2 id="нормальное-распределение">Нормальное распределение</h2>
+<p>Когда вы в каких-нибудь библиотеках для анализа данных просите показать какой-то summary, то чаще всего вы увидите два числа: матожидание и дисперсию.</p>
+<p>Центральная предельная теорема названа так пафосно вполне обоснованно.</p>
+<p>Она говорит, что нам достаточно про каждое слагаемое знать всего два числа — ожидание и дисперсию.</p>
+<p><span class="math display">\[ f(x) = \frac{1}{2\sqrt{\pi}} e^{-\frac{(x-\mu)^2}{\sigma^2}} \]</span></p>
+<p>Доказать это очень трудно. Даже со ссылками на мощные теоремы оно займёт не одну страницу. Обычно доказательство рассказывают в середине второго курса.</p>
+<p>Трудно даже доказать, что это распределение, т. е. что <span class="math inline">\(\int_{-\inf}^\inf f(x) dx = 1\)</span>.</p>
+<h2 id="метод-монте-карло">Метод Монте-Карло</h2>
+<p>Алгоритмы вида «давайте посчитаем значения в разных случайных точках и усредним» называются методами монте-карло.</p>
+<p>Пусть у нас есть единичный квадрат и несколько сотен кружков. Нам нужно посчитать долю области квадрата, которая не покрывается ни одним из кругов, с точностью до 1%.</p>
+<p>Можно просто делать так: тыкать в 10000 случайных точек и проверять для каждой, является ли она «хорошей», а затем вывести <span class="math inline">\(\frac{\text{хорошие}}{\text{хорошие} + \text{плохие}}\)</span> в качестве ответа.</p>
+<p>Сдать можно сюда.</p>
+<h2 id="хэш-таблицы">Хэш-таблицы</h2>
+<p>Вообще, хэш — это такая функция, которая сопоставляет элементу какой-то другой элемент. С точки зрения криптоанализа, она должна быть трудно обратимой, а с точки зрения алгоритмиста — генерирующей равномерные игреки.</p>
+<p>Можно делать так если мы планируем хранить <span class="math inline">\(n\)</span> элементов, то нужно завести <span class="math inline">\(\Theta(n)\)</span> ячеек, каждая из которых будет на самом деле односвязным списокм.</p>
+<p>Это будет работать, потому что из-за рандома в среднем в каждой ячейке будет по одному элементу. Но константа у такого решения большая.</p>
+<p>Стандартная хэш-таблица из STL по непонятным автору причинам работает очень медленно. Во многих задачах она является самой нагруженной структурой. Её можно написать в 3-5 раз быстрее.</p>
+</body>
+</html>

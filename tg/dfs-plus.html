@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Продвинутый DFS - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/dfs-plus.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/dfs-plus.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="продвинутый-dfs">Продвинутый DFS</h1>
+<h2 id="время-входа-и-выхода">Время входа и выхода</h2>
+<p>Вспомним обычный поиск в глубину. Он рекурсивно обходит весь граф, и посещает каждую вершину ровно один раз. Посещенные вершины при этом отмечаются в массиве used.</p>
+<p>Давайте его немного модифицируем, а именно, давайте сохраним в какой-нибудь массив, в каком порядке мы посещали вершины. Есть два способа это сделать - посчитать время входа DFS-а в каждую вершину и время выхода.</p>
+<p>Давайте назовем массивы <span class="math inline">\(\space{\rm tin}\)</span> и <span class="math inline">\({\rm tout}\)</span>, где <span class="math inline">\({\rm tin}\)</span> - время входа, а <span class="math inline">\(\space{\rm tout}\)</span> - время выхода из вершины.</p>
+<p>Как их заполнить: давайте заведем таймер, отвечающий за время на текущий момент программы и будем обновлять информацию, когда заходим/выходим из вершины:</p>
+<pre><code>int timer = 0;
+
+void dfs (int v) {
+    tin[v] = timer++;
+    for (int i = 0; i &lt; g[v].size(); ++i) {
+        if (!used[g[v][i]]) {
+            dfs(g[v][i]);
+    }
+  }
+  tout[v] = timer++;
+}</code></pre>
+<p>Время входа или выхода пригождается во многих алгоритмах, давайте разберем несколько.</p>
+<h2 id="топологическая-сортировка">Топологическая сортировка</h2>
+<p>Задача о топологической сортировке графа звучит так:</p>
+<blockquote>
+<p>Дан ориентированный граф, нужно расставить его вершины в массиве так, чтобы все ребра шли вправо по массиву.</p>
+</blockquote>
+<p>Эта же задача очень часто встречается в реальной жизни. Например, у вас есть много зависимостей вида “в библиотеке А используется библиотека B”, и вам нужно загрузить все библиотеки в таком порядке, чтобы никогда не загружать A до B.</p>
+<p>Или, например, у вас есть список зависимых дел - “чтобы сделать А, надо сначала сделать B”, и вам нужно понять, в каком порядке делать все дела.</p>
+<p>Во-первых, сразу заметим, что граф с циклом топологически отсортировать не получится - как ни располагай цикл в массиве, все время идти вправо по ребрам цикла не получится, потому что в итоге должен оказаться в самой левой вершине цикла.</p>
+<p>Во-вторых, верно обратное! Если цикла нет, то его обязательно можно топологически отсортировать. Попытаемся придумать как, заодно придумаем алгоритм.</p>
+<p>Заметим, что вершину, из которой не ведет ни одно ребро, можно всегда поставить последней. И такая вершина всегда есть в графе без циклов (если всегда есть внешнее ребро, то есть цикл). Из этого сразу следует доказательство: просто будем класть в массив вершину, из которой ничего не ведет и убирать ее из графа. Массив потом надо будет развернуть.</p>
+<p>Алгоритм же сразу получается, если внимательно посмотреть на <strong>время выхода</strong> вершин. Вершина, из которой мы вышли в DFS-е первой - как раз та, из которой ничего не выходит. Ведь если из нее есть ребро, то только в уже посещенную, но мы не могли выйти из нее, ведь мы берем самую первую из которой мы вышли. Значит, это одна из серых вершин, в котороые мы вошли, и не вышли, и это цикл.</p>
+<p>Из этого следует, что достаточно просто брать вершины в порядке выхода из DFS, то есть в конце DFS, например, просто класть эту вершину в конец массива с ответом. Ну и этот массив надо удет перевернуть, чтобы все ребра шли вправо, а не влево.</p>
+<h2 id="компоненты-сильной-связности">Компоненты сильной связности</h2>
+<p>Мы только что научились топологически сортировать ациклические графы. А что же делать с циклическими графами? Ведь в них тоже хочется найти какую-то структуру.</p>
+<p>Для этого обычно вводят такое понятие как “сильная связность”. В ориентированных графах две вершины связаны сильно, если существует путь из одной в другую и наоборот. Проще говоря, они обе лежат на каком-то цикле.</p>
+<p>Понятно, что такое отношение транзитивно: если А и B сильно связны, и B и C сильно связны, то A и C тоже сильно связны. Поэтому все вершины распадаются на такие компоненты сильной связности - такое разбиение вершин, что внутри одной компоненты все вершины сильно связаны, а между вершинами разных компонент сильно связности нет.</p>
+<figure>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Graph_Condensation.svg/640px-Graph_Condensation.svg.png" alt="Example" /><figcaption>Example</figcaption>
+</figure>
+<p>Самый простой пример сильно-связной компоненты - это цикл. Но это может быть и полный граф, и любое сложное пересечение нескольких циклов.</p>
+<p>Часто рассматривают граф самих компонент сильной связности. На катинке выше их шесть, и между ними остаются ребра из изначально графа. Очевидно, что такой граф уже удет ациклических: иначе компоненты на цикле нужно было бы объединить в одну.</p>
+<h2 id="конденсация-графа">Конденсация графа</h2>
+<p>Задача о конденсации графа звучит так:</p>
+<blockquote>
+<p>Дан ориентированный граф <span class="math inline">\(G\)</span>, множество вершин которого <span class="math inline">\(V\)</span> и множество рёбер — <span class="math inline">\(E\)</span>. Конденсацией назовем сжатие каждой компоненты сильной связности в одну вершину. Каждой вершине графа конденсации соответствует компонента сильной связности графа <span class="math inline">\(G\)</span>, а ориентированное ребро между двумя вершинами <span class="math inline">\(C_i\)</span> и <span class="math inline">\(C_j\)</span> графа конденсации проводится, если найдётся пара вершин <span class="math inline">\(u \in C_i, v \in C_j\)</span>, между которыми существовало ребро в исходном графе, т.е. <span class="math inline">\((u,v) \in E\)</span>.</p>
+</blockquote>
+<blockquote>
+<p>Необходимо найти, какие вершины лежат в каждой компоненте сильной связности и построить граф конденсации.</p>
+</blockquote>
+<p><strong>Теорема.</strong> Запустим DFS. Пусть <span class="math inline">\(C\)</span> и <span class="math inline">\(C^\prime\)</span> — две различные компоненты сильной связности, и пусть в графе конденсации между ними есть ребро <span class="math inline">\((C,C^\prime)\)</span>. Тогда <span class="math inline">\(\max\limits_{c\in C}(\space{\rm tout}[c]) &gt; \max\limits_{c^\prime\in C^\prime}({\rm tout}[c^\prime])\)</span>.</p>
+<p>При доказательстве возникают два принципиально различных случая в зависимости от того, в какую из компонент первой зайдёт обход в глубину$:</p>
+<p>Первой была достигнута компонента <span class="math inline">\(C\)</span>. Это означает, что в какой-то момент времени обход в глубину заходит в некоторую вершину <span class="math inline">\(v\)</span> компоненты <span class="math inline">\(C\)</span>, при этом все остальные вершины компонент <span class="math inline">\(C\)</span> и <span class="math inline">\(C^\prime\)</span> ещё не посещены. Но, т.к. по условию в графе конденсаций есть ребро <span class="math inline">\((C,C^\prime)\)</span>, то из вершины <span class="math inline">\(v\)</span> будет достижима не только вся компонента <span class="math inline">\(C\)</span>, но и вся компонента <span class="math inline">\(C^\prime\)</span>. Это означает, что при запуске из вершины <span class="math inline">\(v\)</span> обход в глубину пройдёт по всем вершинам компонент <span class="math inline">\(C\)</span> и <span class="math inline">\(C^\prime\)</span>, а, значит, они станут потомками по отношению к <span class="math inline">\(v\)</span> в дереве обхода в глубину, т.е. для любой вершины <span class="math inline">\(u \in C \cup C^\prime, u \ne v\)</span> будет выполнено <span class="math inline">\({\rm tout}[v] &gt; {\rm tout}[u]\)</span>, ч.т.д.</p>
+<p>Обратный случай рассматривается проще, из <span class="math inline">\(C^\prime\)</span> нельзя добраться до <span class="math inline">\(C\)</span>, а следовательно доказано.</p>
+<p>Из этого и следует первая часть решения - давайте отсортируем вершины по убыванию времени выхода (будто топсорт, но на циклическом графе). Рассмотрим компоненту сильной связности первой вершины, назовем ее <span class="math inline">\(C^\prime\)</span>. В эту компоненту точно нет никаких рёбер из других компонент (иначе <span class="math inline">\(\max\limits_{c\in C}(\space{\rm tout}[c]) &gt; \max\limits_{c^\prime\in C^\prime}({\rm tout}[c^\prime])\)</span>, а первая вершина - это вообще-то максимум времени выхода). Поэтому если мы развернем все ребра, то из этой вершины все еще будет достижима своя компонента сильной связности <span class="math inline">\(C^\prime\)</span>, и больше точно ничего - если раньше не было ребер из других компонент, то после разворота ребер не стало ребер в другие компоненты.</p>
+<p>Так что второй шаг такой - разворачиваем ребра, запускаем DFS в таком порядке, ищем компоненты связности как в обычном графе. Попутно можно строить и граф конденсации.</p>
+<pre><code>vector&lt;int&gt; g[N], gr[N];
+bool used[N];
+vector&lt;int&gt; order, component;
+ 
+void dfs1(int v) {
+    used[v] = true;
+    for (int i = 0; i &lt; g[v].size(); i++) {
+        if (!used[g[v][i]]) {
+            dfs1(g[v][i]);
+        }
+    }
+    order.push_back (v);
+}
+ 
+void dfs2(int v) {
+    used[v] = true;
+    component.push_back(v);
+    for (int i = 0; i &lt; gr[v].size(); i++) {
+        if (!used[gr[v][i]]) {
+            dfs2(gr[v][i]);
+        }
+    }
+}
+ 
+int main() {
+    for (;;) {
+        g[a].push_back(b);
+        gr[b].push_back(a);
+    }
+    for (int i = 0; i &lt; n; i++){
+        if (!used[i]) {
+            dfs1(i);
+        }
+    }
+    for (int i = 0; i &lt; n; i++) {
+        used[i] = 0;
+    }
+    reverse(order.begin(), order.end());
+    for (int i = 0; i &lt; n; i++) {
+        int v = order[i];
+        if (!used[v]) {
+            dfs2 (v);
+        }
+    }
+}</code></pre>
+<p>Еще раз вкратце:</p>
+<ol type="1">
+<li><p>Сортируем вершины в порядке убывания времени выхода.</p></li>
+<li><p>Проходимся по массиву вершин в том порядке на равернутом графе и запускаем на нем DFS, выделяя компоненты сильной связности.</p></li>
+</ol>
+<h2 id="sat">2-SAT</h2>
+<p>Вспомним, что такое конъюнкция (логическое И, обозначается знаком * или <span class="math inline">\(\vee\)</span> или &amp;.) и дизъюнкция (логическое ИЛИ, обозначается знаком + или <span class="math inline">\(\wedge\)</span> или |), конъюкция возвращает 1 тогда и только тогда, когда обе переменные - 1, а дизъюнкция, возвращает 0, когда обе - 0.</p>
+<p>Давайте теперь возьмем конъюнкцию дизъюнктов, а именно И от ИЛИ от переменных (или НЕ переменных). Например, такое выражение:</p>
+<pre><code>(a | b) &amp; (!c | d) &amp; (!a | !b) // (А ИЛИ B) И (НЕ C ИЛИ D) И (НЕ A ИЛИ НЕ B)</code></pre>
+<p>Задача SAT заключается в том, чтобы найти такие значения переменных, при которых это выражение становится истинным, ии сказать, что таких нет. Заметьте, что у нас в каждой скобке в этом примере ровно две переменные, в таком случае задача называется 2-SAT, и именно ее мы и хотим решить. Для примера выше решением является <span class="math inline">\(a=1, b=0, c=0, d=1\)</span> (убедитесь, что все скобки стали True).</p>
+<p>Причем тут графы? А вот часто в разных математических задачах надо внезапно ввести граф и он тут же помогает решить задачу.</p>
+<p>Приведем сначала выоажение к другому виду - импликативному. Заметим, что выражение вида a | b эквивалентно <span class="math inline">\(!a \rightarrow b\)</span> или<span class="math inline">\(!b \rightarrow a\)</span>.</p>
+<p>Построим граф импликаций: для каждой переменной в графе будет по две вершины, обозначим их через <span class="math inline">\(x_{i}\)</span> и <span class="math inline">\(!x_{i}\)</span>. Рёбра в графе будут соответствовать импликациям.</p>
+<p>Теперь заметим, что если для какой-то переменной <span class="math inline">\(x_{i}\)</span> выполняется, что из <span class="math inline">\(x_{i}\)</span> достижимо <span class="math inline">\(!x_{i}\)</span>, а из <span class="math inline">\(!x_{i}\)</span> достижимо <span class="math inline">\(x_{i}\)</span>, то задача решения не имеет. Действительно, какое бы значение для переменной <span class="math inline">\(x_{i}\)</span> мы бы ни выбрали, мы всегда придём к противоречию - что должно быть выбрано и обратное ему значение. Оказывается, что это условие является не только достаточным, но и необходимым (доказательством этого факта будет описанный ниже алгоритм). Переформулируем данный критерий в терминах теории графов. Напомним, что если из одной вершины достижима вторая и наоборот, то эти две вершины находятся в одной компоненте сильной связности. Тогда мы можем сформулировать критерий существования решения следующим образом:</p>
+<p>Для того, чтобы данная задача 2-SAT имела решение, необходимо и достаточно, чтобы для любой переменной <span class="math inline">\(x_{i}\)</span> вершины <span class="math inline">\(x_{i}\)</span> и <span class="math inline">\(!x_{i}\)</span> находились в разных компонентах сильной связности графа импликаций.</p>
+<p>Пусть решение существует и нам надо его найти.</p>
+<p>Заметим, что, несмотря на то, что решение существует, для некоторых переменных может выполняться, что из <span class="math inline">\(x\)</span> достижимо <span class="math inline">\(!x\)</span> или из <span class="math inline">\(!x\)</span> достижимо <span class="math inline">\(x\)</span>. В таком случае выбор одного из значений переменной <span class="math inline">\(x\)</span> будет приводить к противоречию, в то время как выбор другого - не будет. Научимся выбирать из двух значений то, которое не приводит к возникновению противоречий. Сразу заметим, что, выбрав какое-либо значение, мы должны запустить из него обход в глубину/ширину и пометить все значения, которые следуют из него, т.е. достижимы в графе импликаций. Соответственно, для уже помеченных вершин никакого выбора между <span class="math inline">\(x\)</span> и <span class="math inline">\(!x\)</span> делать не нужно, для них значение уже выбрано и зафиксировано. Нижеописанное правило применяется только к непомеченным ещё вершинам.</p>
+<p>Утверждается следующее. Пусть <span class="math inline">\(\space{\rm comp}[V]\)</span> обозначает номер компоненты сильной связности, которой принадлежит вершина <span class="math inline">\(V\)</span>, причём номера упорядочены в порядке топологической сортировки компонент сильной связности в графе компонентов (т.е. более ранним в порядке топологической сортировки соответствуют большие номера: если есть путь из <span class="math inline">\(v\)</span> в <span class="math inline">\(w\)</span>, то <span class="math inline">\(\space{\rm comp}[v] \leq \space{\rm comp}[w]\)</span>). Тогда, если <span class="math inline">\(\space{\rm comp}[x] &lt; \space{\rm comp}[!x]\)</span>, то выбираем значение !x, иначе выбираем x.</p>
+<p>Докажем, что при таком выборе значений мы не придём к противоречию. Пусть, для определённости, выбрана вершина <span class="math inline">\(x\)</span> (случай, когда выбрана вершина <span class="math inline">\(!x\)</span>, доказывается также).</p>
+<p>Во-первых, докажем, что из <span class="math inline">\(x\)</span> не достижимо <span class="math inline">\(!x\)</span>. Действительно, так как номер компоненты сильной связности <span class="math inline">\(\space{\rm comp}[x]\)</span> больше номера компоненты <span class="math inline">\(\space{\rm comp}[!x]\)</span> , то это означает, что компонента связности, содержащая <span class="math inline">\(x\)</span>, расположена левее компоненты связности, содержащей <span class="math inline">\(!x\)</span>, и из первой никак не может быть достижима последняя.</p>
+<p>Во-вторых, докажем, что из любой вершины <span class="math inline">\(y\)</span>, достижимой из <span class="math inline">\(x\)</span> недостижима <span class="math inline">\(!y\)</span>. Докажем это от противного. Пусть из <span class="math inline">\(x\)</span> достижимо <span class="math inline">\(y\)</span>, а из <span class="math inline">\(y\)</span> достижимо <span class="math inline">\(!y\)</span>. Так как из <span class="math inline">\(x\)</span> достижимо <span class="math inline">\(y\)</span>, то, по свойству графа импликаций, из <span class="math inline">\(!y\)</span> будет достижимо <span class="math inline">\(!x\)</span>. Но, по предположению, из <span class="math inline">\(y\)</span> достижимо <span class="math inline">\(!y\)</span>. Тогда мы получаем, что из <span class="math inline">\(x\)</span> достижимо <span class="math inline">\(!x\)</span>, что противоречит условию, что и требовалось доказать.</p>
+<p>Итак, мы построили алгоритм, который находит искомые значения переменных в предположении, что для любой переменной <span class="math inline">\(x\)</span> вершины <span class="math inline">\(x\)</span> и <span class="math inline">\(!x\)</span> находятся в разных компонентах сильной связности. Выше показали корректность этого алгоритма. Следовательно, мы одновременно доказали указанный выше критерий существования решения.</p>
+<h2 id="проверка-на-двудольность">Проверка на двудольность</h2>
+<p>Корректной раскраской графа в два цвета назывется такая раскраска, что никакое ребро не соединяет две вершины одного цвета. Графы, которые можно так раскрасить, называют еще двудольными.</p>
+<p>Пусть первая вершина графа принадлежит первой доли, тогда все вершины, для которых есть ребро в первую, должны принадлежить второй и так далее, но тогда заметим, что если в какой-то момент мы хотем покрасить уже покращенную вершину не в ее цвет, то граф не двудольный, проверить это можно например с помощью дфса : запустим дфс от каждой еще не посешенной вершины.</p>
+<pre><code>int n;
+vector&lt;int&gt; g[N];
+
+vector&lt;bool&gt; part(n, -1);
+void dfs(int u, int color) {
+    if (part[u] != color &amp;&amp; part[u] != -1) {
+        cout &lt;&lt; &quot;NO&quot;;
+        exit(0);
+    }
+    if (part[u] == color) {
+        return;
+    }
+    for (int i = 0; i &lt; g.size(); i++) {
+        dfs(g[u][i], 1 - color);
+    }
+}</code></pre>
+</body>
+</html>

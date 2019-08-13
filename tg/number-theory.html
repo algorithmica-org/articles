@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Теория чисел - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/number-theory.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/number-theory.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="теория-чисел">Теория чисел</h1>
+<ul>
+<li>Простые числа</li>
+<li>Разложение на простые множители</li>
+<li>Решето Эратосфена</li>
+<li>Линейное решето Эратосфена*</li>
+<li>НОД и НОК</li>
+<li>Алгоритм Евклида</li>
+<li>Расширенный алгоритм Евклида*</li>
+<li>Операции по модулю</li>
+<li>Быстрое возведение в степень</li>
+<li>Деление по простому модулю*</li>
+</ul>
+<h2 id="простые-числа">Простые числа</h2>
+<p><strong>Простым</strong> называется натуральное число, которое делится только на единицу и на себя. Единица при этом простым числом не считается. <strong>Составным</strong> числом называют непростое число, которое еще и не единица.</p>
+<p>Примеры простых чисел: <span class="math inline">\(2\)</span>, <span class="math inline">\(3\)</span>, <span class="math inline">\(5\)</span>, <span class="math inline">\(179\)</span>, <span class="math inline">\(10^9+7\)</span>, <span class="math inline">\(10^9+9\)</span>.</p>
+<p>Примеры составных чисел: <span class="math inline">\(4\)</span>, <span class="math inline">\(15\)</span>, <span class="math inline">\(2^{30}\)</span>.</p>
+<p>Еще одно определение простого числа: <strong><span class="math inline">\(N\)</span> — простое, если у <span class="math inline">\(N\)</span> ровно два делителя.</strong> Эти делители при этом равны <span class="math inline">\(1\)</span> и <span class="math inline">\(N\)</span>.</p>
+<h3 id="проверка-на-простоту-за-линию">Проверка на простоту за линию</h3>
+<p>С точки зрения программирования интересно научиться проверять, является ли число <span class="math inline">\(N\)</span> простым. Это очень легко сделать за <span class="math inline">\(O(N)\)</span> - нужно просто проверить, делится ли оно хотя бы на одно из чисел <span class="math inline">\(2, 3, 4, \ldots, N-1\)</span> . <span class="math inline">\(N &gt; 1\)</span> является простым только в случае, если оно не делится на на одно из этих чисел.</p>
+<pre><code>def is_prime(n):
+    if n == 1:
+        return False
+    for i in range(2, n): # начинаем с 2, так как на 1 все делится; n не включается
+        if n % i == 0:
+            return False
+    return True
+
+for i in range(1, 10):
+    print(i, is_prime(i))</code></pre>
+<pre><code>(1, False)
+(2, True)
+(3, True)
+(4, False)
+(5, True)
+(6, False)
+(7, True)
+(8, False)
+(9, False)</code></pre>
+<h3 id="проверка-на-простоту-за-корень">Проверка на простоту за корень</h3>
+<p>Алгоритм можно ускорить с <span class="math inline">\(O(N)\)</span> до <span class="math inline">\(O(\sqrt{N})\)</span>.</p>
+<p>Пусть <span class="math inline">\(N = a \times b\)</span>, причем <span class="math inline">\(a \leq b\)</span>. Тогда заметим, что <span class="math inline">\(a \leq \sqrt N \leq b\)</span>.</p>
+<p>Почему? Потому что если <span class="math inline">\(a \leq b &lt; \sqrt{N}\)</span>, то <span class="math inline">\(ab \leq b^2 &lt; N\)</span>, но <span class="math inline">\(ab = N\)</span>. А если <span class="math inline">\(\sqrt{N} &lt; a \leq b\)</span>, то <span class="math inline">\(N &lt; a^2 \leq ab\)</span>, но <span class="math inline">\(ab = N\)</span>.</p>
+<p>Иными словами, если число <span class="math inline">\(N\)</span> равно произведению двух других, то одно из них не больше корня из <span class="math inline">\(N\)</span>, а другое не меньше корня из <span class="math inline">\(N\)</span>.</p>
+<p>Из этого следует, что если число <span class="math inline">\(N\)</span> не делится ни на одно из чисел <span class="math inline">\(2, 3, 4, \ldots, \lfloor\sqrt{N}\rfloor\)</span>, то оно не делится и ни на одно из чисел <span class="math inline">\(\lceil\sqrt{N}\rceil + 1, \ldots, N-2, N-1\)</span>, так как если есть делитель больше корня (не равный <span class="math inline">\(N\)</span>), то есть делитель и меньше корня (не равный 1). Поэтому в цикле for достаточно проверять числа не до <span class="math inline">\(N\)</span>, а до корня.</p>
+<pre><code>def is_prime(n):
+    if n == 1:
+        return False
+    # Удобно вместо for i in range(2, n ** 0.5) писать так:
+    i = 2
+    while i * i &lt;= n:
+        if n % i == 0:
+            return False
+        i += 1
+    return True
+
+for i in [1, 2, 3, 10, 11, 12, 10**9+6, 10**9+7]:
+    print(i, is_prime(i))</code></pre>
+<pre><code>(1, False)
+(2, True)
+(3, True)
+(10, False)
+(11, True)
+(12, False)
+(1000000006, False)
+(1000000007, True)</code></pre>
+<h2 id="разложение-на-простые-множители">Разложение на простые множители</h2>
+<p>Любое натуральное число можно разложить на произведение простых, и с такой записью очень легко работать при решении задач. Разложение на простые множители еще называют <strong>факторизацией</strong>.</p>
+<p><span class="math display">\[11 = 11 = 11^1\]</span> <span class="math display">\[100 = 2 \times 2 \times 5 \times 5 = 2^2 \times 5^2\]</span> <span class="math display">\[126 = 2 \times 3 \times 3 \times 7 = 2^1 \times 3^2 \times 7^1\]</span></p>
+<p>Рассмотрим, например, такую задачу:</p>
+<p><strong>Условие:</strong> Нужно разбить <span class="math inline">\(N\)</span> людей на группы равного размера. Нам интересно, какие размеры это могут быть.</p>
+<p><strong>Решение:</strong> По сути нас просят найти число делителей <span class="math inline">\(N\)</span>. Нужно посмотреть на разложение числа <span class="math inline">\(N\)</span> на простые множители, в общем виде оно выглядит так:</p>
+<p><span class="math display">\[N= p_1^{a_1} \times p_2^{a_2} \times \ldots \times p_k^{a_k}\]</span></p>
+<p>Теперь подумаем над этим выражением с точки зрения комбинаторики. Чтобы «сгенерировать» какой-нибудь делитель, нужно подставить в степень <span class="math inline">\(i\)</span>-го простого число от 0 до <span class="math inline">\(a_i\)</span> (то есть <span class="math inline">\(a_i+1\)</span> различное значение), и так для каждого. То есть делитель <span class="math inline">\(N\)</span> выглядит ровно так: <span class="math display">\[M= p_1^{b_1} \times p_2^{b_2} \times \ldots \times p_k^{b_k}, 0 \leq b_i \leq a_i\]</span> Значит, ответом будет произведение <span class="math inline">\((a_1+1) \times (a_2+1) \times \ldots \times (a_k + 1)\)</span>.</p>
+<h3 id="алгоритм-разложения-на-простые-множители">Алгоритм разложения на простые множители</h3>
+<p>Применяя алгоритм проверки числа на простоту, мы умеем легко находить <strong>минимальный простой делитель числа N</strong>. Ясно, что как только мы нашли простой делитель числа <span class="math inline">\(N\)</span>, мы можем число <span class="math inline">\(N\)</span> на него поделить и продолжить искать новый минимальный простой делитель.</p>
+<p>Будем перебирать простой делитель от <span class="math inline">\(2\)</span> до корня из <span class="math inline">\(N\)</span> (как и раньше), но в случае, если <span class="math inline">\(N\)</span> делится на этот делитель, будем просто на него делить. Причем, возможно, нам понадобится делить несколько раз (<span class="math inline">\(N\)</span> может делиться на большую степень этого простого делителя). Так мы будем набирать простые делители и остановимся в тот момент, когда <span class="math inline">\(N\)</span> стало либо <span class="math inline">\(1\)</span>, либо простым (и мы остановились, так как дошли до корня из него). Во втором случае надо еще само <span class="math inline">\(N\)</span> добавить в ответ.</p>
+<p>Напишем алгоритм факторизации:</p>
+<pre><code>def factorize(n):
+    factors = []
+    i = 2
+    while i * i &lt;= n: # перебираем простой делитель
+        while n % i == 0: # пока N на него делится
+            n //= i # делим N на этот делитель
+            factors.append(i)
+        i += 1
+    # возможно, в конце N стало большим простым числом,
+    # у которого мы дошли до корня и поняли, что оно простое
+    # его тоже нужно добавить в разложение
+    if n &gt; 1:
+        factors.append(n)
+    return factors
+
+for i in [1, 2, 3, 10, 11, 12, 10**9+6, 10**9+7]:
+    print(i, &#39;=&#39;, &#39; x &#39;.join(str(x) for x in factorize(i)))</code></pre>
+<pre><code>1 = 
+2 = 2
+3 = 3
+10 = 2 x 5
+11 = 11
+12 = 2 x 2 x 3
+1000000006 = 2 x 500000003
+1000000007 = 1000000007</code></pre>
+<h3 id="задание">Задание</h3>
+<p>За сколько работает этот алгоритм?</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<h3 id="решение">Решение</h3>
+<p>За те же самые <span class="math inline">\(O(\sqrt{N})\)</span>. Итераций цикла while с перебором делителя будет не больше, чем <span class="math inline">\(\sqrt{N}\)</span>. Причем ровно <span class="math inline">\(\sqrt{N}\)</span> операций будет только в том случае, если <span class="math inline">\(N\)</span> - простое.</p>
+<p>А итераций деления <span class="math inline">\(N\)</span> на делители будет столько, сколько всего простых чисел в факторизации числа <span class="math inline">\(N\)</span>. Понятно, что это не больше, чем <span class="math inline">\(O(\log{N})\)</span>.</p>
+<h3 id="задание-1">Задание</h3>
+<p>Докажите, что число <span class="math inline">\(N\)</span> имеет не больше, чем <span class="math inline">\(O(\log{N})\)</span> простых множителей в факторизации.</p>
+<h3 id="разные-свойства-простых-чисел">Разные свойства простых чисел*</h3>
+<p>Вообще, про простые числа известно много свойств, но почти все из них очень трудно доказать. Вот еще некоторые из них:</p>
+<ul>
+<li>Простых чисел, меньших <span class="math inline">\(N\)</span>, примерно <span class="math inline">\(\frac{N}{\ln N}\)</span>.</li>
+<li>N-ое простое число равно примерно <span class="math inline">\(N\ln N\)</span>.</li>
+<li>Простые числа распределены более-менее равномерно. Например, если вам нужно найти какое-то простое число в промежутке, то можно их просто перебрать и проверить — через несколько сотен какое-нибудь найдется.</li>
+<li>Для любого <span class="math inline">\(N \ge 2\)</span> на интервале <span class="math inline">\((N, 2N)\)</span> всегда найдется простое число (<a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D1%81%D1%82%D1%83%D0%BB%D0%B0%D1%82_%D0%91%D0%B5%D1%80%D1%82%D1%80%D0%B0%D0%BD%D0%B0">Постулат Бертрана</a>)</li>
+<li>Впрочем, существуют сколь угодно длинные отрезки, на которых простых чисел нет. Самый простой способ такой построить - это начать с <span class="math inline">\(N! + 2\)</span>.</li>
+<li>Есть алгоритмы, проверяющие число на простоту намного быстрее, чем за корень.</li>
+<li><a href="https://ru.wikipedia.org/wiki/%D0%A4%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F_%D0%B4%D0%B5%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D0%B5%D0%B9">Максимальное число делителей</a> равно примерно <span class="math inline">\(O(\sqrt[3]{n})\)</span>. Это не математический результат, а чисто эмпирический — не пишите его в асимптотиках.</li>
+<li>Максимальное число делителей у числа на отрезке <span class="math inline">\([1, 10^5]\)</span> — 128</li>
+<li>Максимальное число делителей у числа на отрекзке <span class="math inline">\([1, 10^9]\)</span> — 1344</li>
+<li>Максимальное число делителей у числа на отрезке <span class="math inline">\([1, 10^{18}]\)</span> — 103680</li>
+<li>Наука <a href="http://sereja.me/a/pollard">умеет</a> факторизовать числа за <span class="math inline">\(O(\sqrt[4]{n})\)</span>, но об этом как-нибудь в другой раз.</li>
+<li>Любое число больше трёх можно представить в виде суммы двух простых (<a href="https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0_%D0%93%D0%BE%D0%BB%D1%8C%D0%B4%D0%B1%D0%B0%D1%85%D0%B0">гипотеза Гольдбаха</a>), но это не доказано.</li>
+</ul>
+<h2 id="решето-эратосфена">Решето Эратосфена</h2>
+<p>Часто нужно не проверять на простоту одно число, а найти <em>все</em> простые числа до <span class="math inline">\(N\)</span>. В этом случае наивный алгоритм будет работать за <span class="math inline">\(O(N\sqrt N)\)</span>, так как нужно проверить на простоту каждое число от 1 до <span class="math inline">\(N\)</span>.</p>
+<p>Но древний грек Эратосфен предложил делать так:</p>
+<p>Запишем ряд чисел от 1 до <span class="math inline">\(N\)</span> и будем вычеркивать числа: * делящиеся на 2, кроме самого числа 2 * затем деляющиеся на 3, кроме самого числа 3 * затем на 5, затем на 7, и так далее и все остальные простые до n. Таким образом, все незачеркнутые числа будут простыми — «решето» оставит только их.</p>
+<p><a href="http://www.mahabal.io/eras">Красивая визуализация</a></p>
+<h3 id="задание-2">Задание</h3>
+<p>Найдите этим способом на бумажке все простые числа до 50, потом проверьте с программой:</p>
+<pre><code>N = 50
+prime = [1] * (N + 1)
+prime[0], prime[1] = 0, 0
+for i in range(2, N + 1): # можно и до sqrt(N)
+    if prime[i]:
+        for j in range(2 * i, N + 1, i): # идем с шагом i, можно начиная с i * i
+            prime[j] = 0
+for i in range(1, N + 1):
+    if prime[i]:
+        print(i)</code></pre>
+<pre><code>2
+3
+5
+7
+11
+13
+17
+19
+23
+29
+31
+37
+41
+43
+47</code></pre>
+<p>У этого алгоритма можно сразу заметить несколько ускорений.</p>
+<p>Во-первых, число <span class="math inline">\(i\)</span> имеет смысл перебирать только до корня из <span class="math inline">\(N\)</span>, потому что при зачеркивании составных чисел, делящихся на простое <span class="math inline">\(i &gt; \sqrt N\)</span>, мы ничего не зачеркнем. Почему? Пусть существует составное <span class="math inline">\(M \leq N\)</span>, которое делится на %i%, и мы его не зачеркнули. Но тогда <span class="math inline">\(i &gt; \sqrt N \geq \sqrt M\)</span>, а значит по ранее нами доказанному утверждению <span class="math inline">\(M\)</span> должно делиться и на простое число, которое меньше корня. Но это значит, что мы его уже вычеркнули.</p>
+<p>Во-вторых, по этой же самое причине <span class="math inline">\(j\)</span> имеет смысл перебирать только начиная с <span class="math inline">\(i^2\)</span>. Зачем вычеркивать <span class="math inline">\(2i\)</span>, <span class="math inline">\(3i\)</span>, <span class="math inline">\(4i\)</span>, …, <span class="math inline">\((i-1)i\)</span>, если они все уже вычеркнуты, так как мы уже вычеркивали всё, что делится на <span class="math inline">\(2\)</span>, <span class="math inline">\(3\)</span>, <span class="math inline">\(4\)</span>, …, <span class="math inline">\((i-1)\)</span>.</p>
+<h3 id="асимптотика">Асимптотика</h3>
+<p>Такой код будет работать за <span class="math inline">\(O(N \log \log N)\)</span> по причинам, которые мы пока не хотим объяснять формально.</p>
+<h3 id="гармонический-ряд">Гармонический ряд</h3>
+<p>Научимся оценивать асимптотику величины <span class="math inline">\(1 + \frac{1}{2} + \ldots + \frac{1}{N}\)</span>, которая нередко встречается в задачах, где фигурирует делимость.</p>
+<p>Возьмем <span class="math inline">\(N\)</span> равное <span class="math inline">\(2^i - 1\)</span> и запишем нашу сумму следующим образом: <span class="math display">\[\left(\frac{1}{1}\right) + \left(\frac{1}{2} + \frac{1}{3}\right) + \left(\frac{1}{4} + \ldots + \frac{1}{7}\right) + \ldots + \left(\frac{1}{2^{i - 1}} + \ldots + \frac{1}{2^i - 1}\right)\]</span></p>
+<p>Каждое из этих слагаемых имеет вид <span class="math display">\[\frac{1}{2^j} + \ldots + \frac{1}{2^{j + 1} - 1} \le \frac{1}{2^j} + \ldots + \frac{1}{2^j} = 2^j \frac{1}{2^j} = 1\]</span></p>
+<p>Таким образом, наша сумма не превосходит <span class="math inline">\(1 + 1 + \ldots + 1 = i \le 2\log_2(2^i - 1)\)</span>. Тем самым, взяв любое <span class="math inline">\(N\)</span> и дополнив до степени двойки, мы получили асимптотику <span class="math inline">\(O(\log N)\)</span>.</p>
+<p>Оценку снизу можно получить аналогичным образом, оценив каждое такое слагаемое снизу значением <span class="math inline">\(\frac{1}{2}\)</span>.</p>
+<h3 id="попытка-объяснения-асимптотики-для-старших-классов">Попытка объяснения асимптотики** (для старших классов)</h3>
+<p>Мы знаем, что гармонический ряд <span class="math inline">\(1 + \frac{1}{2} + \frac{1}{3} + \ldots + \frac{1}{N}\)</span> это примерно <span class="math inline">\(\log N\)</span>, а значит <span class="math display">\[N + \frac{N}{2} + \frac{N}{3} + \ldots + \frac{N}{N} \sim N \log N\]</span></p>
+<p>А что такое асимптотика решета Эратосфена? Мы как раз ровно <span class="math inline">\(\frac{N}{p}\)</span> раз зачеркиваем числа делящиеся на простое число <span class="math inline">\(p\)</span>. Если бы все числа были простыми, то мы бы как раз получили <span class="math inline">\(N \log N\)</span> из формули выше. Но у нас будут не все слагаемые оттуда, только с простым <span class="math inline">\(p\)</span>, поэтому посмотрим чуть более точно.</p>
+<p>Известно, что простых чисел до <span class="math inline">\(N\)</span> примерно <span class="math inline">\(\frac{N}{\log N}\)</span>, а значит допустим, что k-ое простое число примерно равно <span class="math inline">\(k ln k\)</span>. Тогда</p>
+<p><span class="math display">\[\sum_{\substack{2 \leq p \leq N \\ \text{p is prime}}} \frac{N}{p} \sim \frac{1}{2} + \sum_{k = 2}^{\frac{N}{\ln N}} \frac{N}{k \ln k} \sim \int_{2}^{\frac{N}{\ln N}} \frac{N}{k \ln k} dk =N(\ln\ln\frac{N}{\ln N} - \ln\ln 2) \sim N(\ln\ln N - \ln\ln\ln N) \sim N \ln\ln N\]</span></p>
+<p>Но вообще-то решето можно сделать и линейным.</p>
+<h3 id="задание-3">Задание</h3>
+<p>Решите 5 первых задач из этого контеста:</p>
+<p>https://informatics.msk.ru/mod/statements/view.php?id=34271</p>
+<h2 id="линейное-решето-эратосфена">Линейное решето Эратосфена*</h2>
+<p>Наша цель — для каждого числа до <span class="math inline">\(N\)</span> посчитать его <strong>минимальный простой делитель</strong>. Будем хранить его в массиве <strong>min_d</strong>. Параллельно будем хранить и список всех найденных простых чисел <strong>primes</strong> - это ровно те числа <span class="math inline">\(x\)</span>, у которых <span class="math inline">\(min\_d[x] = x\)</span>.</p>
+<p>Основное утверждение такое:</p>
+<blockquote>
+<p>Пусть у числа <span class="math inline">\(M\)</span> минимальный делитель равен <span class="math inline">\(a\)</span>. Тогда, если <span class="math inline">\(M\)</span> составное, мы хотим вычеркнуть его ровно один раз при обработке числа <span class="math inline">\(\frac{M}{a}\)</span>.</p>
+</blockquote>
+<p>Мы также перебираем число <span class="math inline">\(i\)</span> от <span class="math inline">\(2\)</span> до <span class="math inline">\(N\)</span>. Если <span class="math inline">\(min\_d[i]\)</span> равно 0 (то есть мы не нашли ни один делитель у этого числа еще), значит оно простое - добавим в primes и сделаем <span class="math inline">\(min\_d[i] = i\)</span>.</p>
+<p>Далее мы хотим вычеркнуть все числа <span class="math inline">\(i \times k\)</span> такие, что <span class="math inline">\(k\)</span> - это минимальный простой делитель этого числа. Из этого следует, что необходимо и достаточно перебрать <span class="math inline">\(k\)</span> в массиве primes, и только до тех пор, пока <span class="math inline">\(k &lt; min\_d[i]\)</span>. Ну и перестать перебирать, если <span class="math inline">\(i \times k &gt; N\)</span>.</p>
+<p>Алгоритм пометит все числа по одному разу, поэтому он корректен и работает за <span class="math inline">\(O(N)\)</span>.</p>
+<pre><code>N = 30
+primes = []
+min_d = [0] * (N + 1)
+
+for i in range(2, N + 1):
+    if min_d[i] == 0:
+        min_d[i] = i
+        primes.append(i)
+    for p in primes:
+        if p &gt; min_d[i] or i * p &gt; N:
+            break
+        min_d[i * p] = p
+    print(i, min_d)
+print(min_d)
+print(primes)</code></pre>
+<pre><code>2 [0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+3 [0, 0, 2, 3, 2, 0, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+4 [0, 0, 2, 3, 2, 0, 2, 0, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+5 [0, 0, 2, 3, 2, 5, 2, 0, 2, 3, 2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0]
+6 [0, 0, 2, 3, 2, 5, 2, 0, 2, 3, 2, 0, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0]
+7 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 0, 2, 0, 2, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 0, 0]
+8 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 0, 2, 0, 2, 3, 2, 0, 0, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 0, 0]
+9 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 0, 2, 0, 2, 3, 2, 0, 2, 0, 0, 3, 0, 0, 0, 5, 0, 3, 0, 0, 0]
+10 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 0, 2, 0, 2, 3, 2, 0, 2, 0, 2, 3, 0, 0, 0, 5, 0, 3, 0, 0, 0]
+11 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 0, 2, 3, 2, 0, 2, 0, 2, 3, 2, 0, 0, 5, 0, 3, 0, 0, 0]
+12 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 0, 2, 3, 2, 0, 2, 0, 2, 3, 2, 0, 2, 5, 0, 3, 0, 0, 0]
+13 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 0, 2, 0, 2, 3, 2, 0, 2, 5, 2, 3, 0, 0, 0]
+14 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 0, 2, 0, 2, 3, 2, 0, 2, 5, 2, 3, 2, 0, 0]
+15 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 0, 2, 0, 2, 3, 2, 0, 2, 5, 2, 3, 2, 0, 2]
+16 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 0, 2, 0, 2, 3, 2, 0, 2, 5, 2, 3, 2, 0, 2]
+17 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 0, 2, 3, 2, 0, 2, 5, 2, 3, 2, 0, 2]
+18 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 0, 2, 3, 2, 0, 2, 5, 2, 3, 2, 0, 2]
+19 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 0, 2, 5, 2, 3, 2, 0, 2]
+20 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 0, 2, 5, 2, 3, 2, 0, 2]
+21 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 0, 2, 5, 2, 3, 2, 0, 2]
+22 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 0, 2, 5, 2, 3, 2, 0, 2]
+23 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 23, 2, 5, 2, 3, 2, 0, 2]
+24 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 23, 2, 5, 2, 3, 2, 0, 2]
+25 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 23, 2, 5, 2, 3, 2, 0, 2]
+26 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 23, 2, 5, 2, 3, 2, 0, 2]
+27 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 23, 2, 5, 2, 3, 2, 0, 2]
+28 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 23, 2, 5, 2, 3, 2, 0, 2]
+29 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 23, 2, 5, 2, 3, 2, 29, 2]
+30 [0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 23, 2, 5, 2, 3, 2, 29, 2]
+[0, 0, 2, 3, 2, 5, 2, 7, 2, 3, 2, 11, 2, 13, 2, 3, 2, 17, 2, 19, 2, 3, 2, 23, 2, 5, 2, 3, 2, 29, 2]
+[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]</code></pre>
+<p>Этот алгоритм работает асимптотически быстрее, чем обычное решето. Но на практике, если писать обычное решето Эратсфена с оптимизациями, то оно оказывается быстрее линейнего. Также линейное решето занимает гораздо больше памяти - ведь в обычном решете можно хранить просто <span class="math inline">\(N\)</span> бит, а здесь нам нужно <span class="math inline">\(N\)</span> чисел и еще массив primes.</p>
+<p>Зато один из «побочных эффектов» алгоритма — он неявно вычисляет факторизацию всех чисел от <span class="math inline">\(1\)</span> до <span class="math inline">\(N\)</span>. Ведь зная минимальный простой делитель любого числа от <span class="math inline">\(1\)</span> до <span class="math inline">\(N\)</span> можно легко поделить на это число, посмотреть на новый минимальный простой делитель и так далее.</p>
+<h2 id="нод-и-нок">НОД и НОК</h2>
+<p>Введем два определения.</p>
+<p><strong>Наибольший общий делитель</strong> (НОД) чисел <span class="math inline">\(a_1, a_2, \ldots, a_n\)</span> — это максимальное такое число <span class="math inline">\(x\)</span>, что все <span class="math inline">\(a_i\)</span> делятся на <span class="math inline">\(x\)</span>.</p>
+<p><strong>Наименьшее общее кратное</strong> (НОК) чисел <span class="math inline">\(a_1, a_2, \ldots, a_n\)</span> — это минимальное такое число <span class="math inline">\(x\)</span>, что <span class="math inline">\(x\)</span> делится на все <span class="math inline">\(a_i\)</span>.</p>
+<p>Например, * НОД(18, 30) = 6 * НОД(60, 180, 315) = 15 * НОД(1, N) = 1 * НОК(12, 30) = 6 * НОК(1, 2, 3, 4) = 12 * НОК(1, <span class="math inline">\(N\)</span>) = <span class="math inline">\(N\)</span></p>
+<p>Зачем они нужны? Например, они часто возникают в задачах.</p>
+<p><strong>Условие:</strong> Есть <span class="math inline">\(N\)</span> шестеренок, каждая <span class="math inline">\(i\)</span>-ая зацеплена с <span class="math inline">\((i-1)\)</span>-ой. <span class="math inline">\(i\)</span>-ая шестеренка имеет <span class="math inline">\(a_i\)</span> зубчиков. Сколько раз нужно повернуть полносьтю первую шестеренку, чтобы все остальные шестеренки тоже вернулись на изначальное место?</p>
+<p><strong>Решение:</strong> Когда одна шестеренка крутится на 1 зубчик, все остальные тоже крутятся на один зубчик. Нужно найти минимальное такое число зубчиков <span class="math inline">\(x\)</span>, что при повороте на него все шестеренки вернутся в изначальное положение, то есть <span class="math inline">\(x\)</span> делится на все <span class="math inline">\(a_i\)</span>, то есть это НОК(<span class="math inline">\(a_1, a_2, \ldots, a_N\)</span>). Ответом будет <span class="math inline">\(\frac{x}{a_1}\)</span>.</p>
+<p>Еще пример задачи на применение НОД и НОК:</p>
+<p><strong>Условие:</strong> Город — это прямоугольник <span class="math inline">\(n\)</span> на <span class="math inline">\(m\)</span>, разделенный на квадраты единичного размера. Вертолет летит из нижнего левого угла в верхний правый по прямой. Вертолет будит людей в квартале, когда он пролетает строго над его внутренностью (границы не считаются). Сколько кварталов разбудит вертолёт?</p>
+<p><strong>Решение:</strong> Вертолет пересечет по вертикали <span class="math inline">\((m-1)\)</span> границу. С этим ничего не поделать — каждое считается как новое посещение какого-то квартала. По горизонтали то же самое — <span class="math inline">\((n-1)\)</span> переход в новую ячейку будет сделан.</p>
+<p>Однако еще есть случай, когда он пересекает одновременно обе границы (то есть пролетает над каким-нибудь углом) — ровно тот случай, когда нового посещения квартала не происходит. Сколько таких будет? Ровно столько, сколько есть целых решений уравнения <span class="math inline">\(\frac{n}{m} = \frac{x}{y}\)</span>. Мы как бы составили уравнение движения вертолёта и ищем, в скольки целых точках оно выполняется.</p>
+<p>Пусть <span class="math inline">\(t = НОД(n, m)\)</span>, тогда <span class="math inline">\(n = at, m = bt\)</span>.</p>
+<p>Тогда <span class="math inline">\(\frac{n}{m} = \frac{a}{b} = \frac{x}{y}\)</span>. Любая дробь с натуральными числителем и знаменателем имеет ровно одно представление в виде несократимой дроби, так что <span class="math inline">\(x\)</span> должно делиться на <span class="math inline">\(a\)</span>, а <span class="math inline">\(y\)</span> должно делиться на <span class="math inline">\(b\)</span>. А значит, как ответ подходят <span class="math inline">\((a, b), (2a, 2b), (3a, 3b), \cdots, ((t-1)a, (t-1)b)\)</span>. Таких ответов ровно <span class="math inline">\(t = НОД(n, m)\)</span></p>
+<p>Значит, итоговый ответ: <span class="math inline">\((n-1) + (m-1) - (t-1)\)</span>.</p>
+<p>Кстати, когда <span class="math inline">\(НОД(a, b) = 1\)</span>, говорят, что <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> взаимно просты.</p>
+<pre><code></code></pre>
+<h2 id="алгоритм-евклида">Алгоритм Евклида</h2>
+<p>Осталось придумать, как искать НОД и НОК. Понятно, что их можно искать перебором, но мы хотим хороший быстрый способ.</p>
+<p>Давайте для начала научимся искать <span class="math inline">\(НОД(a, b)\)</span>.</p>
+<p>Мы можем воспользоваться следующим равенством: <span class="math display">\[НОД(a, b) = НОД(a, b - a),  b &gt; a\]</span></p>
+<p>Оно доказывается очень просто: надо заметить, что множества общих делителей у пар <span class="math inline">\((a, b)\)</span> и <span class="math inline">\((a, b - a)\)</span> совпадают. Почему? Потому что если <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> делятся на <span class="math inline">\(x\)</span>, то и <span class="math inline">\(b-a\)</span> делится на <span class="math inline">\(x\)</span>. И наоборот, если <span class="math inline">\(a\)</span> и <span class="math inline">\(b-a\)</span> делятся на <span class="math inline">\(x\)</span>, то и <span class="math inline">\(b\)</span> делится на <span class="math inline">\(x\)</span>. Раз множства общих делитей совпадают, то и максимальный делитель совпадает.</p>
+<p>Из этого равенства сразу следует следующее равенство: <span class="math display">\[НОД(a, b) = НОД(a, b \operatorname{\%} a),  b &gt; a\]</span></p>
+<p>(так как <span class="math inline">\(НОД(a, b) = НОД(a, b - a) = НОД(a, b - 2a) = НОД(a, b - 3a) = \ldots = НОД(a, b \operatorname{\%} a)\)</span>)</p>
+<p>Это равенство дает идею следующего рекурсивного алгоритма:</p>
+<p><span class="math display">\[НОД(a, b) = НОД(b \operatorname{\%} a, a) = НОД(a \operatorname{\%} \, (b \operatorname{\%} a), b \operatorname{\%} a) = \ldots\]</span></p>
+<p>Например: <span class="math display">\[НОД(93, 36) = \]</span> <span class="math display">\[= НОД(36, 93\space\operatorname{\%}36) = НОД(36, 21) = \]</span> <span class="math display">\[= НОД(21, 15) = \]</span> <span class="math display">\[= НОД(15, 6) = \]</span> <span class="math display">\[= НОД(6, 3) = \]</span> <span class="math display">\[= НОД(3, 0) = 3\]</span></p>
+<h3 id="задание-4">Задание:</h3>
+<p>Примените алгоритм Евклида и найдите НОД чисел: * 1 и 500000 * 10, 20 * 18, 60 * 55, 34 * 100, 250</p>
+<pre><code></code></pre>
+<p>По-английски <strong>наибольший общий делитель</strong> — <strong>greatest common divisor</strong>. Поэтому вместо <strong>НОД</strong> будем в коде писать <strong>gcd</strong>.</p>
+<pre><code>def gcd(a, b):
+    if b == 0:
+        return a
+    return gcd(b, a % b)
+
+print(gcd(1, 500000))
+print(gcd(10, 20))
+print(gcd(18, 60))
+print(gcd(55, 34))
+print(gcd(100, 250))
+print(gcd(2465473782, 12542367456))</code></pre>
+<pre><code>1
+10
+6
+1
+50
+6</code></pre>
+<p>Вообще, в C++ такая функция уже есть в компиляторе <code>g++</code> — называется <code>__gcd</code>. Если у вас не Visual Studio, то, скорее всего, у вас <code>g++</code>. Вообще, там <a href="?">много всего интересного</a>.</p>
+<p>А за сколько оно вообще работает?</p>
+<h3 id="задание-5">Задание</h3>
+<p>Докажите, что алгоритм Евклида для чисел <span class="math inline">\(N\)</span>, <span class="math inline">\(M\)</span> работает за <span class="math inline">\(O(\log(N+M))\)</span>.</p>
+<p>Кстати, интересный факт: самыми плохими входными данными для алгоритма Евклида являются числа Фибоначчи. Именно там и достигается логарифм.</p>
+<h3 id="как-выразить-нок-через-нод">Как выразить НОК через НОД</h3>
+<blockquote>
+<p><span class="math inline">\(НОК(a, b) = \frac{ab}{НОД(a, b)}\)</span></p>
+</blockquote>
+<p>По этой формуле можно легко найти НОК двух чисел через их произведение и НОД. Почему она верна?</p>
+<p>Посмотрим на разложения на простые множители чисел a, b, НОК(a, b), НОД(a, b).</p>
+<p><span class="math display">\[ a = p_1^{a_1}\times p_2^{a_2}\times\ldots\times p_n^{a_n} \]</span> <span class="math display">\[ b = p_1^{b_1}\times p_2^{b_2}\times\ldots\times p_n^{b_n} \]</span> <span class="math display">\[ ab = p_1^{a_1+b_1}\times p_2^{a_2+b_2}\times\ldots\times p_n^{a_n+b_n} \]</span></p>
+<p>Из определений НОД и НОК следует, что их факторизации выглядят так: <span class="math display">\[ НОД(a, b) = p_1^{min(a_1, b_1)}\times p_2^{min(a_2, b_2)}\times\ldots\times p_n^{min(a_n, b_n)} \]</span> <span class="math display">\[ НОК(a, b) = p_1^{max(a_1, b_1)}\times p_2^{max(a_2, b_2)}\times\ldots\times p_n^{max(a_n, b_n)} \]</span></p>
+<p>Тогда посчитаем <span class="math inline">\(НОД(a, b) \times НОК(a, b)\)</span>: <span class="math display">\[ НОД(a, b)НОК(a, b) = p_1^{min(a_1, b_1)+max(a_1, b_1)}\times p_2^{min(a_2, b_2)+max(a_2, b_2)}\times\ldots\times p_n^{min(a_n, b_n)+max(a_n, b_n)} =\]</span> <span class="math display">\[ = p_1^{a_1+b_1}\times p_2^{a_2+b_2}\times\ldots\times p_n^{a_n+b_n} = ab\]</span></p>
+<p>Формула доказана.</p>
+<h3 id="как-посчитать-ноднок-от-более-чем-2-чисел">Как посчитать НОД/НОК от более чем 2 чисел</h3>
+<p>Для того, чтобы искать НОД или НОК у более чем двух чисел, достаточно считать их по цепочке:</p>
+<blockquote>
+<p><span class="math inline">\(НОД(a, b, c, d, \ldots) = НОД(НОД(a, b), c, d, \ldots)\)</span></p>
+</blockquote>
+<blockquote>
+<p><span class="math inline">\(НОК(a, b, c, d, \ldots) = НОК(НОК(a, b), c, d, \ldots)\)</span></p>
+</blockquote>
+<p>Почему это верно?</p>
+<p>Ну просто множество общих делителей <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> совпадает с множеством делителей <span class="math inline">\(НОД(a, b)\)</span>. Из этого следует, что и множество общих делителей <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> и еще каких-то чисел совпадает с множеством общих делителей <span class="math inline">\(НОД(a, b)\)</span> и этих же чисел. И раз совпадают множества общих делителей, то и наибольший из них совпадает.</p>
+<p>С НОК то же самое, только фразу “множество общих делителей” надо заменить на “множество общих кратных”.</p>
+<h3 id="задание-6">Задание</h3>
+<p>Решите задачи F, G, H, I из этого контеста:</p>
+<p>https://informatics.msk.ru/mod/statements/view.php?id=34271</p>
+<h2 id="расширенный-алгоритм-евклида">Расширенный алгоритм Евклида*</h2>
+<p>Очень важным для математики свойством наибольшего общего делителя является следующий факт:</p>
+<blockquote>
+<p>Для любых целых <span class="math inline">\(a, b\)</span> найдутся такие целые <span class="math inline">\(x, y\)</span>, что <span class="math inline">\(ax + by = d\)</span>, где <span class="math inline">\(d = \gcd(a, b)\)</span>.</p>
+</blockquote>
+<p>Из этого следует, что существует решение в целых числах, например, у таких уравнений: * <span class="math inline">\(8x + 6y = 2\)</span> * <span class="math inline">\(4x - 5y = 1\)</span> * <span class="math inline">\(116x + 44y = 4\)</span> * <span class="math inline">\(3x + 11y = -1\)</span></p>
+<p>Мы сейчас не только докажем, что решения у таких уравнений существуют, но и приведем быстрый алгоритм нахождения этих решений. Здесь нам вновь пригодится алгоритм Евклида.</p>
+<p>Рассмотрим один шаг алгоритма Евклида, преобразующий пару <span class="math inline">\((a, b)\)</span> в пару <span class="math inline">\((b, a \operatorname{\%} b)\)</span>. Обозначим <span class="math inline">\(r = a \operatorname{\%} b\)</span>, то есть запишем деление с остатком в виде <span class="math inline">\(a = bq + r\)</span>.</p>
+<p>Предположим, что у нас есть решение данного уравнения для чисел <span class="math inline">\(b\)</span> и <span class="math inline">\(r\)</span> (их наибольший общий делитель, как известно, тоже равен <span class="math inline">\(d\)</span>): <span class="math display">\[bx_0 + ry_0 = d\]</span></p>
+<p>Теперь сделаем в этом выражении замену <span class="math inline">\(r = a - bq\)</span>:</p>
+<p><span class="math display">\[bx_0 + ry_0 = bx_0 + (a - bq)y_0 = ay_0 + b(x_0 - qy_0)\]</span></p>
+<p>Tаким образом, можно взять <span class="math inline">\(x = y_0\)</span>, а <span class="math inline">\(y = (x_0 - qy_0) = (x_0 - (a \operatorname{/} b)y_0)\)</span> (здесь <span class="math inline">\(/\)</span> обозначает целочисленное деление).</p>
+<p>В конце алгоритма Евклида мы всегда получаем пару <span class="math inline">\((d, 0)\)</span>. Для нее решение требуемого уравнения легко подбирается — <span class="math inline">\(d * 1 + 0 * 0 = d\)</span>. Теперь, используя вышесказанное, мы можем идти обратно, при вычислении заменяя пару <span class="math inline">\((x, y)\)</span> (решение для чисел <span class="math inline">\(b\)</span> и <span class="math inline">\(a \operatorname{\%} b\)</span>) на пару <span class="math inline">\((y, x - (a / b)y)\)</span> (решение для чисел <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>).</p>
+<p>Это удобно реализовывать рекурсивно:</p>
+<pre><code>def extended_gcd(a, b):
+    if b == 0:
+        return a, 1, 0
+    d, x, y = extended_gcd(b, a % b)
+    return d, y, x - (a // b) * y
+
+a, b = 3, 5
+res = extended_gcd(a, b)
+print(&quot;{3} * {1} + {4} * {2} = {0}&quot;.format(res[0], res[1], res[2], a, b))</code></pre>
+<pre><code>3 * 2 + 5 * -1 = 1</code></pre>
+<p>Но также полезно и посмотреть, как будет работать расширенный алгоритм Евклида и на каком-нибудь конкретном примере. Пусть мы, например, хотим найти целочисленное решение такого уравнения: <span class="math display">\[116x + 44y = 4\]</span> <span class="math display">\[(2\times44+28)x + 44y = 4\]</span> <span class="math display">\[44(2x+y) + 28x = 4\]</span> <span class="math display">\[44x_0 + 28y_0 = 4\]</span> Следовательно, <span class="math display">\[x = y_0, y = x_0 - 2y_0\]</span> Будем повторять такой шаг несколько раз, получим такие уравнения: <span class="math display">\[116x + 44y = 4\]</span> <span class="math display">\[44x_0 + 28y_0 = 4, x = y_0, y = x_0 - 2y_0\]</span> <span class="math display">\[28x_1 + 16y_1 = 4, x_0 = y_1, y_0 = x_1 - y_1\]</span> <span class="math display">\[16x_2 + 12y_2 = 4, x_1 = y_2, y_1 = x_2 - y_2\]</span> <span class="math display">\[12x_3 + 4y_3 = 4, x_2 = y_3, y_2 = x_3 - y_3\]</span> <span class="math display">\[4x_4 + 0y_4 = 4, x_3 = y_4, y_3 = x_4 - 3 y_4\]</span> А теперь свернем обратно: <span class="math display">\[x_4 = 1, y_4 = 0\]</span> <span class="math display">\[x_3 = 0, y_3 =1\]</span> <span class="math display">\[x_2 = 1, y_2 =-1\]</span> <span class="math display">\[x_1 = -1, y_1 =2\]</span> <span class="math display">\[x_0 = 2, y_0 =-3\]</span> <span class="math display">\[x = -3, y =8\]</span></p>
+<p>Действительно, <span class="math inline">\(116\times(-3) + 44\times8 = 4\)</span></p>
+<h3 id="задание-7">Задание</h3>
+<p>Решите задачу J из этого контеста:</p>
+<p>https://informatics.msk.ru/mod/statements/view.php?id=34273</p>
+<h2 id="операции-по-модулю">Операции по модулю</h2>
+<p>Выражение <span class="math inline">\(a \equiv b \pmod m\)</span> означает, что остатки от деления <span class="math inline">\(a\)</span> на <span class="math inline">\(m\)</span> и <span class="math inline">\(b\)</span> на <span class="math inline">\(m\)</span> равны. Это выражение читается как «<span class="math inline">\(a\)</span> сравнимо <span class="math inline">\(b\)</span> по модулю <span class="math inline">\(m\)</span>».</p>
+<p>Еще это можно опрделить так: <span class="math inline">\(a\)</span> сравнимо c <span class="math inline">\(b\)</span> по модулю <span class="math inline">\(m\)</span>, если <span class="math inline">\((a - b)\)</span> делится на <span class="math inline">\(m\)</span>.</p>
+<p>Все целые числа можно разделить на <em>классы эквивалентности</em> — два числа лежат в одном классе, если они сравнимы по модулю <span class="math inline">\(m\)</span>. Говорят, что мы работаем в «кольце остатков по модулю <span class="math inline">\(m\)</span>», и в нем ровно <span class="math inline">\(m\)</span> элементов: <span class="math inline">\(0, 1, 2, \cdots, m-1\)</span>.</p>
+<p>Сложение, вычитение и умножение по модулю определяются довольно интуитивно — нужно выполнить соответствующую операцию и взять остаток от деления.</p>
+<p>С делением намного сложнее — поделить и взять по модулю не работает. Об этом подробнее поговорим чуть дальше.</p>
+<pre><code>a = 30
+b = 50
+mod = 71
+
+print(&#39;{} + {} = {} (mod {})&#39;.format(a, b, (a + b) % mod, mod))
+print(&#39;{} - {} = {} (mod {})&#39;.format(a, b, (a - b) % mod, mod)) # на C++ это может не работать, так как модуль от отрицательного числа берется странно
+print(&#39;{} - {} = {} (mod {})&#39;.format(a, b, (a - b + mod) % mod, mod)) # на C++ надо писать так, чтобы брать модулю от гарантированно неотрицательного числа
+print(&#39;{} * {} = {} (mod {})&#39;.format(a, b, (a * b) % mod, mod))
+# print((a / b) % mod) # а как писать это, пока неясно</code></pre>
+<pre><code>30 + 50 = 9 (mod 71)
+30 - 50 = 51 (mod 71)
+30 - 50 = 51 (mod 71)
+30 * 50 = 9 (mod 71)</code></pre>
+<h3 id="задание-8">Задание</h3>
+<p>Посчитайте: * <span class="math inline">\(2 + 3 \pmod 5\)</span> * <span class="math inline">\(2 * 3 \pmod 5\)</span> * <span class="math inline">\(2 ^ 3 \pmod 5\)</span> * <span class="math inline">\(2 - 4 \pmod 5\)</span> * <span class="math inline">\(5 + 5 \pmod 6\)</span> * <span class="math inline">\(2 * 3 \pmod 6\)</span> * <span class="math inline">\(3 * 3 \pmod 6\)</span></p>
+<p>Для умножения (в C++) нужно ещё учитывать следующий факт: при переполнении типа всё ломается (разве что если вы используете в качестве модуля степень двойки).</p>
+<ul>
+<li><code>int</code> вмещает до <span class="math inline">\(2^{31} - 1 \approx 2 \cdot 10^9\)</span>.</li>
+<li><code>long long</code> вмещает до <span class="math inline">\(2^{63} - 1 \approx 8 \cdot 10^{18}\)</span>.</li>
+<li><code>long long long</code> в плюсах нет, при попытке заиспользовать выдает ошибку <code>long long long is too long</code>.</li>
+<li>Под некоторыми компиляторами и архитектурами доступен <code>int128</code>, но не везде и не все функции его поддерживают (например, его нельзя вывести обычными методами).</li>
+</ul>
+<h3 id="зачем-нужно-считать-ответ-по-модулю">Зачем нужно считать ответ по модулю</h3>
+<p>Очень часто в задаче нужно научиться считать число, которое в худшем случае гораздо больше, чем <span class="math inline">\(10^{18}\)</span>. Тогда, чтобы не заставлять вас писать длинную арифметику, автор задачи часто просит найти ответ по модулю большого числа, обычно <span class="math inline">\(10^9 + 7\)</span></p>
+<p>Кстати, вместо того, чтобы писать <span class="math inline">\(1000000007\)</span> удобно просто написать <span class="math inline">\(1e9 + 7\)</span>. <span class="math inline">\(1e9\)</span> означает <span class="math inline">\(1 \times 10^9\)</span></p>
+<pre><code>int mod = 1e9 + 7; # В C++
+cout &lt;&lt; mod;</code></pre>
+<pre><code>1000000007</code></pre>
+<pre><code>N = 1e9 + 7 # В питоне такое число становится float
+print(N)
+print(int(N))</code></pre>
+<pre><code>1000000007.0
+1000000007</code></pre>
+<h2 id="быстрое-возведение-в-степень">Быстрое возведение в степень</h2>
+<p><strong>Задача:</strong> &gt; Даны натуральные числа <span class="math inline">\(a, b, c &lt; 10^9\)</span>. Найдите <span class="math inline">\(a^b\)</span> (mod <span class="math inline">\(c\)</span>).</p>
+<p>Мы хотим научиться возводить число в большую степень быстро, не просто умножая <span class="math inline">\(a\)</span> на себя <span class="math inline">\(b\)</span> раз. Требование на модуль здесь дано только для того, чтобы иметь возможность проверить правильность алгоритма для чисел, которые не влезают в int и long long.</p>
+<p>Сам алгоритм довольно простой и рекурсивный, постарайтесь его придумать, решая вот такие примеры (прямо решать необязательно, но можно придумать, как посчитать значение этих чисел очень быстро):</p>
+<ul>
+<li><span class="math inline">\(3^2\)</span></li>
+<li><span class="math inline">\(3^4\)</span></li>
+<li><span class="math inline">\(3^8\)</span></li>
+<li><span class="math inline">\(3^{16}\)</span></li>
+<li><span class="math inline">\(3^{32}\)</span></li>
+<li><span class="math inline">\(3^{33}\)</span></li>
+<li><span class="math inline">\(3^{66}\)</span></li>
+<li><span class="math inline">\(3^{132}\)</span></li>
+<li><span class="math inline">\(3^{133}\)</span></li>
+<li><span class="math inline">\(3^{266}\)</span></li>
+<li><span class="math inline">\(3^{532}\)</span></li>
+<li><span class="math inline">\(3^{533}\)</span></li>
+<li><span class="math inline">\(3^{1066}\)</span></li>
+</ul>
+<p>Да, здесь специально приведена такая последовательность, в которой каждое следующее число легко считается через предыдущее: его либо нужно умножить на <span class="math inline">\(a=3\)</span>, либо возвести в квадрат. Так и получается рекурсивный алгоритм:</p>
+<ul>
+<li><span class="math inline">\(a^0 = 1\)</span></li>
+<li><span class="math inline">\(a^{2k}=(a^{k})^2\)</span></li>
+<li><span class="math inline">\(a^{2k+1}=a^{2k}\times a\)</span></li>
+</ul>
+<p>Нужно только после каждой операции делать mod: * <span class="math inline">\(a^0 \pmod c = 1\)</span> * <span class="math inline">\(a^{2k} \pmod c = (a^{k} \pmod c)^2 \pmod c\)</span> * <span class="math inline">\(a^{2k+1} \pmod c = ((a^{2k}\pmod c) \times a) \pmod c\)</span></p>
+<p>Этот алгоритм называется <strong>быстрое возведение в степень</strong>. Он имеет много применений: * в криптографии очень часто надо возводить число в большую степень по модулю * используется для деления по простому модулю (см. далее) * можно быстро перемножать не только числа, но еще и матрицы (используется для динамики, например)</p>
+<p>Асимптотика этого алгоритма, очевидно, <span class="math inline">\(O(\log c)\)</span> - за каждые две итерации число уменьшается хотя бы в 2 раза.</p>
+<h3 id="задание-9">Задание</h3>
+<p>Решите задачу K из этого контеста:</p>
+<p>https://informatics.msk.ru/mod/statements/view.php?id=34271</p>
+<h2 id="задание-10">Задание</h2>
+<p>Решите как можно больше задач из практического контеста:</p>
+<p>https://informatics.msk.ru/mod/statements/view.php?id=34273</p>
+<h2 id="деление-по-модулю">Деление по модулю*</h2>
+<p>Давайте все-таки научимся не только умножать, но и делить по простому модулю. Вот только что это значит?</p>
+<p><span class="math inline">\(a / b\)</span> = <span class="math inline">\(a \times b^{-1}\)</span>, где <span class="math inline">\(b^{-1}\)</span> - это обратный элемент к <span class="math inline">\(b\)</span>.</p>
+<p><strong>Определение:</strong> <span class="math inline">\(b^{-1}\)</span> - это такое число, что <span class="math inline">\(bb^{-1} = 1\)</span></p>
+<p><strong>Утверждение:</strong> в кольце остатков по простому модулю <span class="math inline">\(p\)</span> у каждого остатка (кроме 0) существует ровно один обратный элемент.</p>
+<p>Например, обратный к <span class="math inline">\(2\)</span> по модулю <span class="math inline">\(5\)</span> это <span class="math inline">\(3\)</span> (<span class="math inline">\(2 \times 3 = 1 \pmod 5\)</span>))</p>
+<h3 id="задание-11">Задание</h3>
+<p>Найдите обратный элемент к: * числу <span class="math inline">\(3\)</span> по модулю <span class="math inline">\(5\)</span> * числу <span class="math inline">\(3\)</span> по модулю <span class="math inline">\(7\)</span> * числу <span class="math inline">\(1\)</span> по модулю <span class="math inline">\(7\)</span> * числу <span class="math inline">\(2\)</span> по модулю <span class="math inline">\(3\)</span> * числу <span class="math inline">\(9\)</span> по модулю <span class="math inline">\(31\)</span></p>
+<p>Давайте докажем это утверждение: надо заметить, что если каждый ненулевой остаток <span class="math inline">\(1, 2, \ldots, (p-1)\)</span> умножить на ненулевой остаток <span class="math inline">\(a\)</span>, то получатся числа <span class="math inline">\(a, 2a, \ldots, (p-1)a\)</span> - и они все разные! Они разные, потому что если <span class="math inline">\(xa = ya\)</span>, то <span class="math inline">\((x-y)a = 0\)</span>, а значит <span class="math inline">\((x - y) a\)</span> делится на <span class="math inline">\(p\)</span>, <span class="math inline">\(a\)</span> - ненулевой остаток, а значит <span class="math inline">\(x = y\)</span>, и это не разные числа. И из того, что все числа получились разными, это все ненулевые, и их столько же, следует, что это ровно тот же набор чисел, просто в другом порядке!</p>
+<p>Из этого следует, что среди этих чисел есть <span class="math inline">\(1\)</span>, причем ровно один раз. А значит существует ровно один обратный элемент <span class="math inline">\(a^{-1}\)</span>. Доказательство закончено.</p>
+<p>Это здорово, но этот обратный элемент еще хочется быстро находить. Быстрее, чем за <span class="math inline">\(O(p)\)</span>.</p>
+<p>Есть несколько способов это сделать.</p>
+<h3 id="через-малую-теорему-ферма">Через малую теорему Ферма</h3>
+<p><strong>Малая теорема Ферма:</strong> &gt; <span class="math inline">\(a^{p-1} = 1 \pmod p\)</span>, если <span class="math inline">\(p\)</span> - простое, <span class="math inline">\(a \neq 0 \pmod p\)</span>).</p>
+<p><strong>Доказательство:</strong> В предыдущем пункте мы выяснили, что множества чисел <span class="math inline">\(1, 2, \ldots, (p-1)\)</span> и <span class="math inline">\(a, 2a, \ldots, (p-1)a\)</span> совпадают. Из этого следует, что их произведения тоже совпадают по модулю: <span class="math inline">\((p-1)! = a^{p-1} (p-1)! \pmod p\)</span>.</p>
+<p><span class="math inline">\((p-1)!\neq 0 \pmod p\)</span> а значит на него можно поделить (это мы кстати только в предыдущем пункте доказали, поделить на число - значит умножить на обратный к нему, который существует).</p>
+<p>А значит, <span class="math inline">\(a^{p - 1} = 1 \pmod p\)</span>.</p>
+<p><strong>Как это применить</strong> Осталось заметить, что из малой теоремы Ферма сразу следует, что <span class="math inline">\(a^{p-2}\)</span> - это обратный элемент к <span class="math inline">\(a\)</span>, а значит мы свели задачу к возведению <span class="math inline">\(a\)</span> в степень <span class="math inline">\(p-2\)</span>, что благодаря быстрому возведению в степень мы умеем делать за <span class="math inline">\(O(\log p)\)</span>.</p>
+<p><strong>Обобщение</strong> У малой теоремы Ферма есть обобщение для составных <span class="math inline">\(p\)</span>:</p>
+<p><strong>Теорема Эйлера:</strong> &gt; <span class="math inline">\(a^{\varphi(p)} = 1 \pmod p\)</span>, <span class="math inline">\(a\)</span> - взаимно просто с <span class="math inline">\(p\)</span>, а <span class="math inline">\(\varphi(p)\)</span> - это функция Эйлера (количество чисел, меньших <span class="math inline">\(p\)</span> и взаимно простых с <span class="math inline">\(p\)</span>).</p>
+<p>Доказывается теорема очень похоже, только вместо ненулевых остатков <span class="math inline">\(1, 2, \ldots, p-1\)</span> нужно брать остатки, взаимно простые с <span class="math inline">\(p\)</span>. Их как раз не <span class="math inline">\(p-1\)</span>, а <span class="math inline">\(\varphi(p)\)</span>.</p>
+<p>Для нахождения обратного по этой теореме достаточно посчитать функцию Эйлера <span class="math inline">\(\varphi(p)\)</span> и найти <span class="math inline">\(a^{-1} = a^{\varphi(p) - 1}\)</span>.</p>
+<p>Но с этим возникают большие проблемы: посчитать функцию Эйлера сложно. Более того, на предполагаемой невозможности быстро ее посчитать построены некоторые криптографические алгоритм типа RSA. <strong>Поэтому быстро делить по составному модулю этим способом не получится.</strong></p>
+<h3 id="через-расширенный-алгоритм-евклида">Через расширенный алгоритм Евклида</h3>
+<p>Этим способом легко получится делить по любому модулю! Рекомендую.</p>
+<p>Пусть мы хотим найти <span class="math inline">\(a^{-1} \pmod p\)</span>, <span class="math inline">\(a\)</span> и <span class="math inline">\(p\)</span> взаимно простые (а иначе обратного и не будет существовать).</p>
+<p>Давайте найдем корни уравнения</p>
+<p><span class="math display">\[ax + py = 1\]</span></p>
+<p>Они есть и находятся расширенным алгоритмом Евклида за <span class="math inline">\(O(\log p)\)</span>, так как <span class="math inline">\(НОД(a, p) = 1\)</span>, ведь они взаимно простые.</p>
+<p>Тогда если взять остаток по модулю <span class="math inline">\(p\)</span>:</p>
+<p><span class="math display">\[ax = 1 \pmod p\]</span></p>
+<p>А значит, найденный <span class="math inline">\(x\)</span> и будет обратным элементом к <span class="math inline">\(a\)</span>.</p>
+<p>То есть надо просто найти <span class="math inline">\(x\)</span> из решения того уравнения по модулю <span class="math inline">\(p\)</span>. Можно брать по модулю прямо походу решения уравнения, чтобы случайно не переполниться.</p>
+<pre><code></code></pre>
+</body>
+</html>

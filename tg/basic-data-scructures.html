@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Стек и другие структуры данных - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/basic-data-scructures.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/basic-data-scructures.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="стек-и-другие-структуры-данных">Стек и другие структуры данных</h1>
+<ul>
+<li>Стек</li>
+<li>Правильные скобочные последовательности</li>
+<li>Обратная польская запись</li>
+<li>Стек в рекурсии</li>
+<li>Задача о наибольшем прямоугольнике</li>
+<li>Очередь и дек</li>
+<li>Односвязные и двусвязные списки</li>
+</ul>
+<h2 id="стек">Стек</h2>
+<p>Мы уже знаем, что такое <strong>стек</strong>. Это структура данных, которая хранит элементы упорядоченно и умеет отвечать на две операции за <span class="math inline">\(O(1)\)</span>:</p>
+<ul>
+<li>push(x) - положить элемент x в конец стека</li>
+<li>pop() - снять и вернуть элемент, лежащий в конце стека</li>
+</ul>
+<p>То есть это структура данных, где действия происходят только с элементом, лежащим в конце. Выполняется принцип FILO (First In - Last Out) - последним вынется тот элемент, который мы положили первым, если сначала положить все элементы, а потом все вынуть.</p>
+<p>Часто для удобства у стека еще есть операции * size() - размер стека * empty() - проверка на пустоту * clear() - очистить стек</p>
+<p>Как стек удобно использовать динамический массив: * в Питоне это list, причем push = append, pop = pop * в C++ это vector, причем push = push_back, а операция pop заменяется на две - back возвращает последний элемент, а pop_back вынимает его</p>
+<pre><code>a = []
+a.append(5)
+a.append(3)
+a.append(10)
+print(a.pop())
+a.append(12)
+print(a.pop())</code></pre>
+<pre><code>10
+12</code></pre>
+<h2 id="правильные-скобочные-последовательности">Правильные скобочные последовательности</h2>
+<p>Есть несколько определений <strong>Правильной скобочной последовательности - ПСП</strong>.</p>
+<ol type="1">
+<li>Неформальное определение</li>
+</ol>
+<p>ПСП - это строка из открывающих и закрывающих скобок, который получается из арифметических выражений удалением всего, кроме скобок.</p>
+<p>Например: из выражения <span class="math inline">\((1 + 2) * (3 + 100 * (3 / 2))\)</span> получается ПСП <span class="math inline">\(()(())\)</span>. А вот <span class="math inline">\()(())\)</span> не получится из никакого выражения.</p>
+<ol start="2" type="1">
+<li>Явное определение</li>
+</ol>
+<p>ПСП - это строка из открывающих и закрывающих скобок, в которой все скобки можно разделить на пары, где первая скобка - открывающая, а вторая - закрывающая, открывающая идет раньше закрывающей, и никакие две пары не пересекаются.</p>
+<p>Например: <span class="math inline">\(((())())\)</span> - ПСП, так как разбивает на вот такие непересекающиеся пары: <span class="math inline">\(\textbf{(}\underline{(}\overline{(}\overline{)}\underline{)}\textit{()}\textbf{)}\)</span>. А вот строку <span class="math inline">\((()\)</span> нельзя разбить на пары - там нечетное число скобок.</p>
+<ol start="3" type="1">
+<li>Рекурсивное определение</li>
+</ol>
+<ul>
+<li>пустая строка - это ПСП</li>
+<li>если <span class="math inline">\(A\)</span> - это ПСП, то <span class="math inline">\((A)\)</span> - это тоже ПСП</li>
+<li>если <span class="math inline">\(A\)</span> и <span class="math inline">\(B\)</span> - это ПСП, то <span class="math inline">\(AB\)</span> - это тоже ПСП</li>
+</ul>
+<p>Например: пустая строка - ПСП, значит <span class="math inline">\(()\)</span> - ПСП, значит <span class="math inline">\((())\)</span> - ПСП, значит <span class="math inline">\((())()\)</span> - ПСП, значит <span class="math inline">\(((())())\)</span> - ПСП. А вот <span class="math inline">\(())(()\)</span> не получится по этим правилам никак.</p>
+<ol start="4" type="1">
+<li>Определение через баланс ПСП - это строка из открывающих и закрывающих скобок. Давайте определим <strong>баланс</strong> на префиксе длины <span class="math inline">\(n\)</span> как разница числа открывающих и закрывающих скобок на этом префиксе. Тогда в ПСП должны выполняться два свойства:</li>
+</ol>
+<ul>
+<li>любой баланс больше или равен 0</li>
+<li>баланс всей строки равен 0</li>
+</ul>
+<p>То есть на любом префиксе открывающих скобок не меньше, чем закрывающих, а во всей строке их равное число.</p>
+<p>Оказывается, именно последним определением удобно пользоваться, чтобы определить, является ли строка ПСП. А именно, давайте пройдемся слева направо и будем прибавлять <span class="math inline">\(+1\)</span>, если встретим открывающую скобку, и <span class="math inline">\(-1\)</span>, если встретим закрывающую скобку. И достаточно проверить, что баланс всегда неотрицателен, и равен нулю в конце.</p>
+<p>Еще можно определить <strong>ПСП с разными видами скобок</strong>. Например, <span class="math inline">\(([](\{\}))\)</span> - это ПСП, а <span class="math inline">\([(])\)</span> - нет. В явное определение надо просто добавить, что скобки в одной паре должны быть одного вида. В рекурсивное определение нужно добавить правила вида “если <span class="math inline">\(A\)</span> - это ПСП, то <span class="math inline">\([A]\)</span> - это тоже ПСП” для всех видов скобок.</p>
+<p>А вот определение через баланс так легко не обобщается, а ведь мы именно его хотим использовать для алгоритма проверки на ПСП. Для расширения придется использовать <strong>стек</strong>:</p>
+<p>ПСП - это такая строка из открывающих и закрывающих скобок разного типа, если построении стека открытых скобок при прохождении по строке не возникает ошибки, а в конце стек пустой. А именно, давайте заведем пустой стек, пройдемся слева направо и будем класть в конец стека открывающую скобку, если мы ее встретили, и вынимать её, если встретили закрывающую - при этом надо проверить, что вынимаемся открытая скобка того же типа, что и встреченная закрывающая.</p>
+<p>Например: строка <span class="math inline">\(\{[([])()]{}\}\)</span>. В ходе алгоритм стек будет меняться так:</p>
+<ul>
+<li>пустой</li>
+<li><span class="math inline">\(\{\)</span></li>
+<li><span class="math inline">\(\{[\)</span></li>
+<li><span class="math inline">\(\{[(\)</span></li>
+<li><span class="math inline">\(\{[([\)</span></li>
+<li><span class="math inline">\(\{[(\)</span> - убранная <span class="math inline">\([\)</span> подходит <span class="math inline">\(]\)</span></li>
+<li><span class="math inline">\(\{[\)</span> - убранная <span class="math inline">\((\)</span> подходит <span class="math inline">\()\)</span></li>
+<li><span class="math inline">\(\{[(\)</span></li>
+<li><span class="math inline">\(\{[\)</span> - убранная <span class="math inline">\((\)</span> подходит <span class="math inline">\()\)</span></li>
+<li><span class="math inline">\(\{\)</span> - убранная <span class="math inline">\([\)</span> подходит <span class="math inline">\(]\)</span></li>
+<li><span class="math inline">\(\{\{\)</span></li>
+<li><span class="math inline">\(\{\)</span> - убранная <span class="math inline">\(\{\)</span> подходит <span class="math inline">\(\}\)</span></li>
+<li>пустой - убранная <span class="math inline">\(\{\)</span> подходит <span class="math inline">\(\}\)</span></li>
+</ul>
+<p>Все убранные скобки подошли встреченным закрытым, а в конце стек пустой - а значит это ПСП.</p>
+<p>А вот строка <span class="math inline">\([{]}\)</span> - это не ПСП: * пустой * <span class="math inline">\([\)</span> * <span class="math inline">\([\{\)</span> * ошибка, так как <span class="math inline">\(\{\)</span> в конце стека не подходит <span class="math inline">\(]\)</span></p>
+<p>Такой алгоритм работает за <span class="math inline">\(O(N)\)</span> - так как мы проходимся по массиву и каждый раз делаем одну из операций со стеком - либо push, либо pop.</p>
+<h2 id="обратная-польская-запись">Обратная польская запись</h2>
+<p>Стек также часто используют для вычислений в каком-нибудь сложном порядке. Например, интересно, как именно компьютер вычисляет выражение <span class="math inline">\((1 + 2) * (100 * (3 / 2) + 3) + 4\)</span>. Его вычислять сложно, давайте перепишем его в другом формате, в котором его вычислять проще:</p>
+<p><span class="math inline">\([1, 2, +, 100, 3, 2, /, *, 3, +, *, 4, +]\)</span></p>
+<p>Такой список чисел и операций называют <strong>обратной польской записью</strong>. Она вычисляется так: нужно проходить слева направо и * если встречается число - кладем его в стек * если встречается операция - снимаем с конца стека два числа, применяем к ним эту операцию, и кладем результат в стек</p>
+<p>Например для этого выражения стек будет вести себя так: * [] * <span class="math inline">\([1]\)</span> * <span class="math inline">\([1, 2]\)</span> * <span class="math inline">\([3]\)</span> * <span class="math inline">\([3, 100]\)</span> * <span class="math inline">\([3, 100, 3]\)</span> * <span class="math inline">\([3, 100, 3, 2]\)</span> * <span class="math inline">\([3, 100, 1.5]\)</span> * <span class="math inline">\([3, 150]\)</span> * <span class="math inline">\([3, 150, 3]\)</span> * <span class="math inline">\([3, 153]\)</span> * <span class="math inline">\([459]\)</span> * <span class="math inline">\([459, 4]\)</span> * <span class="math inline">\([463]\)</span></p>
+<p>То, что осталось в конце в стеке - это и есть результат.</p>
+<h2 id="стек-в-рекурсии">Стек в рекурсии</h2>
+<p>На самом деле каждый раз, когда вы используете рекурсию, вы используете стек, ведь она реализована с его помощью.</p>
+<p>А именно, представьте, что вы вызываете функцию f(n), и внутри нее вызывается другая функция g(n). Но ведь когда g(n) перестанет выполняться, вам нужно продолжить выполнять f(n). А значит все это время, пока вы вычисляете g(n), вам нужно хранить информацию о <strong>всех</strong> аргументах и локальных переменных внутри функции f(n), и даже место, где вы там остановились. Удобно хранить всю эту информацию в стеке - когда вы вызываете функцию, все содержимое прошлой функции сохраняется в стек, а когда функция перестает выполняться - прошлая функция снимает со стека последнюю функцию, и продолжает ее выполнять.</p>
+<p>Именно поэтому все задачи на рекурсию можно решить и без рекурсии, и возможно это даже будет быстрее. Достаточно лишь написать while, который вынимает функцию вместе со всей информацией про ее выполенени с верха стека, выполняет её до следующего шага, где нужно вызвать другую функцию, кладет на верх стека обновленную функцию и новую вызванную функцию. И так, пока стек не станет пустым.</p>
+<p>Кстати, стек рекурсии ограничен в некоторых языках прогрмамирования (например, питон), и его нужно поднимать:</p>
+<pre><code>import sys
+sys.setrecursionlimit(10000)</code></pre>
+<p>В C++ стек рекурсии ограничен лишь вашей оперативной памятью.</p>
+<p>Пример задачи на рекурсию, которую теоретически можно переписать под стек - это Ханойские башни.</p>
+<p><strong>Условие.</strong> &gt; У вас есть три стержня (= стека), на первом находятся <span class="math inline">\(N\)</span> дисков, причем чем диск ниже, тем он шире. Можно переносить верхний диска одного стержня на верх другого стержня, если только под ним не будет находиться меньший по ширине диск. Нужно вывести последовательность операций, после которой все диски перенесутся на третий стержень.</p>
+<p><strong>Решение.</strong> &gt; Достаточно делать как в динамическом программировании - формализовать задачу и свести ее к предыдущим. Давайте функция <strong>hanoi(n, from, to, middle)</strong> будет выводить все операции с переносом <span class="math inline">\(n\)</span> стержней с верха стержня <span class="math inline">\(from\)</span> на стержень <span class="math inline">\(to\)</span>, при условии, что их можно еще пользоваться стержнем <span class="math inline">\(middle\)</span> (и при этом на стержнях <span class="math inline">\(to\)</span> и <span class="math inline">\(middle\)</span> все диски шире, чем эти <span class="math inline">\(n\)</span>, чтобы их можно было класть сверху). Тогда на самом деле эта операция разбивается на такие: * hanoi(n - 1, from, middle, to) - перенести <span class="math inline">\(n-1\)</span> диск на средний стержень * print(from + " -&gt; " + to) - перенести самый широкий диск на финальный стержень * hanoi(n - 1, middle, to, from) - перенести <span class="math inline">\(n-1\)</span> диск со среднего стержаня на финальный</p>
+<p>Алгоритм работает за <span class="math inline">\(O(2^n)\)</span>, так как вызывает два таких же алгоритма для <span class="math inline">\(n-1\)</span>.</p>
+<h2 id="задача-о-наибольшем-прямоугольнике">Задача о наибольшем прямоугольнике</h2>
+<p><strong>Условие.</strong> &gt; У вас есть гистограмма - набор прямоугольников шириной <span class="math inline">\(1\)</span> и высотой <span class="math inline">\(N\)</span>, идущих слева направо вплотную, причем они все “стоят” на земле - их нижняя координата <span class="math inline">\(y\)</span> равна <span class="math inline">\(0\)</span>. Пример гистограммы:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>■</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>■</td>
+<td></td>
+<td></td>
+<td></td>
+<td>■</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>■</td>
+<td></td>
+<td></td>
+<td>■</td>
+<td>■</td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>■</td>
+<td></td>
+<td></td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>■</td>
+<td></td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>■</td>
+<td></td>
+<td>■</td>
+<td></td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td></td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+<tr class="even">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Задача - найти наибольший по площади прямоугольник, лежащий внутри такой клеточной гистограммы.</p>
+</blockquote>
+<p><strong>Решение.</strong> Заметим, что нижняя граница наибольшего прямоугольника - это всегда <span class="math inline">\(y = 0\)</span>. Наибольший прямоугольник должно быть невозможно рашсирить ни в одну из сторон. Давайте просто переберем все такие прямоугольники и выберем из них максимальный по площади.</p>
+<p>Давайте идти слева направо по вертикальным прямоугольникам гистограммы и хранить такую “лесенку” - в стеке будут лежать пройденные столбики (индекс и высота), но только те, которые нужны, чтобы столбцы строго возрастали, и при этом лесенка заканчивалась последним рассмотренным столбцом.</p>
+<p>Строить её нужно так: давайте рассмотрим новый столбец. Если его высота больше, чем у последнего в стеке (предыдущего столбца), то просто кладём его в стек, и на этом всё. Если его высота меньше или равна, чем у последнего, то нужно вынимать столбцы с конца стека, пока высота нового столбца не будет наконец больше, чем у последнего в стеке. В конце нужно просто вынуть все столбцы из стека (для этого удобно просто в конец положить фиктивный столбец высоты ноль).</p>
+<p>При вынимании столбца из стека нужно посчитать площадь максимального прямоугольника, который включает этот столбец. Высоту мы уже знаем, надо определить его площадь. Заметим, что его левая координата - это индекс столбца, который лежит перед этим столбцом в стеке (это самый правый столбец, который левее удаляемого и при этом ниже по высоте) плюс один. А правая координата - это та, которую мы сейчас рассматриваем (раз нам нужно удалить этот столбец).</p>
+<p>Как это работает? Наибольший прямоугольник упирается верхом хотя бы в один столбец, а значит когад мы его будем удалять, мы учтем этот прямоугольник.</p>
+<p>Так можно за <span class="math inline">\(O(N)\)</span> найти площадь максимального прямоугольника в такой гистограмме.</p>
+<p>Заметим, что к этой задаче можно свести задачу поиска максимального белого прямоугольника в прямоугольнике с черными и белыми прямоугольниками - нужно для каждой клетки посчитать, сколько клеток поряд наверх из нее - это белые клетки (с помощью простого динамического программирования), и после этого перебрать <span class="math inline">\(N\)</span> строк и решить задачу для гистограммы, низ которой является этой строкой - все высоты как раз мы теперь знаем.</p>
+<p>Так мы решим эту задачу за <span class="math inline">\(O(N^2)\)</span> - а это размер прямоугольника, так что быстрее и не получится.</p>
+<h2 id="очередь-и-дек">Очередь и дек</h2>
+<p>Очередь - это структура данных, которая тоже хранит упорядоченные элементы с такими операциями за <span class="math inline">\(O(1)\)</span>: * push(x) - положить элемент в конец очереди * pop() - вынуть и вернуть элемент из <strong>начала</strong> очереди</p>
+<p>Выполняется принцип FIFO (First In - First Out) - кто первый пришел, тот первый и ушел. Очередь удобно использовать для моделирования реальных очередей, ведь они позволяют честно распределить что-то - кто первый пришел, тот первый и получил. Также очередь часто используют для алгоритмов с несколькими независимыми процессами - удобно хранить очередь задач, которые нужно выполнить, и процесс, когда освобождется, берет из очереди самую ранее добавленную задачу и берется ее выполнять.</p>
+<p>Дек - это структура данных, которая тоже хранит упорядоченные элементы с такими операциями за <span class="math inline">\(O(1)\)</span>: * push_back(x) - положить элемент в конец дека * push_front(x) - положить элемент в начало дека * pop_back() - вынуть и вернуть элемент из конца дека * pop_front() - вынуть и вернуть элемент из начала дека</p>
+<p>То есть очередь и стек можно реализовать с помощью дека. Чаще всего удобно вместо очереди использовать именно дек.</p>
+<p>Обратите внимание, что дек не умеет обращаться к элементу по его номеру, он умеет работать только с крайними элементами.</p>
+<p>В Питоне есть collections.deque:</p>
+<pre><code>from collections import deque
+d = deque()
+d.append(5)
+d.append(100)
+d.appendleft(10)
+print(d.pop())
+d.append(1000)
+print(d.pop())
+print(d.popleft())
+print(d.popleft())</code></pre>
+<pre><code>100
+1000
+10
+5</code></pre>
+<p>В C++ также есть deque, но, как и в векторе, pop_back и pop_front не возвращают объект.</p>
+<pre><code>#include &lt;deque&gt;
+...
+deque&lt;int&gt; d;
+d.push_back(1);
+d.push_back(2);
+d.push_front(10);
+cout &lt;&lt; d.back();
+d.pop_back();
+cout &lt;&lt; d.front();
+d.pop_front();
+cout &lt;&lt; d.front();
+d.pop_front();
+</code></pre>
+<h2 id="односвязные-и-двусвязные-списки">Односвязные и двусвязные списки</h2>
+<p>Осторожно: эти списки никак не связаны со списками из питона (которые на самом деле динамические массивы).</p>
+<p>Проблема стека: нельзя добавлять и удалять элементы в середине.</p>
+<p>Давайте хранить массив <span class="math inline">\(values\)</span> с нужными нам элементами, и для каждого элемента еще хранить (в структуре или в отдельном массиве <span class="math inline">\(next\)</span>) индекс следующего элемента. И, конечно, хранить индекс самого первого элемента <span class="math inline">\(start\)</span>. Будем называть такую структуру данных <strong>односвязным списком</strong>.</p>
+<p>Чтобы пройтись по всему односвязному списку, нужно начать с индекса первого элемента и постепенно переходить по индексу следующего элемента (<span class="math inline">\(i\)</span> -&gt; <span class="math inline">\(next[i]\)</span>), пока <span class="math inline">\(next[i] \neq i\)</span>.</p>
+<p>Тогда если у нас есть индекс какого-то элемента <span class="math inline">\(index\)</span>, мы за <span class="math inline">\(O(1)\)</span> можем вставить после него еще один - нужно добавить в массив справа еще один элемент, пусть он получил индекс <span class="math inline">\(new\)</span>, и сделать <span class="math inline">\(next[new] = next[index], next[index] = new\)</span>.</p>
+<p>Часто бывает удобно хранить еще предыдущий элемент помимо следующего, чтобы можно было проходить по списку справа налево, и добавлять элемент перед каким-нибудь. Такой список называется <strong>двусвязным</strong>.</p>
+<h2 id="задание">Задание</h2>
+<p>Решите как можно больше задач из контеста https://informatics.msk.ru/mod/statements/view.php?id=33318</p>
+</body>
+</html>

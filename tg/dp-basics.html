@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Динамическое программирование — базовые понятия - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/dp-basics.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/dp-basics.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="динамическое-программирование-базовые-понятия">Динамическое программирование — базовые понятия</h1>
+<ul>
+<li>Общие принципы</li>
+<li>Одномерная динамика: кузнечик</li>
+<li>Двумерная динамика: черепашка</li>
+<li>Восстановление ответа в динамике</li>
+</ul>
+<h2 id="общие-принципы">Общие принципы</h2>
+<p>Рассмотрим такую задачу: <strong>найти N-е число Фибоначчи.</strong></p>
+<p>Числа Фибоначчи определяются так: <span class="math inline">\(F_0 = 0, F_1 = 1, F_n = F_{n-2} + F_{n-1}\)</span>.</p>
+<p>Эту задачу можно решить рекурсивно:</p>
+<pre><code>def fibonacchi(n):
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    return fibonacchi(n - 2) + fibonacchi(n - 1)
+
+print fibonacchi(20)</code></pre>
+<pre><code>6765</code></pre>
+<p>Однако это будет работать <strong>очень</strong> долго. 20-е число посчитать еще можно будет, а 40-е число - нет. И не потому, что числа большие. А потому, что мы будем делать слишком много лишней работы. Число операций будет <strong>экспоненциально</strong> относительно <span class="math inline">\(N\)</span>.</p>
+<p>Почему? Потому что, чтобы посчитать N-е число, нам нужно будет независимо посчитать (N-1)-е число и (N-2)-е число, и это в минимум в два раза больше действий, чем нужно для (N-2). А значит, для подсчета N-го числа Фибоначчи необходимо 2 раза посчитать (N-2)-е число, и это занимает в два раза больше времени, а значит это хотя бы <span class="math inline">\(2^\frac{N}{2}\)</span> действий.</p>
+<p>Это ну слишком долго, и главное, что это легко исправляется. Давайте просто не считать лишних действий - если мы один раз посчитали <span class="math inline">\(F_k\)</span>, то давайте запомним, чему оно равно, и в следующий раз, когда оно нам понадобится, мы используем его сразу. Удобнее всего сохранить числа Фибоначчи прямо в массиве:</p>
+<pre><code>N = 20
+
+fib = [None] * (N + 1) # создали массив из None от 0 до N включительно
+fib[0] = 0 
+fib[1] = 1 # заполнили изначальные позиции
+for i in range(2, N + 1): # обходим массив по порядку слева направо
+    fib[i] = fib[i - 2] + fib[i - 1] # формула считает новое число через предыдущие!
+
+print fib[N] # ответ лежит на N-ом месте</code></pre>
+<pre><code>6765</code></pre>
+<p>И этот способ легко работает для больших <span class="math inline">\(N\)</span>, так как работает за <span class="math inline">\(O(N)\)</span> - всего один проход по массиву (правда здесь ответ мы будем считать по модулю <span class="math inline">\(10^9\)</span>, потому что иначе числа получатся слишком слишком большими):</p>
+<pre><code>N = 200000
+
+fib = [0] * (N + 1)
+fib[1] = 1
+for i in range(2, N + 1):
+    fib[i] = (fib[i - 2] + fib[i - 1]) % (10 ** 9)
+
+print fib[N]</code></pre>
+<pre><code>175853125</code></pre>
+<p>Это и называется <strong>динамическим программированием</strong> (или динамикой, ДП). Основная идея состоит в том, чтобы * свести задачу для <span class="math inline">\(N\)</span> к задаче для чисел, меньших, чем <span class="math inline">\(N\)</span> (с помощью формулы) * хранить все ответы в массиве * заполнить начало массива вручную (для которых формула не работает) * обойти массив и заполнить ответы по формуле * вывести ответ откуда-то из этого массива</p>
+<p>Чтобы решить задачу по динамике вы должны ответить на 5 вопросов: * Что лежит в массиве? (самый важный вопрос чаще всего) * Как инициализировать начало массива? * Как обходить массив? (чаще всего слева направо, но не всегда) * Какой формулой считать элементы массива? * Где в массиве лежит ответ?</p>
+<h2 id="одномерная-динамика-кузнечик">Одномерная динамика: кузнечик</h2>
+<p>Рассмотрим такую задачу:</p>
+<p><strong>Есть полоска <span class="math inline">\(1\times N\)</span>, кузнечик стоит на первой клетке, он может прыгать вперед на 1, 2, 3 клетки. Сколько есть способов добраться от начальной клетки до последней?</strong></p>
+<p>Как решать такие задачи? Нужно придумать рекуррентную формулу, как ответ для N зависит от ответа для меньших чисел.</p>
+<p>Очень помогает посмотреть на маленькие числа (!! одна из самых важных идей для придумывания решений):</p>
+<p>Пусть dp[x] - это количество способов добраться от 1 клетки до клетки номер x.</p>
+<ul>
+<li>dp[1] = 1 способ (стоять на месте)</li>
+<li>dp[2] = 1 способ (<span class="math inline">\(1 \rightarrow 2\)</span>)</li>
+<li>dp[3] = 2 способа (<span class="math inline">\(1 \rightarrow 2 \rightarrow 3\)</span> и <span class="math inline">\(1 \rightarrow 3\)</span>)</li>
+<li>dp[4] = 4 способа (<span class="math inline">\(1 \rightarrow 2 \rightarrow 3 \rightarrow 4\)</span> и <span class="math inline">\(1 \rightarrow 3 \rightarrow 4\)</span> и <span class="math inline">\(1 \rightarrow 2 \rightarrow 4\)</span> и <span class="math inline">\(1 \rightarrow 4\)</span>)</li>
+<li>dp[5] = 7 способов (<span class="math inline">\(1 \rightarrow 2 \rightarrow 3 \rightarrow 4 \rightarrow 5\)</span> и <span class="math inline">\(1 \rightarrow 3 \rightarrow 4 \rightarrow 5\)</span> и <span class="math inline">\(1 \rightarrow 2 \rightarrow 4 \rightarrow 5\)</span> и <span class="math inline">\(1 \rightarrow 4 \rightarrow 5\)</span> и <span class="math inline">\(1 \rightarrow 2 \rightarrow 3 \rightarrow 5\)</span> и <span class="math inline">\(1 \rightarrow 3 \rightarrow 5\)</span> и <span class="math inline">\(1 \rightarrow 2 \rightarrow 5\)</span>)</li>
+</ul>
+<p>Дальше становится сложнее. Но можно заметить закономерность. А можно и не заметить, но зато если мы сейчас придумаем формулу, мы легко проверим, работает ли она. Заодно мы получили наши значения на маленьких числах, которые нам все равно понадобится вбить в программу.</p>
+<p>Какой последний прыжок кузнечика в его пути до N-й клетки? Один из трех вариантов: * <span class="math inline">\((N - 1) \rightarrow N\)</span> * <span class="math inline">\((N - 2) \rightarrow N\)</span> * <span class="math inline">\((N - 3) \rightarrow N\)</span></p>
+<p>То есть все пути до <span class="math inline">\(N\)</span> разбиваются на 3 группы. Причем мы знаем сколько путей в каждой группе. В первой из них ровно dp[N - 1] путей - столько путей идут до (N-1)-й клетки, и дальше идет еще один прыжок. Во второй и третьей группах поэтому тоже dp[N - 2] и dp[N-3] путей.</p>
+<p>Так что формула получается такой: <strong>dp[N] = dp[N - 3] + dp[N - 2] + dp[N - 1]</strong>.</p>
+<p>Очень похоже на числа Фибоначчи, да? Можете посмотреть на числа, которые мы уже выписали, там все отлично подходит:</p>
+<p>dp[4] = 4 = 1 + 1 + 2 = dp[1] + dp[2] + dp[3]</p>
+<p>dp[5] = 7 = 1 + 2 + 4 = dp[2] + dp[3] + dp[4].</p>
+<p>Так что программа пишется легко:</p>
+<pre><code>N = 20
+dp = [0] * (N + 1)
+dp[1] = 1
+dp[2] = 1
+dp[3] = 2
+for i in range(4, N + 1):
+    dp[i] = dp[i - 3] + dp[i - 2] + dp[i - 1]
+print(dp)</code></pre>
+<pre><code>[0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504, 927, 1705, 3136, 5768, 10609, 19513, 35890, 66012]</code></pre>
+<p>Давайте изменим немного задачу: Теперь <strong>некоторые из клеток закрыты</strong>. То есть нам известно про конкретные клетки, что на них кузнечик прыгать не может. Тогда задача все еще решается так же, только нужно убедиться, что dp[x] = 0 для всех запрещенных x!</p>
+<p>Также немного перепишем код, чтобы не писать отдельно случаи для 2 и 3, а также чтобы не писать в формуле сумму трех чисел (а представьте, что в задаче не 3, а 100). Будем инициализировать только dp[1]. А ко всем следующим значениям dp[i] будет прибавлять dp[i - k], где k = 1, 2, 3. Причем, если i - k &lt; 1, то мы будем игнорировать такие клетки, и этим самым мы избавились от необходимости прописывать ответ для dp[2] и dp[3].</p>
+<pre><code>N = 20
+BAD_CELLS = [2, 3, 6, 13]
+
+dp = [0] * (N + 1)
+is_bad = [0] * (N + 1)
+for bad in BAD_CELLS:
+    is_bad[bad] = 1
+print(is_bad)</code></pre>
+<pre><code>[0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]</code></pre>
+<pre><code>if not is_bad[1]: 
+    dp[1] = 1
+for i in range(2, N + 1):
+    if not is_bad[i]:
+        for k in range(1, 4):
+            if i - k &gt;= 1:
+                dp[i] += dp[i - k]
+print(dp)</code></pre>
+<pre><code>[0, 1, 0, 0, 1, 1, 0, 2, 3, 5, 10, 18, 33, 0, 51, 84, 135, 270, 489, 894, 1653]</code></pre>
+<h2 id="двумерная-динамика-черепашка">Двумерная динамика: черепашка</h2>
+<p>Теперь рассмотрим такую задачу:</p>
+<p><strong>На каждой клетке двумерной таблички написано, сколько там лежит монет. Черепашка стоит в клетке 1x1 (верхней левой), и может двигаться только на одну клетку вниз, или на одну клетку вправо. Нужно найти максимальное число монет, которое может набрать черепашка по пути к нижней правой клетке NxM.</strong></p>
+<p>Первое, что приходит в голову - это просто идти черепашкой в ту клетку из соседних, где лежит больше монет. К сожалению, эта <strong>жадная</strong> стратегия не всегда работает. Например, на такой доске жадная черепашка пошла бы по следу из единичек, хотя гораздо выгоднее пойти сначала по нулям, а потом найти там большие горстки монет (40, 70, 100):</p>
+<pre><code>COINS = [
+    [0,   1,   1,   1,   1,   1],
+    [0,   0,   0,   0,   0,   1],
+    [0,   40,  70,  0,   0,   1],
+    [100, 0,   0,   0,   0,   1]
+]
+N = 4
+M = 6</code></pre>
+<p>Тут нас снова спасает динамика. Давайте сводить задачу к предыдущей! Задачей назовем “сколько максимально монет можно набрать на пути от <span class="math inline">\(0\times0\)</span> до <span class="math inline">\(i\times j\)</span>” (заменим 1-нумерацию на 0-нумерацию). Будем хранить это в двумерном массиве dp в клетке dp[i][j].</p>
+<p>Сразу понятны некоторые свойства этого массива: * Он размера NxM * dp[0][0] = COINS[0][0] * ответ на всю задачу лежит в dp[N - 1][M - 1]</p>
+<p>Но гораздо важнее придумать формулу для подсчета dp[i][j] через предыдущие. Легко посчитать первую строку и первый столбец: * dp[0][k] = dp[0][k - 1] + COINS[0][k] * dp[k][0] = dp[k - 1][0] + COINS[k][0]</p>
+<p>Так как до этих клеток есть ровно один путь.</p>
+<p>Но что делать, если есть много путей до клетки dp[i][j]? Снова разобьем их на на несколько групп в зависимости от последнего хода (! важный трюк, запомните). Последний ход был: * либо из [i][j - 1] * либо из [i - 1][j]</p>
+<p>Поэтому формула для максимального числа монет такая: <strong>dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]) + COINS[i][j]</strong>.</p>
+<p>Ну все, достаточно пройтись правильно по двумерному массиву (построчно сверху вних, а в каждой строке слева направо) и заполнить этот массив.</p>
+<pre><code>dp = [[None] * M for i in range(N)]
+
+for i in range(N):
+    for j in range(M):
+        if i == 0 and j == 0:
+            dp[0][0] = COINS[0][0]
+        elif i == 0:
+            dp[0][j] = dp[0][j - 1] + COINS[0][j]
+        elif j == 0:
+            dp[i][0] = dp[i - 1][0] + COINS[i][0]
+        else:
+            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]) + COINS[i][j]
+    print(dp[i])</code></pre>
+<pre><code>[0, 1, 2, 3, 4, 5]
+[0, 1, 2, 3, 4, 6]
+[0, 41, 111, 111, 111, 112]
+[100, 100, 111, 111, 111, 113]</code></pre>
+<p>В отличие от жадного алгоритма, динамическое программирование находит оптимальное решение - это, в данном случае, 113 монет.</p>
+<h2 id="восстановление-ответа">Восстановление ответа</h2>
+<p>В последней задаче было здорово найти, что в оптимальном пути черепашки набирается 113 монет, но интересно, что именно это за путь. Такую задачу называют <strong>восстановлением ответа в динамике</strong>.</p>
+<p>Есть два способа, которыми можно это сделать.</p>
+<ol type="1">
+<li>Хранить в массив prev откуда ты пришел в эту клетку.</li>
+</ol>
+<p>Когда мы выбираем максимум из левой и верхней клетки, мы на самом деле решаем, какой последний ход будет в оптимальном пути до этой клетки - сверху или слева, и берем ответ для той клетки, сложнный с монетами в этой клетке. Давайте координаты клетки, откуда мы пришли, хранить в массиве prev. Или, в данном случае, можно хранить не координаты а просто 1, если пришли слева, и 0, если пришли сверху.</p>
+<pre><code>dp = [[None] * M for i in range(N)]
+prev = [[None] * M for i in range(N)]
+
+for i in range(N):
+    for j in range(M):
+        if i == 0 and j == 0:
+            dp[0][0] = COINS[0][0]
+            prev[0][0] = -1 # это самое начало, предыдущей клетки нет
+        elif i == 0:
+            dp[0][j] = dp[0][j - 1] + COINS[0][j]
+            prev[0][j] = 0 # слева пришли
+        elif j == 0:
+            dp[i][0] = dp[i - 1][0] + COINS[i][0]
+            prev[i][0] = 1 # сверху пришли
+        else:
+            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]) + COINS[i][j]
+            if dp[i - 1][j] &gt; dp[i][j - 1]:
+                prev[i][j] = 1
+            else:
+                prev[i][j] = 0
+    print(prev[i])</code></pre>
+<pre><code>[-1, 0, 0, 0, 0, 0]
+[1, 1, 1, 1, 1, 1]
+[1, 1, 0, 0, 0, 0]
+[1, 0, 1, 0, 0, 1]</code></pre>
+<p>И, чтобы восстановить ответ, надо просто пройтись с конца по этим клеткам до самого начала, и развернуть получившуюся последовательность.</p>
+<pre><code>i, j = N - 1, M - 1
+answer = []
+answer_directions = []
+while i &gt; 0 or j &gt; 0:
+    if prev[i][j] == 1:
+        i -= 1
+        answer_directions.append(&#39;DOWN&#39;)
+    else:
+        j -= 1
+        answer_directions.append(&#39;RIGHT&#39;)
+    answer.append((i, j))
+print answer[::-1] # reverse
+print answer_directions[::-1] # reverse</code></pre>
+<pre><code>[(0, 0), (0, 1), (1, 1), (2, 1), (2, 2), (2, 3), (2, 4), (2, 5)]
+[&#39;RIGHT&#39;, &#39;DOWN&#39;, &#39;DOWN&#39;, &#39;RIGHT&#39;, &#39;RIGHT&#39;, &#39;RIGHT&#39;, &#39;RIGHT&#39;, &#39;DOWN&#39;]</code></pre>
+<ol start="2" type="1">
+<li>Вместо хранения массива prev догадаться по массиву dp, откуда именно черепашка пришла в эту клетку.</li>
+</ol>
+<p>В данном примере это довольно легко. Если мы уже посчитали весь массив dp, то теперь можно начиная с конца легко понять, пришла черепашка туда сверху или слева в оптимальном маршруте - она пришла из клетки с максимальным числом монет.</p>
+<pre><code>i, j = N - 1, M - 1
+answer = []
+answer_directions = []
+while i &gt; 0 or j &gt; 0:
+    if i != 0 and (j == 0 or dp[i - 1][j] &gt; dp[i][j - 1]):
+        i -= 1
+        answer_directions.append(&#39;DOWN&#39;)
+    else:
+        j -= 1
+        answer_directions.append(&#39;RIGHT&#39;)
+    answer.append((i, j))
+print answer[::-1] # reverse
+print answer_directions[::-1] # reverse</code></pre>
+<pre><code>[(0, 0), (0, 1), (1, 1), (2, 1), (2, 2), (2, 3), (2, 4), (2, 5)]
+[&#39;RIGHT&#39;, &#39;DOWN&#39;, &#39;DOWN&#39;, &#39;RIGHT&#39;, &#39;RIGHT&#39;, &#39;RIGHT&#39;, &#39;RIGHT&#39;, &#39;DOWN&#39;]</code></pre>
+<h3 id="задание">Задание</h3>
+<p>Решите как можно больше задач из простого контеста:</p>
+<p>https://informatics.msk.ru/mod/statements/view.php?id=33233#1</p>
+<p>А также решите как можно больше задач из сложного контеста:</p>
+<p>https://informatics.msk.ru/mod/statements/view.php?id=35808#1</p>
+<h2 id="разбор-еще-нескольких-задач">Разбор еще нескольких задач</h2>
+<p>Давайте разберем еще несколько задач.</p>
+<h3 id="последовательности-без-3-единиц-подряд">Последовательности без 3 единиц подряд</h3>
+<p><strong>Условие:</strong></p>
+<p>Определите количество последовательностей из нулей и единиц длины <span class="math inline">\(N\)</span>, в которых никакие три единицы не стоят рядом.</p>
+<p><strong>Решение:</strong></p>
+<p>Давайте хранить в <span class="math inline">\(dp[N]\)</span> ровно число таких последовательностей длины <span class="math inline">\(N\)</span> (это первое, что должно приходить в голову).</p>
+<p>Давайте посмотрим для начала для маленьких чисел:</p>
+<ul>
+<li><span class="math inline">\(dp[0] = 1 (\text{пустая последовательность})\)</span></li>
+<li><span class="math inline">\(dp[1] = 2 (0, 1)\)</span></li>
+<li><span class="math inline">\(dp[2] = 4 (00, 01, 10, 11)\)</span></li>
+<li><span class="math inline">\(dp[3] = 7 (000, 001, 010, 011, 100, 101, 110)\)</span></li>
+<li><span class="math inline">\(dp[4] = 13 (0000, 0001, 0010, 0011, 0100, 0101, 0110, 1000, 1001, 1010, 1011, 1100, 1101)\)</span></li>
+</ul>
+<p>Сходу закономерность можно не увидеть. Нужно догадаться сгруппировать эти числа по том, сколько в конце единичек. Например, для dp[4]:</p>
+<ul>
+<li>0 единичек в конце: <span class="math inline">\(0000, 0010, 0100, 0110, 1000, 1010, 1100\)</span> - их ровно семь, как для <span class="math inline">\(N=3\)</span>, потому что первые 3 числа могут быть любые (но без трех единиц подряд), а четвертое - 0</li>
+<li>1 единичка в конце: <span class="math inline">\(0001, 0101, 1001, 1101\)</span> - их ровно четыре, как для <span class="math inline">\(N=2\)</span>, потому что первые 2 числа могут быть любые (но без 3 единиц подряд), а два последних - 01</li>
+<li>2 единички в конце: <span class="math inline">\(0011, 1011\)</span> - их ровно две, как для <span class="math inline">\(N=1\)</span>, потому что первое число может быть любым (но без 3 единиц подряд), а три последних - 011</li>
+</ul>
+<p>Так мы замечаем и доказываем формулу: <span class="math inline">\(dp[N] = dp[N-1] + dp[N-2] + dp[N-3]\)</span></p>
+<p>Теперь за <span class="math inline">\(O(N)\)</span> ее легко посчитать.</p>
+<h2 id="лесенки">Лесенки</h2>
+<p><strong>Условие:</strong></p>
+<p>Лесенкой называется набор кубиков, в котором каждый горизонтальный слой содержит меньше кубиков, чем слой под ним. Подсчитать количество различных лесенок, которые могут быть построены из N кубиков.</p>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td>■</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Решение:</strong></p>
+<p>Если считать, что <span class="math inline">\(dp[N]\)</span> - это число лесенок из <span class="math inline">\(N\)</span> кубиков, то никакой закономерности скорее всего найти не получится.</p>
+<ul>
+<li><span class="math inline">\(dp[1] = 1\)</span></li>
+</ul>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><span class="math inline">\(dp[2] = 1\)</span></li>
+</ul>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><span class="math inline">\(dp[3] = 2\)</span></li>
+</ul>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><span class="math inline">\(dp[4] = 2\)</span></li>
+</ul>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><span class="math inline">\(dp[5] = 3\)</span></li>
+</ul>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td>■</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><span class="math inline">\(dp[6] = 4\)</span></li>
+</ul>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>■</td>
+<td>■</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td>■</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr class="odd">
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+<td>■</td>
+</tr>
+</tbody>
+</table>
+<p>По числам построить закономерность сложно, и по самим лесенкам тоже. Не видно какого-то рассуждения вида “ко всем лесенкам размера N-1 можно положить на любой слой еще один кубик”, иногда ведь и нельзя.</p>
+<p>Тут нам помогает <strong>введение дополнительного параметра</strong>. Нас просят решить одномерную задачу (для <span class="math inline">\(N\)</span>), а мы решим двумерную задачу для <span class="math inline">\(n\)</span> и <span class="math inline">\(m\)</span>. Давайте зафиксируем размер самого нижнего слоя и назовем его размер <span class="math inline">\(m\)</span>.</p>
+<p>То есть $dp[n][m] = $“число лесенок, состоящих из <span class="math inline">\(N\)</span> кубиков, таких, что самый нижний слой состоит из <span class="math inline">\(M\)</span> кубиков”.</p>
+<p>Как это связано с нашей задачей? Ответ на нашу задачу равен <span class="math inline">\(dp[N][1] + dp[N][2] + \ldots + dp[N][N]\)</span>.</p>
+<p>Какая есть формула для такой постановки задачи? Размер нижнего слоя у нас зафиксирован и равен <span class="math inline">\(m\)</span>, осталость <span class="math inline">\(n-m\)</span> кубиков на верхних слоях. Логично перебрать размер второго снизу слоя, который может быть любым от <span class="math inline">\(1\)</span> до <span class="math inline">\(m-1\)</span>: <span class="math inline">\(dp[n][m] = dp[n-m][1] + dp[n-m][2] + \ldots + dp[n-m][m-1]\)</span></p>
+<p>Это все пир условии, что <span class="math inline">\(n \geq m\)</span>. Иначе <span class="math inline">\(dp[n][m] = 0\)</span>.</p>
+<p>Теперь осталось понять как инициализировать этот массив и аккуратно по нему пройтись. Давайте инициализируем его ровно для случая <span class="math inline">\(n=0, m=0\)</span>:</p>
+<p><span class="math inline">\(dp[0][0]\)</span> = 1</p>
+<p>Пройдемся по массиву сначала для всех m при n = 1, потому для всех m при всех n = 2 и так далее - то есть по строчкам обычными двумя циклами <span class="math inline">\(for\)</span>.</p>
+<p>Для <span class="math inline">\(m &gt; 0\)</span> в ячейках <span class="math inline">\(dp[0][m]\)</span> наш алгоритм будет работать и возвращать 0, так как <span class="math inline">\(n &lt; m\)</span>.</p>
+<p>Для всех <span class="math inline">\(n &gt; 0\)</span> наша формула будет находить ответ через числа с меньшим n, а значит алгоритм корректен.</p>
+<p>Он заполняет табличку размера <span class="math inline">\(N^2\)</span>, обрабатывая каждую клетку за <span class="math inline">\(O(N)\)</span> операций, итоговое время работы - <span class="math inline">\(O(N^3)\)</span>.</p>
+</body>
+</html>

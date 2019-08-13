@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Куча - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/quicksort.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/quicksort.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="куча">Куча</h1>
+<p>Подвешенное дерево - дерево, у которого есть корень.</p>
+<p>Двоичная Куча - такое подвешенное дерево, для которого выполнены три условия:</p>
+<ol type="1">
+<li><p>Значение в любой вершине не меньше, чем значения её потомков.</p></li>
+<li><p>У любой вершины не более двух сыновей.</p></li>
+<li><p>Слои заполняются последовательно слева направо сверху вниз.</p></li>
+</ol>
+<figure>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Max-Heap.svg/240px-Max-Heap.svg.png" alt="Правильная куча" /><figcaption>Правильная куча</figcaption>
+</figure>
+<p>Давайте обозначим как h высоту кучи.</p>
+<p>Куча также умеет 3 основные операции :</p>
+<ol type="1">
+<li><p>найти минимум за <span class="math inline">\(O(1)\)</span></p></li>
+<li><p>удалить минимум за <span class="math inline">\(O(h)\)</span></p></li>
+<li><p>добавление нового ключа в кучу за <span class="math inline">\(O(h)\)</span></p></li>
+</ol>
+<p>Так как куча всегда состоит из нескольких слоев заполненых полностью и одного частично и каждый слой содержит в два раза больше вершин, чем предыдущий, то можно понять, что высота дерева будет не больше <span class="math inline">\(O(log(N))\)</span>.</p>
+<p>Теперь давайте поговорим о том, как же реализовать такую структуру.</p>
+<p>Хранить кучу мы будем в виде массива, где у корня индекс равен <span class="math inline">\(1\)</span>, и у вершины <span class="math inline">\(n\)</span> индексы ее потомков - <span class="math inline">\(2 n\)</span> и <span class="math inline">\(2 n + 1\)</span>. Если значение измененного элемента уменьшается, то свойства кучи восстанавливаются функцией Up.</p>
+<p>Запускаемся из элемента <span class="math inline">\(i\)</span>. Если элемент больше своего отца, то больше ничего делать не нужно. Иначе, мы меняем местами его с отцом и запускаемся от отца. В результате такой функции мы исправим случаи, когда первое условие кучи не соблюдается. Так как каждый раз мы только поднимаемся, то работать функция будет за количество предков вершины, а оно максимум равно высоте дерева.</p>
+<pre><code>void Up(int i) {
+    while (i &gt; 1 &amp;&amp; a[i] &lt; a[i / 2]) {    // i = 1 — корень
+        swap(a[i], a[i / 2]);
+        i = i / 2;
+    }
+}</code></pre>
+<p>Если значение измененного элемента увеличивается, то свойства кучи восстанавливаются функцией Down. Запускаемя от элемента <span class="math inline">\(i\)</span>, если <span class="math inline">\(i\)</span>-й элемент меньше, чем его сыновья, всё поддерево уже является кучей, и делать ничего не надо. В противном случае меняем местами <span class="math inline">\(i\)</span>-й элемент с наименьшим из его сыновей, после чего выполняем Down для этого сына. Так как каждый раз мы спускаемся только в одного сына, то работать функция будет за высоту дерева.</p>
+<pre><code>void Down(int i) {
+    while (2 * i &lt; size) {    // size — количество элементов в куче
+        left = 2 * i;             // left — левый сын
+        right = 2 * i + 1;            // right — правый сын
+        j = left;
+        if (right &lt; size &amp;&amp; a[right] &lt; a[left]) {
+            j = right;
+        }
+        if (a[i] &lt;= a[j]) {
+            break;
+        }
+        swap(a[i], a[j]);
+        i = j;
+   }
+}</code></pre>
+<p>Красивая визуализация: https://visualgo.net/en/heap</p>
+<p>1 операцию мы умеем выполнять, просто спросив про корень.</p>
+<p>Для 2 операции мы меняем последний элемент кучи и корень, а затем уменьшаем размер кучи и вызываем Down для корня.</p>
+<p>3 операция - просто добавление элемента конец в кучи, а затем вызываем для него Up.</p>
+<h3 id="теоретическое-задание">Теоретическое задание</h3>
+<p>Дана куча из рисунка сверху, вам даны 3 запроса, нарисуйте как выглядит куча после каждого запроса: * добавить число 125 * удалить максимальное * вывести максимальное</p>
+<p>В с++ куча реализована в STL в библиотеке &lt;queue&gt; :</p>
+<pre><code>priority_queue&lt;type&gt; Q;
+Q.pop();
+Q.push();
+Q.top();</code></pre>
+<h3 id="практическое-задание">Практическое задание</h3>
+<p>В контесте на информатиксе на эту тему первые 5 задач.</p>
+<h1 id="сортировка">Сортировка</h1>
+<p>На самом первом занятии вы ознакомились с квадратичными алгоритмами сортировки и сортировкой слияниями, а сейчас я вам расскажу гораздо более интересные сортировки.</p>
+<h1 id="сортировка-кучей">Сортировка кучей</h1>
+<p>Только что мы с вами познакомились с кучей. Благодаря ей можно отсортировать числа по возрастанию: просто вставить все числа в кучу, а затем <span class="math inline">\(N\)</span> раз достать минимум. Работает это за <span class="math inline">\(O(NlogN)\)</span> (так как мы <span class="math inline">\(N\)</span> раз вставляем и удаляем элемент, а обе эти операции работают за логарифм).</p>
+<h3 id="практическое-задание-1">Практическое задание</h3>
+<p>(6 задача)</p>
+<h1 id="быстрая-сортировка">Быстрая сортировка</h1>
+<p>Быстрая сортировка заключается в том, что на каждом шаге мы находим опорный элемент, все элементы, которые меньше его кидаем в левую часть, остальные в правую, а затем рекурсивно спускаемся в обе части.</p>
+<p>https://visualgo.net/en/sorting</p>
+<pre><code>void quicksort(int l, int r){
+    if (l &lt; r){
+        int index = (l + r) / 2; /* index - индекс опорного элемента для 
+        начала сделаем его равным середине отрезка*/
+        index = divide(l, r, index); /* divide - функция разбивающие элементы 
+        на меньшие и больше/равные a[index], 
+        при этом функция возвращает границу разбиения*/
+        quicksort(l, index);
+        quicksort(index + 1, r);
+    }
+}</code></pre>
+<p>Давайте оценим асимптотику данной сортировки. На случайных данных она работает за <span class="math inline">\(O(NlogN)\)</span> , так как каждый раз мы будем делить массив на две примерно равные части, то есть суммарно размер рекурсии будет около логарифма и при этом на каждом этапе рекурсии мы просмотрим не более, чем размер массива. Однако можно легко найти две проблемы, одна - одинаковые числа, а вторая - если вдруг середина - минимум или максимум.</p>
+<p>Существуют несколько выходов из этой ситуации :</p>
+<ol type="1">
+<li><p>Давайте если быстрая сортировка работает долго, то запустим любую другую сортировку за <span class="math inline">\(NlogN\)</span>.</p></li>
+<li><p>Давайте делить массив не на две, а на три части(меньше, равны, больше).</p></li>
+<li><p>Чтобы избавиться от проблемы с максимумом/минимумом в середине, давайте <strong>брать случайный элемент</strong>.</p></li>
+</ol>
+<p>###Теоретическое задание</p>
+<p>Вывести оптимальные числа (при которых алгоритм работает быстрее всего) на всех этапах массива (8, 3, 2, 5, 4, 6, 7, 1).</p>
+<h1 id="поиск-k-ой-порядковой-статистики-за-on">Поиск <span class="math inline">\(k\)</span>-ой порядковой статистики за <span class="math inline">\(O(N)\)</span></h1>
+<p>Пусть дан массив <span class="math inline">\(A\)</span> длиной <span class="math inline">\(N\)</span> и пусть дано число <span class="math inline">\(K\)</span>. Задача заключается в том, чтобы найти в этом массиве <span class="math inline">\(K\)</span>-ое по величине число, т.е. <span class="math inline">\(K\)</span>-ую порядковую статистику.</p>
+<p>Давайте поймем, что в быстрой сортировке мы можем узнать, сколько элементов меньше данного, тогда рассмотрим три случая</p>
+<ol type="1">
+<li><p>количество чисел, меньше данного = <span class="math inline">\(k - 1\)</span>, тогда наше число - ответ.</p></li>
+<li><p>количество чисел, меньше данного &gt;= <span class="math inline">\(k\)</span>, тогда спускаемся рекурсивно в левую часть и ищем там ответ.</p></li>
+<li><p>количество чисел, меньше данного &lt; <span class="math inline">\(k\)</span>, спускаемся в правую ищем (<span class="math inline">\(k\)</span> - левая - 1) - ое число.</p></li>
+</ol>
+<p>За сколько же это работает, из быстрой сортировки мы имеем, что размер убывает приблизительно в 2 раза, то есть мы имеем сумму <span class="math inline">\(\sum_{k=1}^n {2 ^ k} = {2^{k+1}-1}\)</span> что в нашем случае это максимум равно <span class="math inline">\(2 * N - 1\)</span>, то есть <span class="math inline">\(O(N)\)</span>.</p>
+<p>Также в с++ эта функция уже реализована :</p>
+<pre><code>nth_element(указатель на начало, указатель на нужный элемент, указатель на конец);</code></pre>
+<h3 id="теоретическое-задание-1">Теоретическое задание</h3>
+<p>Рассказать, как работает алгоритм при k = 5 и массиве - (1, 8, 4, 6, 7, 5, 3, 2), опорный элемент - середина</p>
+<h3 id="практическое-задание-2">Практическое задание</h3>
+<p>3 задачи на еджадже. В 2 из них у вас будет проверяться код.</p>
+<p>Также нужно порешать практический контест на codeforces.</p>
+<h1 id="ссылка-на-контесты">Ссылка на контесты</h1>
+<p>Куча: https://informatics.msk.ru/mod/statements/view.php?id=33379</p>
+<p>Быстрая сортировка: http://ejudge.algocode.ru/cgi-bin/new-client?contest_id=5001</p>
+<p>Практический контест: https://codeforces.com/group/g92L0id9Yb/contest/237751</p>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Сортировки — квадратичные и сортировка слиянием  - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/sorting.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/sorting.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="сортировки-квадратичные-и-сортировка-слиянием">Сортировки — квадратичные и сортировка слиянием</h1>
+<ul>
+<li>Квадратичные сортировки: пузырьком, выбором, вставками</li>
+<li>Сортировка подсчетом</li>
+<li>О-нотация</li>
+<li>Сортировка слиянием*</li>
+<li>Применение сортировки для решения задач</li>
+</ul>
+<p>Мы считаем, что вы уже знаете и умеете следующие вещи: * основы языков Python, C++ или Java (примеры в конспектах будут только на C++) * оператор if * циклы for и while * создание функций * концепцию рекурсии * поиск минимума в массиве</p>
+<h2 id="квадратичные-сортировки">Квадратичные сортировки</h2>
+<p>Задача <strong>сортировки</strong> массива заключается в том, чтобы расставить его элементы в определённом порядке (чаще всего - по неубыванию. Это означает, что каждый элемент должен быть больше или равен всех предыдущих).</p>
+<p>А именно мы хотим написать такую функцию <code>sort_array</code>, которая принимает массив в качестве аргумента и сортирует его элементы:</p>
+<pre><code>def sort_array(array):
+    # надо придумать, что написать здесь
+
+array = [1, -3, 7, 88, 7]
+sort_array(array)
+print(array)</code></pre>
+<pre><code>[1, -3, 7, 88, 7]</code></pre>
+<h3 id="задание">Задание</h3>
+<p>Какие вы знаете алгоритмы сортировки?</p>
+<p>Если вы не знаете ни одного алгоритма, то придумайте какой-нибудь разумный алгоритм сами.</p>
+<h3 id="сортировка-пузырьком">Сортировка пузырьком</h3>
+<p>Это самый популярный алгоритм сортировки, хоть он и не самый очевидный.</p>
+<p>Пусть <span class="math inline">\(N\)</span> - длина массива. Сортировка пузырьком заключается в том, что мы просто <span class="math inline">\(N\)</span> раз пройдемся по массиву и будем менять два соседних элемента, если первый больше второго.</p>
+<p>Ссылка на красивую визуализацию: https://visualgo.net/nl/sorting</p>
+<p>Заметьте, как каждую итерацию максимальный элемент “всплывает как пузырек” к концу массива.</p>
+<pre><code>def bubble_sort(array):
+    n = len(array) # длина массива
+    for i in range(n): # n раз выполняем цикл
+        for j in range(n - 1): # проходимся по всем элементам кроме последнего
+            if array[j] &gt; array[j + 1]: # сравниваем элемент по следующим
+                a[j], a[j + 1] = a[j + 1], a[j] # меняем местами, если следующий меньше
+
+a = [1, -3, 7, 88, 7]
+bubble_sort(a)
+print(a)</code></pre>
+<pre><code>[-3, 1, 7, 7, 88]</code></pre>
+<p>Заметьте, что <strong>после <span class="math inline">\(i\)</span> шагов алгоритма сортировки пузырьком последние <span class="math inline">\(i + 1\)</span> чисел всегда отсортированы</strong>. Именно поэтому алгоритм и работает.</p>
+<p>И именно поэтому его можно немного ускорить.</p>
+<h3 id="задание-1">Задание</h3>
+<p>Подумайте, какие лишние элементы мы перебираем. Как нужно изменить границы в двух циклах for, чтобы не делать никаких бесполезных действий?</p>
+<h3 id="сортировка-выбором">Сортировка выбором</h3>
+<p>Более понятным и придумываемым способом является <strong>сортировка выбором</strong> минимума (или максимума).</p>
+<p>Чтобы отсортировать массив, нужно просто <span class="math inline">\(N\)</span> раз выбрать минимум среди еще неотсортированных чисел. То есть на <span class="math inline">\(i\)</span>-ом шаге ищется минимум на отрезке <span class="math inline">\([i, n - 1]\)</span>, и этот минимум меняется с <span class="math inline">\(i\)</span>-ым элементом, теперь отрезок <span class="math inline">\([0, i]\)</span> отсортирован.</p>
+<p><a href="https://visualgo.net/nl/sorting">Красивая визуализация</a> (вкладка SEL).</p>
+<h3 id="сортировка-вставками">Сортировка вставками</h3>
+<p>Также существует <strong>сортировка вставками</strong>.</p>
+<p><strong>Префиксом</strong> длины <span class="math inline">\(i\)</span> будем называть первые <span class="math inline">\(i\)</span> элементов массива.</p>
+<p>Тогда пусть на <span class="math inline">\(i\)</span>-ом шаге у нас уже будет отсортирован префикс до <span class="math inline">\(i\)</span>-го элемента. Чтобы этот префикс увеличить, нужно взять элемент, идущий после него, и менять с левым соседом, пока этот элемент наконец не окажется больше своего левого соседа. Если в конце он больше левого соседа, но меньше правого - это значит, что мы правильно вставили этот элемент в отсортированную часть массива.</p>
+<p><a href="https://visualgo.net/nl/sorting">Красивая визуализация</a> (вкладка INS).</p>
+<h3 id="задание-2">Задание</h3>
+<p>Сдайте 4 первые задачи в <a href="https://informatics.msk.ru/mod/statements/view.php?id=33164">контесте</a>:</p>
+<ol type="1">
+<li>Напишите сортировку пузырьком.</li>
+<li>Напишите сортировку выбором максимума.</li>
+<li>Напишите сортировку вставками.</li>
+<li>Выберите любой алгоритм и примените его для сортировки пар.</li>
+</ol>
+<p>При сдаче задач нельзя пользоваться встроенной сортировкой!</p>
+<h3 id="сортировка-подсчетом">Сортировка подсчетом</h3>
+<p>Предыдущие три алгоритма работали с массивами, в которых лежат абсолютно любые объекты, которые можно сравнивать. Любые числа, строки, пары, другие массивы, почти все что угодно.</p>
+<p>Но в особых случаях, когда элементы принадлежат какому-то маленькому множеству, можно использовать другой алгоритм — <strong>сортировку подсчетом</strong>.</p>
+<p>Пусть, например, нам <strong>гарантируется, что все числа натуральные и лежат в промежутке от 1 до 100</strong>.</p>
+<p>Тогда есть такой простой алгоритм: создадим массив размера <span class="math inline">\(100\)</span>, в котором будем хранить на <span class="math inline">\(i\)</span>-ом месте, сколько раз число <span class="math inline">\(i\)</span> встретилось в этом массиве. Пройдемся по всем числам, и увеличим соответствующее значение массива на <span class="math inline">\(1\)</span>. Таким образом мы подсчитали, сколько раз какое число встретилось. Теперь можно просто пройтись по этому массиву и вывести <span class="math inline">\(1\)</span> столько раз, сколько раз встретилась <span class="math inline">\(1\)</span>, вывести <span class="math inline">\(2\)</span> столько раз, сколько встретилась <span class="math inline">\(2\)</span>, и так далее.</p>
+<p><a href="https://visualgo.net/nl/sorting">Красивая визуализация</a> (вкладка COU).</p>
+<h3 id="задание-3">Задание</h3>
+<p>Сдайте 5, 6 и 7 задачи в <a href="https://informatics.msk.ru/mod/statements/view.php?id=33164">контесте</a>:</p>
+<ol start="5" type="1">
+<li>Напишите сортировку подсчетом.</li>
+<li>Придумайте, как преобразовать сортировку подсчетом, чтобы она работала быстро.</li>
+<li>Придумайте, как использовать идею сортировки подсчетом в этой задаче.</li>
+</ol>
+<p>При сдаче задач нельзя пользоваться встроенной сортировкой!</p>
+<h2 id="о-нотация">О-нотация</h2>
+<p>Очень часто требуется оценить, сколько времени работают эти алгоритмы. Но тут возникают проблемы:</p>
+<ul>
+<li>на разных компьютерах время работы всегда будет слегка отличаться;</li>
+<li>чтобы измерить время, придётся запустить сам алгоритм, но иногда приходится оценивать алгоритмы, требующие часы или даже дни работы.</li>
+</ul>
+<p>Зачастую основной задачей программиста становится оптимизировать алгоритм, выполнение которого займёт тысячи лет, до какого-нибудь адекватного времени работы. Поэтому хотелось бы уметь предсказывать, сколько времени займёт выполнение алгоритма ещё до того, как мы его запустим.</p>
+<p>Для этого давайте для начала попробуем оценить <strong>число операций</strong> в алгоритме.</p>
+<p>Возникает вопрос: какие именно операции считать. Можно считать любые элементарные операции: * арифметические операции с числами: <code>+, -, *, /</code> * сравнение чисел: <code>&lt;, &gt;, &lt;=, &gt;=, ==, !=</code> * присваивание: <code>a[0] = 3</code></p>
+<p>При этом надо учитывать, как реализованы некоторые отдельные вещи в самом языке. Например, в питоне срезы массива (<code>array[3:10]</code>) копируют этот массив, то есть этот срез работает за 7 элементарных действий. А <code>swap</code>, например, может работать за 3 присваивания.</p>
+<h3 id="задание-4">Задание</h3>
+<p>Попробуйте посчитать точное число <strong>сравнений</strong> в сортировках пузырьком, выбором, вставками и подсчетом в худшем случае (это должна быть какая формула, зависящая от <span class="math inline">\(N\)</span> - длины массива). Для сортировки подсчетом давайте считать, что все числа целые и лежат в промежутке от 1 до <span class="math inline">\(M\)</span></p>
+<p>И также посчитайте точное число <strong>присваиваний</strong> в сортировках пузырьком, выбором, вставками и подсчетом в худшем случае. Давайте считать, что <code>swap</code> — это 3 присваивания.</p>
+<p>Ниже будут ответы</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>В худшем случае алгоритмы работают за столько сравнений:</p>
+<ul>
+<li>Сортировка пузырьком (без улучшения): <span class="math inline">\(N(N-1)\)</span></li>
+<li>Сортировка пузырьком (с улучшением): <span class="math inline">\((N-1) + (N-2) + \ldots + 1 = \frac{N(N-1)}{2}\)</span></li>
+<li>Сортировка выбором: <span class="math inline">\((N-1) + (N-2) + \ldots + 1 = \frac{N(N-1)}{2}\)</span></li>
+<li>Сортировка вставками: <span class="math inline">\(1 + 2 + \ldots + (N-1) = \frac{N(N-1)}{2}\)</span></li>
+<li>Сортировка подсчетом: нет сравнений</li>
+</ul>
+<p>И столько присваиваний: * Сортировка пузырьком (без улучшения): <span class="math inline">\(3\frac{N(N-1)}{2}\)</span> * Сортировка пузырьком (с улучшением): <span class="math inline">\(3\frac{N(N-1)}{2}\)</span> * Сортировка выбором: <span class="math inline">\(3(N-1) + \frac{N(N-1)}{2}\)</span> * Сортировка вставками: <span class="math inline">\(3\frac{N(N-1)}{2}\)</span> * Сортировка подсчетом: <span class="math inline">\(N + M\)</span> (<span class="math inline">\(M\)</span> - это создание массива)</p>
+<p>Но чтобы учесть все элементарные операции, ещё надо посчитать, например, сколько раз прибавилась единичка внутри цикла <code>for</code>. А ещё, например, строчка <code>n = len(array)</code> - это тоже действие.</p>
+<p>Также не сразу очевидно, какой из этих алгоритмов работает быстрее. Сравнивать формулы сложно. Хочется придумать способ упростить эти формулы так, чтобы:</p>
+<ul>
+<li>не нужно было учитывать много информации, не очень сильно влияющей на итоговое время;</li>
+<li>легко было оценивать время работы разных алгоритмов для больших чисел;</li>
+<li>легко было сравнивать алгоритмы на предмет того, какой из них лучше подходит для тех или иных входных данных.</li>
+</ul>
+<p>Для этого придумали <strong><span class="math inline">\(O\)</span>-нотацию</strong> - асимптотическое время работы вместо точного (часто его ещё называют асимптотикой).</p>
+<p>Пусть <span class="math inline">\(f(N)\)</span> - это какая-то функция. Говорят, что алгоритм работает за <span class="math inline">\(O(f(N))\)</span>, если существует число <span class="math inline">\(C\)</span>, такое что алгоритм работает не более чем за <span class="math inline">\(C \cdot f(N)\)</span> операций.</p>
+<p>В таких обозначениях можно сказать, что * Сортировка пузырьком работает за <span class="math inline">\(O(N^2)\)</span> * Сортировка выбором работает за <span class="math inline">\(O(N^2)\)</span> * Сортировка вставками работает за <span class="math inline">\(O(N^2)\)</span> * Сортировка подсчетом работает за <span class="math inline">\(O(N + M)\)</span></p>
+<p>Это обозначение удобно тем, что оно короткое и понятное, а также оно не зависит от умножения на константу или прибавления константы. Если алгоритм работает за <span class="math inline">\(O(N^2)\)</span>, то это может значить, что он работает за <span class="math inline">\(N^2\)</span>, за <span class="math inline">\(N^2 + 3\)</span>, за <span class="math inline">\(\frac{N(N-1)}{2}\)</span> или даже за <span class="math inline">\(1000 \cdot N^2 + 1\)</span> действие. Главное, что функция ведет себя как <span class="math inline">\(N^2\)</span>, то есть при увеличении <span class="math inline">\(N\)</span> (в данном случае это длина массива) он увеличивается как некоторая квадратичная функция. Например, если увеличить <span class="math inline">\(N\)</span> в 10 раз, время работы программы увеличится приблизительно в 100 раз.</p>
+<p>Поэтому все эти рассуждения про то, сколько операций в <code>swap</code> или считать ли отдельно присваивания, сравнения и циклы - отпадают. Как бы вы ни ответили на эти вопросы, они меняют ответ на константу, а значит асимптотическое время работы алгоритма никак не меняется.</p>
+<p>Первые три сортировки именно поэтому называют <strong>квадратичными</strong> - они работают за <span class="math inline">\(O(N^2)\)</span>. Сортировка подсчетом работает намного быстрее - она работает за <span class="math inline">\(O(N + M)\)</span> действий, то есть если в задаче <span class="math inline">\(M &lt; N\)</span>, то это вообще линейная функция <span class="math inline">\(O(N)\)</span>. Линейная функция растет гораздо медленнее, чем квадратичная, так что эта сортировка гораздо лучше, чем любая другая квадратичная. У нее есть лишь один недостаток - ее можно применять только если множество значений конечное и состоит из чисел от <span class="math inline">\(1\)</span> до <span class="math inline">\(M\)</span>.</p>
+<h3 id="задание-5">Задание</h3>
+<p>Найдите асимптотику данных функций. Максимально упростите ответ (например, до <span class="math inline">\(O(N)\)</span>, <span class="math inline">\(O(N^2)\)</span> и т. д.).</p>
+<ul>
+<li><span class="math inline">\(\frac{N}{3}\)</span></li>
+<li><span class="math inline">\(\frac{N(N-1)(N-2)}{6}\)</span></li>
+<li><span class="math inline">\(1 + 2 + 3 + \ldots + N\)</span></li>
+<li><span class="math inline">\(1^2 + 2^2 + 3^2 + \ldots + N^2\)</span></li>
+<li><span class="math inline">\(\log{N} + 3\)</span></li>
+<li><span class="math inline">\(7\)</span></li>
+<li><span class="math inline">\(10^{100}\)</span></li>
+</ul>
+<h3 id="задание-6">Задание</h3>
+<p>Найдите асимптотическое время работы данных функций:</p>
+<pre><code>def f(n):
+    s = 0
+    for i in range(n):
+        for j in range(n):
+            s += i * j
+    return s
+
+f(10)</code></pre>
+<pre><code>2025</code></pre>
+<pre><code>def g(n):
+    s = 0
+    for i in range(n):
+        s += i
+    for i in range(n):
+        s += i * i
+    return s
+
+g(10)</code></pre>
+<pre><code>330</code></pre>
+<pre><code>def h(n):
+    if n == 0:
+        return 1
+    return h(n - 1) * n
+
+h(10)</code></pre>
+<pre><code>3628800</code></pre>
+<h3 id="задание-7">Задание</h3>
+<p>Найдите лучшее время работы алгоритмов, решающих данные задачи: * Написать числа от <span class="math inline">\(1\)</span> до <span class="math inline">\(N\)</span> * Написать все тройки чисел от <span class="math inline">\(1\)</span> до <span class="math inline">\(N\)</span> * Найти разницу между максимумом и минимумом в массиве * Найти число единиц в бинарной записи числа <span class="math inline">\(N\)</span></p>
+<h2 id="сортировка-слиянием-для-тех-кто-всё-успевает">Сортировка слиянием* (для тех, кто всё успевает)</h2>
+<p>Возникает вопрос: а бывают ли сортировки, которые быстрее, чем квадратиные, и работают всегда?</p>
+<p>Ответ — да. Есть несколько известных сортировок, работающих за <span class="math inline">\(O(N \log{N})\)</span>, и доказано, что асимптотически быстрее сортировок не бывает.</p>
+<p>Давайте подробнее рассмотрим <strong>сортировку слиянием</strong>, она же <strong>MergeSort</strong>.</p>
+<p>Ссылка на красивую визуализацию: https://visualgo.net/nl/sorting (вкладка MER)</p>
+<p>Для начала определим функцию <strong>слияния</strong> (<strong><code>merge</code></strong>) двух отсортированных массивов - она возвращает отсортированный массив, состоящий из элементов обоих массивов, и работает при этом за <span class="math inline">\(O(N)\)</span> (где <span class="math inline">\(N\)</span> - общее число элементов).</p>
+<pre><code>def merge(a, b):
+    # надо придумать, что написать здесь
+
+merge([1, 3, 7, 10, 100], [2, 7, 7, 7, 11, 13, 18])</code></pre>
+<pre><code>[1, 2, 3, 7, 7, 7, 7, 10, 11, 13, 18, 100]</code></pre>
+<p>В сущности слить два массива просто - это делается с помощью двух указателей <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span>. Изначально они равны <span class="math inline">\(0\)</span> (то есть указывают на нулевые элементы массивов <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>). После этого достаточно смотреть на элементы <span class="math inline">\(a[i]\)</span> и <span class="math inline">\(b[j]\)</span> и минимальный из них класть в результирующий массив, после чего соответствующий указатель надо двигать дальше. Дальше нужно повторять этот процесс заново, пока мы не дошли до конца обоих массивов.</p>
+<p>Когда функция <code>merge</code> уже написана, сам <code>merge_sort</code> писать уже легко - надо воспользоваться рекурсией. Чтобы отсортировать массив, достаточно отдельно отсортировать его левую и правую половины рекурсивно, и после этого эти половины слить.</p>
+<p>Для удобства написания кода фунции можно сделать вот такими:</p>
+<pre><code>def merge(array, a, b, c):
+    # функция сливает элементы массива array [a, b) и [b, c)
+    # надо придумать, что написать здесь
+
+arr = [1, 1, 7, 10, 100, 2, 7, 40, 78, 6, 13, 100]
+merge(arr, 6, 9, 12)
+print(arr)
+merge(arr, 0, 6, 12)
+print(arr)</code></pre>
+<pre><code>[1, 1, 7, 10, 100, 2, 6, 7, 13, 40, 78, 100]
+[1, 1, 2, 6, 7, 7, 10, 13, 40, 78, 100, 100]</code></pre>
+<pre><code>def mergesort(array, a, c):
+    # функция сортирует элементы массива array [a, c)
+    # надо придумать, что написать здесь
+
+arr = [1, 1, 7, 10, 100, 2, 7, 40, 78, 6, 13, 100]
+mergesort(arr, 6, 12)
+print(arr)
+
+arr = [1, 1, 7, 10, 100, 2, 7, 40, 78, 6, 13, 100]
+mergesort(arr, 0, 12)
+print(arr)</code></pre>
+<h3 id="задание-8">Задание</h3>
+<p>Разобраться, реализовать сортировку слиянием и сдать последнюю задачу в этом контесте:</p>
+<p>https://informatics.msk.ru/mod/statements/view3.php?id=33164</p>
+<p>Чтобы сдать это задание, нужно писать красивый код - будет проведено ревью.</p>
+<h2 id="применение-сортировки-для-решения-задач">Применение сортировки для решения задач</h2>
+<p>Также сортировка очень часто применяется как часть решения олимпиадных задач. В таких случаях обычно используют встроенную сортировку sort. Она на разных языках может быть реализована по-разному, но везде она работает за <span class="math inline">\(O(N log N)\)</span>, и, обычно, неплохо оптимизирована.</p>
+<pre><code># На питоне она пишется так
+a = [1, 5, 10, 5, -4]
+a.sort()
+print(a)</code></pre>
+<pre><code>[-4, 1, 5, 5, 10]</code></pre>
+<pre><code>// на C++11 она пишется так
+
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+
+using namespace std;
+
+int main() {
+    vector&lt;int&gt; v = {1, 5, 10, 5, -4};
+    sort(v.begin(), v.end());
+    for (auto x : v) {
+        cout &lt;&lt; x &lt;&lt; &quot; &quot;;
+    }
+}</code></pre>
+<h3 id="задание-9">Задание</h3>
+<p>Решить как можно больше задач из этого контеста:</p>
+<p>https://informatics.msk.ru/mod/statements/view.php?id=33855</p>
+<p>В этом контесте можно и нужно использовать встроенную сортировку sort.</p>
+</body>
+</html>

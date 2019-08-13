@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Перебор - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <!--<a href='https://algorithmica.org/ru/'>На главную</a>-->
+        <a href='https://github.com/algorithmica-org/articles/edit/master/src/ru/object-generation.md'>Редактировать</a>
+        <!--<a href='https://github.com/algorithmica-org/articles/commits/master/src/ru/object-generation.md'>История изменений</a>-->
+    </div>
+</div>
+<h1 id="перебор">Перебор</h1>
+<p>Часто в комбинаторных задачах нужно перебрать ВСЕ возможные варианты чего-нибудь. Чаще всего это какой-нибудь комбинаторный объект типа подмножеств, k-ичных чисел, сочетаний или перестановок.</p>
+<p>Учебные задачи могут звучать прямо как “переберите все перестановки”. Но перебор может помочь решить и какие-нибудь реальные задачи, встречающиеся в олимпиадах.</p>
+<p>Например, задачу об укладке N предметов в рюкзак можно решить просто перебором всех подмножеств и выбором самого лучшего из них. Для случая, когда веса предметов - это действительные числа, быстрые полиномиальные решения с динамикой не работают, и надо писать именно перебор.</p>
+<h2 id="перебор-всех-подмножеств">Перебор всех подмножеств</h2>
+<p>Подмножество <span class="math inline">\(N\)</span>-элементного множества задается <strong>маской</strong> - строкой из <span class="math inline">\(N\)</span> цифр 0 или 1. Задача перебора всех подмножеств заключается в том, что надо вывести их все, причем <strong>в лексикографическом порядке</strong>.</p>
+<p>Это можно делать двумя способами. Первый - это заметить, что достаточно просто вывести все числа от <span class="math inline">\(0\)</span> до <span class="math inline">\(2^N - 1\)</span> в двоичном формате.</p>
+<p>Кстати, выводить числа в двоичном формате очень просто, так как числа хранятся в компьютере уже в двоичном формате. Очень удобно воспользоваться двоичными операциями. Например, <span class="math inline">\(x &lt;&lt; y\)</span> возвращает число <span class="math inline">\(x\)</span>, которое в двоичном формате сдвинули вправо на <span class="math inline">\(y\)</span> битов. То есть у него появилось справа <span class="math inline">\(y\)</span> нулей. Можно сказать, что <span class="math inline">\(x &lt;&lt; y = x 2^y\)</span>. Поэтому часто пишут <span class="math inline">\(1 &lt;&lt; n\)</span>, это значит <span class="math inline">\(2^n\)</span>, и работает гораздо гораздо быстрее, чем обычное возведение в степень.</p>
+<p>А как вывести двоичное представление числа <span class="math inline">\(x\)</span>? А именно как узнать <span class="math inline">\(i\)</span>-ый справа бит числа <span class="math inline">\(x\)</span>? Можно воспользоваться логической операцией И (<span class="math inline">\(\&amp;\)</span>). Она берет два числа, и возвращает число, у которого <span class="math inline">\(i\)</span>-ый бит равен 1, если оба <span class="math inline">\(i\)</span>-ых бита этих чисел равны 1, а иначе 0.</p>
+<p>Тогда <span class="math inline">\(i\)</span>-ый бит числа <span class="math inline">\(x\)</span> можно извлечь благодаря операции <span class="math inline">\(x \&amp; (2^i)\)</span>. Если он равен 1, то эта операция вернет число <span class="math inline">\(2^i\)</span>, а иначе она вернет <span class="math inline">\(0\)</span>.</p>
+<pre><code>n = 3
+for subset in range(2 ** n):
+    for bit in range(n):
+        if subset &amp; 1 &lt;&lt; bit:
+            print(1, end = &#39;&#39;)
+        else:
+            print(0, end = &#39;&#39;)
+    print()</code></pre>
+<pre><code>000
+100
+010
+110
+001
+101
+011
+111</code></pre>
+<p>Но есть и второй способ - более общий, и им мы будем пользоваться для всех задач перебора. Идея состоит в вызове рекурсивной функции gen.</p>
+<p>У функции gen есть два аргумента * n - это финальная длина подмножества * prefix - это ссылка на список/вектор с уже сгенерированным префиксом подмножества</p>
+<pre><code>def gen(n, prefix=[]):
+  if len(prefix) == n:
+    print(&#39;&#39;.join(prefix))
+    return
+  prefix.append(&#39;0&#39;)
+  gen(n, prefix)
+  prefix.pop()
+
+  prefix.append(&#39;1&#39;)
+  gen(n, prefix)
+  prefix.pop()
+
+gen(3)</code></pre>
+<pre><code>000
+001
+010
+011
+100
+101
+110
+111</code></pre>
+<pre><code># или так
+
+def gen(n, prefix_len=0, prefix=[&#39;0&#39;] * n):
+  if prefix_len == n:
+    print(&#39;&#39;.join(prefix))
+    return
+  prefix[prefix_len] = &#39;0&#39;
+  gen(n, prefix_len + 1, prefix)
+
+  prefix[prefix_len] = &#39;1&#39;
+  gen(n, prefix_len + 1, prefix)
+
+gen(3)</code></pre>
+<pre><code>000
+001
+010
+011
+100
+101
+110
+111</code></pre>
+<p>Обратите внимание, как это работает: функция gen(n, prefix) перебирает, чему равен символ, следующий после prefix - либо 0, либо 1. Оба эти варианта возможны, и для них обоих нужно сгенерировать и вывести все возможные продолжения этого префикса.</p>
+<p>Почему получилось вывести все подмножества в лексикографическом порядке? Потому что на каждом шаге мы сначала рассматривали случай, когда символ равен 0, и выводили все такие подмножества, а потом уже случай, когда он равен 1. Чтобы вывести все те же множества в обратном лексикографичеспорядком порядке, надо поменять местами вызовы для 0 и 1.</p>
+<h2 id="перебор-k-ичных-чисел">Перебор k-ичных чисел</h2>
+<p>Пусть, нам требуется перебрать все <span class="math inline">\(k\)</span>-ичные числа длины <span class="math inline">\(n\)</span>. Например, это может быть нужно в переборе, где каждый из <span class="math inline">\(n\)</span> объектов может принимать любое из <span class="math inline">\(k\)</span> состояний.</p>
+<p>Это несложное усложнение предыдущей задачи. И ее тоже можно решать двумя способами. Первый - это просто перебрать числа от <span class="math inline">\(0\)</span> до <span class="math inline">\(k^n - 1\)</span> и вывести их в <span class="math inline">\(k\)</span>-ичной форме.</p>
+<p>Второй - это применить рекурсивную функцию. Будем генерировать цифры числа по одной, перебирая все возможные варианты.</p>
+<pre><code>n = 2
+k = 3
+
+def gen(n, k, prefix=[]):
+  if len(prefix) == n:
+    print(&#39;&#39;.join(prefix))
+    return
+  for i in range(k):
+    prefix.append(str(i))
+    gen(n, k, prefix)
+    prefix.pop()
+
+gen(n, k)</code></pre>
+<pre><code>00
+01
+02
+10
+11
+12
+20
+21
+22</code></pre>
+<h2 id="перебор-перестановок">Перебор перестановок</h2>
+<p>Теперь мы хотим перебрать все перестановки длины <span class="math inline">\(N\)</span>, тоже в лексикографическом порядке.</p>
+<p>Первый способ с циклом по двоичным числам тут уже не сработает. Но второй способ прекрасно обобщается. Будем делать абсолютно так же, перебирать все время новую цифру. Но появляется особенность - нельзя выбирать цифру, которая уже встречалась в перестановке ранее. Для удобства будем хранить массив bool-ов used.</p>
+<pre><code>n = 4
+used = [False] * n
+
+def gen(n, used, prefix=[]):
+  if len(prefix) == n:
+    print(&#39;&#39;.join(prefix))
+    return
+  for i in range(n):
+    if not used[i]:
+      used[i] = True
+      prefix.append(str(i))
+      gen(n, used, prefix)
+      used[i] = False
+      prefix.pop()
+
+gen(n, used)</code></pre>
+<pre><code>0123
+0132
+0213
+0231
+0312
+0321
+1023
+1032
+1203
+1230
+1302
+1320
+2013
+2031
+2103
+2130
+2301
+2310
+3012
+3021
+3102
+3120
+3201
+3210</code></pre>
+<h2 id="перебор-сочетаний">Перебор сочетаний</h2>
+<p>Сочетания из <span class="math inline">\(n\)</span> по <span class="math inline">\(k\)</span> удобно представить как отсортированный набор из <span class="math inline">\(k\)</span> разных чисел от <span class="math inline">\(1\)</span> до <span class="math inline">\(n\)</span>. Интересно их тоже все вывести в лексикографическом порядке. Для <span class="math inline">\(n = 5, k = 3\)</span> это сочетания от <span class="math inline">\(1 2 3\)</span> до <span class="math inline">\(3 4 5\)</span>.</p>
+<p>Эту задачу можно решить с помощью нашего рекурсивного подхода, но надо делать это аккуратно и не перебирать ни в какой момент лишние сочетания.</p>
+<p>Но давайте вместо этого рассмотрим другой, новый подход. Давайте научимся <strong>генерировать следующее сочетание</strong> в смысле лексикографического порядке на основе текущего. Это тоже делается примерно одним и тем же способом всегда.</p>
+<p>Первым сочетанием, возьмем просто числа от <span class="math inline">\(1\)</span> до <span class="math inline">\(k\)</span>. Пусть теперь мы зафиксировали текущее сочетание.</p>
+<p><strong>Надо увеличивать последний элемент, который мы еще можем увеличить</strong>, а всем последующим присвоить минимальные возможные значения. Если увеличить ничего нельзя, то полученное сочетание – максимальное. Когда элемент на позиции <span class="math inline">\(i\)</span> (считая с 0) можно увеличить? Когда существуют хотя бы <span class="math inline">\(k-i\)</span> чисел больше текущего, чтобы можно было поставить их после него.</p>
+<pre><code>n = 5
+k = 3
+
+# самое первое сочетание
+combination = [i+1 for i in range(k)]
+
+def next_combination(combination):
+    # изменяет массив на следующее лексикографически сочетание
+    for i in range(k - 1, -1, -1):
+        if combination[i] &lt;= n - k + i:
+            combination[i] += 1
+            for j in range(i + 1, k):
+                combination[j] = combination[j - 1] + 1
+            return True
+    return False
+
+print(combination)
+while next_combination(combination):
+    print(combination)</code></pre>
+<pre><code>[1, 2, 3]
+[1, 2, 4]
+[1, 2, 5]
+[1, 3, 4]
+[1, 3, 5]
+[1, 4, 5]
+[2, 3, 4]
+[2, 3, 5]
+[2, 4, 5]
+[3, 4, 5]</code></pre>
+<p>Кроме того, такой подход подойдет для генерации лексикографически следующей комбинации рассмотренных раньше типов. Так у <span class="math inline">\(k\)</span>-ичного числа можно находить последнюю цифру, не равную <span class="math inline">\(k-1\)</span>, увеличивать ее, а все последующие заменить на 0. Аналогично с генерацией подмножеств.</p>
+<h2 id="можно-проще">Можно проще</h2>
+<p>Разумеется, многое из этого уже было написано. Так, в C++, есть функция <code>std::next_permutation</code>, которая делает из перестановки следующую, а в питоне есть модуль <code>itertools</code>, который содержит несколько полезных функций.</p>
+<pre><code>from itertools import product, combinations, permutations
+print(&quot;k-ичные числа&quot;)
+for i in product(&#39;012&#39;, repeat=2):
+    print(&#39;&#39;.join(i))
+    
+print(&quot;Перестановки&quot;)
+for i in permutations(&#39;012&#39;, 3):
+    print(&#39;&#39;.join(i))
+    
+print(&quot;Сочетания&quot;)
+for i in combinations([1,2,3,4], 3):
+    print(i)</code></pre>
+<pre><code>k-ичные числа
+00
+01
+02
+10
+11
+12
+20
+21
+22
+Перестановки
+012
+021
+102
+120
+201
+210
+Сочетания
+(1, 2, 3)
+(1, 2, 4)
+(1, 3, 4)
+(2, 3, 4)</code></pre>
+</body>
+</html>
