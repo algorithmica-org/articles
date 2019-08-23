@@ -1,6 +1,9 @@
 #!/bin/bash
-cp -r src/{en,ru,tg}/img web/
 mkdir -p web/{en,ru,tg}
+for sec in {en,ru,tg}
+do
+    cp -r src/${sec}/img web/${sec}/img
+done
 cd src
 for file in `find {en,ru,tg} -iname "*.md" -type f`
 do
