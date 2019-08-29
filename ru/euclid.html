@@ -168,7 +168,7 @@ a, &amp; b = 0 \\
 <a class="sourceLine" id="cb3-7" title="7">}</a></code></pre></div>
 <p>В компиляторе <code>gcc</code> для этого уже есть встроенная функция <code>__gcd</code>, которая, впрочем, может непредсказуемо себя вести на отрицательных числах и <span class="math inline">\((0, 0)\)</span>.</p>
 <h3 id="время-работы">Время работы</h3>
-<p>Оценка <span class="math inline">\(O(\log n)\)</span> относится к худшему случаю. Асимптотика <em>в среднем</em> это <a href="https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%95%D0%B2%D0%BA%D0%BB%D0%B8%D0%B4%D0%B0#%D0%92%D1%8B%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F_%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D1%8C_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D0%B0">более интересный вопрос</a>, играющий существенную роль в <a href="https://algorithmica.org/ru/pollard">некоторых алгоритмах</a>.</p>
+<p>Оценка <span class="math inline">\(O(\log n)\)</span> относится к худшему случаю. Асимптотика <em>в среднем</em> это <a href="https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%95%D0%B2%D0%BA%D0%BB%D0%B8%D0%B4%D0%B0#%D0%92%D1%8B%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F_%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D1%8C_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D0%B0">более интересный вопрос</a>, играющий существенную роль в <a href="pollard">некоторых алгоритмах</a>.</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Euclidean_Algorithm_Running_Time.svg/2560px-Euclidean_Algorithm_Running_Time.svg.png" /></p>
 <p>Примечательно, что худшие входные данные для алгоритма — это соседние числа Фибоначчи. На графике они видны как синие точки в пропорциях золотого сечения.</p>
 <p>Также иногда полезно знать, что нахождение <span class="math inline">\(\gcd\)</span> группы из <span class="math inline">\(n\)</span> чисел от <span class="math inline">\(1\)</span> до <span class="math inline">\(A\)</span> будет работать не за <span class="math inline">\(O(n \log A)\)</span>, а за <span class="math inline">\(O(n + \log A)\)</span> — это несложно доказать по индукции.</p>
@@ -178,7 +178,7 @@ a, &amp; b = 0 \\
 <p><span class="math display">\[
 a \cdot x + b \cdot y = g
 \]</span></p>
-<p>Эта модификация алгоритма интересна, потому что с помощью неё можно искать <a href="https://algorithmica.org/ru/reciprocal">обратный элемент по модулю</a>: такой элемент <span class="math inline">\(a^{-1}\)</span>, что <span class="math inline">\(a \cdot a^{1} \equiv 1\)</span>, что то же самое, что найти решение в целых числах:</p>
+<p>Эта модификация алгоритма интересна, потому что с помощью неё можно искать <a href="reciprocal">обратный элемент по модулю</a>: такой элемент <span class="math inline">\(a^{-1}\)</span>, что <span class="math inline">\(a \cdot a^{1} \equiv 1\)</span>, что то же самое, что найти решение в целых числах:</p>
 <p><span class="math display">\[
 a^{-1} \cdot a + k \cdot m = 1
 \]</span></p>
