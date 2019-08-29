@@ -53,11 +53,23 @@ body {
 
 .credits {
     font-size: 14px;
-    margin: 10px 65px -40px 65px;
-    padding: 8px 16px 0 16px;
+    margin: 25px 10px -40px 15px;
+    padding: 16px 50px 0 50px;
     /* text-align: left; */
-    border-top: 1px solid #999;
-    color: #666;
+    border-top: 1px solid #666;
+    color: black;
+}
+
+.credits table {
+    border: none;
+    margin-left: 46px;
+    margin-bottom: 10px;
+}
+
+.credits table td{
+    border: none;
+    padding: 0;
+    padding-left: 1.5em;
 }
 
 #header {
