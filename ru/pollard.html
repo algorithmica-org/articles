@@ -142,7 +142,7 @@ f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}
 <p><strong>Утверждение</strong>. Ожидаемая длина цикла в этой последовательности <span class="math inline">\(O(\sqrt[4]{n})\)</span>.</p>
 <p><em>Доказательство:</em> так как <span class="math inline">\(p\)</span> — меньший делитель, то <span class="math inline">\(p \leq \sqrt n\)</span>. Теперь просто подставлим в следствие из парадокса дней рождений: в множество нужно добавить <span class="math inline">\(O(\sqrt{p}) = O(\sqrt[4]{n})\)</span> элементов, чтобы какие-то два совпали, а значит последовательность зациклилась.</p>
 <p>Если мы найдём цикл в такой последовательности — то есть такие <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span>, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0) \pmod p\)</span> — то мы сможем найти и какой-то делитель <span class="math inline">\(n\)</span>, а именно <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n)\)</span> — это число меньше <span class="math inline">\(n\)</span> и делится на <span class="math inline">\(p\)</span>.</p>
-<p>Алгоритм по сути находит цикл в этой последовательности, используя для этого стандартный алгоритм («черепаха и заяц»): будем поддерживать два удаляющихся друг от друга указателя <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> (<span class="math inline">\(i = 2j\)</span>) и проверять, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0) \pmod p\)</span>, что эквивалентно проверке <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n) &gt; 1\)</span>.</p>
+<p>Алгоритм по сути находит цикл в этой последовательности, используя для этого стандартный алгоритм («черепаха и заяц»): будем поддерживать два удаляющихся друг от друга указателя <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> (<span class="math inline">\(i = 2j\)</span>) и проверять, что <span class="math inline">\(f^i(x_0) \equiv f^j(x_0) \pmod p\)</span>, что эквивалентно проверке <span class="math inline">\(\gcd(|f^i(x_0) - f^j(x_0)|, n) \not \in \{ 1, n \}\)</span>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> ll;</a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="kw">inline</span> ll f(ll x) { <span class="cf">return</span> (x+<span class="dv">1</span>)*(x+<span class="dv">1</span>); }</a>
@@ -150,7 +150,7 @@ f(n, d) = (1-\frac{1}{d}) \times (1-\frac{2}{d}) \times ... \times (1-\frac{n-1}
 <a class="sourceLine" id="cb1-5" title="5">ll find_divisor(ll n, ll seed = <span class="dv">1</span>) {</a>
 <a class="sourceLine" id="cb1-6" title="6">    ll x = seed, y = seed;</a>
 <a class="sourceLine" id="cb1-7" title="7">    ll divisor = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb1-8" title="8">    <span class="cf">while</span> (d == <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb1-8" title="8">    <span class="cf">while</span> (divisor == <span class="dv">1</span> || divisor == n) {</a>
 <a class="sourceLine" id="cb1-9" title="9">        <span class="co">// двигаем первый указатель на шаг</span></a>
 <a class="sourceLine" id="cb1-10" title="10">        y = f(y) % n;</a>
 <a class="sourceLine" id="cb1-11" title="11">        <span class="co">// а второй -- на два</span></a>
