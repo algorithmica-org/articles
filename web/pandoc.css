@@ -221,6 +221,11 @@ h2, h3 {
   border-bottom: 1px solid #eaecef;
 }
 
+.contents h2, .contents h3 {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
 h4, h5, h6 {
   font-weight: bold;
 }
