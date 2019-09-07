@@ -257,11 +257,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb6-24" title="24">        <span class="cf">while</span> (r &lt; q.r)</a>
 <a class="sourceLine" id="cb6-25" title="25">            s += a[++r];</a>
 <a class="sourceLine" id="cb6-26" title="26">        <span class="cf">while</span> (l &lt; q.l)</a>
-<a class="sourceLine" id="cb6-27" title="27">            s -= a[l++];</a>
-<a class="sourceLine" id="cb6-28" title="28">        while (l &gt; q.l)</a>
-<a class="sourceLine" id="cb6-29" title="29">            s += a[--l];</a>
-<a class="sourceLine" id="cb6-30" title="30">        ans[q.idx] = s;</a>
-<a class="sourceLine" id="cb6-31" title="31">    }</a>
+<a class="sourceLine" id="cb6-27" title="27">            s -= a[l++];</a>
+<a class="sourceLine" id="cb6-28" title="28">        <span class="cf">while</span> (l &gt; q.l)</a>
+<a class="sourceLine" id="cb6-29" title="29">            s += a[--l];</a>
+<a class="sourceLine" id="cb6-30" title="30">        ans[q.idx] = s;</a>
+<a class="sourceLine" id="cb6-31" title="31">    }</a>
 <a class="sourceLine" id="cb6-32" title="32">}</a></code></pre></div>
 <p>Конкретно для этой задачи этот алгоритм не нужен, однако он полезен для ответа на более сложные вопросы: найти <span class="math inline">\(k\)</span>-ую порядковую статистику на отрезке, его медиану, количество различных элементов, наиболее часто встречающийся элемент и так далее. Во всех этих случаях нужно просто вместо суммы поддерживать какую-нибудь структуру — например, хэш-таблицу — отвечающую за множество элементов на отрезке, и пересоздавать её между блоками.</p>
 <h2 id="деление-на-тяжелые-и-легкие-объекты">Деление на тяжелые и легкие объекты</h2>
@@ -292,59 +292,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>В цикле две тяжелые вершины — обозначим их как <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span>, а лёгкую как <span class="math inline">\(c\)</span>. Зафиксируем пару <span class="math inline">\((a, c)\)</span> — способов это сделать <span class="math inline">\(O(m)\)</span>, потому что всего столько рёбер. Для этого ребра будет не более <span class="math inline">\(O(\sqrt n)\)</span> рёбер <span class="math inline">\((a, b)\)</span>, потому что столько всего тяжелых вершин. Получается, что всего таких циклов может быть не более <span class="math inline">\(O(m \sqrt n)\)</span>.</p></li>
 <li><p>Все вершины тяжелые. Аналогично — тип третьей вершины в разборе предыдущего случая нигде не использовался; важно лишь то, что тяжелых вершин <span class="math inline">\(b\)</span> немного.</p></li>
 </ol>
-<p>Само решение максимально простое: отсортируем вершины графа по их степени, ориентируем ребра <span class="math inline">\(v \rightarrow u, v \le u\)</span>. Теперь внутренним циклом будем считать пути <span class="math inline">\(v \rightarrow u \rightarrow w, v \le u \le w\)</span>, а потом проверять существование ребра <span class="math inline">\(v \rightarrow w\)</span>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="dt">int</span> vert[maxn], deg[maxn];</a>
-<a class="sourceLine" id="cb7-2" title="2">vector&lt;<span class="dt">int</span>&gt; g[maxn];</a>
+<p>Само решение максимально простое: отсортируем вершины графа по их степени, ориентируем ребра <span class="math inline">\(v \rightarrow u, v \le u\)</span>; теперь внутренним циклом будем перебирать пути <span class="math inline">\(v \rightarrow u \rightarrow w, v \le u \le w\)</span>, а потом проверять существование ребра <span class="math inline">\(v \rightarrow w\)</span>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1">vector&lt;<span class="dt">int</span>&gt; g[maxn], p(n); <span class="co">// исходный граф и список номеров вершин</span></a>
+<a class="sourceLine" id="cb7-2" title="2">iota(p.begin(), p.end(), <span class="dv">0</span>); <span class="co">// 0, 1, 2, 3, ...</span></a>
 <a class="sourceLine" id="cb7-3" title="3"></a>
-<a class="sourceLine" id="cb7-4" title="4">ll solve() {</a>
-<a class="sourceLine" id="cb7-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb7-6" title="6">        vert[i] = i;</a>
-<a class="sourceLine" id="cb7-7" title="7">    }</a>
-<a class="sourceLine" id="cb7-8" title="8">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; m; i++) {</a>
-<a class="sourceLine" id="cb7-9" title="9">        <span class="dt">int</span> a, b;</a>
-<a class="sourceLine" id="cb7-10" title="10">        cin &gt;&gt; a &gt;&gt; b;</a>
-<a class="sourceLine" id="cb7-11" title="11">        deg[a]++;</a>
-<a class="sourceLine" id="cb7-12" title="12">        deg[b]++;</a>
-<a class="sourceLine" id="cb7-13" title="13">        g[a].push_back(b);</a>
-<a class="sourceLine" id="cb7-14" title="14">        g[b].push_back(a);</a>
-<a class="sourceLine" id="cb7-15" title="15">    }</a>
-<a class="sourceLine" id="cb7-16" title="16">    sort(vert, vert + n, [&amp;](<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
-<a class="sourceLine" id="cb7-17" title="17">        <span class="cf">return</span> make_pair(deg[a], a) &lt; make_pair(deg[b], b);</a>
-<a class="sourceLine" id="cb7-18" title="18">    });</a>
-<a class="sourceLine" id="cb7-19" title="19">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb7-20" title="20">        sort(g[i].rbegin(), g[i].rend(), [&amp;](<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
-<a class="sourceLine" id="cb7-21" title="21">            <span class="cf">return</span> make_pair(deg[a], a) &lt; make_pair(deg[b], b);</a>
-<a class="sourceLine" id="cb7-22" title="22">        });</a>
-<a class="sourceLine" id="cb7-23" title="23">        <span class="cf">while</span> (g[i].size() &amp;&amp; make_pair(deg[g[i].back()], g[i].back()) &lt; make_pair(deg[i], i)) {</a>
-<a class="sourceLine" id="cb7-24" title="24">            g[i].pop_back();</a>
-<a class="sourceLine" id="cb7-25" title="25">        }</a>
-<a class="sourceLine" id="cb7-26" title="26">        reverse(g[i].begin(), g[i].end());</a>
-<a class="sourceLine" id="cb7-27" title="27">    }</a>
-<a class="sourceLine" id="cb7-28" title="28">    ll ans = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb7-29" title="29">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb7-30" title="30">        <span class="dt">int</span> cur = vert[i];</a>
-<a class="sourceLine" id="cb7-31" title="31">        <span class="cf">for</span> (<span class="kw">auto</span> v : g[cur]) {</a>
-<a class="sourceLine" id="cb7-32" title="32">            cnt[v]++;</a>
-<a class="sourceLine" id="cb7-33" title="33">        }</a>
-<a class="sourceLine" id="cb7-34" title="34">        <span class="cf">for</span> (<span class="kw">auto</span> v : g[cur]) {</a>
-<a class="sourceLine" id="cb7-35" title="35">            <span class="cf">for</span> (<span class="kw">auto</span> it : g[v]) {</a>
-<a class="sourceLine" id="cb7-36" title="36">                ans += cnt[it];</a>
-<a class="sourceLine" id="cb7-37" title="37">            }</a>
-<a class="sourceLine" id="cb7-38" title="38">        }</a>
-<a class="sourceLine" id="cb7-39" title="39">        <span class="cf">for</span> (<span class="kw">auto</span> v : g[cur]) {</a>
-<a class="sourceLine" id="cb7-40" title="40">            cnt[v]--;</a>
-<a class="sourceLine" id="cb7-41" title="41">        }</a>
-<a class="sourceLine" id="cb7-42" title="42">    }</a>
-<a class="sourceLine" id="cb7-43" title="43">    <span class="cf">return</span> ans;</a>
-<a class="sourceLine" id="cb7-44" title="44">}</a></code></pre></div>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co">// чтобы не копипастить сравнение:</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="kw">auto</span> cmp = [&amp;](<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
+<a class="sourceLine" id="cb7-6" title="6">    <span class="cf">return</span> g[a].size() &lt; g[b].size() || (g[a].size() == g[b].size() &amp;&amp; a &lt; b);</a>
+<a class="sourceLine" id="cb7-7" title="7">};</a>
+<a class="sourceLine" id="cb7-8" title="8"></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co">// в таком порядке мы будем перебирать вершины</span></a>
+<a class="sourceLine" id="cb7-10" title="10">sort(p.begin(), p.end(), cmp);</a>
+<a class="sourceLine" id="cb7-11" title="11"></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">// теперь удалим все лишние рёбра (ведущие в более тяжелые вершины)</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="cf">for</span> (<span class="dt">int</span> v = <span class="dv">0</span>; v &lt; n; v++) {</a>
+<a class="sourceLine" id="cb7-14" title="14">    vector&lt;<span class="dt">int</span>&gt; &amp;t = g[v];</a>
+<a class="sourceLine" id="cb7-15" title="15">    <span class="co">// отсортируем их и удалим какой-то суффикс</span></a>
+<a class="sourceLine" id="cb7-16" title="16">    sort(t.begin(), t.end(), cmp);</a>
+<a class="sourceLine" id="cb7-17" title="17">    <span class="cf">while</span> (t.size() &gt; <span class="dv">0</span> &amp;&amp; cmp(t[t.size()-<span class="dv">1</span>], v))</a>
+<a class="sourceLine" id="cb7-18" title="18">        t.pop_back();</a>
+<a class="sourceLine" id="cb7-19" title="19">    reverse(t.begin(), t.end());</a>
+<a class="sourceLine" id="cb7-20" title="20">}</a>
+<a class="sourceLine" id="cb7-21" title="21"></a>
+<a class="sourceLine" id="cb7-22" title="22"><span class="co">// рядом с каждой вершиной будем хранить количество</span></a>
+<a class="sourceLine" id="cb7-23" title="23"><span class="co">// ранее просмотренных входящих рёбер (v -&gt; w)</span></a>
+<a class="sourceLine" id="cb7-24" title="24">vector&lt;<span class="dt">int</span>&gt; cnt(n, <span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb7-25" title="25"><span class="dt">int</span> ans = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb7-26" title="26"></a>
+<a class="sourceLine" id="cb7-27" title="27"><span class="cf">for</span> (<span class="dt">int</span> v : p) {</a>
+<a class="sourceLine" id="cb7-28" title="28">    <span class="cf">for</span> (<span class="dt">int</span> w : g[v])</a>
+<a class="sourceLine" id="cb7-29" title="29">        cnt[w]++;</a>
+<a class="sourceLine" id="cb7-30" title="30">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v])</a>
+<a class="sourceLine" id="cb7-31" title="31">        <span class="cf">for</span> (<span class="dt">int</span> w : g[u])</a>
+<a class="sourceLine" id="cb7-32" title="32">            ans += cnt[w]; <span class="co">// если в графе нет петель, то cnt[w] это 0 или 1</span></a>
+<a class="sourceLine" id="cb7-33" title="33">    <span class="co">// при переходе к следующему v массив нужно занулить обратно</span></a>
+<a class="sourceLine" id="cb7-34" title="34">    <span class="cf">for</span> (<span class="dt">int</span> w : g[v])</a>
+<a class="sourceLine" id="cb7-35" title="35">        cnt[w]--;</a>
+<a class="sourceLine" id="cb7-36" title="36">}</a></code></pre></div>
 <h2 id="бакеты">Бакеты</h2>
 <p>Пусть нам нужно находить всё ту же сумму, но теперь у нас запрос обновления выглядит так: <span class="math inline">\(i\)</span>-тый элемент <em>прыгает</em> на <span class="math inline">\(d\)</span> позиций вправо или влево, смещая, соответственно, <span class="math inline">\(d\)</span> элементов между начальной и конечной позицией на единицу вправо или влево. Сумму нужно находить уже в новой индексации. Про <a href="treap">декартово дерево</a> автор снова просит читателя на время забыть.</p>
 <p>Объединим предыдущие подходы: теперь не только будем делить массив на блоки <em>примерно</em> по корню, но и каждый корень запросов будем всё перестраивать.</p>
 <p>Теперь у нас не чётко разделённые блоки, а плавающие корзины разного размера, в которых просто хранятся маленькие массивы с элементами, а также сумма на всей корзине. В самом начале добавим в них примерно по корню последовательных элементов, а при запросе обновления найдём две нужные корзины и полностью перестроим — за их суммарный размер. Чтобы корзины не стали слишком большими, просто каждый корень запросов будем их полностью перестраивать.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="co">// </span><span class="al">TODO</span><span class="co">: законтрибьюте кто-нибудь реализацию</span></a></code></pre></div>
 <h2 id="подбор-константы">Подбор константы</h2>
 <p>На скорость работы очень сильно влияет размер блока. Мы для простоты использовали одну и ту же константу и для количества блоков, и для их размера, но на практике их часто нужно подбирать.</p>
-<p><img src="https://pp.userapi.com/c851420/v851420187/140d89/zp7lDsoCFCM.jpg" /></p>
 <p>Иногда асимптотики «тяжелой» и «лёгкой» части получаются разными, потому что мы где-то не смогли обойтись без какой-нибудь структуры, которая внесла лишний логарифм.</p>
 <p>Чаще всего, в качестве оптимального размера блока <span class="math inline">\(c^*\)</span> можно взять что-то близкое к решению уравнения <span class="math inline">\(g \cdot \frac{n}{c} = f \cdot c\)</span>, где <span class="math inline">\(f\)</span> и <span class="math inline">\(g\)</span> это асимптотики блочной и не-блочной частей соответственно. Впрочем, надо также учитывать, что походы в какое-нибудь декартово дерево совсем не в логарифм раз медленнее линейного прохода по массиву.</p>
 </body>
