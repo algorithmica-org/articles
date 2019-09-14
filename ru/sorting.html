@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Сортировки и O-нотация - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <a href='https://github.com/algorithmica-org/ru/edit/master/sorting.md'>Редактировать</a>
+        <a href='https://github.com/algorithmica-org/ru/commits/master/sorting.md'>История</a>
+    </div>
+</div>
+<h1 id="сортировки-и-o-нотация">Сортировки и O-нотация</h1>
+<p>Задача сортировки массива заключается в том, чтобы расставить его элементы в определённом порядке (чаще всего — по неубыванию: каждый элемент должен быть больше или равен предыдущему).</p>
+<p>Будет полезно вместе с описанем алгоритмов смотреть их <a href="https://visualgo.net/nl/sorting">визуализацию</a>.</p>
+<h3 id="сортировка-пузырьком">Сортировка пузырьком</h3>
+<p>Наш первый подход будет заключаться в следующем: обозначим за <span class="math inline">\(n\)</span> длину массива и <span class="math inline">\(n\)</span> раз пройдёмся раз пройдемся по нему, меняя два соседних элемента, если первый больше второго.</p>
+<p>Как каждую итерацию максимальный элемент «всплывает» словно пузырек к концу массива — отсюда и название.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1">void bubble_sort(vector<span class="op">&lt;</span><span class="bu">int</span><span class="op">&gt;&amp;</span> array) {</a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="bu">int</span> n <span class="op">=</span> (<span class="bu">int</span>) array.size()<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-3" title="3">    <span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++</span>) {</a>
+<a class="sourceLine" id="cb1-4" title="4">        <span class="cf">for</span> (<span class="bu">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> j<span class="op">++</span>) {</a>
+<a class="sourceLine" id="cb1-5" title="5">            <span class="op">//</span> сравниваем элемент со следующим</a>
+<a class="sourceLine" id="cb1-6" title="6">            <span class="op">//</span> и меняем местами, если следующий меньше</a>
+<a class="sourceLine" id="cb1-7" title="7">            <span class="cf">if</span> (array[j] <span class="op">&gt;</span> arr[j <span class="op">+</span> <span class="dv">1</span>]) {</a>
+<a class="sourceLine" id="cb1-8" title="8">                swap(array[j], array[j <span class="op">+</span> <span class="dv">1</span>])<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-9" title="9">            }</a>
+<a class="sourceLine" id="cb1-10" title="10">        }     </a>
+<a class="sourceLine" id="cb1-11" title="11">    }</a>
+<a class="sourceLine" id="cb1-12" title="12">}</a>
+<a class="sourceLine" id="cb1-13" title="13"></a>
+<a class="sourceLine" id="cb1-14" title="14">vector<span class="op">&lt;</span><span class="bu">int</span><span class="op">&gt;</span> a <span class="op">=</span> {<span class="dv">1</span>, <span class="dv">-3</span>, <span class="dv">7</span>, <span class="dv">88</span>, <span class="dv">7</span>}<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-15" title="15">bubble_sort(a)<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="cf">for</span> (auto elem : a) {</a>
+<a class="sourceLine" id="cb1-17" title="17">    cout <span class="op">&lt;&lt;</span> elem <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb1-18" title="18">}</a>
+<a class="sourceLine" id="cb1-19" title="19"><span class="op">//</span> <span class="dv">-3</span> <span class="dv">1</span> <span class="dv">7</span> <span class="dv">7</span> <span class="dv">88</span></a></code></pre></div>
+<p>После <span class="math inline">\(i\)</span> шагов алгоритма сортировки пузырьком последние <span class="math inline">\((i + 1)\)</span> чисел всегда отсортированы, а значит алгоритм работает корректно.</p>
+<p><strong>Упражнение.</strong> Алгоритм можно немного ускорить. Подумайте, какие лишние элементы мы перебираем. Как нужно изменить границы в двух циклах <code>for</code>, чтобы не делать никаких бесполезных действий?</p>
+<h3 id="сортировка-выбором">Сортировка выбором</h3>
+<p>Другим способом является <strong>сортировка выбором</strong> минимума (или максимума).</p>
+<p>Чтобы отсортировать массив, просто <span class="math inline">\(n\)</span> раз выберем минимум среди еще неотсортированных чисел и поставим его на свое место. На <span class="math inline">\(i\)</span>-ом шаге будем искать минимум на отрезке <span class="math inline">\([i, n - 1]\)</span> и менять его местами с <span class="math inline">\(i\)</span>-тым элементом, после чего отрезок <span class="math inline">\([0, i]\)</span> будет отсортирован.</p>
+<p>Содержательная часть будет выглядеть так:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="cf">for</span> (i = <span class="dv">0</span>; i &lt; n - <span class="dv">1</span>; i++) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="cf">for</span> (j = i + <span class="dv">1</span>; j &lt; n; j++) {</a>
+<a class="sourceLine" id="cb2-3" title="3">        <span class="cf">if</span> (a[i] &gt; a[j]) {</a>
+<a class="sourceLine" id="cb2-4" title="4">            swap(a[j], a[i]);</a>
+<a class="sourceLine" id="cb2-5" title="5">        }</a>
+<a class="sourceLine" id="cb2-6" title="6">    }</a>
+<a class="sourceLine" id="cb2-7" title="7">}</a></code></pre></div>
+<h3 id="сортировка-вставками">Сортировка вставками</h3>
+<p><strong>Определение.</strong> <em>Префиксом</em> длины <span class="math inline">\(i\)</span> будем называть первые <span class="math inline">\(i\)</span> элементов массива.</p>
+<p>Тогда пусть на <span class="math inline">\(i\)</span>-ом шаге у нас уже будет отсортирован префикс до <span class="math inline">\(i\)</span>-го элемента. Чтобы этот префикс увеличить, нужно взять элемент, идущий после него, и менять с левым соседом, пока этот элемент наконец не окажется больше своего левого соседа. Если в конце он больше левого соседа, но меньше правого, то это будет означать, что мы правильно вставили этот элемент в отсортированную часть массива.</p>
+<pre><code>for (int i = 1; i &lt; n; i++) {
+    for (int j = i; j &gt; 0; j--) {
+        if (a[j - 1] &lt; a[j]) {
+            break;
+        }
+        swap(a[j], a[j - 1]);
+    }
+}</code></pre>
+<h3 id="сортировка-подсчетом">Сортировка подсчетом</h3>
+<p>Предыдущие три алгоритма работали с массивами, в которых лежат абсолютно любые объекты, которые можно сравнивать: любые числа, строки, пары, другие массивы — почти все что угодно.</p>
+<p>Но особых случаях, когда элементы принадлежат какому-то маленькому множеству, можно использовать другой алгоритм — <em>сортировку подсчетом</em>.</p>
+<p>Пусть, например, нам гарантируется, что все числа натуральные и лежат в промежутке от <span class="math inline">\(1\)</span> до <span class="math inline">\(100\)</span>. Тогда есть такой простой алгоритм:</p>
+<ul>
+<li><p>Создадим массив размера <span class="math inline">\(100\)</span>, в котором будем хранить на <span class="math inline">\(k\)</span>-ом месте, сколько раз число <span class="math inline">\(k\)</span> встретилось в этом массиве.</p></li>
+<li><p>Пройдемся по всем числам исходного массива и увеличим соответствующее значение массива на <span class="math inline">\(1\)</span>.</p></li>
+<li><p>После того, как мы посчитали, сколько раз каждое число встретилось, можно просто пройтись по этому массиву и вывести <span class="math inline">\(1\)</span> столько раз, сколько встретилась <span class="math inline">\(1\)</span>, вывести <span class="math inline">\(2\)</span> столько раз, сколько встретилась <span class="math inline">\(2\)</span>, и так далее.</p></li>
+</ul>
+<p><em>Время работы</em> такого алгоритма составляет <span class="math inline">\(O(M+N)\)</span>, где <span class="math inline">\(M\)</span> — число возможных значений, <span class="math inline">\(N\)</span> — число элементов в массиве. Сейчас мы расскажем, что же это означает.</p>
+<h2 id="о-нотация">О-нотация</h2>
+<p>Часто требуется оценить, сколько времени работает алгоритм. Но тут возникают проблемы:</p>
+<ul>
+<li>на разных компьютерах время работы всегда будет слегка отличаться;</li>
+<li>чтобы измерить время, придётся запустить сам алгоритм, но иногда приходится оценивать алгоритмы, требующие часы или даже дни работы.</li>
+</ul>
+<p>Зачастую основной задачей программиста становится оптимизировать алгоритм, выполнение которого займёт тысячи лет, до какого-нибудь адекватного времени работы. Поэтому хотелось бы уметь предсказывать, сколько времени займёт выполнение алгоритма ещё до того, как мы его запустим.</p>
+<p>Для этого сначала попробуем оценить <em>число операций</em> в алгоритме. Возникает вопрос: какие именно операции считать. Как один из вариантов — учитывать любые элементарные операции:</p>
+<ul>
+<li>арифметические операции с числами: <code>+, -, *, /</code></li>
+<li>сравнение чисел: <code>&lt;, &gt;, &lt;=, &gt;=, ==, !=</code></li>
+<li>присваивание: <code>a[0] = 3</code></li>
+</ul>
+<p>При этом надо учитывать, как реализованы некоторые отдельные вещи в самом языке. Например, в питоне срезы массива (<code>array[3:10]</code>) копируют этот массив, то есть этот срез работает за 7 элементарных действий. А <code>swap</code>, например, может работать за 3 присваивания.</p>
+<p><strong>Упражнение.</strong> Попробуйте посчитать точное число <strong>сравнений</strong> и <strong>присваиваний</strong> в сортировках пузырьком, выбором, вставками и подсчетом в худшем случае (это должна быть какая формула, зависящая от <span class="math inline">\(n\)</span> — длины массива).</p>
+<p>Чтобы учесть вообще все элементарные операции, ещё надо посчитать, например, сколько раз прибавилась единичка внутри цикла <code>for</code>. А ещё, например, строчка <code>n = len(array)</code> — это тоже действие. Поэтому даже посчитав их, сразу очевидно, какой из этих алгоритмов работает быстрее — сравнивать формулы сложно. Хочется придумать способ упростить эти формулы так, чтобы:</p>
+<ul>
+<li>не нужно было учитывать много информации, не очень сильно влияющей на итоговое время;</li>
+<li>легко было оценивать время работы разных алгоритмов для больших чисел;</li>
+<li>легко было сравнивать алгоритмы на предмет того, какой из них лучше подходит для тех или иных входных данных.</li>
+</ul>
+<p>Для этого придумали <em><span class="math inline">\(O\)</span>-нотацию</em> — асимптотическое время работы вместо точного (часто его ещё называют асимптотикой).</p>
+<p><strong>Определение.</strong> Пусть <span class="math inline">\(f(n)\)</span> - это какая-то функция. Говорят, что алгоритм работает за <span class="math inline">\(O(f(n))\)</span>, если существует число <span class="math inline">\(C\)</span>, такое что алгоритм работает не более чем за <span class="math inline">\(C \cdot f(n)\)</span> операций.</p>
+<p>В таких обозначениях можно сказать, что</p>
+<ul>
+<li>сортировка пузырьком работает за <span class="math inline">\(O(n^2)\)</span>;</li>
+<li>сортировка выбором работает за <span class="math inline">\(O(n^2)\)</span>;</li>
+<li>сортировка вставками работает за <span class="math inline">\(O(n^2)\)</span>;</li>
+<li>сортировка подсчетом работает за <span class="math inline">\(O(n + m)\)</span>.</li>
+</ul>
+<p>Это обозначение удобно тем, что оно короткое и понятное, а также оно не зависит от умножения на константу или прибавления константы. Например, если алгоритм работает за <span class="math inline">\(O(n^2)\)</span>, то это может значить, что он работает за <span class="math inline">\(n^2\)</span>, за <span class="math inline">\(n^2 + 3\)</span>, за <span class="math inline">\(\frac{n(n-1)}{2}\)</span> или даже за <span class="math inline">\(1000 \cdot n^2 + 1\)</span> действие. Главное — что функция ведет себя как <span class="math inline">\(n^2\)</span>, то есть при увеличении <span class="math inline">\(n\)</span> (в данном случае это длина массива) он увеличивается как некоторая квадратичная функция. Например, если увеличить <span class="math inline">\(n\)</span> в 10 раз, время работы программы увеличится приблизительно в 100 раз.</p>
+<p>Все рассуждения про то, сколько операций в <code>swap</code> или считать ли отдельно присваивания, сравнения и циклы — отпадают. Каков бы ни был ответ на эти вопросы, они меняют ответ лишь на константу, а значит асимптотическое время работы алгоритма никак не меняется.</p>
+<p>Первые три сортировки именно поэтому называют <strong>квадратичными</strong> — они работают за <span class="math inline">\(O(n^2)\)</span>. Сортировка подсчетом может работать намного быстрее — она работает за <span class="math inline">\(O(n + m)\)</span>, а если в задаче <span class="math inline">\(M \leq N\)</span>, то это вообще линейная функция <span class="math inline">\(O(n)\)</span>.</p>
+<p><strong>Упражнение.</strong> Найдите асимптотику данных функций, маскимально упростив ответ (например, до <span class="math inline">\(O(n)\)</span>, <span class="math inline">\(O(n^2)\)</span> и т. д.):</p>
+<ul>
+<li><span class="math inline">\(\frac{N}{3}\)</span></li>
+<li><span class="math inline">\(\frac{N(N-1)(N-2)}{6}\)</span></li>
+<li><span class="math inline">\(1 + 2 + 3 + \ldots + N\)</span></li>
+<li><span class="math inline">\(1^2 + 2^2 + 3^2 + \ldots + N^2\)</span></li>
+<li><span class="math inline">\(\log{N} + 3\)</span></li>
+<li><span class="math inline">\(179\)</span></li>
+<li><span class="math inline">\(10^{100}\)</span></li>
+</ul>
+<p><strong>Упражнение.</strong> Найдите асимптотическое время работы данных функций:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">def</span> f(n):</a>
+<a class="sourceLine" id="cb4-2" title="2">    s <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb4-3" title="3">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</a>
+<a class="sourceLine" id="cb4-4" title="4">        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</a>
+<a class="sourceLine" id="cb4-5" title="5">            s <span class="op">+=</span> i <span class="op">*</span> j</a>
+<a class="sourceLine" id="cb4-6" title="6">    <span class="cf">return</span> s</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">def</span> g(n):</a>
+<a class="sourceLine" id="cb5-2" title="2">    s <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb5-3" title="3">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</a>
+<a class="sourceLine" id="cb5-4" title="4">        s <span class="op">+=</span> i</a>
+<a class="sourceLine" id="cb5-5" title="5">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</a>
+<a class="sourceLine" id="cb5-6" title="6">        s <span class="op">+=</span> i <span class="op">*</span> i</a>
+<a class="sourceLine" id="cb5-7" title="7">    <span class="cf">return</span> s</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">def</span> h(n):</a>
+<a class="sourceLine" id="cb6-2" title="2">    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:</a>
+<a class="sourceLine" id="cb6-3" title="3">        <span class="cf">return</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb6-4" title="4">    <span class="cf">return</span> h(n <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> n</a></code></pre></div>
+<p><strong>Упражнение.</strong> Найдите лучшее время работы алгоритмов, решающих данные задачи:</p>
+<ul>
+<li>Написать числа от <span class="math inline">\(1\)</span> до <span class="math inline">\(n\)</span>.</li>
+<li>Написать все тройки чисел от <span class="math inline">\(1\)</span> до <span class="math inline">\(n\)</span>.</li>
+<li>Найти разницу между максимумом и минимумом в массиве.</li>
+<li>Найти число единиц в бинарной записи числа <span class="math inline">\(n\)</span>.</li>
+</ul>
+<h2 id="сортировки-за-on-log-n">Сортировки за <span class="math inline">\(O(n \log n)\)</span></h2>
+<p>Сортировка очень часто применяется как часть решения олимпиадных задач. В таких случаях обычно используют встроенную сортировку <code>sort</code>. В разных языках она может быть реализована по-разному, но везде она работает за <span class="math inline">\(O(n \log n)\)</span>, и, обычно, неплохо оптимизирована.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Python</span></a>
+<a class="sourceLine" id="cb7-2" title="2">a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">-4</span>]</a>
+<a class="sourceLine" id="cb7-3" title="3">a.sort()</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="co">// C++</span></a>
+<a class="sourceLine" id="cb8-2" title="2"></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></a>
+<a class="sourceLine" id="cb8-6" title="6"></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="kw">using</span> <span class="kw">namespace</span> std;</a>
+<a class="sourceLine" id="cb8-8" title="8"></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="dt">int</span> main() {</a>
+<a class="sourceLine" id="cb8-10" title="10">    vector&lt;<span class="dt">int</span>&gt; v = {<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">5</span>, -<span class="dv">4</span>};</a>
+<a class="sourceLine" id="cb8-11" title="11">    sort(v.begin(), v.end());</a>
+<a class="sourceLine" id="cb8-12" title="12">}</a></code></pre></div>
+<h2 id="количество-пар-с-разницей-больше-чем-k">Количество пар с разницей, больше чем K</h2>
+<blockquote>
+<p>Найти количество пар элементов <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> в отсортированном массиве, такие что <span class="math inline">\(b - a &gt; K\)</span>.</p>
+</blockquote>
+<p>Наивное решение: бинарный поиск. Будем считать, что массив уже отсортирован. Для каждого элемента <span class="math inline">\(a\)</span> найдем первый справа элемент <span class="math inline">\(b\)</span>, который входит в ответ в паре с <span class="math inline">\(a\)</span>. Нетрудно заметить, что все элементы, большие <span class="math inline">\(b\)</span>, также входят в ответ. Итоговая асимптотика <span class="math inline">\(O(n\log n)\)</span>.</p>
+<p>А можно ли быстрее?</p>
+<p>Да, давайте перебирать <strong>два указателя</strong> — два индекса <span class="math inline">\(first\)</span> и <span class="math inline">\(second\)</span>. Будем перебирать <span class="math inline">\(first\)</span> просто слева направо и поддерживать для каждого <span class="math inline">\(first\)</span> первый элемент справа от него, такой что <span class="math inline">\(a[second] - a[first] &gt; K\)</span> как <span class="math inline">\(second\)</span>. Тогда в пару к <span class="math inline">\(a=a[first]\)</span> подходят ровно <span class="math inline">\(n-second\)</span> элементов массив начиная с <span class="math inline">\(second\)</span>.</p>
+<pre><code>int second = 0, ans = 0;
+for (int first = 0; first &lt; n; ++first) {
+    while (second != n &amp;&amp; a[second] - a[first] &lt;= r) {
+        second++;
+    }
+
+    ans += n - second;
+}</code></pre>
+<p>За сколько же работает это решение? С виду может показаться, что за <span class="math inline">\(O(n^2)\)</span>, но давайте посмотрим сколько раз меняется значение переменной <span class="math inline">\(second\)</span>. Так как оно изначально равняется нулю, только увеличивается и не может превысить <span class="math inline">\(n\)</span>, то суммарно операций мы сделаем <span class="math inline">\(O(n)\)</span>.</p>
+<p>Это называется метод двух указателей — так как мы двигаем два указателя first и second одновременно слева направо по каким-то правилам. Обычно его используют на одном отсортированном массиве.</p>
+<p>Давайте разберем еще примеры.</p>
+<h2 id="слияние">Слияние</h2>
+<p>Еще пример двух указателей на нескольких массивах.</p>
+<p>Пусть у нас есть два отсортированных по неубыванию массива размера <span class="math inline">\(n\)</span> и <span class="math inline">\(m\)</span>. Хотим получить отсортированный массив размера <span class="math inline">\(n + m\)</span> из исходных.</p>
+<p>Пусть первый указатель будет указывать на начало первого массива, а второй, соответственно, на начало второго. Из двух текущих элементов, на которые указывают указатели, выберем наименьший и положим на соответствующую позицию в новом массиве, после чего сдвинем указатель. Продолжим этот процесс пока в обоих массивах не закончатся элементы. Тогда код будет выглядеть следующим образом:</p>
+<pre><code>int a[n + 1], b[m + 1], res[n + m];
+
+a[n] = INF; // Создаем в конце массива фиктивный элемент, который заведомо больше остальных
+b[m] = INF; // Чтобы избежать лишних случаев
+
+for (int i = 0; i &lt; n; ++i) {
+    cin &gt;&gt; a[i];
+}
+
+for (int j = 0; j &lt; m; ++j) {
+    cin &gt;&gt; a[j];
+}
+
+int i = 0, j = 0;
+for (int k = 0; k &lt; n + m; ++k) {
+    if (a[i] &lt; b[j]) {
+        res[k] = a[i];
+        i++;
+    } else {
+        res[k] = b[j];
+        j++;
+    }
+}</code></pre>
+<p>Итоговая асимптотика: <span class="math inline">\(O(n + m)\)</span>.</p>
+<h2 id="сортировка-слиянием">Сортировка слиянием</h2>
+<p>Давайте подробно опишем как использовать операцию слияния для сортировки за <span class="math inline">\(O(n\log n)\)</span>.</p>
+<p>Пусть у нас есть какой-то массив.</p>
+<pre><code>int a[8] = {7, 2, 5, 6, 1, 3, 4, 8};</code></pre>
+<p>Сделаем такое предположение. Пусть мы уже умеем как-то сортировать массив размера <span class="math inline">\(n\)</span>. Тогда научимся сортировать массив размера <span class="math inline">\(2n\)</span>. Давайте разобьем наш массив на две половины, отсортируем каждую из них, а после это сделаем слияние двух массивов, которое мы научились делать за <span class="math inline">\(O(n)\)</span> в данных условиях. Также заметим, что массив размера <span class="math inline">\(1\)</span> уже отсортирован, тогда мы можем делать это процедуру рекурсивно. Тогда для данного массива <span class="math inline">\(a\)</span> это будет выглядеть следующим образом:</p>
+<pre><code>// (7 2 5 6 1 3 4 8)
+// (7 2 5 6) (1 3 4 8)
+// (7 2) (5 6) (1 3) (4 8)
+// (2 7) (5 6) (1 3) (4 8)
+// (2 5 6 7) (1 3 4 8)
+// (1 2 3 4 5 6 7 8)
+
+#include  // Воспользуемся встроенной функцией merge
+
+void merge_sort(vector &amp;v, int l, int r) { // v - вектор, который хотим отсортировать
+    if (r - l == 1) {                            // l и r - полуинтервал, который хотим отсортировать
+        return;
+    }
+
+    int mid = (l + r) / 2;
+    merge_sort(v, l, mid);
+    merge_sort(v, mid, r);
+    vector temp(r - l); // временный вектор
+    merge(v.begin() + l, v.begin() + mid, v.begin() + mid, v.begin() + r, c.begin());
+    for (int i = 0; i &lt; r - l; ++i) {
+        v[i + l] = temp[i];
+    }
+    return;
+}</code></pre>
+<p>Так сколько же работает это решение?</p>
+<p>Пускай <span class="math inline">\(T(n)\)</span> — время сортировки массива длины <span class="math inline">\(n\)</span>, тогда для сортировки слиянием справедливо <span class="math inline">\(T(n)=2T(n/2)+O(n)\)</span> <span class="math inline">\(O(n)\)</span> — время, необходимое на то, чтобы слить два массива длины n. Распишем это соотношение:</p>
+<p><span class="math inline">\(T(n)=2T(n/2)+O(n)=4T(n/4)+2O(n)=\ldots=T(1)+\log(n)O(n)=O(n\log(n)).\)</span></p>
+<h2 id="количество-инверсий">Количество инверсий</h2>
+<p>Пусть у нас есть некоторая перестановка <span class="math inline">\(a\)</span>. Инверсией называется пара индексов <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> такая, что <span class="math inline">\(i &lt; j\)</span> и <span class="math inline">\(a[i] &gt; a[j]\)</span>.</p>
+<blockquote>
+<p>Найти количество инверсий в данной перестановке.</p>
+</blockquote>
+<p>Очевидно, что эта задача легко решается обычным перебором двух индексов за <span class="math inline">\(O(n^2)\)</span>:</p>
+<pre><code>int a[n], ans = 0;
+
+for (int i = 0; i &lt; n; ++i) {
+    for (int j = i + 1; j &lt; n; ++j) {
+        if (a[i] &gt; a[j]) {
+            ans++;
+        }
+    }
+}
+
+cout &lt;&lt; ans &lt;&lt; endl;</code></pre>
+<p>Внезапно эту задачу можно решить используя сортировку слиянием, слегка модифицируя её. Оставим ту же идею. Пусть мы умеем находить количество инверсий в массиве размера <span class="math inline">\(n\)</span>, научимся находить количество инверсий в массиве размера <span class="math inline">\(2n\)</span>.</p>
+<p>Заметим, что мы уже знаем количество инверсий в левой половине и в правой половине массива. Осталось лишь посчитать число инверсий, где одно число лежит в левой половине, а второе в правой половине. Как же их посчитать?</p>
+<p>Давайте подробнее рассмотрим операцию merge левой и правой половины (которую мы ранее заменили на вызов встроенной функции merge). Первый указатель указывает на элемент левой половины, второй указатель указывает на элемент второй половины, мы смотрим на минимум из них и этот указатель вдигаем вправо.</p>
+<p>Рассмотрим число <span class="math inline">\(A\)</span> в левой половине. В скольки инверсиях между половинами оно участвует? В стольки, сколько чисел в правой половине меньше, чем оно. Знаем ли мы это количество? Да! Ровно в тот момент, когда мы число <span class="math inline">\(A\)</span> вносим в слитый массив, второй указатель указывает на первое число в правой половине, которое больше чем <span class="math inline">\(A\)</span>.</p>
+<p>Значит в тот момент, когда мы добавляем число <span class="math inline">\(A\)</span> из левой половины, к ответу достаточно прибавить индекс второго указателя (минус начало правой половины). Так мы учтем все инверсии между половинами.</p>
+<h1 id="быстрая-сортировка">Быстрая сортировка</h1>
+<p>Быстрая сортировка заключается в том, что на каждом шаге мы находим опорный элемент, все элементы, которые меньше его кидаем в левую часть, остальные в правую, а затем рекурсивно спускаемся в обе части.</p>
+<p>https://visualgo.net/en/sorting</p>
+<pre><code>void quicksort(int l, int r){
+    if (l &lt; r){
+        int index = (l + r) / 2; /* index - индекс опорного элемента для 
+        начала сделаем его равным середине отрезка*/
+        index = divide(l, r, index); /* divide - функция разбивающие элементы 
+        на меньшие и больше/равные a[index], 
+        при этом функция возвращает границу разбиения*/
+        quicksort(l, index);
+        quicksort(index + 1, r);
+    }
+}</code></pre>
+<p>Давайте оценим асимптотику данной сортировки. На случайных данных она работает за <span class="math inline">\(O(NlogN)\)</span> , так как каждый раз мы будем делить массив на две примерно равные части, то есть суммарно размер рекурсии будет около логарифма и при этом на каждом этапе рекурсии мы просмотрим не более, чем размер массива. Однако можно легко найти две проблемы, одна - одинаковые числа, а вторая - если вдруг середина - минимум или максимум.</p>
+<p>Существуют несколько выходов из этой ситуации :</p>
+<ol start="2" type="1">
+<li><p>Давайте если быстрая сортировка работает долго, то запустим любую другую сортировку за <span class="math inline">\(NlogN\)</span>.</p></li>
+<li><p>Давайте делить массив не на две, а на три части(меньше, равны, больше).</p></li>
+<li><p>Чтобы избавиться от проблемы с максимумом/минимумом в середине, давайте <strong>брать случайный элемент</strong>.</p></li>
+</ol>
+<h3 id="поиск-k-ой-порядковой-статистики-за-on">Поиск <span class="math inline">\(k\)</span>-ой порядковой статистики за <span class="math inline">\(O(N)\)</span></h3>
+<p>Пусть дан массив <span class="math inline">\(A\)</span> длиной <span class="math inline">\(N\)</span> и пусть дано число <span class="math inline">\(K\)</span>. Задача заключается в том, чтобы найти в этом массиве <span class="math inline">\(K\)</span>-ое по величине число, т.е. <span class="math inline">\(K\)</span>-ую порядковую статистику.</p>
+<p>Давайте поймем, что в быстрой сортировке мы можем узнать, сколько элементов меньше данного, тогда рассмотрим три случая</p>
+<ol start="2" type="1">
+<li><p>количество чисел, меньше данного = <span class="math inline">\(k - 1\)</span>, тогда наше число - ответ.</p></li>
+<li><p>количество чисел, меньше данного &gt;= <span class="math inline">\(k\)</span>, тогда спускаемся рекурсивно в левую часть и ищем там ответ.</p></li>
+<li><p>количество чисел, меньше данного &lt; <span class="math inline">\(k\)</span>, спускаемся в правую ищем (<span class="math inline">\(k\)</span> - левая - 1) - ое число.</p></li>
+</ol>
+<p>За сколько же это работает, из быстрой сортировки мы имеем, что размер убывает приблизительно в 2 раза, то есть мы имеем сумму <span class="math inline">\(\sum_{k=1}^n {2 ^ k} = {2^{k+1}-1}\)</span> что в нашем случае это максимум равно <span class="math inline">\(2 * N - 1\)</span>, то есть <span class="math inline">\(O(N)\)</span>.</p>
+<p>Также в с++ эта функция уже реализована :</p>
+<pre><code>nth_element(указатель на начало, указатель на нужный элемент, указатель на конец);</code></pre>
+</body>
+</html>

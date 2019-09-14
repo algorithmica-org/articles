@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>C++ и Standard Template Library (STL) - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <a href='https://github.com/algorithmica-org/ru/edit/master/stl.md'>Редактировать</a>
+        <a href='https://github.com/algorithmica-org/ru/commits/master/stl.md'>История</a>
+    </div>
+</div>
+<h1 id="c-и-standard-template-library-stl">C++ и Standard Template Library (STL)</h1>
+<p>Первый плюс плюсов - STL, она содержит в себе множество алгоритмов и структур, чтобы ее использовать вам нужно писать</p>
+<pre><code>// либо один раз такую строчку
+using namespace std;
+
+// либо каждый раз писать перед каждой функцией и структурой из STL std::
+std::vector</code></pre>
+<pre><code>  File &quot;&lt;ipython-input-1-3fdc4c3a8d74&gt;&quot;, line 1
+    (/, либо, один, раз, такую, строчку)
+     ^
+SyntaxError: invalid syntax</code></pre>
+<p>https://en.cppreference.com/w — это сайт с документацией по языку C++. Там вы можете найти много полезной информации как о самом языке, так и о его стандартных библиотеках. Здесь же вы сможете найдите краткое изложение самого полезного из STL.</p>
+<h2 id="поговорим-об-обычных-сишных-массивах">Поговорим об обычных сишных массивах</h2>
+<pre><code>T a[x]; // инициализация массива a типа T размера x</code></pre>
+<p>Если вы пишите так, прекращайте, у этого метода много проблем, давайте напишем правильную реализацию и обговорим плюсы и минусы.</p>
+<pre><code>array&lt;T, x&gt; a;
+a.begin(), a.end() // указатели (итераторы) на начало и конец массива соответственно (конец массива = после последнего элемента)
+a.front(), a.back() // возвращает ссылку на первый и последний элемент соответственно
+cout &lt;&lt; a.at(5); // метод at позволяет узнать не вышли ли мы за границы массива</code></pre>
+<p>Плюсы :</p>
+<ol type="1">
+<li><p>Указатели (итераторы) на начало и конец - прекрасная вещь, которую мы обсудим позже</p></li>
+<li><p>Сишные массивы уже сейчас противоречат шаблону, в будущем их хотят вообще убрать, так что лучше от них отказаться сейчас</p></li>
+<li><p>Быстрый переход от массива к вектору</p></li>
+</ol>
+<p>Минусы :</p>
+<ol type="1">
+<li>Тяжело отвыкнуть от старого массива.</li>
+</ol>
+<h2 id="vector">vector</h2>
+<p><code>vector</code> — это <em>динамический массив</em>. Это означает, что его размер может меняться во время исполнения программы, вы можете добавлять элементы в конец и так далее. Чтобы объявить пустой <code>vector</code>, способный содержать в себе целые числа типа <code>T</code>, необходимо воспользоваться следующей конструкцией:</p>
+<pre><code>vector&lt;T&gt; vector_name;</code></pre>
+<p>Здесь <code>T</code> — это тип элементов, которые будут содержаться в <code>vector</code>, а <code>vector_name</code> — имя самого <code>vector</code>. Как и другие контейнеры C++, <code>vector</code> не может содержать элементы разных типов!</p>
+<p>Чтобы добавить элемент в конец вектора, необходимо воспользоваться функцией <code>push_back</code>. Эта функция работает в среднем за <span class="math inline">\(O(1)\)</span> .</p>
+<p>Существуют два способа обращения к ‘vector’. Оба мы уже обсудили в массивах.</p>
+<pre><code>vector&lt;int&gt; a;
+cout &lt;&lt; a[5];
+cout &lt;&lt; a.at(5);</code></pre>
+<p>Кроме этого вам также могут потребоваться следующие методы :</p>
+<pre><code>vector&lt;int&gt; a;
+a.push_back(x); // вставляет x в конец a
+a.size(); // возращает размер вектора а
+a.resize(x) // сделать размер вектора = x, либо удаляются последние элементы, либо добавляются нули
+a.resize(x, y) // сделать размер вектора = x, добавляются y
+// Также можно изначально задать размер и элементы массива
+vector&lt;int&gt; a(10); // Размер вектора - 10 элементов, каждый из которых равен 0
+vector&lt;int&gt; b(5, 123); // Размер - 5 элементов, каждый из которых равен 123
+vector&lt;int&gt; c = {1, 2, 3} // явная инициализация</code></pre>
+<h3 id="как-работает-vector">Как работает vector?</h3>
+<p>Как уже было сказано, добавление в конец вектора работает в среднем за <span class="math inline">\(O(1)\)</span>. Это означает, что, если вы сделаете <span class="math inline">\(n\)</span> операций <code>push_back</code>, они будут в сумме работать за <span class="math inline">\(O(n)\)</span>. (Но при этом некоторые из них могли работать и за линейное время!)</p>
+<p>У <code>vector</code> есть 2 важные величины: <code>size</code> и <code>capacity</code> — размер и вместимость. Размер — это то, сколько элементов сейчас находится в векторе. Вместимость — то, под сколько элементов памяти выделено. Когда <code>size</code> &lt; <code>capacity</code>, <code>push_back</code> просто добавляет новый элемент в первую свободную ячейку уже выделенной памяти, поэтому работает за <span class="math inline">\(O(1)\)</span>. Когда <code>size</code> = <code>capacity</code>, так сделать не удастся. Поэтому, происходит следующее: 1. <code>capacity</code> увеличивается примерно в 2 раза. 2. Выделяется область памяти, вмещающая <code>capacity</code> элементов. 3. Элементы из старой области памяти копируются в новую. 4. Старая область памяти освобождается.</p>
+<p>Поймём, почему амортизированное время работы <code>push_back</code> действительно равно <span class="math inline">\(O(1)\)</span>. Пусть сейчас <code>capacity</code> = <span class="math inline">\(n\)</span>. Тогда мы выделяли <span class="math inline">\(n + \frac{n}{2} + \frac{n}{4} + \dots &lt; 2n\)</span> памяти. На копирование также ушло не более <span class="math inline">\(2n\)</span> операций. Следовательно, так как операций <code>push_back</code> было хотя бы <span class="math inline">\(\frac{n}{2}\)</span>, каждая операция в среднем работала за <span class="math inline">\(O(1)\)</span>.</p>
+<p>Получить <code>capacity</code> у <code>vector</code> можно с помощью одноимённой функции. Рассмотрим пример того, как изменяется <code>capacity</code>.</p>
+<pre><code>vector&lt;int&gt; a;
+for (int i = 0; i &lt; 10; i++) {
+    a.push_back(i);
+    cout &lt;&lt; &quot;Size: &quot; &lt;&lt; a.size() &lt;&lt; &quot;, capacity &quot; &lt;&lt; a.capacity() &lt;&lt; &quot;\n&quot;;
+}
+
+/* Будет выведено:
+   Size: 1, capacity 1
+   Size: 2, capacity 2
+   Size: 3, capacity 4
+   Size: 4, capacity 4
+   Size: 5, capacity 8
+   Size: 6, capacity 8
+   Size: 7, capacity 8
+   Size: 8, capacity 8
+   Size: 9, capacity 16
+   Size: 10, capacity 16
+*/</code></pre>
+<h2 id="pair">pair</h2>
+<p><code>pair</code> — это тип, содержащий пару значений, притом значения могут быть разных типов. Объявление пары выглядит так:</p>
+<pre><code>pair&lt;T1, T2&gt; p;</code></pre>
+<p>Здесь <code>T1</code> и <code>T2</code> — это имена первого и второго типов, соответственно.</p>
+<p>Первый элемент пары — это <code>p.first</code>; второй — <code>p.second</code>.</p>
+<p><code>make_pair(a, b)</code> — функция, которая создаёт пару <span class="math inline">\((a, b)\)</span>.</p>
+<p>Рассмотрим пример работы с <code>pair</code>.</p>
+<pre><code>pair&lt;int, double&gt; p = make_pair(1, 2.0);
+pair&lt;int, double&gt; q = {1, 2.5}; // другой способ инициализировать пару
+cout &lt;&lt; p.first &lt;&lt; &quot; &quot; &lt;&lt; p.second &lt;&lt; &quot;\n&quot;;</code></pre>
+<h2 id="queue">queue</h2>
+<p>В c++ уже реализована такая структура, как очередь, она названа queue.</p>
+<pre><code>queue&lt;T&gt; q; //очередь типа T</code></pre>
+<p>Очередь - структура, реализующая принцип FIFO (первый пришел - первый вышел), то есть для очереди существуют две основные функции : Вставить в конец и достать с начала.</p>
+<pre><code>q.front(); // ссылка на первый элемент
+q.back(); // ссылка на последний элемент
+q.push(x); // добавить в конец
+q.pop(); //удалить с начала</code></pre>
+<h2 id="deque">deque</h2>
+<p>deque - структура, позволяющая работать и с началом и концом одновременно, то есть вставка и удаление с двух сторон</p>
+<pre><code>deque&lt;T&gt; name; // дек типа T с названием name
+name.front(), name.back(); // первый и последний элемент соответственно
+name.pop_front(), name.pop_back(); // удаление первого и последнего элемента
+name.push_front(x), name.push_back(x); // вставка x в начало/конец</code></pre>
+<p>Очередь и дек будут более подробно рассмотрены на одном из следующих занятий.</p>
+<h2 id="итераторы">Итераторы</h2>
+<p>Итератор — это объект, указывающий на элемент контейнера. Чтобы получить элемент, на который указывает итератор <code>it</code>, необходимо воспользоваться оператором разыменования: <code>*it</code>. Также если вам нужно перейти к следующему элементу надо использовать инкремент: <code>++it</code>.</p>
+<p>Есть несколько категорий итераторов: - <code>InputIterator</code>. Он поддерживает только операции разыменования и инкремента, притом после того, как был произведён инкремент, все копии его предыдущего значения могут стать невалидными. - <code>ForwardIterator</code>. Поддерживает то же, что и <code>InputIterator</code>, но итератор, указывающий на какой-то конкретный элемент, можно инкрементировать сколько угодно раз. - <code>BidirectionalIterator</code>. Поддерживает то же, что и <code>ForwardIterator</code>, но также есть возможность производить декремент (<code>it--</code>) — переходить к предыдущему элементу коллекции. - <code>RandomAccessIterator</code>. Поддерживает то же, что и <code>BidirectionalIterator</code>, но также есть возможность переходить к элементу коллекции, который находится от данного на каком-то расстоянии <span class="math inline">\(k\)</span>. Так, например, для итератора <code>it</code> возможны следующии операции: <code>it + k</code>, <code>it - k</code>, <code>it += k</code>, <code>it -= k</code>. Также можно находить расстояние между двумя позициями, на которые указывают итератора. Так, например, выражение <code>a - b</code> будет означать расстояние между двумя элементами коллекции, на которые указывают итераторы <code>a</code> и <code>b</code>.</p>
+<p>Рассмотрим использование итераторов на примере <code>vector</code>. Для вектора <code>a</code> итератор на его первый элемент можно получить так: <code>a.begin()</code>. Также есть функция, которая возвращает итератор на фиктивный элемент, следующий за последним элементом вектора: <code>a.end()</code>. Таким образом, весь <code>a</code> задаётся <em>полуинтервалом</em> <code>[a.begin(); a.end())</code> (левый конец включается, правый — нет).</p>
+<p>Итераторы у <code>vector</code> относятся к категории <code>RandomAccessIterator</code>, то есть например мы можем узнать размер <code>vector</code> <span class="math inline">\(a\)</span>, просто взяв <code>a.begin()</code> - <code>a.end()</code>. При этом у <code>vector</code> типа <code>vector&lt;T&gt;</code> итератор будет иметь тип <code>vector&lt;T&gt;::iterator</code>.</p>
+<p>Рассмотрим пример работы с итераторами у <code>vector</code>.</p>
+<pre><code>vector&lt;int&gt; a = {1, -2, 3, 100};
+
+vector&lt;int&gt;::iterator first_element = a.begin();
+cout &lt;&lt; *first_element &lt;&lt; &quot;\n&quot;; // выведет 1
+first_element++;
+cout &lt;&lt; *first_element &lt;&lt; &quot;\n&quot;; // выведет -2
+first_element--;
+cout &lt;&lt; *first_element &lt;&lt; &quot;\n&quot;; // выведет 1
+auto third_element = first_element + 2; // пользуемся типом auto, чтобы не писать длинное имя типа
+cout &lt;&lt; *third_element &lt;&lt; &quot;\n&quot;; // выведет 3
+cout &lt;&lt; (third_element - first_element) &lt;&lt; &quot;\n&quot;; // выведет 2
+
+// вывод всех элементов вектора с использованием итераторов
+for (auto it = a.begin(); it != a.end(); it++) {
+    cout &lt;&lt; *it &lt;&lt; &quot; &quot;;
+}
+cout &lt;&lt; &quot;\n&quot;; // но для таких целей лучше использовать range-based for loop:
+  
+for (auto&amp; it : a) {
+    cout &lt;&lt; a &lt;&lt; &quot; &quot;;
+}</code></pre>
+<h2 id="list">list</h2>
+<p>list - структура, которая поддерживает быструю вставку и удаление элементов из любой позиции в контейнере. Быстрый произвольный доступ, к сожалению, не поддерживается (то есть мы не можем быстро взять <span class="math inline">\(i\)</span>-й элемент). Он реализован в виде двусвязного списка</p>
+<pre><code>list&lt;T&gt; name; // создание листа типа Т с именем name
+name.insert(it, x); // вставка после итератора it переменной x
+name.erase(it); // удаляет элемент, на который указывает итератор
+name.front(), name.back(); // начало и конец name</code></pre>
+<h2 id="set">set</h2>
+<p><code>set</code> — это коллекция, которая содержит <strong>множество</strong> уникальных упорядоченных элементов.</p>
+<p>Чтобы добавить элемент в <code>set</code>, есть функция <code>insert</code>. В случае, если элемент уже был в множестве, ничего не происходит.<br />
+Чтобы удалить элемент из <code>set</code>, есть функция <code>erase</code>(в нее можно передать либо итератор на элемент, либо просто элемент). В случае, если элемента не было в множестве, ничего не происходит.<br />
+Чтобы посмотреть, если ли элемент в <code>set</code>, есть функция <code>count</code>. Она вернёт <span class="math inline">\(0\)</span>, если элемента нет в множестве, и <span class="math inline">\(1\)</span>, если он есть. Также есть метод <code>find</code>,  который возвращает итератор на элемент или <code>end</code>, если элемента нет.</p>
+<p>Все операции с элементами <code>set</code> (добавление, удаление, поиск) работают за <span class="math inline">\(O(\log n\)</span>), где <span class="math inline">\(n\)</span> — количество элементов в нём, так как он реализован с помощью сбалансированного двоичного дерева поиска.</p>
+<p>Итераторы <code>set</code> относятся к категории <code>BidirectionalIterator</code> и имеют тип <code>set&lt;T&gt;::iterator</code>. Начало <code>set</code> можно получить с помощью функции <code>begin</code>, конец — с помощью функции <code>end</code>. Как и в случае с вектором, <code>end</code> указывает на конец полуинтервала. Инкремент и декремент итераторов <code>set</code> также работают за логарифмическое время.</p>
+<p>Стоит отметить, что, так как элементы в <code>set</code> упорядочены, с помощью <code>begin</code> и <code>end</code> можно искать наименьший/наибольший элемент в <code>set</code>. Чтобы найти наименьший элемент, больший или равный заданному, есть функция <code>lower_bound</code>.<br />
+Чтобы найти наименьший элемент, строго больший заданному, есть функция <code>upper_bound</code>.<br />
+Каждая из этих функций возвращает итератор на искомый элемент или <code>end()</code>, если такого элемента не существует.</p>
+<p><code>set</code> может содержать только элементы тех типов, для которых определён оператор <code>&lt;</code>, поскольку ему важен порядок элементов.</p>
+<p>Рассмотрим пример простейших операций с <code>set</code>.</p>
+<pre><code>set&lt;int&gt; s;
+
+s.insert(3); // s = {3}
+s.insert(2); // s = {2, 3}
+cout &lt;&lt; s.size() &lt;&lt; &quot;\n&quot;; // выведет 2
+
+s.insert(3); // 3 не будет добавлено ещё раз, так как уже присутствует в множестве
+cout &lt;&lt; s.size() &lt;&lt; &quot;\n&quot;; // выведет 2
+
+s.insert(5); // s = {2, 3, 5}
+cout &lt;&lt; s.count(3) &lt;&lt; &quot;\n&quot;; // выведет 1
+cout &lt;&lt; s.count(4) &lt;&lt; &quot;\n&quot;; // выведет 0
+
+s.erase(3); // s = {2, 5}
+s.insert(6); // s = {2, 5, 6}
+
+set&lt;int&gt;::iterator it1 = s.find(5);
+it1++;
+cout &lt;&lt; *it1 &lt;&lt; &quot;\n&quot;; // выведет 6
+
+auto it2 = s.lower_bound(1);
+cout &lt;&lt; *it2 &lt;&lt; &quot;\n&quot;; // выведет 2, так как это первый элемент &gt;= 1
+
+auto it3 = s.upper_bound(2);
+cout &lt;&lt; *it3 &lt;&lt; &quot;\n&quot;; // выведет 5, так как это первый элемент &gt; 2.
+
+auto it4 = s.upper_bound(10);
+if (it4 == s.end()) {
+    cout &lt;&lt; &quot;No element &gt; 10\n&quot;; // аккуратно, если разыменуете it4, получите undefined behaviour!
+}
+
+// вывод всех элементов сета с использованием итераторов; элементы следуют в порядке возрастания
+for (auto it = s.begin(); it != s.end(); it++) {
+    cout &lt;&lt; *it &lt;&lt; &quot; &quot;;
+}
+cout &lt;&lt; &quot;\n&quot;; // но для таких целей лучше использовать range-based for loop!</code></pre>
+<h3 id="multiset">multiset</h3>
+<p><code>multiset</code> — то же, что и <code>set</code>, но может содержать повторяющиеся элементы.</p>
+<p><code>count</code> работает за <span class="math inline">\(O(\log n + c)\)</span>, где <span class="math inline">\(c\)</span> — количество искомых элементов. Поэтому, чтобы проверить наличие элемента <span class="math inline">\(el\)</span> в <code>multiset</code> <code>s</code>, надо воспользоваться: <code>s.find(el) != s.end()</code>.</p>
+<p><code>erase</code> удаляет все элементы с таким значением. Чтобы удалить один надо делать так: `s.erase(s.find(el)).</p>
+<h3 id="примеры-применения-сета-для-решения-задач">Примеры применения сета для решения задач</h3>
+<p>Очень часто использование сета позволяет решить задачу, которая решается и абсолютно другим способом. Иногда более сложным, а иногда и более простым. Чаще всего сет используется, если нужно сделать что-то, связанное с <strong>количеством разных элементов</strong> или с <strong>минимумом или максимум какого-то множества</strong>.</p>
+<h4 id="задача-девшука-или-юноша">1) Задача Девшука или Юноша</h4>
+<p><strong>Условие:</strong> http://codeforces.com/contest/236/problem/A</p>
+<p><strong>Условие вкратце:</strong> Найти чётность числа различных символов в строке.</p>
+<p><strong>Решение:</strong> вставим все символы в сет и проверим четность размера сета.</p>
+<p>Заметим, что эту задачу можно легко решить и подсчетом (как в сортировке подсчетом), так как символов бывает очень мало.</p>
+<h4 id="a-и-b-и-ошибки-компиляции">2) A и B и ошибки компиляции</h4>
+<p><strong>Условие:</strong> http://codeforces.com/contest/519/problem/B</p>
+<p><strong>Условие вкратце:</strong> Из массива убрали ровно одно число и перемешали элементы. Затем сделали так еще раз. Найдите, какие два элемента исчезли.</p>
+<p><strong>Решение:</strong> Добавим все числа в 3 различных мультисета, затем просто пройдемся по ним и найдем первый элемент, которого во втором меньше, чем в первои, но есть в первом. Мы нашли первую ошибку, вторая находится точно также.</p>
+<p>Заметим, что эту задачу можно было бы легко решить и просто отсортировав все числа, что асимптотически тоже <span class="math inline">\(O(N log N)\)</span>.</p>
+<h4 id="минимум-на-отрезке">3) Минимум на отрезке</h4>
+<p><strong>Условие:</strong> https://informatics.msk.ru/mod/statements/view3.php?chapterid=756</p>
+<p><strong>Условие вкратце:</strong> Найти минимум на каждом отрезке длины <span class="math inline">\(K\)</span> в массиве.</p>
+<p><strong>Решение:</strong> Давайте положим в мультисет первые <span class="math inline">\(K\)</span> элементов. Далее мы будем двигать это “окно”: добавлять новый элемент справа и убирать самый левый элемент. Каждый раз будем выводить минимум в сете, который лежит в <code>s.begin()</code>.</p>
+<p>Также эта задача решается такими структурами данных как</p>
+<ol type="1">
+<li><p>Очередь с минимумом (за <span class="math inline">\(O(N)\)</span>!)</p></li>
+<li><p>Дерево отрезков</p></li>
+<li><p>Sparse Table</p></li>
+<li><p>Куча</p></li>
+</ol>
+<p>Но решить задачу сетом гораздо проще.</p>
+<h2 id="map">map</h2>
+<p><code>map</code> — это ассоциативный контейнер: он содержит пары <em>ключ-значение</em>, при этом все ключи уникальны. Внутри контейнера все ключи упорядочены по возрастанию. Так же, как и в <code>set</code>, операции работают за логарифмическое время.</p>
+<p>Объявление <code>map</code> выглядит так: <code>map&lt;T1, T2&gt; map_name</code>, где <code>T1</code> — тип ключа, <code>T2</code> — тип значения.</p>
+<p>Доступ к элементам <code>map</code> осуществляется с помощью оператора <code>[]</code>. <code>map</code>, аналогично <code>set</code>, поддерживает поиск по ключу с помощью <code>find</code>, <code>lower_bound</code>, <code>upper_bound</code>. При разыменовании итератора получается пара, первый элемент которой — ключ, второй — значение.</p>
+<p>При обращении к несуществующему элементу <code>map</code> с помощью <code>[]</code>, значение инициализируется значением по умолчанию для данного типа.</p>
+<p>Рассмотрим работу <code>map</code> на примере:</p>
+<pre><code>map&lt;int, int&gt; a;
+a[13] = 5;
+a[2] = 7;
+cout &lt;&lt; a[2] &lt;&lt; &quot;\n&quot;; // выведет 7
+a[2]++;
+cout &lt;&lt; a[2] &lt;&lt; &quot;\n&quot;; // выведет 8
+a[100] = 42;
+
+/* Этот цикл выведет 3 строки:
+   2 8
+   13 5
+   100 42
+
+   Обратите внимание, что ключи упорядочены.
+*/
+for (auto el : a) {
+    cout &lt;&lt; el.first &lt;&lt; &quot; &quot; &lt;&lt; el.second &lt;&lt; &quot;\n&quot;;
+}
+
+
+map&lt;string, int&gt; b;
+b[&quot;Bob&quot;]--;
+b[&quot;Alice&quot;] += 2;
+b[&quot;Dan&quot;] = 123;
+
+/* Этот цикл выведет 2 строки:
+   Alice 2
+   Bob -1
+   Dan 123
+*/
+for (auto el : b) {
+    cout &lt;&lt; el.first &lt;&lt; &quot; &quot; &lt;&lt; el.second &lt;&lt; &quot;\n&quot;;
+}
+
+map&lt;string, vector&lt;int&gt;&gt; c;
+c[&quot;wow&quot;].push_back(2);
+c[&quot;abc&quot;] = {2, -1, 17};
+cout &lt;&lt; c[&quot;abc&quot;].size() &lt;&lt; &quot;\n&quot;; // выведет 3</code></pre>
+<h2 id="unordered-структуры-данных">Unordered структуры данных</h2>
+<p>Единственная проблема set и map - то что они работают за <span class="math inline">\(\log(n)\)</span>, что в некоторых задачах долго. Тогда возникает идея построить их не на двоичном дереве, а например на хештаблице (о ней вы узнаете на втором курсе), тогда unordered_set поддерживает вставку и удаление за <span class="math inline">\(O(1)\)</span>, единственная проблема - он содержит элементы в неотсортированном порядке, то есть мы уже не сможем искать минимум, максимум.</p>
+<p>На питоне встроенные set и dict - это именно аналоги unordered_set и unordered_map. Упорядоченного сета и мэпа на питоне нет.</p>
+<pre><code>unordered_set&lt;int&gt; a;
+a.insert(x);
+a.erase(x);</code></pre>
+<h2 id="полезные-функции-из-algorithm">Полезные функции из algorithm</h2>
+<h3 id="swap">swap</h3>
+<p><code>swap(a, b)</code> — обменивает значения переменных <code>a</code> и <code>b</code> местами.</p>
+<pre><code>int a = 5;
+int b = 3;
+cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b &lt;&lt; &quot;\n&quot;; // выведет 5 3
+swap(a, b);
+cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b &lt;&lt; &quot;\n&quot;; // выведет 3 5</code></pre>
+<h3 id="min_element-и-max_element">min_element и max_element</h3>
+<p><code>min_element(first, last)</code> — возвращает итератор на минимум на полуинтервале <code>[first; last)</code>.<br />
+<code>max_element(first, last)</code> — возвращает итератор на максимум на полуинтервале <code>[first; last)</code>.</p>
+<p>Если минимумов/максимумов несколько, то возвращается первое вхождение.</p>
+<pre><code>vector&lt;int&gt; numbers = {5, 3, 1, 2, 1};
+auto it = min_element(numbers.begin(), numbers.end());
+cout &lt;&lt; *it &lt;&lt; &quot; &quot; &lt;&lt; (it - numbers.begin()) &lt;&lt; &quot;\n&quot;; // выведет 1 2</code></pre>
+<h3 id="reverse">reverse</h3>
+<p><code>reverse(first, last)</code> — переворачивает полуинтервал <code>[first; last)</code> (элементы идут в обратном порядке).</p>
+<pre><code>vector&lt;int&gt; a = {5, 2, 3, 10, 17};
+reverse(a.begin(), a.begin() + 3);
+for (int x : a) {
+    cout &lt;&lt; x &lt;&lt; &quot; &quot;;
+}
+cout &lt;&lt; &quot;\n&quot;;</code></pre>
+<p>В этом примере будет выведено <code>3 2 5 10 17</code>.</p>
+<h3 id="sort-unique-и-компараторы">sort, unique и компараторы</h3>
+<p><code>sort(first, last)</code> — сортирует полуинтервал <code>[first; last)</code>.</p>
+<pre><code>vector&lt;int&gt; a = {5, 2, 10, 11, 2, 3};
+sort(a.begin(), a.end()); // сортируем весь вектор
+for (int x : a) {
+    cout &lt;&lt; x &lt;&lt; &quot; &quot;;
+}
+cout &lt;&lt; &quot;\n&quot;;</code></pre>
+<p>В этом примере будет выведено <code>2 2 3 5 10 11</code>.</p>
+<p>Функция <code>sort</code> может принимать третий параметр — <em>компаратор</em>. Компаратор — это функция, которая принимает два объекта и возвращает <code>true</code>, если первый <em>строго меньше</em> второго, и <code>false</code> иначе.</p>
+<p>Допустим, нам хотелось бы отсортировать числа по возрастанию их последней цифры, а при совпадении — по самому значению. Тогда мы могли бы написать следующий код:</p>
+<pre><code>bool cmp(int a, int b) {
+    return make_pair(a % 10, a) &lt; make_pair(b % 10, b);
+}
+
+// это внутри main
+vector&lt;int&gt; a = {30, 32, 12, 7, 15};
+sort(a.begin(), a.end(), cmp);
+for (int x : a) {
+    cout &lt;&lt; x &lt;&lt; &quot; &quot;;
+}
+cout &lt;&lt; &quot;\n&quot;;</code></pre>
+<p>В данном примере, как мы и хотели, будет выведено <code>30 12 32 15 7</code>.</p>
+<p><code>unique(first, last)</code> — принимает полуинтервал и удаляет все последовательные повторения элементов в нём. Функция возвращает итератор на конец полуинтервала, соответствующему уникализированным элементам. Значения элементов, которые следуют после этого полуинтервала, становятся неопределёнными. Поэтому рекомендуется использовать функцию <code>unique</code>, например, вместе с функцией <code>resize</code>.</p>
+<pre><code>vector&lt;int&gt; a = {5, 5, 5, 1, 5, 4, 4, 7, 1};
+a.resize(unique(a.begin(), a.end()) - a.begin());
+for (int x : a) {
+    cout &lt;&lt; x &lt;&lt; &quot; &quot;;
+}
+cout &lt;&lt; &quot;\n&quot;;</code></pre>
+<p>В данном примере будет выведено <code>5 1 5 4 7 1</code>.</p>
+<p>Часто требуется сначала отсортировать элементы, а потом убрать все повторения. Это делается следующей комбинацией:</p>
+<pre><code>sort(a.begin(), a.end());
+a.resize(unique(a.begin(), a.end()) - a.begin());</code></pre>
+<h3 id="nth_element">nth_element</h3>
+<p>Функция ставит на переданную позицию элемент, который был бы на этом месте после сортировки массива(работает за линию).</p>
+<pre><code>nth_element(begin, need, end); // need - позиция отсортированного массива, 
+//begin, end - итераторы на начало и конец места, которое надо сортировать.</code></pre>
+<h3 id="next_permutation-prev_permutation">next_permutation, prev_permutation</h3>
+<p>Генерирует следующую и предыдущую перестановку массива на отрезке с l по r;</p>
+<pre><code>next_permutation(l, r);//l, r - итераторы
+prev_permutation(a.begin(), a.end());</code></pre>
+<h3 id="merge">merge</h3>
+<pre><code>merge(начало первой последовательности, конец первой последовательности, начало 
+второй последовательности, конец второй последовательности, куда вставлять);</code></pre>
+<p>Слияние двух массивов, которое используется в сортировке слиянием.</p>
+<h3 id="lower_bound-upper_bound-binary_search">lower_bound, upper_bound, binary_search</h3>
+<p>Все эти функции принимают полуинтервал <code>[first; last)</code> и значение <code>value</code>. Полуинтервал должен быть упорядочен по отношению <code>element &lt; value</code> (сначала те элементы, которые удовлетворяют этому, потом остальные).</p>
+<p><code>lower_bound</code> — возвращает первый элемент, больший или равный <code>value</code>.<br />
+<code>upper_bound</code> — возвращает первый элемент, строго больший <code>value</code>.<br />
+<code>binary_search</code> — возвращает, присутствует ли <code>value</code> на этом полуинтервале.</p>
+<pre><code>vector&lt;int&gt; a = {1, 5, 5, 6, 7, 10};
+
+auto it1 = lower_bound(a.begin(), a.end(), 5);
+cout &lt;&lt; (it1 - a.begin()) &lt;&lt; &quot;\n&quot;; // выведет 1
+
+auto it2 = upper_bound(a.begin(), a.end(), 5);
+cout &lt;&lt; *it2 &lt;&lt; &quot;\n&quot;; // выведет 6
+
+if (binary_search(a.begin(), a.end(), 7)) {
+    cout &lt;&lt; &quot;There is an element = 7\n&quot;; // это будет выведено
+}</code></pre>
+<h4 id="внимание">Внимание!</h4>
+<p>Не используйте <code>lower_bound</code>, <code>upper_bound</code>, <code>binary_search</code> вместе с <code>set</code>/<code>map</code>! Они будут работать за линейное время. Используйте их собственные функции: <code>set::lower_bound</code> (вызывается через <code>.</code>) и так далее.</p>
+<h2 id="ускорение-ввода-и-вывода">Ускорение ввода и вывода</h2>
+<p>Стандартные <code>cin</code> и <code>cout</code> работают <em>очень</em> медленно. Чтобы исправить это, в начале вашей функции <code>main</code> пишите следующее:</p>
+<pre><code>ios::sync_with_stdio(0);
+cin.tie(0);
+cout.tie(0);</code></pre>
+<p>Это позволяет ускорить ввод и вывод в разы!</p>
+<p>Также крайне не рекомендуется использовать <code>endl</code> (кроме интерактивных задач). Используйте <code>"\n"</code>. Они отличаются тем, что <code>endl</code> делает <code>flush</code> вывода, то есть сразу же выводит то, что вы хотите. Если вы будете использовать <code>"\n"</code>, вывод будет накапливаться, а потом единожды выводиться, что гораздо быстрее.</p>
+<h2 id="задание">Задание</h2>
+<p>Это просто олимпиадные задачи, но почти в любой задаче можно использовать STL, чтобы упростить себе жизнь.</p>
+<ul>
+<li>Решите как можно больше задач в контесте на информатиксе: https://informatics.msk.ru/mod/statements/view3.php?id=34778&amp;chapterid=756#1</li>
+<li>Решите как можно больше задач в контесте на codeforces: http://codeforces.com/group/g92L0id9Yb/contest/229989</li>
+</ul>
+</body>
+</html>
