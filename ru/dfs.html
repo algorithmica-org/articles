@@ -126,190 +126,201 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-7" title="7">        <span class="cf">if</span> (!used[u])</a>
 <a class="sourceLine" id="cb1-8" title="8">            dfs(v);</a>
 <a class="sourceLine" id="cb1-9" title="9">}</a></code></pre></div>
-<p>Немного его модифицируем, а именно будем сохранять для каждой вершины, в какой момент мы в неё вошли и в какой вышли — соответствующие массивы будем называть <code>tin</code> и <code>tout</code>.</p>
-<p>Как их заполнить: заведем таймер, отвечающий за «время» на текущем состоянии обхода, и будем инкрементировать его каждый раз, когда заходим или выходим из вершины:</p>
-<pre><code>int tin[maxn], tout[maxn];
-int t = 0;
-
-void dfs(int v) {
-    tin[v] = t++;
-    for (int u : g[v])
-        if (!used[u])
-            dfs(u);
-    tout[v] = t++;
-}</code></pre>
-<p>Времена входа или выхода пригождается во многих графовых алгоритмах — далее мы разберем несколько.</p>
-<h1 id="мосты-и-точки-сочленения">Мосты и точки сочленения</h1>
-<p>Пусть дан связный неориентированный граф. <em>Мостом</em> называется ребро, при удалении которого граф становится несвязным.</p>
-<p>Запустим DFS из произвольной вершины и введем новые виды ребер :</p>
+<p>Немного его модифицируем, а именно будем сохранять для каждой вершины, в какой момент мы в неё вошли и в какой вышли — соответствующие массивы будем называть <span class="math inline">\(tin\)</span> и <span class="math inline">\(tout\)</span>.</p>
+<p>Как их заполнить: заведем таймер, отвечающий за «время» на текущем состоянии обхода, и будем инкрементировать его каждый раз, когда заходим в новую вершину:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> tin[maxn], tout[maxn];</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="dt">int</span> t = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="dt">void</span> dfs(<span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb2-5" title="5">    tin[v] = t++;</a>
+<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v])</a>
+<a class="sourceLine" id="cb2-7" title="7">        <span class="cf">if</span> (!used[u])</a>
+<a class="sourceLine" id="cb2-8" title="8">            dfs(u);</a>
+<a class="sourceLine" id="cb2-9" title="9">    tout[v] = t; <span class="co">// иногда счетчик тут тоже увеличивают</span></a>
+<a class="sourceLine" id="cb2-10" title="10">}</a></code></pre></div>
+<p>У этих массивов много полезных свойств:</p>
 <ul>
-<li><p>«Основные» рёбра обхода (англ. <em>tree edge</em>) — те, по которым были переходы в DFS.</p></li>
-<li><p>Обратные рёбра — то, по которым не было переходов в DFS.</p></li>
+<li>Вершина <span class="math inline">\(u\)</span> является предком <span class="math inline">\(v\)</span> <span class="math inline">\(\iff tin_v \in [tin_u, tout_u)\)</span>. Эту проверку можно делать за константу.</li>
+<li>Два полуинтервала — <span class="math inline">\([tin_v, tout_v)\)</span> и <span class="math inline">\([tin_u, tout_u)\)</span> — либо не пересекаются, либо один вложен в другой.</li>
+<li>В массиве <span class="math inline">\(tin\)</span> есть все числа из промежутка от 0 до <span class="math inline">\(n-1\)</span>, причём у каждой вершины свой номер.</li>
+<li>Размер поддерева вершины <span class="math inline">\(v\)</span> (включая саму вершину) равен <span class="math inline">\(tout_v - tin_v\)</span>.</li>
+<li>Если ввести нумерацию вершин, соответствующую <span class="math inline">\(tin\)</span>-ам, то индексы любого поддерева всегда будут каким-то промежутком в этой нумерации.</li>
 </ul>
-<p>Пусть есть ребро <span class="math inline">\(u \rightarrow v\)</span>. В каком случае оно является мостом? Понятно, что обратное ребро не может быть мостом, потому что мы уже посещали обе вершины и следовательно есть путь по ребрам самого ДФС. Теперь разберемся с ребрами ДФС. Они являются мостом, только если нет пути по обратным ребрам в какого-то из предков <span class="math inline">\(v\)</span>. Так как иначе мы можем удалить это ребро, но при этом останется путь по обратным ребрам.</p>
-<p>Давайте докажем, что если путь до предка существует, то существует и путь, такой, что нам достаточно пройти по одному обратному ребру. Пусть такого пути не существует, но при этом есть какой-то путь из <span class="math inline">\(n\)</span> обратных ребер, тогда давайте посмотрим куда могут вести эти ребра, они могут вести либо в поддерево вершины <span class="math inline">\(u\)</span>, либо в нее саму, либо в наддерево, в случае поддерева или самой вершины мы можем их убрать, так как есть путь по ребрам ДФС, в случае наддерева же нам достаточно сохранить только одно ребро в наддерево.</p>
-<p>Тогда давайте введем <span class="math inline">\(dp_{i}\)</span> - минимальный <span class="math inline">\(\space{\rm tin}\)</span> такой вершины, до которой мы можем добраться за какое-то количество ребер ДФС и одно обратное. Как его пересчитывать. Очень просто : у нас есть три возможных значения динамики.</p>
-<ol start="3" type="1">
-<li><p><span class="math inline">\(dp_{i} = min(tin_{i}, dp_{i})\)</span></p></li>
-<li><p><span class="math inline">\(dp_{i} = min(dp_{i}, dp_{son})\)</span>, где <span class="math inline">\(son\)</span> - сын <span class="math inline">\(i\)</span>-й вершины</p></li>
-<li><p><span class="math inline">\(dp_{i} = min(dp_{i}, tin_{back})\)</span>, где <span class="math inline">\(back\)</span> - вершина, для которой есть обратное ребро из <span class="math inline">\(i\)</span>-й вершины.</p></li>
-</ol>
-<p>Научимся понимать, какое ребро - ребро ДФС, а какое обратное. Если ребро ведет в уже использованную вершины, то это обратное ребро, иначе ребро ДФС.</p>
-<pre><code>int timer, tin[MAXN], dp[MAXN];
-
-void dfs(int u, int p) {
-    used[u] = true;
-    tin[u] = dp[v] = timer++;
-    for (auto to : g[v]) {
-        if (to == p) {
-            continue;
-        }
-        if (used[to]) {
-            dp[u] = min(dp[u], tin[to]);
-        }
-        else {
-            dfs(to, u);
-            dp[u] = min(dp[u], dp[to]);
-        }
-        if (dp[to] &gt; tin[u]) {
-            //ребро - мост
-        }
-    }
-}</code></pre>
-<h1 id="точки-сочленения">Точки сочленения</h1>
-<p>Точка сочленения - вершина, при удалении которой граф становится несвязным.</p>
-<p>Первое, что надо заметить, что мост и точка сочленения очень похожи, а что если они и ищутся одинаково. Давайте подумаем, что такое точка сочленения в рамках обратных ребер, это вершина у которой можно добраться до предка используя обратные и ребра ДФС вниз. Но тогда как изменится нахождение точек сочленения, единственное отличие, что у мостов надо было чтобы у предка было время входа строго больше, сейчас же нам достаточно и нестрогого неравенства, так как если из вершины можно добраться до нее самой, то она все равно точка сочленения. Также вылезает один крайний случай, а именно корень, так как в корень мы всегда войдем раньше других вершин, но тут решение очень простое, давайте посмотрим, сколько несвязных поддеревьев у корня.</p>
-<pre><code>int timer, tin[MAXN], dp[MAXN];
-
-void dfs(int u, int p = -1) {
-    used[u] = 1;
-    tin[u] = dp[u] = timer++;
-    int children = 0;
-    for (auto to : g[u]) {
-        if (to == p)  {
-            continue;
-        }
-        if (used[to]) {
-            dp[u] = min(dp[u], tin[to]);
-        }
-        else {
-            dfs(to, u);
-            dp[u] = min(dp[u], dp[to]);
-        }
-        if (dp[to] &gt;= tin[u] &amp;&amp; p != -1) {
-            //v - точка сочленения;
-        }
-        ++children;
-    }
-    if (p == -1 &amp;&amp; children &gt; 1) {
-        //u - точка сочленения;
-    }
-}</code></pre>
+<p>Эти свойства часто бывают полезными в задачах на деревья.</p>
+<h2 id="мосты-и-точки-сочленения">Мосты и точки сочленения</h2>
+<p><strong>Определение.</strong> <em>Мостом</em> называется ребро, при удалении которого связный неориентированный граф становится несвязным.</p>
+<p><strong>Определение.</strong> <em>Точкой сочленения</em> называется врешина, при удалении которой связный неориентированный граф становится несвязным.</p>
+<p>Пример задачи, где их интересно искать: дана топология сети (компьютеры и физические соединения между ними) и требуется установить все единые точки отказа — узлы и связи, без которых будут существовать два узла, между которыми не будет пути.</p>
+<p>Наивный алгоритм поочередного удаления каждого ребра <span class="math inline">\((u, v)\)</span> и проверки наличия пути <span class="math inline">\(u \leadsto v\)</span> потребует <span class="math inline">\(O(m^2)\)</span> операций. Чтобы научиться находить мосты быстрее, сначала сформулируем несколько утверждений, связанных с обходом в глубину.</p>
+<p>Запустим DFS из произвольной вершины. Введем новые виды рёбер:</p>
+<ul>
+<li><p><em>Прямые</em> рёбра — те, по которым были переходы в dfs.</p></li>
+<li><p><em>Обратные</em> рёбра — то, по которым не было переходов в dfs.</p></li>
+</ul>
+<p>Заметим, что никакое обратное ребро <span class="math inline">\((u, v)\)</span> не может являться мостом: если его удалить, то всё равно будет существовать какой-то путь от <span class="math inline">\(u\)</span> до <span class="math inline">\(v\)</span>, потому что подграф из прямых рёбер является связным деревом.</p>
+<p>Значит, остается только проверить все прямые рёбра. Это уже немного лучше — такой алгоритм будет работать за <span class="math inline">\(O(n m)\)</span>.</p>
+<p>Сооптимизировать его до линейного времени (до одного прохода dfs) поможет замечание о том, что обратные рёбра могут вести только «вверх» — к какому-то предку в дереве обхода графа, но не в другие «ветки» — иначе бы dfs увидел это ребро раньше, и оно было бы прямым, а не обратным.</p>
+<p><img src="http://codeforces.com/predownloaded/e4/11/e4112103b65ad2cb3287cf9df022ac858ff15554.png" /></p>
+<p>Тогда, чтобы определить, является ли прямое ребро <span class="math inline">\(v \to u\)</span> мостом, мы можем воспользоваться следующим критерием: глубина <span class="math inline">\(h_v\)</span> вершины <span class="math inline">\(v\)</span> меньше, чем минимальная глубина всех вершин, соединенных обратным ребром с какой-либо вершиной из поддерева <span class="math inline">\(u\)</span>.</p>
+<p>Для ясности, обозначим эту величину как <span class="math inline">\(d_u\)</span>, которую можно считать во время обхода по следующей формуле:</p>
+<p><span class="math display">\[
+d_v = \min \begin{cases}
+h_v, &amp;\\
+d_u, &amp;\text{ребро } (v \to u) \text{ прямое} \\
+h_u, &amp;\text{ребро } (v \to u) \text{ обратное}
+\end{cases}
+\]</span></p>
+<p>Если это условие (<span class="math inline">\(h_v &lt; d_u\)</span>) не выполняется, то существует какой-то путь из <span class="math inline">\(u\)</span> в какого-то предка <span class="math inline">\(v\)</span> или саму <span class="math inline">\(v\)</span>, не использующий ребро <span class="math inline">\((v, u)\)</span>, а в противном случае — наоборот.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>;</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="dt">bool</span> used[maxn];</a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="dt">int</span> h[maxn], d[maxn];</a>
+<a class="sourceLine" id="cb3-5" title="5"></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="dt">void</span> dfs(<span class="dt">int</span> v, <span class="dt">int</span> p = -<span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb3-7" title="7">    used[u] = <span class="kw">true</span>;</a>
+<a class="sourceLine" id="cb3-8" title="8">    d[v] = h[v] = (p == -<span class="dv">1</span> ? <span class="dv">0</span> : h[p] + <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb3-9" title="9">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v]) {</a>
+<a class="sourceLine" id="cb3-10" title="10">        <span class="cf">if</span> (u != p) {</a>
+<a class="sourceLine" id="cb3-11" title="11">            <span class="cf">if</span> (used[u]) <span class="co">// если рябро обратное</span></a>
+<a class="sourceLine" id="cb3-12" title="12">                d[v] = min(d[v], h[u]);</a>
+<a class="sourceLine" id="cb3-13" title="13">            <span class="cf">else</span> { <span class="co">// если рябро прямое</span></a>
+<a class="sourceLine" id="cb3-14" title="14">                dfs(u, v);</a>
+<a class="sourceLine" id="cb3-15" title="15">                d[v] = min(d[v], d[u]);</a>
+<a class="sourceLine" id="cb3-16" title="16">                <span class="cf">if</span> (h[v] &lt; d[v]) {</a>
+<a class="sourceLine" id="cb3-17" title="17">                    <span class="co">// ребро (v, u) -- мост</span></a>
+<a class="sourceLine" id="cb3-18" title="18">                }</a>
+<a class="sourceLine" id="cb3-19" title="19">            }</a>
+<a class="sourceLine" id="cb3-20" title="20">        }</a>
+<a class="sourceLine" id="cb3-21" title="21">    }</a>
+<a class="sourceLine" id="cb3-22" title="22">}</a></code></pre></div>
+<p><strong>Примечание.</strong> Более известен алгоритм, вместо глубин вершин использующий их <span class="math inline">\(tin\)</span>, но автор считает его чуть более сложным для понимания.</p>
+<h3 id="точки-сочленения">Точки сочленения</h3>
+<p>Задача поиска точек сочленения не сильно отличается от задачи поиска мостов.</p>
+<p>Вершина <span class="math inline">\(v\)</span> является точкой сочленения, когда из какого-то её ребёнка <span class="math inline">\(u\)</span> нельзя дойти до её предка, не используя ребро <span class="math inline">\((v, u)\)</span>. Для конкретного прямого ребра <span class="math inline">\(v \to u\)</span> этот факт можно проверить так: <span class="math inline">\(h_v \leq d_u\)</span> (теперь нам нам достаточно нестрогого неравенства, так как если из вершины можно добраться до нее самой, то она все равно будет точкой сочленения).</p>
+<p>Используя этот факт, можно оставить алгоритм практически прежним — нужно проверить этот критерий для всех прямых рёбер <span class="math inline">\(v \to u\)</span>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">void</span> dfs(<span class="dt">int</span> v, <span class="dt">int</span> p = -<span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb4-2" title="2">    used[u] = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb4-3" title="3">    d[v] = h[v] = (p == -<span class="dv">1</span> ? <span class="dv">0</span> : h[p] + <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb4-4" title="4">    <span class="dt">int</span> children = <span class="dv">0</span>; <span class="co">// случай с корнем обработаем отдельно</span></a>
+<a class="sourceLine" id="cb4-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> u : g[u]) {</a>
+<a class="sourceLine" id="cb4-6" title="6">        <span class="cf">if</span> (u != p) {</a>
+<a class="sourceLine" id="cb4-7" title="7">            <span class="cf">if</span> (used[u])</a>
+<a class="sourceLine" id="cb4-8" title="8">                d[v] = min(d[v], h[u]);</a>
+<a class="sourceLine" id="cb4-9" title="9">            <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb4-10" title="10">                dfs(u, v);</a>
+<a class="sourceLine" id="cb4-11" title="11">                d[v] = min(d[v], d[u]);</a>
+<a class="sourceLine" id="cb4-12" title="12">                <span class="cf">if</span> (dp[v] &gt;= tin[u] &amp;&amp; p != -<span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb4-13" title="13">                    <span class="co">// u -- точка сочленения</span></a>
+<a class="sourceLine" id="cb4-14" title="14">                }</a>
+<a class="sourceLine" id="cb4-15" title="15">                children++;</a>
+<a class="sourceLine" id="cb4-16" title="16">            }</a>
+<a class="sourceLine" id="cb4-17" title="17">        }</a>
+<a class="sourceLine" id="cb4-18" title="18">    }</a>
+<a class="sourceLine" id="cb4-19" title="19">    <span class="cf">if</span> (p == -<span class="dv">1</span> &amp;&amp; children &gt; <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb4-20" title="20">        <span class="co">// v -- корень и точка сочленения</span></a>
+<a class="sourceLine" id="cb4-21" title="21">    }</a>
+<a class="sourceLine" id="cb4-22" title="22">}</a></code></pre></div>
+<p>Единственный крайний случай — это корень, так как в него мы по определению войдём раньше других вершин. Но фикс здесь очень простой — достаточно посмотреть, было ли у него более одной ветви в обходе (если корень удалить, то эти поддеревья станут несвязными между собой).</p>
 <h2 id="топологическая-сортировка">Топологическая сортировка</h2>
-<p>Задача о топологической сортировке графа звучит так:</p>
-<blockquote>
-<p>Дан ориентированный граф, нужно расставить его вершины в массиве так, чтобы все ребра шли вправо по массиву.</p>
-</blockquote>
-<p>Эта же задача очень часто встречается в реальной жизни. Например, у вас есть много зависимостей вида “в библиотеке А используется библиотека B”, и вам нужно загрузить все библиотеки в таком порядке, чтобы никогда не загружать A до B.</p>
-<p>Или, например, у вас есть список зависимых дел - “чтобы сделать А, надо сначала сделать B”, и вам нужно понять, в каком порядке делать все дела.</p>
-<p>Во-первых, сразу заметим, что граф с циклом топологически отсортировать не получится - как ни располагай цикл в массиве, все время идти вправо по ребрам цикла не получится, потому что в итоге должен оказаться в самой левой вершине цикла.</p>
-<p>Во-вторых, верно обратное! Если цикла нет, то его обязательно можно топологически отсортировать. Попытаемся придумать как, заодно придумаем алгоритм.</p>
-<p>Заметим, что вершину, из которой не ведет ни одно ребро, можно всегда поставить последней. И такая вершина всегда есть в графе без циклов (если всегда есть внешнее ребро, то есть цикл). Из этого сразу следует доказательство: просто будем класть в массив вершину, из которой ничего не ведет и убирать ее из графа. Массив потом надо будет развернуть.</p>
-<p>Алгоритм же сразу получается, если внимательно посмотреть на <strong>время выхода</strong> вершин. Вершина, из которой мы вышли в DFS-е первой - как раз та, из которой ничего не выходит. Ведь если из нее есть ребро, то только в уже посещенную, но мы не могли выйти из нее, ведь мы берем самую первую из которой мы вышли. Значит, это одна из серых вершин, в котороые мы вошли, и не вышли, и это цикл.</p>
-<p>Из этого следует, что достаточно просто брать вершины в порядке выхода из DFS, то есть в конце DFS, например, просто класть эту вершину в конец массива с ответом. Ну и этот массив надо удет перевернуть, чтобы все ребра шли вправо, а не влево.</p>
+<p>Задача топологической сортировки графа звучит так: дан ориентированный граф, нужно упорядочить его вершины в массиве так, чтобы все графа рёбра вели из более ранней вершины в более позднюю.</p>
+<p>Это может быть полезно, например, при планировании выполнения связанных задач: вам нужно одеться, в правильном порядке надев шорты (1), штаны (2), ботинки (3), подвернуть штаны (4) — как хипстеры — и завязать шнурки (5).</p>
+<p><img src="https://he-s3.s3.amazonaws.com/media/uploads/d6be27e.png" /></p>
+<p>Во-первых, сразу заметим, что граф с циклом топологически отсортировать не получится — как ни располагай цикл в массиве, все время идти вправо по ребрам цикла не получится.</p>
+<p>Во-вторых, верно обратное. Если цикла нет, то его обязательно можно топологически отсортировать — сейчас покажем, как.</p>
+<p>Заметим, что вершину, из которой не ведет ни одно ребро, можно всегда поставить последней, а такая вершина в ациклическом графе всегда есть (иначе можно было бы идти по обратным рёбрам бесконечно). Из этого сразу следует конструктивное доказательство: будем итеративно класть в массив вершину, из которой ничего не ведет, и убирать ее из графа. После этого процесса массив надо будет развернуть.</p>
+<p>Этот алгоритм проще реализовать, обратив внимание на времена выхода вершин в dfs. Вершина, из которой мы выйдем первой — та, у которой нет новых исходящих ребер. Дальше мы будем выходить только из тех вершин, которые если имеют исходящие ребра, то только в те вершины, из которых мы уже вышли.</p>
+<p>Следовательно, достаточно просто выписать вершины в порядке выхода из dfs, а затем полученный список развернуть, и мы получим какую-то из корректных топологических сортировок.</p>
 <h2 id="компоненты-сильной-связности">Компоненты сильной связности</h2>
-<p>Мы только что научились топологически сортировать ациклические графы. А что же делать с циклическими графами? Ведь в них тоже хочется найти какую-то структуру.</p>
-<p>Для этого обычно вводят такое понятие как “сильная связность”. В ориентированных графах две вершины связаны сильно, если существует путь из одной в другую и наоборот. Проще говоря, они обе лежат на каком-то цикле.</p>
-<p>Понятно, что такое отношение транзитивно: если А и B сильно связны, и B и C сильно связны, то A и C тоже сильно связны. Поэтому все вершины распадаются на такие компоненты сильной связности - такое разбиение вершин, что внутри одной компоненты все вершины сильно связаны, а между вершинами разных компонент сильно связности нет.</p>
-<figure>
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Graph_Condensation.svg/640px-Graph_Condensation.svg.png" alt="Example" /><figcaption>Example</figcaption>
-</figure>
-<p>Самый простой пример сильно-связной компоненты - это цикл. Но это может быть и полный граф, и любое сложное пересечение нескольких циклов.</p>
-<p>Часто рассматривают граф самих компонент сильной связности. На катинке выше их шесть, и между ними остаются ребра из изначально графа. Очевидно, что такой граф уже удет ациклических: иначе компоненты на цикле нужно было бы объединить в одну.</p>
-<h2 id="конденсация-графа">Конденсация графа</h2>
-<p>Задача о конденсации графа звучит так:</p>
-<blockquote>
-<p>Дан ориентированный граф <span class="math inline">\(G\)</span>, множество вершин которого <span class="math inline">\(V\)</span> и множество рёбер — <span class="math inline">\(E\)</span>. Конденсацией назовем сжатие каждой компоненты сильной связности в одну вершину. Каждой вершине графа конденсации соответствует компонента сильной связности графа <span class="math inline">\(G\)</span>, а ориентированное ребро между двумя вершинами <span class="math inline">\(C_i\)</span> и <span class="math inline">\(C_j\)</span> графа конденсации проводится, если найдётся пара вершин <span class="math inline">\(u \in C_i, v \in C_j\)</span>, между которыми существовало ребро в исходном графе, т.е. <span class="math inline">\((u,v) \in E\)</span>.</p>
-</blockquote>
-<blockquote>
-<p>Необходимо найти, какие вершины лежат в каждой компоненте сильной связности и построить граф конденсации.</p>
-</blockquote>
-<p><strong>Теорема.</strong> Запустим DFS. Пусть <span class="math inline">\(C\)</span> и <span class="math inline">\(C^\prime\)</span> — две различные компоненты сильной связности, и пусть в графе конденсации между ними есть ребро <span class="math inline">\((C,C^\prime)\)</span>. Тогда <span class="math inline">\(\max\limits_{c\in C}(\space{\rm tout}[c]) &gt; \max\limits_{c^\prime\in C^\prime}({\rm tout}[c^\prime])\)</span>.</p>
-<p>При доказательстве возникают два принципиально различных случая в зависимости от того, в какую из компонент первой зайдёт обход в глубину$:</p>
-<p>Первой была достигнута компонента <span class="math inline">\(C\)</span>. Это означает, что в какой-то момент времени обход в глубину заходит в некоторую вершину <span class="math inline">\(v\)</span> компоненты <span class="math inline">\(C\)</span>, при этом все остальные вершины компонент <span class="math inline">\(C\)</span> и <span class="math inline">\(C^\prime\)</span> ещё не посещены. Но, т.к. по условию в графе конденсаций есть ребро <span class="math inline">\((C,C^\prime)\)</span>, то из вершины <span class="math inline">\(v\)</span> будет достижима не только вся компонента <span class="math inline">\(C\)</span>, но и вся компонента <span class="math inline">\(C^\prime\)</span>. Это означает, что при запуске из вершины <span class="math inline">\(v\)</span> обход в глубину пройдёт по всем вершинам компонент <span class="math inline">\(C\)</span> и <span class="math inline">\(C^\prime\)</span>, а, значит, они станут потомками по отношению к <span class="math inline">\(v\)</span> в дереве обхода в глубину, т.е. для любой вершины <span class="math inline">\(u \in C \cup C^\prime, u \ne v\)</span> будет выполнено <span class="math inline">\({\rm tout}[v] &gt; {\rm tout}[u]\)</span>, ч.т.д.</p>
-<p>Обратный случай рассматривается проще, из <span class="math inline">\(C^\prime\)</span> нельзя добраться до <span class="math inline">\(C\)</span>, а следовательно доказано.</p>
-<p>Из этого и следует первая часть решения - давайте отсортируем вершины по убыванию времени выхода (будто топсорт, но на циклическом графе). Рассмотрим компоненту сильной связности первой вершины, назовем ее <span class="math inline">\(C^\prime\)</span>. В эту компоненту точно нет никаких рёбер из других компонент (иначе <span class="math inline">\(\max\limits_{c\in C}(\space{\rm tout}[c]) &gt; \max\limits_{c^\prime\in C^\prime}({\rm tout}[c^\prime])\)</span>, а первая вершина - это вообще-то максимум времени выхода). Поэтому если мы развернем все ребра, то из этой вершины все еще будет достижима своя компонента сильной связности <span class="math inline">\(C^\prime\)</span>, и больше точно ничего - если раньше не было ребер из других компонент, то после разворота ребер не стало ребер в другие компоненты.</p>
-<p>Так что второй шаг такой - разворачиваем ребра, запускаем DFS в таком порядке, ищем компоненты связности как в обычном графе. Попутно можно строить и граф конденсации.</p>
-<pre><code>vector&lt;int&gt; g[N], gr[N];
-bool used[N];
-vector&lt;int&gt; order, component;
-
-void dfs1(int v) {
-    used[v] = true;
-    for (int i = 0; i &lt; g[v].size(); i++) {
-        if (!used[g[v][i]]) {
-            dfs1(g[v][i]);
-        }
-    }
-    order.push_back (v);
-}
-
-void dfs2(int v) {
-    used[v] = true;
-    component.push_back(v);
-    for (int i = 0; i &lt; gr[v].size(); i++) {
-        if (!used[gr[v][i]]) {
-            dfs2(gr[v][i]);
-        }
-    }
-}
-
-int main() {
-    for (;;) {
-        g[a].push_back(b);
-        gr[b].push_back(a);
-    }
-    for (int i = 0; i &lt; n; i++){
-        if (!used[i]) {
-            dfs1(i);
-        }
-    }
-    for (int i = 0; i &lt; n; i++) {
-        used[i] = 0;
-    }
-    reverse(order.begin(), order.end());
-    for (int i = 0; i &lt; n; i++) {
-        int v = order[i];
-        if (!used[v]) {
-            dfs2 (v);
-        }
-    }
-}</code></pre>
-<p>Еще раз вкратце:</p>
+<p>Мы только что научились топологически сортировать ациклические графы. А что же делать с циклическими графами? В них тоже иногда требуется найти какую-то структуру.</p>
+<p>Для этого можно ввести понятие <em>сильной связности</em>.</p>
+<p><strong>Определение.</strong> Две вершины ориентированного графа <em>связаны сильно</em> (англ. <em>strongly connected</em>), если существует путь из одной в другую и наоборот. Иными словами, они обе лежат в каком-то цикле.</p>
+<p>Понятно, что такое отношение транзитивно: если <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> сильно связны, и <span class="math inline">\(b\)</span> и <span class="math inline">\(c\)</span> сильно связны, то <span class="math inline">\(a\)</span> и <span class="math inline">\(c\)</span> тоже сильно связны. Поэтому все вершины распадаются на <em>компоненты сильной связности</em> — такое разбиение вершин, что внутри одной компоненты все вершины сильно связаны, а между вершинами разных компонент сильной связности нет.</p>
+<p><embed src="https://qph.fs.quoracdn.net/main-qimg-d80b38c88a36c7070f14c734c105c5d5.webp" /></p>
+<p>Самый простой пример сильно-связной компоненты — это цикл. Но это может быть и полный граф, или сложное пересечение нескольких циклов.</p>
+<p>Часто рассматривают граф, составленный из самих компонент сильной связности, а не индивидуальных вершин. Очевидно, такой граф уже будет ациклическим, и с ним проще работать. Задачу о сжатии каждой компоненты сильной связности в одну вершину называют <strong>конденсацией</strong> графа, и её решение мы сейчас опишем.</p>
+<p>Если мы знаем, какие вершины лежат в каждой компоненте сильной связности, то построить граф конденсации несложно: дальше нужно лишь провести некоторые манипуляции со списками смежности. Поэтому сразу сведем исходную задачу к нахождению самих компонент.</p>
+<p><strong>Лемма.</strong> Запустим dfs. Пусть <span class="math inline">\(A\)</span> и <span class="math inline">\(B\)</span> — две различные компоненты сильной связности, и пусть в графе конденсации между ними есть ребро <span class="math inline">\(A \to B\)</span>. Тогда:</p>
+<p><span class="math display">\[
+\max\limits_{a \in A}(tout_a) &gt; \max\limits_{b\in B}(tout_b)
+\]</span></p>
+<p><strong>Доказательство.</strong> Рассмотрим два случая, в зависимости от того, в какую из компонент dfs зайдёт первым.</p>
+<p>Пусть первой была достигнута компонента <span class="math inline">\(A\)</span>, то есть в какой-то момент времени dfs заходит в некоторую вершину <span class="math inline">\(v\)</span> компоненты <span class="math inline">\(A\)</span>, и при этом все остальные вершины компонент <span class="math inline">\(A\)</span> и <span class="math inline">\(B\)</span> ещё не посещены. Но так как по условию в графе конденсаций есть ребро <span class="math inline">\(A \to B\)</span>, то из вершины <span class="math inline">\(v\)</span> будет достижима не только вся компонента <span class="math inline">\(A\)</span>, но и вся компонента <span class="math inline">\(B\)</span>. Это означает, что при запуске из вершины <span class="math inline">\(v\)</span> обход в глубину пройдёт по всем вершинам компонент <span class="math inline">\(A\)</span> и <span class="math inline">\(B\)</span>, а, значит, они станут потомками по отношению к <span class="math inline">\(v\)</span> в дереве обхода, и для любой вершины <span class="math inline">\(u \in A \cup B, u \ne v\)</span> будет выполнено <span class="math inline">\(tout_v] &gt; tout_u\)</span>, что и утверждалось.</p>
+<p>Второй случай проще: из <span class="math inline">\(B\)</span> по условию нельзя дойти до <span class="math inline">\(A\)</span>, а значит, если первой была достигнута <span class="math inline">\(B\)</span>, то dfs выйдет из всех её вершин ещё до того, как войти в <span class="math inline">\(A\)</span>.</p>
+<p>Из этого факта следует первая часть решения. Отсортируем вершины по убыванию времени выхода (как бы сделаем топологическую сортировку, но на циклическом графе). Рассмотрим компоненту сильной связности первой вершины в сортировке. В эту компоненту точно не входят никакие рёбра из других компонент — иначе нарушилось бы условие леммы, ведь у первой вершины <span class="math inline">\(tout\)</span> максимальный . Поэтому, если развернуть все рёбра в графе, то из этой вершины будет достижима своя компонента сильной связности <span class="math inline">\(C^\prime\)</span>, и больше ничего — если в исходном графе не было рёбер <strong>из</strong> других компонент, то в транспонированном не будет ребер <strong>в</strong> другие компоненты.</p>
+<p>После того, как мы сделали это с первой вершиной, мы можем пойти по топологически отсортированному списку дальше и делать то же самое с вершинами, для которых компоненту связности мы ещё не отметили.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1">vector&lt;<span class="dt">int</span>&gt; g[maxn], t[maxn];</a>
+<a class="sourceLine" id="cb5-2" title="2">vector&lt;<span class="dt">int</span>&gt; order;</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="dt">bool</span> used[maxn];</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="dt">int</span> component[maxn];</a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="dt">int</span> cnt_components = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">// топологическая сортировка</span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="dt">void</span> dfs1(<span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb5-9" title="9">    used[v] = <span class="kw">true</span>;</a>
+<a class="sourceLine" id="cb5-10" title="10">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v]) {</a>
+<a class="sourceLine" id="cb5-11" title="11">        <span class="cf">if</span> (!used[u]) </a>
+<a class="sourceLine" id="cb5-12" title="12">            dfs1(u);</a>
+<a class="sourceLine" id="cb5-13" title="13">    order.push_back(v);</a>
+<a class="sourceLine" id="cb5-14" title="14">}</a>
+<a class="sourceLine" id="cb5-15" title="15"></a>
+<a class="sourceLine" id="cb5-16" title="16"><span class="co">// маркировка компонент сильной связности</span></a>
+<a class="sourceLine" id="cb5-17" title="17"><span class="dt">void</span> dfs2(<span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb5-18" title="18">    component[v] = cnt_components;</a>
+<a class="sourceLine" id="cb5-19" title="19">    <span class="cf">for</span> (<span class="dt">int</span> u : t[v])</a>
+<a class="sourceLine" id="cb5-20" title="20">        <span class="cf">if</span> (cnt_components[u] == <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb5-21" title="21">            dfs2(u);</a>
+<a class="sourceLine" id="cb5-22" title="22">}</a>
+<a class="sourceLine" id="cb5-23" title="23"></a>
+<a class="sourceLine" id="cb5-24" title="24"></a>
+<a class="sourceLine" id="cb5-25" title="25"><span class="co">// в содержательной части main:</span></a>
+<a class="sourceLine" id="cb5-26" title="26"></a>
+<a class="sourceLine" id="cb5-27" title="27"><span class="co">// транспонируем граф</span></a>
+<a class="sourceLine" id="cb5-28" title="28"><span class="cf">for</span> (<span class="dt">int</span> v = <span class="dv">0</span>; v &lt; n; v++)</a>
+<a class="sourceLine" id="cb5-29" title="29">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v])</a>
+<a class="sourceLine" id="cb5-30" title="30">        t[u].push_back(v);</a>
+<a class="sourceLine" id="cb5-31" title="31"></a>
+<a class="sourceLine" id="cb5-32" title="32"><span class="co">// запускаем топологическую сортировку</span></a>
+<a class="sourceLine" id="cb5-33" title="33"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
+<a class="sourceLine" id="cb5-34" title="34">    <span class="cf">if</span> (!used[i])</a>
+<a class="sourceLine" id="cb5-35" title="35">        dfs1(i);</a>
+<a class="sourceLine" id="cb5-36" title="36"></a>
+<a class="sourceLine" id="cb5-37" title="37"><span class="co">// выделяем компоненты</span></a>
+<a class="sourceLine" id="cb5-38" title="38">reverse(order.begin(), order.end());</a>
+<a class="sourceLine" id="cb5-39" title="39"><span class="cf">for</span> (<span class="dt">int</span> v : order)</a>
+<a class="sourceLine" id="cb5-40" title="40">    <span class="cf">if</span> (component[v] == <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb5-41" title="41">        dfs2(v);</a></code></pre></div>
+<p>TL;DR:</p>
 <ol type="1">
 <li><p>Сортируем вершины в порядке убывания времени выхода.</p></li>
-<li><p>Проходимся по массиву вершин в том порядке на равернутом графе и запускаем на нем DFS, выделяя компоненты сильной связности.</p></li>
+<li><p>Проходимся по массиву вершин в этом порядке, и для ещё непомеченных вершин запускаем dfs на транспонированном графе, помечающий все достижимые вершины номером новой компонентой связности.</p></li>
 </ol>
+<p>После этого номера компонент связности будут топологически отсортированы.</p>
 <h2 id="sat">2-SAT</h2>
-<p>Вспомним, что такое конъюнкция (логическое И, обозначается знаком * или <span class="math inline">\(\vee\)</span> или &amp;.) и дизъюнкция (логическое ИЛИ, обозначается знаком + или <span class="math inline">\(\wedge\)</span> или |), конъюкция возвращает 1 тогда и только тогда, когда обе переменные - 1, а дизъюнкция, возвращает 0, когда обе - 0.</p>
-<p>Давайте теперь возьмем конъюнкцию дизъюнктов, а именно И от ИЛИ от переменных (или НЕ переменных). Например, такое выражение:</p>
-<pre><code>(a | b) &amp; (!c | d) &amp; (!a | !b) // (А ИЛИ B) И (НЕ C ИЛИ D) И (НЕ A ИЛИ НЕ B)</code></pre>
-<p>Задача SAT заключается в том, чтобы найти такие значения переменных, при которых это выражение становится истинным, ии сказать, что таких нет. Заметьте, что у нас в каждой скобке в этом примере ровно две переменные, в таком случае задача называется 2-SAT, и именно ее мы и хотим решить. Для примера выше решением является <span class="math inline">\(a=1, b=0, c=0, d=1\)</span> (убедитесь, что все скобки стали True).</p>
-<p>Причем тут графы? А вот часто в разных математических задачах надо внезапно ввести граф и он тут же помогает решить задачу.</p>
-<p>Приведем сначала выоажение к другому виду - импликативному. Заметим, что выражение вида a | b эквивалентно <span class="math inline">\(!a \rightarrow b\)</span> или<span class="math inline">\(!b \rightarrow a\)</span>.</p>
-<p>Построим граф импликаций: для каждой переменной в графе будет по две вершины, обозначим их через <span class="math inline">\(x_{i}\)</span> и <span class="math inline">\(!x_{i}\)</span>. Рёбра в графе будут соответствовать импликациям.</p>
-<p>Теперь заметим, что если для какой-то переменной <span class="math inline">\(x_{i}\)</span> выполняется, что из <span class="math inline">\(x_{i}\)</span> достижимо <span class="math inline">\(!x_{i}\)</span>, а из <span class="math inline">\(!x_{i}\)</span> достижимо <span class="math inline">\(x_{i}\)</span>, то задача решения не имеет. Действительно, какое бы значение для переменной <span class="math inline">\(x_{i}\)</span> мы бы ни выбрали, мы всегда придём к противоречию - что должно быть выбрано и обратное ему значение. Оказывается, что это условие является не только достаточным, но и необходимым (доказательством этого факта будет описанный ниже алгоритм). Переформулируем данный критерий в терминах теории графов. Напомним, что если из одной вершины достижима вторая и наоборот, то эти две вершины находятся в одной компоненте сильной связности. Тогда мы можем сформулировать критерий существования решения следующим образом:</p>
-<p>Для того, чтобы данная задача 2-SAT имела решение, необходимо и достаточно, чтобы для любой переменной <span class="math inline">\(x_{i}\)</span> вершины <span class="math inline">\(x_{i}\)</span> и <span class="math inline">\(!x_{i}\)</span> находились в разных компонентах сильной связности графа импликаций.</p>
-<p>Пусть решение существует и нам надо его найти.</p>
-<p>Заметим, что, несмотря на то, что решение существует, для некоторых переменных может выполняться, что из <span class="math inline">\(x\)</span> достижимо <span class="math inline">\(!x\)</span> или из <span class="math inline">\(!x\)</span> достижимо <span class="math inline">\(x\)</span>. В таком случае выбор одного из значений переменной <span class="math inline">\(x\)</span> будет приводить к противоречию, в то время как выбор другого - не будет. Научимся выбирать из двух значений то, которое не приводит к возникновению противоречий. Сразу заметим, что, выбрав какое-либо значение, мы должны запустить из него обход в глубину/ширину и пометить все значения, которые следуют из него, т.е. достижимы в графе импликаций. Соответственно, для уже помеченных вершин никакого выбора между <span class="math inline">\(x\)</span> и <span class="math inline">\(!x\)</span> делать не нужно, для них значение уже выбрано и зафиксировано. Нижеописанное правило применяется только к непомеченным ещё вершинам.</p>
+<p><strong>Ликбез.</strong> Конъюнкция — это «правильный» термин для логического «И» (обозначается <span class="math inline">\(\vee\)</span> или &amp;). Конъюкция возвращает <code>true</code> тогда и только тогда, когда обе переменные <code>true</code>.</p>
+<p><strong>Ликбез.</strong> Дизъюнкция — это «правильный» термин для логического «ИЛИ» (обозначается <span class="math inline">\(\wedge\)</span> или |). Дизъюнкция возвращает <code>false</code> тогда и только тогда, когда обе переменные <code>false</code>.</p>
+<p>Рассмотрим конъюнкцию дизъюнктов, то есть «И» от «ИЛИ» от каких-то перемений или их отрицаний. Например, такое выражение:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1">(a | b) &amp; (!c | d) &amp; (!a | !b)</a></code></pre></div>
+<p>Если буквами: (А ИЛИ B) И (НЕ C ИЛИ D) И (НЕ A ИЛИ НЕ B).</p>
+<p><a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%BD%D1%8A%D1%8E%D0%BD%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%B0%D1%8F_%D0%BD%D0%BE%D1%80%D0%BC%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F_%D1%84%D0%BE%D1%80%D0%BC%D0%B0">Можно показать</a>, что любую логическую формулу можно представить в таком виде.</p>
+<p>Задача satisfiability (SAT) заключается в том, чтобы найти такие значения переменных, при которых выражение становится истинным, или сказать, что такого набора значений нет. Для примера выше такими значениями являются <code>a=1, b=0, c=0, d=1</code> (убедитесь, что каждая скобка стала <code>true</code>).</p>
+<p>В случае произвольных формул эта задача быстро не решается. Мы же хотим решить её частный случай — когда у нас в каждой скобке ровно две переменные (2-SAT).</p>
+<p>Казалось бы — причем тут графы? Заметим, что выражение <span class="math inline">\(a \, | \, b\)</span> эквивалентно <span class="math inline">\(!a \rightarrow b \,| \, !b \rightarrow a\)</span>. Здесь «<span class="math inline">\(\rightarrow\)</span>» означает импликацию («если <span class="math inline">\(a\)</span> верно, то <span class="math inline">\(b\)</span> тоже верно»). С помощью это подстановки приведем выражение к другому виду — импликативному.</p>
+<p>Затем построим граф импликаций: для каждой переменной в графе будет по две вершины, (обозначим их через <span class="math inline">\(x\)</span> и <span class="math inline">\(!x\)</span>), а рёбра в этом графе будут соответствовать импликациям.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Implication_graph.svg/1920px-Implication_graph.svg.png" /></p>
+<p>Заметим, что если для какой-то переменной <span class="math inline">\(x\)</span> выполняется, что из <span class="math inline">\(x\)</span> достижимо <span class="math inline">\(!x\)</span>, а из <span class="math inline">\(!x\)</span> достижимо <span class="math inline">\(x\)</span>, то задача решения не имеет. Действительно: какое бы значение для переменной <span class="math inline">\(x\)</span> мы бы ни выбрали, мы всегда придём к противоречию — что должно быть выбрано и обратное ему значение.</p>
+<p>Оказывается, что это условие является не только достаточным, но и необходимым. Доказательством этого факта служит описанный ниже алгоритм.</p>
+<p>Переформулируем данный критерий в терминах теории графов. Если из одной вершины достижима вторая и наоборот, то эти две вершины находятся в одной компоненте сильной связности. Тогда критерий существования решения звучит так: для того, чтобы задача 2-SAT имела решение, необходимо и достаточно, чтобы для любой переменной <span class="math inline">\(x\)</span> вершины <span class="math inline">\(x\)</span> и <span class="math inline">\(!x\)</span> находились в разных компонентах сильной связности графа импликаций.</p>
+<p>Пусть решение существует, и нам надо его найти. Заметим, что, несмотря на то, что решение существует, для некоторых переменных может выполняться, что из <span class="math inline">\(x\)</span> достижимо <span class="math inline">\(!x\)</span> или из <span class="math inline">\(!x\)</span> достижимо <span class="math inline">\(x\)</span> (но не одновременно). В таком случае выбор одного из значений переменной <span class="math inline">\(x\)</span> будет приводить к противоречию, в то время как выбор другого — не будет. Научимся выбирать из двух значений то, которое не приводит к возникновению противоречий. Сразу заметим, что, выбрав какое-либо значение, мы должны запустить из него обход в глубину/ширину и пометить все значения, которые следуют из него, т.е. достижимы в графе импликаций. Соответственно, для уже помеченных вершин никакого выбора между <span class="math inline">\(x\)</span> и <span class="math inline">\(!x\)</span> делать не нужно, для них значение уже выбрано и зафиксировано. Нижеописанное правило применяется только к непомеченным ещё вершинам.</p>
 <p>Утверждается следующее. Пусть <span class="math inline">\(\space{\rm comp}[V]\)</span> обозначает номер компоненты сильной связности, которой принадлежит вершина <span class="math inline">\(V\)</span>, причём номера упорядочены в порядке топологической сортировки компонент сильной связности в графе компонентов (т.е. более ранним в порядке топологической сортировки соответствуют большие номера: если есть путь из <span class="math inline">\(v\)</span> в <span class="math inline">\(w\)</span>, то <span class="math inline">\(\space{\rm comp}[v] \leq \space{\rm comp}[w]\)</span>). Тогда, если <span class="math inline">\(\space{\rm comp}[x] &lt; \space{\rm comp}[!x]\)</span>, то выбираем значение !x, иначе выбираем x.</p>
 <p>Докажем, что при таком выборе значений мы не придём к противоречию. Пусть, для определённости, выбрана вершина <span class="math inline">\(x\)</span> (случай, когда выбрана вершина <span class="math inline">\(!x\)</span>, доказывается также).</p>
 <p>Во-первых, докажем, что из <span class="math inline">\(x\)</span> не достижимо <span class="math inline">\(!x\)</span>. Действительно, так как номер компоненты сильной связности <span class="math inline">\(\space{\rm comp}[x]\)</span> больше номера компоненты <span class="math inline">\(\space{\rm comp}[!x]\)</span> , то это означает, что компонента связности, содержащая <span class="math inline">\(x\)</span>, расположена левее компоненты связности, содержащей <span class="math inline">\(!x\)</span>, и из первой никак не может быть достижима последняя.</p>
 <p>Во-вторых, докажем, что из любой вершины <span class="math inline">\(y\)</span>, достижимой из <span class="math inline">\(x\)</span> недостижима <span class="math inline">\(!y\)</span>. Докажем это от противного. Пусть из <span class="math inline">\(x\)</span> достижимо <span class="math inline">\(y\)</span>, а из <span class="math inline">\(y\)</span> достижимо <span class="math inline">\(!y\)</span>. Так как из <span class="math inline">\(x\)</span> достижимо <span class="math inline">\(y\)</span>, то, по свойству графа импликаций, из <span class="math inline">\(!y\)</span> будет достижимо <span class="math inline">\(!x\)</span>. Но, по предположению, из <span class="math inline">\(y\)</span> достижимо <span class="math inline">\(!y\)</span>. Тогда мы получаем, что из <span class="math inline">\(x\)</span> достижимо <span class="math inline">\(!x\)</span>, что противоречит условию, что и требовалось доказать.</p>
 <p>Итак, мы построили алгоритм, который находит искомые значения переменных в предположении, что для любой переменной <span class="math inline">\(x\)</span> вершины <span class="math inline">\(x\)</span> и <span class="math inline">\(!x\)</span> находятся в разных компонентах сильной связности. Выше показали корректность этого алгоритма. Следовательно, мы одновременно доказали указанный выше критерий существования решения.</p>
-<h1 id="эйлеров-путь-и-цикл">Эйлеров путь и цикл</h1>
-<p>Эйлеров путь - это путь в графе, проходящий через все его рёбра. Эйлеров цикл - это эйлеров путь, являющийся циклом.</p>
-<p>Научимся понимать, есть ли эйлеров цикл/путь в графе, давайте считать, что граф неориентированный. Изначально поймем, что граф должен состоять из одной компоненты и может содержать изолированные вершины.</p>
+<h2 id="эйлеров-цикл">Эйлеров цикл</h2>
+<p><strong>Определение.</strong> Эйлеров путь — это путь в графе, проходящий через все его рёбра.</p>
+<p><strong>Определение.</strong> Эйлеров цикл — это эйлеров путь, являющийся циклом.</p>
+<p>Для простоты будем считать, что граф неориентированный.</p>
+<p>Также есть понятие гамильтонова пути и цикла.</p>
 <p>Чтобы проверить, существует ли эйлеров путь, нужно воспользоваться следующей теоремой.</p>
 <blockquote>
 <p>Пусть дан неориентированный <strong>связный</strong> цикл. Эйлеров цикл существует тогда и только тогда, когда степени всех вершин чётны. Эйлеров путь существует тогда и только тогда, когда количество вершин с нечётными степенями равно двум (или нулю, в случае существования эйлерова цикла).</p>
@@ -317,47 +328,28 @@ int main() {
 <p>Кстати, аналогичная теорема есть и для ориентированного графа (можете сами попытаться сформулировать).</p>
 <p>Доказать это можно например через лемму о рукопожатиях.</p>
 <p>Как теперь мы будем решать задачу нахождения цикла в предположении, что он точно есть. Давайте запустимся из произвольной вершины, пройдем по любому ребру и удалим его.</p>
-<hr />
-<pre><code>void findeulerpath(int v){
-    stack &gt;s;
-    s.push({v, -1});
-    while (!s.empty()) {
-        v = s.top().first;
-        int x = s.top().second;
-        for (int i = 0; i &lt; g[v].size(); i++){
-            pair e = g[v][i];
-            if(!u[e.second]){
-                u[e.second]=1;
-                s.push(e);
-                break;
-            }
-        }
-        if (v == s.top().first) {
-            if (~x) {
-                p.push_back(x);
-            }
-            s.pop();
-        }
-    }
-}</code></pre>
-<h2 id="проверка-на-двудольность">Проверка на двудольность</h2>
-<p>Корректной раскраской графа в два цвета назывется такая раскраска, что никакое ребро не соединяет две вершины одного цвета. Графы, которые можно так раскрасить, называют еще двудольными.</p>
-<p>Пусть первая вершина графа принадлежит первой доли, тогда все вершины, для которых есть ребро в первую, должны принадлежить второй и так далее, но тогда заметим, что если в какой-то момент мы хотем покрасить уже покращенную вершину не в ее цвет, то граф не двудольный, проверить это можно например с помощью дфса : запустим дфс от каждой еще не посешенной вершины.</p>
-<pre><code>int n;
-vector&lt;int&gt; g[N];
-
-vector&lt;bool&gt; part(n, -1);
-void dfs(int u, int color) {
-    if (part[u] != color &amp;&amp; part[u] != -1) {
-        cout &lt;&lt; &quot;NO&quot;;
-        exit(0);
-    }
-    if (part[u] == color) {
-        return;
-    }
-    for (int i = 0; i &lt; g.size(); i++) {
-        dfs(g[u][i], 1 - color);
-    }
-}</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="dt">void</span> euler(<span class="dt">int</span> v){</a>
+<a class="sourceLine" id="cb7-2" title="2">    stack &gt;s;</a>
+<a class="sourceLine" id="cb7-3" title="3">    s.push({v, -<span class="dv">1</span>});</a>
+<a class="sourceLine" id="cb7-4" title="4">    <span class="cf">while</span> (!s.empty()) {</a>
+<a class="sourceLine" id="cb7-5" title="5">        v = s.top().first;</a>
+<a class="sourceLine" id="cb7-6" title="6">        <span class="dt">int</span> x = s.top().second;</a>
+<a class="sourceLine" id="cb7-7" title="7">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; g[v].size(); i++){</a>
+<a class="sourceLine" id="cb7-8" title="8">            pair e = g[v][i];</a>
+<a class="sourceLine" id="cb7-9" title="9">            <span class="cf">if</span>(!u[e.second]){</a>
+<a class="sourceLine" id="cb7-10" title="10">                u[e.second]=<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb7-11" title="11">                s.push(e);</a>
+<a class="sourceLine" id="cb7-12" title="12">                <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb7-13" title="13">            }</a>
+<a class="sourceLine" id="cb7-14" title="14">        }</a>
+<a class="sourceLine" id="cb7-15" title="15">        <span class="cf">if</span> (v == s.top().first) {</a>
+<a class="sourceLine" id="cb7-16" title="16">            <span class="cf">if</span> (~x) {</a>
+<a class="sourceLine" id="cb7-17" title="17">                p.push_back(x);</a>
+<a class="sourceLine" id="cb7-18" title="18">            }</a>
+<a class="sourceLine" id="cb7-19" title="19">            s.pop();</a>
+<a class="sourceLine" id="cb7-20" title="20">        }</a>
+<a class="sourceLine" id="cb7-21" title="21">    }</a>
+<a class="sourceLine" id="cb7-22" title="22">}</a></code></pre></div>
+<p><strong>Упражнение.</strong> Сформулируйте и докажите аналогичные утверждения для случая ориентированного графа.</p>
 </body>
 </html>
