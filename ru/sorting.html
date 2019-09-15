@@ -241,23 +241,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Найти число единиц в бинарной записи числа <span class="math inline">\(n\)</span>.</li>
 </ul>
 <h2 id="сортировки-за-on-log-n">Сортировки за <span class="math inline">\(O(n \log n)\)</span></h2>
-<p>Сортировка очень часто применяется как часть решения олимпиадных задач. В таких случаях обычно используют встроенную сортировку <code>sort</code>. В разных языках она может быть реализована по-разному, но везде она работает за <span class="math inline">\(O(n \log n)\)</span>, и, обычно, неплохо оптимизирована.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Python</span></a>
-<a class="sourceLine" id="cb7-2" title="2">a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">-4</span>]</a>
-<a class="sourceLine" id="cb7-3" title="3">a.sort()</a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="co">// C++</span></a>
-<a class="sourceLine" id="cb8-2" title="2"></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></a>
+<p>Сортировка очень часто применяется как часть решения олимпиадных задач. В таких случаях обычно не пишут её заново, а используют встроенную.</p>
+<p>Пример на Python:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1">a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">-4</span>]</a>
+<a class="sourceLine" id="cb7-2" title="2">a.sort()</a></code></pre></div>
+<p>Пример на C++:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></a>
+<a class="sourceLine" id="cb8-4" title="4"></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="kw">using</span> <span class="kw">namespace</span> std;</a>
 <a class="sourceLine" id="cb8-6" title="6"></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="kw">using</span> <span class="kw">namespace</span> std;</a>
-<a class="sourceLine" id="cb8-8" title="8"></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="dt">int</span> main() {</a>
-<a class="sourceLine" id="cb8-10" title="10">    vector&lt;<span class="dt">int</span>&gt; v = {<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">5</span>, -<span class="dv">4</span>};</a>
-<a class="sourceLine" id="cb8-11" title="11">    sort(v.begin(), v.end());</a>
-<a class="sourceLine" id="cb8-12" title="12">}</a></code></pre></div>
-<h2 id="количество-пар-с-разницей-больше-чем-k">Количество пар с разницей, больше чем K</h2>
+<a class="sourceLine" id="cb8-7" title="7"><span class="dt">int</span> main() {</a>
+<a class="sourceLine" id="cb8-8" title="8">    vector&lt;<span class="dt">int</span>&gt; v = {<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">5</span>, -<span class="dv">4</span>};</a>
+<a class="sourceLine" id="cb8-9" title="9">    sort(v.begin(), v.end());</a>
+<a class="sourceLine" id="cb8-10" title="10">}</a></code></pre></div>
+<p>В разных языках она может быть реализована по-разному, но везде она работает за <span class="math inline">\(O(n \log n)\)</span>, и, обычно, неплохо оптимизирована. Далее мы опишем два подхода к её реализации.</p>
+<h2 id="сортировка-слиянием">Сортировка слиянием</h2>
 <blockquote>
 <p>Найти количество пар элементов <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> в отсортированном массиве, такие что <span class="math inline">\(b - a &gt; K\)</span>.</p>
 </blockquote>
@@ -303,7 +303,7 @@ for (int k = 0; k &lt; n + m; ++k) {
     }
 }</code></pre>
 <p>Итоговая асимптотика: <span class="math inline">\(O(n + m)\)</span>.</p>
-<h2 id="сортировка-слиянием">Сортировка слиянием</h2>
+<h2 id="сортировка-слиянием-1">Сортировка слиянием</h2>
 <p>Давайте подробно опишем как использовать операцию слияния для сортировки за <span class="math inline">\(O(n\log n)\)</span>.</p>
 <p>Пусть у нас есть какой-то массив.</p>
 <pre><code>int a[8] = {7, 2, 5, 6, 1, 3, 4, 8};</code></pre>
@@ -359,7 +359,6 @@ cout &lt;&lt; ans &lt;&lt; endl;</code></pre>
 <p>Значит в тот момент, когда мы добавляем число <span class="math inline">\(A\)</span> из левой половины, к ответу достаточно прибавить индекс второго указателя (минус начало правой половины). Так мы учтем все инверсии между половинами.</p>
 <h1 id="быстрая-сортировка">Быстрая сортировка</h1>
 <p>Быстрая сортировка заключается в том, что на каждом шаге мы находим опорный элемент, все элементы, которые меньше его кидаем в левую часть, остальные в правую, а затем рекурсивно спускаемся в обе части.</p>
-<p>https://visualgo.net/en/sorting</p>
 <pre><code>void quicksort(int l, int r){
     if (l &lt; r){
         int index = (l + r) / 2; /* index - индекс опорного элемента для 

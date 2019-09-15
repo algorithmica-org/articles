@@ -147,7 +147,7 @@ body {
     font-size: 16px;
     line-height: 1em;
     display: inline-block;
-    width: 250px;
+    width: 252px;
 }
 
 .contents a:first-letter {
@@ -224,6 +224,7 @@ h2, h3 {
 .contents h2, .contents h3 {
   padding-bottom: 0;
   border-bottom: none;
+  margin-top: 5px;
 }
 
 h4, h5, h6 {

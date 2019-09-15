@@ -11,6 +11,69 @@
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
   <link rel="stylesheet" href="../pandoc.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
   <!--[if lt IE 9]>
@@ -53,50 +116,37 @@
 <h1 id="обходы-графов">Обходы графов</h1>
 <p>В этой статье рассмотрены основные применения обхода в глубину: топологическая сортировка, нахождение компонент сильной связности, решение задачи 2-SAT, нахождение мостов и точек сочленения, а также построение эйлерова пути и цикла в графе.</p>
 <h2 id="поиск-в-глубину">Поиск в глубину</h2>
-<p><strong>Поиском в глубину</strong> (англ. <em>depth-first search</em>, <strong>DFS</strong>) называется рекурсивный алгоритм обхода дерева или графа, начинающий в корневой вершине (в случае графа её может быть выбрана произвольная вершина) Он рекурсивно обходит весь граф, и посещает каждую вершину ровно один раз. Посещенные вершины при этом отмечаются в массиве used.</p>
-<p>Давайте его немного модифицируем, а именно, давайте сохраним в какой-нибудь массив, в каком порядке мы посещали вершины. Есть два способа это сделать - посчитать время входа DFS-а в каждую вершину и время выхода.</p>
-<p>Давайте назовем массивы <span class="math inline">\(\space{\rm tin}\)</span> и <span class="math inline">\({\rm tout}\)</span>, где <span class="math inline">\({\rm tin}\)</span> - время входа, а <span class="math inline">\(\space{\rm tout}\)</span> - время выхода из вершины.</p>
-<p>Как их заполнить: давайте заведем таймер, отвечающий за время на текущий момент программы и будем обновлять информацию, когда заходим/выходим из вершины:</p>
+<p><strong>Поиском в глубину</strong> (англ. <em>depth-first search</em>, <strong>DFS</strong>) называется рекурсивный алгоритм обхода дерева или графа, начинающий в корневой вершине (в случае графа её может быть выбрана произвольная вершина) и рекурсивно обходящий весь граф, посещая каждую вершину ровно один раз.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>;</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="dt">bool</span> used[maxn]; <span class="co">// тут будем отмечать посещенные вершины</span></a>
+<a class="sourceLine" id="cb1-3" title="3"></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="dt">void</span> dfs(<span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb1-5" title="5">    used[v] = <span class="kw">true</span>;</a>
+<a class="sourceLine" id="cb1-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v])</a>
+<a class="sourceLine" id="cb1-7" title="7">        <span class="cf">if</span> (!used[u])</a>
+<a class="sourceLine" id="cb1-8" title="8">            dfs(v);</a>
+<a class="sourceLine" id="cb1-9" title="9">}</a></code></pre></div>
+<p>Немного его модифицируем, а именно будем сохранять для каждой вершины, в какой момент мы в неё вошли и в какой вышли — соответствующие массивы будем называть <code>tin</code> и <code>tout</code>.</p>
+<p>Как их заполнить: заведем таймер, отвечающий за «время» на текущем состоянии обхода, и будем инкрементировать его каждый раз, когда заходим или выходим из вершины:</p>
 <pre><code>int tin[maxn], tout[maxn];
-int timer = 0;
-
+int t = 0;
 
 void dfs(int v) {
-    tin[v] = timer++;
-    for (int i = 0; i &lt; g[v].size(); ++i) {
-        if (!used[g[v][i]]) {
-            dfs(g[v][i]);
-    }
-  }
-  tout[v] = timer++;
+    tin[v] = t++;
+    for (int u : g[v])
+        if (!used[u])
+            dfs(u);
+    tout[v] = t++;
 }</code></pre>
-<p>Время входа или выхода пригождается во многих алгоритмах, давайте разберем несколько.</p>
+<p>Времена входа или выхода пригождается во многих графовых алгоритмах — далее мы разберем несколько.</p>
 <h1 id="мосты-и-точки-сочленения">Мосты и точки сочленения</h1>
-<h2 id="время-входа-и-выхода">Время входа и выхода</h2>
-<p>Вспомним обычный поиск в глубину. Он рекурсивно обходит весь граф, и посещает каждую вершину ровно один раз. Посещенные вершины при этом отмечаются в массиве used.</p>
-<p>Давайте его немного модифицируем, а именно, давайте сохраним в какой-нибудь массив, в каком порядке мы посещали вершины. Есть два способа это сделать - посчитать время входа DFS-а в каждую вершину и время выхода.</p>
-<p>Давайте назовем массивы <span class="math inline">\(\space{\rm tin}\)</span> и <span class="math inline">\({\rm tout}\)</span>, где <span class="math inline">\({\rm tin}\)</span> - время входа, а <span class="math inline">\(\space{\rm tout}\)</span> - время выхода из вершины.</p>
-<p>Как их заполнить: давайте заведем таймер, отвечающий за время на текущий момент программы и будем обновлять информацию, когда заходим/выходим из вершины:</p>
-<pre><code>int timer = 0;
-
-void dfs (int v) {
-    tin[v] = timer++;
-    for (int i = 0; i &lt; g[v].size(); ++i) {
-        if (!used[g[v][i]]) {
-            dfs(g[v][i]);
-    }
-  }
-  tout[v] = timer++;
-}</code></pre>
-<p>Время входа или выхода пригождается во многих алгоритмах, давайте разберем несколько.</p>
-<h1 id="мосты">Мосты</h1>
-<p>Пусть дан связный неориентированный граф. Мост - ребро, при удалении которой граф становится несвязным.</p>
-<p>Первым делом введем новые виды ребер :</p>
-<ol start="3" type="1">
-<li><p>Ребра самого ДФС (tree edge или ребро дерева).</p></li>
-<li><p>Ребра не посещенные в ДФС (back edge или. обратное ребро).</p></li>
-</ol>
-<p>Пусть есть ребро <span class="math inline">\(u \rightarrow v\)</span>, в каком случае оно является мостом, понятно, что обратное ребро не может быть мостом, потому что мы уже посещали обе вершины и следовательно есть путь по ребрам самого ДФС. Теперь разберемся с ребрами ДФС. Они являются мостом, только если нет пути по обратным ребрам в какого-то из предков <span class="math inline">\(v\)</span>. Так как иначе мы можем удалить это ребро, но при этом останется путь по обратным ребрам.</p>
+<p>Пусть дан связный неориентированный граф. <em>Мостом</em> называется ребро, при удалении которого граф становится несвязным.</p>
+<p>Запустим DFS из произвольной вершины и введем новые виды ребер :</p>
+<ul>
+<li><p>«Основные» рёбра обхода (англ. <em>tree edge</em>) — те, по которым были переходы в DFS.</p></li>
+<li><p>Обратные рёбра — то, по которым не было переходов в DFS.</p></li>
+</ul>
+<p>Пусть есть ребро <span class="math inline">\(u \rightarrow v\)</span>. В каком случае оно является мостом? Понятно, что обратное ребро не может быть мостом, потому что мы уже посещали обе вершины и следовательно есть путь по ребрам самого ДФС. Теперь разберемся с ребрами ДФС. Они являются мостом, только если нет пути по обратным ребрам в какого-то из предков <span class="math inline">\(v\)</span>. Так как иначе мы можем удалить это ребро, но при этом останется путь по обратным ребрам.</p>
 <p>Давайте докажем, что если путь до предка существует, то существует и путь, такой, что нам достаточно пройти по одному обратному ребру. Пусть такого пути не существует, но при этом есть какой-то путь из <span class="math inline">\(n\)</span> обратных ребер, тогда давайте посмотрим куда могут вести эти ребра, они могут вести либо в поддерево вершины <span class="math inline">\(u\)</span>, либо в нее саму, либо в наддерево, в случае поддерева или самой вершины мы можем их убрать, так как есть путь по ребрам ДФС, в случае наддерева же нам достаточно сохранить только одно ребро в наддерево.</p>
 <p>Тогда давайте введем <span class="math inline">\(dp_{i}\)</span> - минимальный <span class="math inline">\(\space{\rm tin}\)</span> такой вершины, до которой мы можем добраться за какое-то количество ребер ДФС и одно обратное. Как его пересчитывать. Очень просто : у нас есть три возможных значения динамики.</p>
 <ol start="3" type="1">
