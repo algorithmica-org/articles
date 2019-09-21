@@ -206,14 +206,14 @@ h_u, &amp;\text{ребро } (v \to u) \text{ обратное}
 <a class="sourceLine" id="cb4-6" title="6">        <span class="cf">if</span> (u != p) {</a>
 <a class="sourceLine" id="cb4-7" title="7">            <span class="cf">if</span> (used[u])</a>
 <a class="sourceLine" id="cb4-8" title="8">                d[v] = min(d[v], h[u]);</a>
-<a class="sourceLine" id="cb4-9" title="9">            <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb4-9" title="9">            <span class="cf">else</span> {</a>
 <a class="sourceLine" id="cb4-10" title="10">                dfs(u, v);</a>
 <a class="sourceLine" id="cb4-11" title="11">                d[v] = min(d[v], d[u]);</a>
-<a class="sourceLine" id="cb4-12" title="12">                <span class="cf">if</span> (dp[v] &gt;= tin[u] &amp;&amp; p != -<span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb4-13" title="13">                    <span class="co">// u -- точка сочленения</span></a>
-<a class="sourceLine" id="cb4-14" title="14">                }</a>
+<a class="sourceLine" id="cb4-12" title="12">                <span class="cf">if</span> (dp[v] &gt;= tin[u] &amp;&amp; p != -<span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb4-13" title="13">                    <span class="co">// u -- точка сочленения</span></a>
+<a class="sourceLine" id="cb4-14" title="14">                }</a>
 <a class="sourceLine" id="cb4-15" title="15">                children++;</a>
-<a class="sourceLine" id="cb4-16" title="16">            }</a>
+<a class="sourceLine" id="cb4-16" title="16">            }</a>
 <a class="sourceLine" id="cb4-17" title="17">        }</a>
 <a class="sourceLine" id="cb4-18" title="18">    }</a>
 <a class="sourceLine" id="cb4-19" title="19">    <span class="cf">if</span> (p == -<span class="dv">1</span> &amp;&amp; children &gt; <span class="dv">1</span>) {</a>
@@ -319,37 +319,49 @@ h_u, &amp;\text{ребро } (v \to u) \text{ обратное}
 <h2 id="эйлеров-цикл">Эйлеров цикл</h2>
 <p><strong>Определение.</strong> Эйлеров путь — это путь в графе, проходящий через все его рёбра.</p>
 <p><strong>Определение.</strong> Эйлеров цикл — это эйлеров путь, являющийся циклом.</p>
-<p>Для простоты будем считать, что граф неориентированный.</p>
-<p>Также есть понятие гамильтонова пути и цикла.</p>
-<p>Чтобы проверить, существует ли эйлеров путь, нужно воспользоваться следующей теоремой.</p>
-<blockquote>
-<p>Пусть дан неориентированный <strong>связный</strong> цикл. Эйлеров цикл существует тогда и только тогда, когда степени всех вершин чётны. Эйлеров путь существует тогда и только тогда, когда количество вершин с нечётными степенями равно двум (или нулю, в случае существования эйлерова цикла).</p>
-</blockquote>
+<p>Для простоты в обоих случаях будем считать, что граф неориентированный.</p>
+<p>Также существует понятие <em>гамильтонова</em> пути и цикла — они посещают все <em>вершины</em> по разу, а не рёбра. Нахождение гамильтонова цикла (<em>задача коммивояжера</em>, англ. <em>travelling salesman problem</em>) — одна из самых известных NP-полных задач, в то время как нахождение эйлерового цика решается за линейное время — и мы сейчас покажем, как.</p>
+<p><strong>Теорема.</strong> Эйлеров цикл существует тогда и только тогда, когда степени всех вершин чётны.</p>
+<p><strong>Доказательство.</strong> Необходимость показывается так: можно просто взять эйлеров цикл и ориентировать все его ребра в порядке обхода. Тогда из каждой вершины будет выходить столько же рёбер, сколько входить, а значит степень у всех вершин исходного неориентированного графа была четной.</p>
+<p>Достаточность докажем конструктивно — предъявим алгоритм нахождения.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>;</a>
+<a class="sourceLine" id="cb7-2" title="2">set&lt;<span class="dt">int</span>&gt; g[maxn];</a>
+<a class="sourceLine" id="cb7-3" title="3"></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="dt">void</span> euler(<span class="dt">int</span> v) {</a>
+<a class="sourceLine" id="cb7-5" title="5">    <span class="cf">while</span> (!g[v].empty()) {</a>
+<a class="sourceLine" id="cb7-6" title="6">        u = *g[v].begin();</a>
+<a class="sourceLine" id="cb7-7" title="7">        g[v].erase(g[v].begin());</a>
+<a class="sourceLine" id="cb7-8" title="8">        dfs(u);</a>
+<a class="sourceLine" id="cb7-9" title="9">    }</a>
+<a class="sourceLine" id="cb7-10" title="10">    cout &lt;&lt; v &lt;&lt;  <span class="st">&quot; &quot;</span>;</a>
+<a class="sourceLine" id="cb7-11" title="11">}</a></code></pre></div>
+<p>Если условие на четность степеней вершин выполняется, то этот алгоритм действительно выводит эйлеров цикл, то есть последовательность из <span class="math inline">\((m+1)\)</span> вершин, между соседними есть связи.</p>
+<p><strong>Следствие.</strong> Эйлеров путь существует тогда и только тогда, когда количество вершин с нечётными степенями не превосходит 2.</p>
 <p>Кстати, аналогичная теорема есть и для ориентированного графа (можете сами попытаться сформулировать).</p>
 <p>Доказать это можно например через лемму о рукопожатиях.</p>
 <p>Как теперь мы будем решать задачу нахождения цикла в предположении, что он точно есть. Давайте запустимся из произвольной вершины, пройдем по любому ребру и удалим его.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="dt">void</span> euler(<span class="dt">int</span> v){</a>
-<a class="sourceLine" id="cb7-2" title="2">    stack &gt;s;</a>
-<a class="sourceLine" id="cb7-3" title="3">    s.push({v, -<span class="dv">1</span>});</a>
-<a class="sourceLine" id="cb7-4" title="4">    <span class="cf">while</span> (!s.empty()) {</a>
-<a class="sourceLine" id="cb7-5" title="5">        v = s.top().first;</a>
-<a class="sourceLine" id="cb7-6" title="6">        <span class="dt">int</span> x = s.top().second;</a>
-<a class="sourceLine" id="cb7-7" title="7">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; g[v].size(); i++){</a>
-<a class="sourceLine" id="cb7-8" title="8">            pair e = g[v][i];</a>
-<a class="sourceLine" id="cb7-9" title="9">            <span class="cf">if</span>(!u[e.second]){</a>
-<a class="sourceLine" id="cb7-10" title="10">                u[e.second]=<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb7-11" title="11">                s.push(e);</a>
-<a class="sourceLine" id="cb7-12" title="12">                <span class="cf">break</span>;</a>
-<a class="sourceLine" id="cb7-13" title="13">            }</a>
-<a class="sourceLine" id="cb7-14" title="14">        }</a>
-<a class="sourceLine" id="cb7-15" title="15">        <span class="cf">if</span> (v == s.top().first) {</a>
-<a class="sourceLine" id="cb7-16" title="16">            <span class="cf">if</span> (~x) {</a>
-<a class="sourceLine" id="cb7-17" title="17">                p.push_back(x);</a>
-<a class="sourceLine" id="cb7-18" title="18">            }</a>
-<a class="sourceLine" id="cb7-19" title="19">            s.pop();</a>
-<a class="sourceLine" id="cb7-20" title="20">        }</a>
-<a class="sourceLine" id="cb7-21" title="21">    }</a>
-<a class="sourceLine" id="cb7-22" title="22">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="dt">void</span> euler(<span class="dt">int</span> v){</a>
+<a class="sourceLine" id="cb8-2" title="2">    stack &gt;s;</a>
+<a class="sourceLine" id="cb8-3" title="3">    s.push({v, -<span class="dv">1</span>});</a>
+<a class="sourceLine" id="cb8-4" title="4">    <span class="cf">while</span> (!s.empty()) {</a>
+<a class="sourceLine" id="cb8-5" title="5">        v = s.top().first;</a>
+<a class="sourceLine" id="cb8-6" title="6">        <span class="dt">int</span> x = s.top().second;</a>
+<a class="sourceLine" id="cb8-7" title="7">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; g[v].size(); i++){</a>
+<a class="sourceLine" id="cb8-8" title="8">            pair e = g[v][i];</a>
+<a class="sourceLine" id="cb8-9" title="9">            <span class="cf">if</span>(!u[e.second]){</a>
+<a class="sourceLine" id="cb8-10" title="10">                u[e.second]=<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb8-11" title="11">                s.push(e);</a>
+<a class="sourceLine" id="cb8-12" title="12">                <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb8-13" title="13">            }</a>
+<a class="sourceLine" id="cb8-14" title="14">        }</a>
+<a class="sourceLine" id="cb8-15" title="15">        <span class="cf">if</span> (v == s.top().first) {</a>
+<a class="sourceLine" id="cb8-16" title="16">            <span class="cf">if</span> (~x) {</a>
+<a class="sourceLine" id="cb8-17" title="17">                p.push_back(x);</a>
+<a class="sourceLine" id="cb8-18" title="18">            }</a>
+<a class="sourceLine" id="cb8-19" title="19">            s.pop();</a>
+<a class="sourceLine" id="cb8-20" title="20">        }</a>
+<a class="sourceLine" id="cb8-21" title="21">    }</a>
+<a class="sourceLine" id="cb8-22" title="22">}</a></code></pre></div>
 <p><strong>Упражнение.</strong> Сформулируйте и докажите аналогичные утверждения для случая ориентированного графа.</p>
 </body>
 </html>
