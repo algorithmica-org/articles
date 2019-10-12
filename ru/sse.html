@@ -451,7 +451,7 @@ return 0;</code></pre>
 <p>Долгое время большом препятствием на пути к оптимизации был тот факт, что чтобы применить SIMD-инструкцию к данным, нужно сначала собрать их всех в одном регистре, что в некоторых случаях может быть дороже, чем выгода от векторизации — например, при перемножении разреженных матриц.</p>
 <p>Чтобы это ускорить, в AVX2 добавили два новых класса операций: gather и scatter. Первый принимает указатели на место в памяти и загружает их содержимое в правильном порядке в нужный регистр, а второй наоборот — принимает регистр со значениями и записывает их в указанные места в памяти.</p>
 <p><img src="https://gainperformance.files.wordpress.com/2017/06/indexed_gather_scatter3.png" /></p>
-<p>Эти операции работают значительно быстрее, хотя и не в 8 раз: теперь они больше упираются в память, чем в процессор.</p>
+<p>Эти операции дают значительное ускорение, но при этом важно помнить, что они работают не в 8 и вообще не в константное количество раз быстрее, потому что они упираются не только в процессор, но и в память.</p>
 <p>Нам, спортивным программистам, не очень интересна разреженная линейная алгебра, поэтому рассмотрим другой поучительный пример работы с несплошной памятью: оптимизацию <a href="fenwick">дерева Фенвика</a>. На этот раз интринзики писать не будем и целиком положимся на автовекторизацию.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb21-1" title="1"><span class="pp">#pragma GCC optimize(&quot;03&quot;)</span></a>
 <a class="sourceLine" id="cb21-2" title="2"><span class="pp">#pragma GCC target(&quot;avx2&quot;)</span></a>
@@ -481,13 +481,13 @@ return 0;</code></pre>
 <a class="sourceLine" id="cb21-26" title="26">    </a>
 <a class="sourceLine" id="cb21-27" title="27">    <span class="co">// то же самые циклы фенвика, только вдоль запросов;</span></a>
 <a class="sourceLine" id="cb21-28" title="28">    <span class="co">// вместо остановки по условию, цикл исполняется logn раз,</span></a>
-<a class="sourceLine" id="cb21-29" title="29">    <span class="co">// из которых сколько-то последних ничего не изменят</span></a>
+<a class="sourceLine" id="cb21-29" title="29">    <span class="co">// из которых сколько-то последних итераций ничего не изменят</span></a>
 <a class="sourceLine" id="cb21-30" title="30">    <span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn; l++) {</a>
 <a class="sourceLine" id="cb21-31" title="31">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; m; i++) {</a>
 <a class="sourceLine" id="cb21-32" title="32">            <span class="dt">int</span> x = rs[i];  <span class="co">// это будет заменено на gather</span></a>
 <a class="sourceLine" id="cb21-33" title="33">            res[i] += t[x]; <span class="co">// это будет заменено на add</span></a>
 <a class="sourceLine" id="cb21-34" title="34">            x -= (x &amp; -x);  <span class="co">// это будет заменено на ещё 3 операции</span></a>
-<a class="sourceLine" id="cb21-35" title="35">            rs[i] = x;      <span class="co">// это будет заменено на scatter</span></a>
+<a class="sourceLine" id="cb21-35" title="35">            rs[i] = x;      <span class="co">// это будет заменено на storeu</span></a>
 <a class="sourceLine" id="cb21-36" title="36">        }</a>
 <a class="sourceLine" id="cb21-37" title="37">    }</a>
 <a class="sourceLine" id="cb21-38" title="38">    <span class="co">// так как (x &amp; -x) равен последнему биту,</span></a>
