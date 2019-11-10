@@ -216,7 +216,7 @@ E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum_{
 <a class="sourceLine" id="cb3-15" title="15">}</a></code></pre></div>
 <h3 id="пример-вставка">Пример: вставка</h3>
 <p><code>merge</code> и <code>split</code> сами по себе не очень полезные, но помогут написать все остальное.</p>
-<p>Вот так, например, будет выглядеть код, добавляющий <span class="math inline">\(x\)</span> в сет.</p>
+<p>Вот так, например, будет выглядеть код, добавляющий <span class="math inline">\(x\)</span> в дерево.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1">Node *root = <span class="dv">0</span>;</a>
 <a class="sourceLine" id="cb4-2" title="2"></a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="dt">void</span> insert (<span class="dt">int</span> x) {</a>
@@ -266,7 +266,7 @@ E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum_{
 <div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" title="1"><span class="dt">int</span> sum (<span class="dt">int</span> l, <span class="dt">int</span> r) {</a>
 <a class="sourceLine" id="cb9-2" title="2">    Pair rq = split(root, r);</a>
 <a class="sourceLine" id="cb9-3" title="3">    Pair lq = split(rq.first, l);</a>
-<a class="sourceLine" id="cb9-4" title="4">    <span class="dt">int</span> res = sum(lr.second);</a>
+<a class="sourceLine" id="cb9-4" title="4">    <span class="dt">int</span> res = sum(lq.second);</a>
 <a class="sourceLine" id="cb9-5" title="5">    root = merge(lq.first, merge(lq.second, rq.second));</a>
 <a class="sourceLine" id="cb9-6" title="6">    <span class="cf">return</span> res;</a>
 <a class="sourceLine" id="cb9-7" title="7">}</a></code></pre></div>
@@ -328,9 +328,9 @@ E[d_i] = \sum_{j \neq i} p(j, i) = \sum_{j \neq i} \frac{1}{|i-j|+1} \leq \sum_{
 <a class="sourceLine" id="cb16-2" title="2">    <span class="cf">if</span> (v-&gt;rev) {</a>
 <a class="sourceLine" id="cb16-3" title="3">        swap(v-&gt;l, v-&gt;r);</a>
 <a class="sourceLine" id="cb16-4" title="4">        <span class="cf">if</span> (v-&gt;l)</a>
-<a class="sourceLine" id="cb16-5" title="5">            v-&gt;rev ^= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb16-5" title="5">            v-&gt;l-&gt;rev ^= <span class="dv">1</span>;</a>
 <a class="sourceLine" id="cb16-6" title="6">        <span class="cf">if</span> (v-&gt;r)</a>
-<a class="sourceLine" id="cb16-7" title="7">            v-&gt;rev ^= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb16-7" title="7">            v-&gt;r-&gt;rev ^= <span class="dv">1</span>;</a>
 <a class="sourceLine" id="cb16-8" title="8">    }</a>
 <a class="sourceLine" id="cb16-9" title="9">    v-&gt;rev = <span class="dv">0</span>;</a>
 <a class="sourceLine" id="cb16-10" title="10">}</a></code></pre></div>

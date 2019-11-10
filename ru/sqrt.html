@@ -182,7 +182,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-2" title="2">vector&lt;query&gt; buffer; <span class="co">// запросы, не учтенные в префиксных суммах</span></a>
 <a class="sourceLine" id="cb5-3" title="3"></a>
 <a class="sourceLine" id="cb5-4" title="4"><span class="dt">int</span> sum(<span class="dt">int</span> l, <span class="dt">int</span> r) {</a>
-<a class="sourceLine" id="cb5-5" title="5">    <span class="dt">int</span> res = s[r+<span class="dv">1</span>] - s[l];</a>
+<a class="sourceLine" id="cb5-5" title="5">    <span class="dt">int</span> res = s[r + <span class="dv">1</span>] - s[l];</a>
 <a class="sourceLine" id="cb5-6" title="6">    <span class="cf">for</span> (query q : buffer)</a>
 <a class="sourceLine" id="cb5-7" title="7">        <span class="co">// пересечем запрос суммы со всеми запросами</span></a>
 <a class="sourceLine" id="cb5-8" title="8">        res += q.x * max(<span class="dv">0</span>, min(r, q.r) - max(l, q.l));</a>
@@ -320,7 +320,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb7-14" title="14">    vector&lt;<span class="dt">int</span>&gt; &amp;t = g[v];</a>
 <a class="sourceLine" id="cb7-15" title="15">    <span class="co">// отсортируем их и удалим какой-то суффикс</span></a>
 <a class="sourceLine" id="cb7-16" title="16">    sort(t.begin(), t.end(), cmp);</a>
-<a class="sourceLine" id="cb7-17" title="17">    <span class="cf">while</span> (t.size() &gt; <span class="dv">0</span> &amp;&amp; cmp(t[t.size()-<span class="dv">1</span>], v))</a>
+<a class="sourceLine" id="cb7-17" title="17">    <span class="cf">while</span> (t.size() &gt; <span class="dv">0</span> &amp;&amp; cmp(t.back(), v))</a>
 <a class="sourceLine" id="cb7-18" title="18">        t.pop_back();</a>
 <a class="sourceLine" id="cb7-19" title="19">    reverse(t.begin(), t.end());</a>
 <a class="sourceLine" id="cb7-20" title="20">}</a>
