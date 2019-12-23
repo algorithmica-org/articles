@@ -133,10 +133,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-3" title="3"><span class="dt">void</span> stupid() {</a>
 <a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> n;</a>
 <a class="sourceLine" id="cb1-5" title="5">    cin &gt;&gt; n;</a>
-<a class="sourceLine" id="cb1-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb1-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb1-7" title="7">        cin &gt;&gt; a[i];</a>
 <a class="sourceLine" id="cb1-8" title="8">    <span class="dt">int</span> ans = <span class="fl">1e9</span>;</a>
-<a class="sourceLine" id="cb1-9" title="9">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb1-9" title="9">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb1-10" title="10">        ans = min(ans, a[i]);</a>
 <a class="sourceLine" id="cb1-11" title="11">    cout &lt;&lt; ans;</a>
 <a class="sourceLine" id="cb1-12" title="12">}</a></code></pre></div>
@@ -146,10 +146,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb2-3" title="3"><span class="dt">void</span> smart() {</a>
 <a class="sourceLine" id="cb2-4" title="4">    <span class="dt">int</span> n;</a>
 <a class="sourceLine" id="cb2-5" title="5">    cin &gt;&gt; n;</a>
-<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb2-7" title="7">        cin &gt;&gt; a[i];</a>
 <a class="sourceLine" id="cb2-8" title="8">    <span class="dt">int</span> ans = <span class="fl">1e9</span>;</a>
-<a class="sourceLine" id="cb2-9" title="9">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb2-9" title="9">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb2-10" title="10">        ans = min(ans, a[i]);</a>
 <a class="sourceLine" id="cb2-11" title="11">    cout &lt;&lt; ans;</a>
 <a class="sourceLine" id="cb2-12" title="12">}</a></code></pre></div>
@@ -171,7 +171,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb3-5" title="5">    <span class="dt">int</span> n;</a>
 <a class="sourceLine" id="cb3-6" title="6">    cin &gt;&gt; n;</a>
 <a class="sourceLine" id="cb3-7" title="7">    <span class="dt">int</span> ans = <span class="fl">1e9</span>;</a>
-<a class="sourceLine" id="cb3-8" title="8">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb3-8" title="8">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb3-9" title="9">        ans = min(ans, a[i]);</a>
 <a class="sourceLine" id="cb3-10" title="10">    <span class="cf">return</span> ans;</a>
 <a class="sourceLine" id="cb3-11" title="11">}</a>
@@ -180,7 +180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb3-14" title="14">    <span class="dt">int</span> n;</a>
 <a class="sourceLine" id="cb3-15" title="15">    cin &gt;&gt; n;</a>
 <a class="sourceLine" id="cb3-16" title="16">    <span class="dt">int</span> ans = <span class="fl">1e9</span>;</a>
-<a class="sourceLine" id="cb3-17" title="17">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++) </a>
+<a class="sourceLine" id="cb3-17" title="17">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++)</a>
 <a class="sourceLine" id="cb3-18" title="18">        ans = min(ans, a[i]);</a>
 <a class="sourceLine" id="cb3-19" title="19">    <span class="cf">return</span> ans;</a>
 <a class="sourceLine" id="cb3-20" title="20">}</a>
@@ -220,27 +220,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Файлы <code>stupid.cpp</code>, <code>smart.cpp</code> и <code>gen.py</code> содержат уже понятный нам код.</p>
 <p>Вот примерный код скрипта <code>checker.py</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1"><span class="im">import</span> os, sys</a>
-<a class="sourceLine" id="cb4-2" title="2"></a>
-<a class="sourceLine" id="cb4-3" title="3">f1, f2, gen, iters <span class="op">=</span> sys.argv</a>
-<a class="sourceLine" id="cb4-4" title="4"></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">int</span>(iters)):</a>
-<a class="sourceLine" id="cb4-6" title="6">    <span class="bu">print</span>(<span class="st">&#39;Test&#39;</span>, i<span class="op">+</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb4-7" title="7">    os.popen(<span class="st">&#39;python3 </span><span class="sc">%s</span><span class="st"> &gt; test.txt&#39;</span> <span class="op">%</span> gen)</a>
-<a class="sourceLine" id="cb4-8" title="8">    v1 <span class="op">=</span> os.popen(<span class="st">&#39;./</span><span class="sc">%s</span><span class="st"> &lt; test.txt&#39;</span> <span class="op">%</span> f1).read()</a>
-<a class="sourceLine" id="cb4-9" title="9">    v2 <span class="op">=</span> os.popen(<span class="st">&#39;./</span><span class="sc">%s</span><span class="st"> &lt; test.txt&#39;</span> <span class="op">%</span> f2).read()</a>
-<a class="sourceLine" id="cb4-10" title="10">    <span class="cf">if</span> v1 <span class="op">!=</span> v2:</a>
-<a class="sourceLine" id="cb4-11" title="11">        <span class="bu">print</span> test</a>
-<a class="sourceLine" id="cb4-12" title="12">        <span class="bu">print</span>(<span class="st">&quot;Correct:&quot;</span>)</a>
-<a class="sourceLine" id="cb4-13" title="13">        <span class="bu">print</span> v1</a>
-<a class="sourceLine" id="cb4-14" title="14">        <span class="bu">print</span>(<span class="st">&quot;Wrong:&quot;</span>)</a>
-<a class="sourceLine" id="cb4-15" title="15">        <span class="bu">print</span> v2</a>
-<a class="sourceLine" id="cb4-16" title="16">        <span class="cf">break</span></a></code></pre></div>
+<pre class="python3"><code>import os, sys
+
+_, f1, f2, gen, iters = sys.argv # первый аргумент - &#39;checker.py&#39; поэтому &quot;откинем&quot; его с помощью _
+
+for i in range(int(iters)):
+    print(&#39;Test&#39;, i+1)
+    os.popen(&#39;python3 %s &gt; test.txt&#39; % gen)
+    v1 = os.popen(&#39;./%s &lt; test.txt&#39; % f1).readlines()
+    v2 = os.popen(&#39;./%s &lt; test.txt&#39; % f2).readlines()
+    if v1 != v2:
+        print(&quot;FAIL!\nInput:&quot;)
+        print(*(open(&quot;text.txt&quot;).readlines()))
+        print(&quot;Correct output:&quot;)
+        print(*v1)
+        print(&quot;Wrong output:&quot;)
+        print(*v2)
+        sys.exit()
+print(&quot;No output differences found.&quot;)</code></pre>
 <ul>
 <li>Автор обычно запускает его командой <code>python3 checker.py stupid smart gen.py 100</code>, предварительно скомпилировав <code>stupid</code> и <code>smart</code> в ту же директорию, что и сам <code>checker.py</code>.</li>
 <li>При желании можно компилировать прямо внутри скрипта.</li>
+<li>Не забывайте, что если хотя бы одна из программ не выводит перевод строки в конце файла, то чекер посчитает, что вывод разный.</li>
 <li>Если задача подразумевает неоднозначный вывод (к примеру, вывести индекс минимума — таких может быть несколько), то вместо <code>v1 != v2</code> следует использовать сторонний скрипт <code>compare.py</code>.</li>
-<li>Скрипт написан под Linux. Для Windows нужно убрать «<code>./</code>» во всех системных вызовах.</li>
+<li>Скрипт написан под Linux. Для Windows нужно убрать «<code>./</code>» во всех системных вызовах и вместо “python3” писать “python”.</li>
 </ul>
 <p><em>Примечание</em>. Ну такой вот примерно рецепт усредненный, потому что вариаций масса. Берется неправильное решение, оно не работает, рабочий код — это не про код моего бати. Он берет это решение, вываливает его в скрипт и начинает запускать. Добавляет огромное количество тестов, крайних случаев, рандома и МАКСТЕСТОВ! для проверки. Все это прогоняется вместе с медленным решением. Потом скрипт находит баг и системный блок остужается на балконе. Потом батя заносит тест и щедро заполнив код отладочным выводом начинает дебажить. При этом параллельно ест и засыпает крошками клавиатуру. Ест и приговаривает полушепотом ух ###. При этом у него на лбу аж пот выступает. Любезно мне иногда предлагает подебажить, но я отказываюсь. Надо ли говорить о том какой код получается потом? Вонища такая, что тестирующая система падает.</p>
 </body>
