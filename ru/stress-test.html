@@ -220,24 +220,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Файлы <code>stupid.cpp</code>, <code>smart.cpp</code> и <code>gen.py</code> содержат уже понятный нам код.</p>
 <p>Вот примерный код скрипта <code>checker.py</code>:</p>
-<pre class="python3"><code>import os, sys
-
-_, f1, f2, gen, iters = sys.argv # первый аргумент - &#39;checker.py&#39; поэтому &quot;откинем&quot; его с помощью _
-
-for i in range(int(iters)):
-    print(&#39;Test&#39;, i+1)
-    os.popen(&#39;python3 %s &gt; test.txt&#39; % gen)
-    v1 = os.popen(&#39;./%s &lt; test.txt&#39; % f1).readlines()
-    v2 = os.popen(&#39;./%s &lt; test.txt&#39; % f2).readlines()
-    if v1 != v2:
-        print(&quot;FAIL!\nInput:&quot;)
-        print(*(open(&quot;text.txt&quot;).readlines()))
-        print(&quot;Correct output:&quot;)
-        print(*v1)
-        print(&quot;Wrong output:&quot;)
-        print(*v2)
-        sys.exit()
-print(&quot;No output differences found.&quot;)</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1"><span class="im">import</span> os, sys</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3">_, f1, f2, gen, iters <span class="op">=</span> sys.argv <span class="co"># первый аргумент - &#39;checker.py&#39; поэтому &quot;откинем&quot; его с помощью _</span></a>
+<a class="sourceLine" id="cb4-4" title="4"></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">int</span>(iters)):</a>
+<a class="sourceLine" id="cb4-6" title="6">    <span class="bu">print</span>(<span class="st">&#39;Test&#39;</span>, i<span class="op">+</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-7" title="7">    os.popen(<span class="st">&#39;python3 </span><span class="sc">%s</span><span class="st"> &gt; test.txt&#39;</span> <span class="op">%</span> gen)</a>
+<a class="sourceLine" id="cb4-8" title="8">    v1 <span class="op">=</span> os.popen(<span class="st">&#39;./</span><span class="sc">%s</span><span class="st"> &lt; test.txt&#39;</span> <span class="op">%</span> f1).readlines()</a>
+<a class="sourceLine" id="cb4-9" title="9">    v2 <span class="op">=</span> os.popen(<span class="st">&#39;./</span><span class="sc">%s</span><span class="st"> &lt; test.txt&#39;</span> <span class="op">%</span> f2).readlines()</a>
+<a class="sourceLine" id="cb4-10" title="10">    <span class="cf">if</span> v1 <span class="op">!=</span> v2:</a>
+<a class="sourceLine" id="cb4-11" title="11">        <span class="bu">print</span>(<span class="st">&quot;FAIL!</span><span class="ch">\n</span><span class="st">Input:&quot;</span>)</a>
+<a class="sourceLine" id="cb4-12" title="12">        <span class="bu">print</span>(<span class="op">*</span>(<span class="bu">open</span>(<span class="st">&quot;text.txt&quot;</span>).readlines()))</a>
+<a class="sourceLine" id="cb4-13" title="13">        <span class="bu">print</span>(<span class="st">&quot;Correct output:&quot;</span>)</a>
+<a class="sourceLine" id="cb4-14" title="14">        <span class="bu">print</span>(<span class="op">*</span>v1)</a>
+<a class="sourceLine" id="cb4-15" title="15">        <span class="bu">print</span>(<span class="st">&quot;Wrong output:&quot;</span>)</a>
+<a class="sourceLine" id="cb4-16" title="16">        <span class="bu">print</span>(<span class="op">*</span>v2)</a>
+<a class="sourceLine" id="cb4-17" title="17">        sys.exit()</a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="bu">print</span>(<span class="st">&quot;No output differences found.&quot;</span>)</a></code></pre></div>
 <ul>
 <li>Автор обычно запускает его командой <code>python3 checker.py stupid smart gen.py 100</code>, предварительно скомпилировав <code>stupid</code> и <code>smart</code> в ту же директорию, что и сам <code>checker.py</code>.</li>
 <li>При желании можно компилировать прямо внутри скрипта.</li>
