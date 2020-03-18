@@ -158,7 +158,7 @@ sum(k) = t_k + sum(F(k)-1)
 <a class="sourceLine" id="cb1-17" title="17">    <span class="cf">for</span> (; k &lt;= n; k += k &amp; -k)</a>
 <a class="sourceLine" id="cb1-18" title="18">        t[k] += x;</a>
 <a class="sourceLine" id="cb1-19" title="19">}</a></code></pre></div>
-<p>Автор отмечает красивую симметрию в формулах <code>r += r &amp; -r</code> и <code>k -= k &amp; -k</code>, которой нет в «традиционной» версии.</p>
+<p>Автор отмечает красивую симметрию в формулах <code>r -= r &amp; -r</code> и <code>k += k &amp; -k</code>, которой нет в «традиционной» версии.</p>
 <h2 id="многомерный-случай">Многомерный случай</h2>
 <blockquote>
 <p><span class="math inline">\(k\)</span>-мерное дерево Фенвика пишется в <span class="math inline">\((k+1)\)</span> строчку</p>
