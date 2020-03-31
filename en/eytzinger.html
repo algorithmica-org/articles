@@ -114,7 +114,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </div>
 </div>
 <h1 id="eytzinger-binary-search">Eytzinger Binary Search</h1>
-<p>This tutorial is loosely based on a [46-page paper](https://arxiv.org/pdf/1509.05053.pdf](https://arxiv.org/pdf/1509.05053.pdf) by Paul-Virak Khuong and Pat Morin “Array layouts for comparison-based searching” and describes one particular way of performing efficient binary search by rearranging elements of a sorted array in a cache-friendly way.</p>
+<p>This tutorial is loosely based on a <a href="https://arxiv.org/pdf/1509.05053.pdf">46-page paper</a> by Paul-Virak Khuong and Pat Morin “Array layouts for comparison-based searching” and describes one particular way of performing efficient binary search by rearranging elements of a sorted array in a cache-friendly way.</p>
 <p>We briefly review relevant concepts in processor architecture; if you want to get deeper, we recommend reading the original 2015 paper, as well as these articles:</p>
 <ul>
 <li><p><a href="http://www.lighterra.com/papers/modernmicroprocessors/">Modern Microprocessors: a 90-minute guide</a> by Jason Patterson</p></li>
@@ -207,12 +207,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="binary-search-implementation">Binary search implementation</h2>
 <p>We can now descend this array using only indices: we just start with <span class="math inline">\(k=1\)</span> and execute <span class="math inline">\(k := 2k\)</span> if we need to go left and <span class="math inline">\(k := 2k + 1\)</span> if we need to go right. We don’t even need to store and recalculate binary search boundaries, which is another selling point.</p>
 <p>The only problem arises when we need to restore the index of the resulting element, as <span class="math inline">\(k\)</span> may end up not pointing to a leaf node. Here is an example of how that can happen:</p>
-<pre><code>    array:  1 2 3 4 5 6 7 8
-eytzinger:  4 2 5 1 6 3 7 8
-1st range:  ---------------  k := 1
-2nd range:  -------          k := 2*k      (=2)
-3rd range:      ---          k := 2*k + 1  (=5)
-4th range:        -          k := 2*k + 1  (=11)</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1">    array:  <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span> <span class="dv">6</span> <span class="dv">7</span> <span class="dv">8</span></a>
+<a class="sourceLine" id="cb4-2" title="2">eytzinger:  <span class="dv">4</span> <span class="dv">2</span> <span class="dv">5</span> <span class="dv">1</span> <span class="dv">6</span> <span class="dv">3</span> <span class="dv">7</span> <span class="dv">8</span></a>
+<a class="sourceLine" id="cb4-3" title="3">1st <span class="bu">range</span>:  <span class="op">---------------</span>  k :<span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb4-4" title="4">2nd <span class="bu">range</span>:  <span class="op">-------</span>          k :<span class="op">=</span> <span class="dv">2</span><span class="op">*</span>k      (<span class="op">=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb4-5" title="5">3rd <span class="bu">range</span>:      <span class="op">---</span>          k :<span class="op">=</span> <span class="dv">2</span><span class="op">*</span>k <span class="op">+</span> <span class="dv">1</span>  (<span class="op">=</span><span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb4-6" title="6">4th <span class="bu">range</span>:        <span class="op">-</span>          k :<span class="op">=</span> <span class="dv">2</span><span class="op">*</span>k <span class="op">+</span> <span class="dv">1</span>  (<span class="op">=</span><span class="dv">11</span>)</a></code></pre></div>
 <p>Here we query array of <span class="math inline">\([1, …, 8]\)</span> for the lower bound of <span class="math inline">\(x=4\)</span>. We compare it againts <span class="math inline">\(4\)</span>, <span class="math inline">\(2\)</span> and <span class="math inline">\(5\)</span>, and go left-right-right and end up with <span class="math inline">\(k = 11\)</span>, which isn’t even a valid array index.</p>
 <p>Note that, unless the answer is the last element of the array, we compare <span class="math inline">\(x\)</span> against it at some point, and after we learn that it is not less than <span class="math inline">\(x\)</span>, we start comparing <span class="math inline">\(x\)</span> against elements to the left, and all these comparisons will evaluate true (i. e. leading to the right). Hence, the solution to restoring the resulting element is to cancel some number of right turns.</p>
 <p>This can be done in an elegant way by observing that the right turns are recorded in the binary notation of <span class="math inline">\(k\)</span> as 1-bits, and so we just need to find the number of trailing ones in the binary notation and right-shift <span class="math inline">\(k\)</span> by exactly that amount.</p>
@@ -252,7 +252,7 @@ eytzinger:  4 2 5 1 6 3 7 8
 <p>The way to achieve this is to place the first element of the array to the 1st position (0-indexed) of a cache line, or placing the array itself on the beginning of a cache line, since its first (i. e. <code>b[0]</code>) element is blank by design. This way the next <span class="math inline">\(1 + 2 + 4 + 8 = 15\)</span> elements of first 4 layers will occupy the rest of the cache line, and the rest of the array is alligned in nice 16-element blocks of nodes who share a grandpa.</p>
 <p>We just need to ask memory manager to allocate our array on the beginning of a cache line (by default it allocates your arrays wherever it wants), and that’s it. To do this, we can use <code>alignas</code> specifier:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">alignas</span>(<span class="dv">64</span>) <span class="dt">int</span> b[n+<span class="dv">1</span>];</a></code></pre></div>
-<p>This is it. Now our algorithm is constantly prefetching 4 layers / cache lines ahead of time, which is covered by the bandwith of our RAM. This way the effective latency is reduced by a factor of 4. We are basically trading off bandwidth for latency.</p>
+<p>This is it. Now our algorithm is constantly prefetching 4 layers / cache lines ahead of time, which is covered by the bandwith of our RAM. This way the effective latency is reduced by a factor of 4, and we’re basically trading off bandwidth for latency.</p>
 <h3 id="complete-implementation">Complete implementation</h3>
 <div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" title="1"><span class="pp">#pragma GCC optimize(&quot;O3&quot;)</span></a>
 <a class="sourceLine" id="cb9-2" title="2"><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></a>
