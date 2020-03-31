@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Eytzinger Binary Search - Algorithmica</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/en/'><div id='logo'>Algorithmica</div></a>
+    <div id='links'>
+        <a href='https://github.com/algorithmica-org/en/edit/master/eytzinger.md'>Edit this page</a>
+        <a href='https://github.com/algorithmica-org/en/commits/master/eytzinger.md'>View history</a>
+    </div>
+</div>
+<h1 id="eytzinger-binary-search">Eytzinger Binary Search</h1>
+<p>This tutorial is loosely based on a [46-page paper](https://arxiv.org/pdf/1509.05053.pdf](https://arxiv.org/pdf/1509.05053.pdf) by Paul-Virak Khuong and Pat Morin “Array layouts for comparison-based searching” and describes one particular way of performing efficient binary search by rearranging elements of a sorted array in a cache-friendly way.</p>
+<p>We briefly review relevant concepts in processor architecture; if you want to get deeper, we recommend reading the original 2015 paper, as well as these articles:</p>
+<ul>
+<li><p><a href="http://www.lighterra.com/papers/modernmicroprocessors/">Modern Microprocessors: a 90-minute guide</a> by Jason Patterson</p></li>
+<li><p><a href="https://erikdemaine.org/papers/BRICS2002/paper.pdf">Cache-Oblivious Algorithms and Data Structures</a> by Erik Demaine</p></li>
+<li><p><a href="https://people.freebsd.org/~lstewart/articles/cpumemory.pdf">What Every Programmer Should Know About Memory</a> by Ulrich Drepper</p></li>
+</ul>
+<p>Our minimalistic implementation is only ~15 lines of code while offering 4-5x speedup over <code>std::lower_bound</code>.</p>
+<p><strong>If you are writing a contest right now</strong>, stuck on a problem where binary search is a bottleneck, and suddenly remembered about this article, <strong>jump straight to “complete implementation”</strong>, it’s compilable and copy-pastable.</p>
+<h2 id="why-is-binary-search-slow">Why is binary search slow?</h2>
+<p>Here is a standard way of searching for the first element not less than <span class="math inline">\(x\)</span> in a sorted array:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> lower_bound(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> l = <span class="dv">0</span>, r = n - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-3" title="3">    <span class="cf">while</span> (l &lt; r) {</a>
+<a class="sourceLine" id="cb1-4" title="4">        <span class="dt">int</span> t = (l + r) / <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb1-5" title="5">        <span class="cf">if</span> (a[t] &gt;= x)</a>
+<a class="sourceLine" id="cb1-6" title="6">            r = t;</a>
+<a class="sourceLine" id="cb1-7" title="7">        <span class="cf">else</span></a>
+<a class="sourceLine" id="cb1-8" title="8">            l = t + <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-9" title="9">    }</a>
+<a class="sourceLine" id="cb1-10" title="10">    <span class="cf">return</span> a[l];</a>
+<a class="sourceLine" id="cb1-11" title="11">}</a></code></pre></div>
+<p>The running time of this (or any) algorithm is not just the “cost” of all its arithmetic operations, but rather this cost <em>plus</em> the time spent waiting for data to be fetched from memory. Thus, depending on the algorithm and problem limitations, it can be CPU-bound or memory-bound, meaning that the running time is dominated by one of its components.</p>
+<p>If array is large enough—usually around the point where it stops fitting in cache and fetches become significantly slower—the running time of binary search becomes dominated by memory fetches.</p>
+<p>To give an idea, the following code is only ~5% slower for <span class="math inline">\(n \approx 10^6\)</span>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> slightly_slower_lower_bound(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="dt">int</span> l = <span class="dv">0</span>, r = n - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb2-3" title="3">    <span class="cf">while</span> (l &lt; r) {</a>
+<a class="sourceLine" id="cb2-4" title="4">        volatile <span class="dt">int</span> s = <span class="dv">0</span>; <span class="co">// volatile to prevent compiler from cutting this code out</span></a>
+<a class="sourceLine" id="cb2-5" title="5">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">10</span>; i++)</a>
+<a class="sourceLine" id="cb2-6" title="6">            s += i;</a>
+<a class="sourceLine" id="cb2-7" title="7">        <span class="dt">int</span> t = (l + r) / <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb2-8" title="8">        <span class="cf">if</span> (a[t] &gt;= x)</a>
+<a class="sourceLine" id="cb2-9" title="9">            r = t;</a>
+<a class="sourceLine" id="cb2-10" title="10">        <span class="cf">else</span></a>
+<a class="sourceLine" id="cb2-11" title="11">            l = t + <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb2-12" title="12">    }</a>
+<a class="sourceLine" id="cb2-13" title="13">    <span class="cf">return</span> a[l];</a>
+<a class="sourceLine" id="cb2-14" title="14">}</a></code></pre></div>
+<p>To be more precise about it, we briefly explain how memory fetching works.</p>
+<h2 id="how-caching-works">How caching works</h2>
+<p>Here is a famous quote about caching:</p>
+<p><img src="img/cache_and_beer.png" /></p>
+<p>The reality is much more complicated, e. g. main memory has pagination and HDD is actually a rotating physical thing with weird access patterns, but we stick to this analogy and introduce some important entities to it:</p>
+<ul>
+<li><p><strong>Cache hierarchy</strong> is a memory architecture which uses a hierarchy of memory stores based on varying access speeds to cache data. Adjacent cache layers usually differ in size by a factor of 8 to 10 and in latency by a factor of 3 to 5. Most modern CPUs have 3 layers of cache (called L1, L2 and L3 from fastest / smallest to slowest / largest) with largest being a few megabytes large.</p></li>
+<li><p><strong>Cache line</strong> is the unit of data transfer between CPU and main memory. The cache line of your PC is most likely 64 bytes, meaning that the main memory is divided into blocks of 64 bytes, and whenever you request a byte, you are also fetching its cache line neighbours regardless whether your want it or not. <em>Fetching a cache line is like grabbing a 6-pack.</em></p></li>
+<li><p><strong>Eviction policy</strong> is the method for deciding which data to retain in the cache. In CPUs, it is controlled by hardware, not software. For simplicity, programmer can assume that <strong>least recently used (LRU)</strong> policy is used, which just evicts the item that hasn’t been used for the longest amount of time. <em>This is like prefering beer with later expiration dates.</em></p></li>
+<li><p><strong>Bandwidth</strong> is the rate at which data can be read or stored. For the purpose of designing algorithms, a more important characteristic is the <strong>bandwidth-latency product</strong> which basically tells how many cache lines you can request while waiting for the first one without queueing up. It is around 5 or more on most systems. <em>This is like having friends whom you can send for beers asynchronously.</em></p></li>
+<li><p><strong>Temporal locality</strong> is an access pattern where if at one point a particular item is requested, it is likely that this same location will be requested again in the near future. <em>This is like fetching the same type of beer over and over again.</em></p></li>
+<li><p><strong>Spacial locality</strong> is an access pattern where if a memory location is requested, it is likely that a nearby memory locations will be requested again in the near future. <em>This is like storing the kinds of beer that you like on the same shelf.</em></p></li>
+</ul>
+<p>The main problem with binary search over a sorted array is that its memory accesses pattern is neither temporaly nor spacially local. For example, element <span class="math inline">\(\lfloor \frac n 2 \rfloor\)</span> is accessed very often (each search) and element <span class="math inline">\(\lfloor \frac n 2 \rfloor + 1\)</span> is not, while they are probably occupying the same cache line.</p>
+<p>We can overcome this by enumerating and permuting array elements in a more cache-friendly way, and chances are you already know this numeration.</p>
+<h2 id="the-eytzinger-layout">The Eytzinger layout</h2>
+<p><strong>Michaël Eytzinger</strong> is a 16th century Austrian nobleman known for his work on genealogy, particularily for a system for numbering ancestors called <em>ahnentafel</em> (German for “ancestor table”).</p>
+<p>Ancestry mattered a lot back then, but writing down that data was expensive. <em>Ahnentafel</em> allows displaying a person’s genealogy compactly, without wasting extra space by drawing diagrams.</p>
+<p>It lists a person’s direct ancestors in a fixed sequence of ascent. First the person theirself is listed as number 1, and then, recursively, for each person numbered <span class="math inline">\(k\)</span> their father is listed as <span class="math inline">\(2k\)</span> and their mother as <span class="math inline">\((2k+1)\)</span>.</p>
+<p>Here is the example for Paul I, the great-grandson of Peter I, the Great:</p>
+<ol type="1">
+<li><p>Paul I</p></li>
+<li><p>Peter III (Paul’s father)</p></li>
+<li><p>Catherine II (Paul’s mother)</p></li>
+<li><p>Charles Frederick (Peter’s father, Paul’s paternal grandfather)</p></li>
+<li><p>Anna Petrovna (Peter’s mother, Paul’s paternal grandmother)</p></li>
+<li><p>Christian August (Catherine’s father, Paul’s maternal grandfather)</p></li>
+<li><p>Johanna Elisabeth (Catherine’s mother, Paul’s maternal grandmother)</p></li>
+</ol>
+<p>Apart from being compact, it has some nice properties, like that all-even numbered persons are male and all odd-numbered (possibly apart from 1) are female.</p>
+<p>One can also find the number of a particular ancestor only knowing the genders of their descendants. For example, Peter the Great’s bloodline is Paul I → Peter III → Anna Petrovna → Peter the Great, so his number should be <span class="math inline">\(((1 \times 2) \times 2 + 1) \times 2 = 10\)</span>.</p>
+<p><strong>In computer science</strong>, this enumeration has been widely used for implicit (i. e. pointer-free) implementation of heaps, segment trees, and other binary tree structures, where instead of names it stores underlying array items.</p>
+<p>This is how this layout will look when applied to binary search:</p>
+<p><img src="img/eytzinger.png" /></p>
+<p>You can immediately see how it’s temporal locality is better (in fact, theoretically optimal) as the elements closer to the root are closer to the beginning of the array, and thus are more likely to be fetched from cache.</p>
+<h3 id="construction">Construction</h3>
+<p>Here is a function that constructs Eytzinger array by traversing the original search tree.</p>
+<p>It takes two indexes <span class="math inline">\(i\)</span> and <span class="math inline">\(k\)</span>—one in the original array and one in constructed—and recursively goes to two branches until a leaf node is reached, which could simply be checked by asserting <span class="math inline">\(k \leq n\)</span> as Eytzinger array should have same number of items.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="at">const</span> <span class="dt">int</span> n = <span class="fl">1e5</span>;</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="dt">int</span> a[n], b[n+<span class="dv">1</span>];</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="dt">int</span> eytzinger(<span class="dt">int</span> i = <span class="dv">0</span>, <span class="dt">int</span> k = <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb3-5" title="5">    <span class="cf">if</span> (k &lt;= n) {</a>
+<a class="sourceLine" id="cb3-6" title="6">        i = eytzinger(i, <span class="dv">2</span> * k);</a>
+<a class="sourceLine" id="cb3-7" title="7">        b[k] = a[i++];</a>
+<a class="sourceLine" id="cb3-8" title="8">        i = eytzinger(i, <span class="dv">2</span> * k + <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb3-9" title="9">    }</a>
+<a class="sourceLine" id="cb3-10" title="10">    <span class="cf">return</span> i;</a>
+<a class="sourceLine" id="cb3-11" title="11">}</a></code></pre></div>
+<p>Despite being recursive, this is actually a really fast implementation as all read accesses are sequential.</p>
+<p>Note that the first element is left unfilled and the whole array is essencially 1-shifted. This will actually turn out to be a huge performance booster.</p>
+<h2 id="binary-search-implementation">Binary search implementation</h2>
+<p>We can now descend this array using only indices: we just start with <span class="math inline">\(k=1\)</span> and execute <span class="math inline">\(k := 2k\)</span> if we need to go left and <span class="math inline">\(k := 2k + 1\)</span> if we need to go right. We don’t even need to store and recalculate binary search boundaries, which is another selling point.</p>
+<p>The only problem arises when we need to restore the index of the resulting element, as <span class="math inline">\(k\)</span> may end up not pointing to a leaf node. Here is an example of how that can happen:</p>
+<pre><code>    array:  1 2 3 4 5 6 7 8
+eytzinger:  4 2 5 1 6 3 7 8
+1st range:  ---------------  k := 1
+2nd range:  -------          k := 2*k      (=2)
+3rd range:      ---          k := 2*k + 1  (=5)
+4th range:        -          k := 2*k + 1  (=11)</code></pre>
+<p>Here we query array of <span class="math inline">\([1, …, 8]\)</span> for the lower bound of <span class="math inline">\(x=4\)</span>. We compare it againts <span class="math inline">\(4\)</span>, <span class="math inline">\(2\)</span> and <span class="math inline">\(5\)</span>, and go left-right-right and end up with <span class="math inline">\(k = 11\)</span>, which isn’t even a valid array index.</p>
+<p>Note that, unless the answer is the last element of the array, we compare <span class="math inline">\(x\)</span> against it at some point, and after we learn that it is not less than <span class="math inline">\(x\)</span>, we start comparing <span class="math inline">\(x\)</span> against elements to the left, and all these comparisons will evaluate true (i. e. leading to the right). Hence, the solution to restoring the resulting element is to cancel some number of right turns.</p>
+<p>This can be done in an elegant way by observing that the right turns are recorded in the binary notation of <span class="math inline">\(k\)</span> as 1-bits, and so we just need to find the number of trailing ones in the binary notation and right-shift <span class="math inline">\(k\)</span> by exactly that amount.</p>
+<p>To do this we can invert the number (<code>~x</code>) and call “find first set” instruction available on most systems. In GCC, the correspolding builtin is <code>__builtin_ffs</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">int</span> search(<span class="dt">int</span> x) </a>
+<a class="sourceLine" id="cb5-2" title="2">    int k = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb5-3" title="3">    while (k &lt;= n) {</a>
+<a class="sourceLine" id="cb5-4" title="4">        if (b[k] &gt;= x)</a>
+<a class="sourceLine" id="cb5-5" title="5">            k = <span class="dv">2</span> * k;</a>
+<a class="sourceLine" id="cb5-6" title="6">        <span class="cf">else</span></a>
+<a class="sourceLine" id="cb5-7" title="7">            k = <span class="dv">2</span> * k + <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb5-8" title="8">    }</a>
+<a class="sourceLine" id="cb5-9" title="9">    k &gt;&gt;= <span class="fu">__builtin_ffs</span>(~k);</a>
+<a class="sourceLine" id="cb5-10" title="10">    return b[k];</a>
+<a class="sourceLine" id="cb5-11" title="11">}</a></code></pre></div>
+<p>Note that <span class="math inline">\(k\)</span> will be zero if binary search returned no result (i. e. all elements are less than <span class="math inline">\(x\)</span> and all turns were right-turns that got cancelled). In that case, you can put a special flag in the first element of <code>b</code>.</p>
+<p>This is already 2-3 times faster than <code>std::lower_bound</code>, but we are not going to stop there and apply a series of small incremental improvements.</p>
+<h3 id="branch-free">Branch-free</h3>
+<p>Compiled program instructions are stored and loaded from main memory too, just as normal data. They are fetched during execution by similar mechanisms, and they have a separate instruction cache. In fact, in large applications you can sometimes remove blocks of literally unused code, and the program may run faster because of better instruction cache hit rate, but this is a topic for another article.</p>
+<p>To avoid performance hits caused by memory latency here, CPU loads 20-ish instructions ahead of time, but to do this it needs to know ahead of time which instructions to fetch. If a program has conditional execution (if-s, while-s, for-s) there is no option other than to take a guess.</p>
+<p>Branch misprediction (guessing “wrong” branch of “if”) costs around 10-20 cycles. To partially negate this penalty, hardware <a href="https://en.wikipedia.org/wiki/Branch_predictor">branch predictors</a> were developed. These are complex ad-hoc systems that use statistical methods—some even use simple <a href="https://en.wikipedia.org/wiki/Branch_predictor#Neural_branch_prediction">neural networks</a>—to make a more accurate guess.</p>
+<p>In case of binary search, if all of our data is random, branch prediction doesn’t help at all, just because it can’t: all comparisons are 50-50. This is why we need to get rid of if-s and rewrite our main loop the following way:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="cf">while</span> (k &lt;= n)</a>
+<a class="sourceLine" id="cb6-2" title="2">    k = <span class="dv">2</span> * k + (b[k] &lt; x);</a></code></pre></div>
+<h3 id="prefetching">Prefetching</h3>
+<p>Compiler doesn’t like when CPU is sitting idle while waiting for memory fetches. Sometimes it can take a guess which cache line is going to be needed soon and fetch it ahead of time (recall that bandwidth-latency product is usually much larger than 1).</p>
+<p>This works well for simple access patterns, like iterating over array in increasing or decreasing order, but for something complex like what we have here it’s not going to perform well.</p>
+<p>As we know a bit more about our problem than the compiler does, we can tell it to explicitly prefetch a cache line we need. This is done by <code>__builtin_prefetch</code> in GCC:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="cf">while</span> (k &lt;= n) {</a>
+<a class="sourceLine" id="cb7-2" title="2">    <span class="fu">__builtin_prefetch</span>(b + k * block_size);</a>
+<a class="sourceLine" id="cb7-3" title="3">    k = <span class="dv">2</span> * k + (b[k] &lt; x);</a>
+<a class="sourceLine" id="cb7-4" title="4">}</a></code></pre></div>
+<p>Here, <code>block_size</code> equals 16, which is precisely how many ints are needed to cover a cache line. When we reference cache line at <code>b + k * block_size</code>, we are referencing <span class="math inline">\(k\)</span>’s grand-grandson (<code>block_size</code> = <span class="math inline">\(2 \times 2 \times 2 \times 2\)</span>, or 4 left turns) and possibly some of his neighbours in his layer (recall that indexes at the same level are just consecutive numbers).</p>
+<p>The whole point of doing this is that there is a good chance that we will prefetch an element that we will use later on <span class="math inline">\((i+4)\)</span>-th iteration. What chance, exactly? Well, it turns out that it is constant for each iteration.</p>
+<h3 id="memory-allignment">Memory allignment</h3>
+<p>Note that for each layer in the tree, except for the first 4 and possibly the last one, the number of nodes in that layer is divisible by 16, the block size. This means that the fraction of covered nodes on <em>each</em> iteration depends only on the position of the first offset of the array in respect to its cache line. But what is more important is that it can be made that all of <span class="math inline">\(k\)</span>’s grand-grandchildren are covered by the same cache line.</p>
+<p>The way to achieve this is to place the first element of the array to the 1st position (0-indexed) of a cache line, or placing the array itself on the beginning of a cache line, since its first (i. e. <code>b[0]</code>) element is blank by design. This way the next <span class="math inline">\(1 + 2 + 4 + 8 = 15\)</span> elements of first 4 layers will occupy the rest of the cache line, and the rest of the array is alligned in nice 16-element blocks of nodes who share a grandpa.</p>
+<p>We just need to ask memory manager to allocate our array on the beginning of a cache line (by default it allocates your arrays wherever it wants), and that’s it. To do this, we can use <code>alignas</code> specifier:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">alignas</span>(<span class="dv">64</span>) <span class="dt">int</span> b[n+<span class="dv">1</span>];</a></code></pre></div>
+<p>This is it. Now our algorithm is constantly prefetching 4 layers / cache lines ahead of time, which is covered by the bandwith of our RAM. This way the effective latency is reduced by a factor of 4. We are basically trading off bandwidth for latency.</p>
+<h3 id="complete-implementation">Complete implementation</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" title="1"><span class="pp">#pragma GCC optimize(&quot;O3&quot;)</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></a>
+<a class="sourceLine" id="cb9-3" title="3"></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="kw">using</span> <span class="kw">namespace</span> std;</a>
+<a class="sourceLine" id="cb9-5" title="5"></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="at">const</span> <span class="dt">int</span> n = (<span class="dv">1</span>&lt;&lt;<span class="dv">20</span>);</a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="at">const</span> <span class="dt">int</span> block_size = <span class="dv">16</span>; <span class="co">// = 64 / 4 = cache_line_size / sizeof(int)</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="kw">alignas</span>(<span class="dv">64</span>) <span class="dt">int</span> a[n], b[n+<span class="dv">1</span>];</a>
+<a class="sourceLine" id="cb9-9" title="9"></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="dt">int</span> eytzinger(<span class="dt">int</span> i = <span class="dv">0</span>, <span class="dt">int</span> k = <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb9-11" title="11">    <span class="cf">if</span> (k &lt;= n) {</a>
+<a class="sourceLine" id="cb9-12" title="12">        i = eytzinger(i, <span class="dv">2</span> * k);</a>
+<a class="sourceLine" id="cb9-13" title="13">        b[k] = a[i++];</a>
+<a class="sourceLine" id="cb9-14" title="14">        i = eytzinger(i, <span class="dv">2</span> * k + <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb9-15" title="15">    }</a>
+<a class="sourceLine" id="cb9-16" title="16">    <span class="cf">return</span> i;</a>
+<a class="sourceLine" id="cb9-17" title="17">}</a>
+<a class="sourceLine" id="cb9-18" title="18"></a>
+<a class="sourceLine" id="cb9-19" title="19"><span class="dt">int</span> search(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb9-20" title="20">    <span class="dt">int</span> k = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb9-21" title="21">    <span class="cf">while</span> (k &lt;= n) {</a>
+<a class="sourceLine" id="cb9-22" title="22">        <span class="fu">__builtin_prefetch</span>(b + k * block_size);</a>
+<a class="sourceLine" id="cb9-23" title="23">        k = <span class="dv">2</span> * k + (b[k] &lt; x);</a>
+<a class="sourceLine" id="cb9-24" title="24">    }</a>
+<a class="sourceLine" id="cb9-25" title="25">    k &gt;&gt;= <span class="fu">__builtin_ffs</span>(~k);</a>
+<a class="sourceLine" id="cb9-26" title="26">    <span class="cf">return</span> k;</a>
+<a class="sourceLine" id="cb9-27" title="27">}</a></code></pre></div>
+<p>Few more things to note:</p>
+<ul>
+<li><p>It works best when <span class="math inline">\(n\)</span> is a power of 2 or close to it, because otherwise the branch predictor will have a hard time figuring out whether or not to unroll the <span class="math inline">\((\log n)\)</span>-th cycle.</p></li>
+<li><p>Its performance varies by cache size and array length, but stays &gt;3x even on smaller arrays (&lt;1MB).</p></li>
+<li><p>Preprocessing isn’t costly. It is around 1% of the cost of firing the same number of queries as the array size.</p></li>
+<li><p>Modern hardware won’t penalize you for prefetching cache lines that aren’t yours, though this maybe be an issue for older CPUs, which can be solved by a simple <code>if</code> statement.</p></li>
+<li><p>For some reason, basic binary search implementation (the very first code block in this article) is already ~20% faster than <code>std::sort</code>.</p></li>
+</ul>
+<h2 id="what-about-b-trees">What about B-trees?</h2>
+<p>B-trees are basically <span class="math inline">\((k+1)\)</span>-ary trees, meaning that they store <span class="math inline">\(k\)</span> elements in each node and choose between <span class="math inline">\((k+1)\)</span> possible branches instead of 2.</p>
+<p>They are widely used for indexing in databases, especially those that operate on-disk, because if <span class="math inline">\(k\)</span> is big, this allows large sequencial memory accesses while reducing the height of the tree.</p>
+<p>To do static binary searches, one can implement a B-tree in an implicit way, i. e. without actually storing any pointers and spending only <span class="math inline">\(O(1)\)</span> additional memory, and <span class="math inline">\(k\)</span> could be made equal to the cache line size so that each node request fetches exactly one cache line.</p>
+<p><img src="img/btree.png" /></p>
+<p>Turns out, they have the same rate of growth but sligtly larger compute-tied constant. While the latter is explainable (our while loop only has like 5 instructions; can’t outpace that), the former is surprising.</p>
+<p>Let’s assume that arithmetic costs nothing and do simple cache block analysis:</p>
+<ul>
+<li><p>The Eytzinger binary search is supposed to be <span class="math inline">\(4\)</span> times faster if compute didn’t matter, as it requests them ~4 times faster on average.</p></li>
+<li><p>The B-tree makes <span class="math inline">\(\frac{\log_{17} n}{\log_2 n} = \frac{\log n}{\log 17} \frac{\log 2}{\log n} = \frac{\log 2}{\log 17} \approx 0.245\)</span> memory access per each request of binary search, i. e. it requests ~4 times less cache lines to fetch</p></li>
+</ul>
+<p>This explains why they have roughly the same slope.</p>
+<p>Note that this method, while being great for single-threaded world, is unlikely to make its way into database and heavy multi-threaded applications, because it sacrifices bandwidth to achieve low latency.</p>
+</body>
+</html>
