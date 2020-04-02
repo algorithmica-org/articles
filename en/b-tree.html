@@ -118,7 +118,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It performs slightly worse on array sizes that fit lower layers of cache, but in low-bandwidth environments it can be up to 3x faster (or 7x faster than <code>std::lower_bound</code>).</p>
 <h2 id="b-tree-layout">B-tree layout</h2>
 <p>B-trees generalize the concept of binary search trees by allowing nodes to have more than two children.</p>
-<p>Instead of single key, a B-tree node contains up to <span class="math inline">\(B\)</span> sorted keys may have up to <span class="math inline">\((B+1)\)</span> children, thus reducing the tree heigh in <span class="math inline">\(\frac{\log_2 n}{\log_B n} = \frac{\log B}{\log 2} = \log_2 B\)</span> times.</p>
+<p>Instead of single key, a B-tree node contains up to <span class="math inline">\(B\)</span> sorted keys may have up to <span class="math inline">\((B+1)\)</span> children, thus reducing the tree height in <span class="math inline">\(\frac{\log_2 n}{\log_B n} = \frac{\log B}{\log 2} = \log_2 B\)</span> times.</p>
 <p>They were primarily developed for the purpose of managing on-disk databases, as their random access times are almost the same as reading 1MB of data sequentially, which makes the trade-off between number of comparisons and tree height beneficial. In our implementation, we will make each the size of each block equal to the cache line size, which in case of <code>int</code> is 16 elements.</p>
 <p>Normally, a B-tree node also stores <span class="math inline">\((B+1)\)</span> pointers to its children, but we will only store keys and rely on pointer arithmetic, similar to the one used in Eytzinger array:</p>
 <ul>
@@ -211,7 +211,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-10" title="10">    <span class="cf">return</span> _mm256_movemask_ps((__m256) mask);</a>
 <a class="sourceLine" id="cb5-11" title="11">}</a></code></pre></div>
 <p>After that, we call this function two times (because our node size / cache line happens to be 512 bits, which is twice as big) and blend these masks together with bitwise operations.</p>
-<h2 id="complete-implementaiton">Complete implementaiton</h2>
+<h2 id="complete-implementation">Complete implementation</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="pp">#pragma GCC optimize(&quot;O3&quot;)</span></a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="pp">#pragma GCC target(&quot;avx2&quot;)</span></a>
 <a class="sourceLine" id="cb6-3" title="3"></a>
@@ -280,6 +280,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb7-11" title="11">    }</a>
 <a class="sourceLine" id="cb7-12" title="12">    <span class="cf">return</span> res;</a>
 <a class="sourceLine" id="cb7-13" title="13">}</a></code></pre></div>
-<p>It is ~30% slower (which is still good, because <code>std::sort</code> is 600% slower), but it saves you from rewriting the comparator with SIMD by hand, which in most cases is totally doable, but requires some effort.</p>
+<p>It is ~30% slower (which is still good, because <code>std::lower_bound</code> is still ~600% slower), but it saves you from rewriting the comparator with SIMD by hand, which in most cases is totally doable, but requires some effort.</p>
 </body>
 </html>
