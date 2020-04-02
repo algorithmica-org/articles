@@ -185,7 +185,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>…and this whole transaction costs the same as loading and adding just two ints—which means we can do 8 times more work. Magic!</p>
 <p>So, as we promised before, we will perform all <span class="math inline">\(16\)</span> comparisons to compute the index of the right child node, but we leverage SIMD instructions to do it efficiently. Just to clarify—we want to do something like this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> mask = <span class="dv">0</span>;</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> mask = (<span class="dv">1</span> &lt;&lt; B);</a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; B; i++)</a>
 <a class="sourceLine" id="cb4-3" title="3">    mask |= (btree[k][i] &gt;= x) &lt;&lt; i;</a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="dt">int</span> i = <span class="fu">__builtin_ffs</span>(mask) - <span class="dv">1</span>;</a>
@@ -265,6 +265,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb6-51" title="51">}</a></code></pre></div>
 <p>That’s it. This implementation should outperform even the <a href="http://kaldewey.com/pubs/FAST__SIGMOD10.pdf">state-of-the-art indexes</a> used in high-performance databases, though it’s mostly due to the fact that data structures used in real databases have to support fast updates while we don’t.</p>
 <p>Note that this implementation is very specific to the architecture. Older CPUs and CPUs on mobile devices don’t have 256-bit wide registers and will crash (but they likely have 128-bit SIMD so the loop can still be split in 4 parts instead of 2), non-Intel CPUs have their own instruction sets for SIMD, and some computers even have different cache line size.</p>
-<p>Also, it may take some work to get it working with other data types or different comparators (you’ll have to implement custom comparison using SIMD instructions), but in most cases this should be totally doable.</p>
+<h3 id="legacy-version">Legacy version</h3>
+<p>If you consider using SIMD a form of cheating (not sure if this qualifies as “comparison-based binary search” anymore), or running it on older hardware, or need to use it with a custom data type and don’t have too much time, try replacing <code>search</code> with this simpler version:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="dt">int</span> search(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb7-2" title="2">    <span class="dt">int</span> k = <span class="dv">0</span>, res = INF;</a>
+<a class="sourceLine" id="cb7-3" title="3">    <span class="cf">while</span> (k &lt; nblocks) {</a>
+<a class="sourceLine" id="cb7-4" title="4">        <span class="dt">int</span> mask = (<span class="dv">1</span> &lt;&lt; B);</a>
+<a class="sourceLine" id="cb7-5" title="5">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; B; i++)</a>
+<a class="sourceLine" id="cb7-6" title="6">             mask |= (btree[k][i] &gt;= x) &lt;&lt; i;</a>
+<a class="sourceLine" id="cb7-7" title="7">        <span class="dt">int</span> i = <span class="fu">__builtin_ffs</span>(mask) - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb7-8" title="8">        <span class="cf">if</span> (i &lt; B)</a>
+<a class="sourceLine" id="cb7-9" title="9">            res = btree[k][i];</a>
+<a class="sourceLine" id="cb7-10" title="10">        k = go(k, i);</a>
+<a class="sourceLine" id="cb7-11" title="11">    }</a>
+<a class="sourceLine" id="cb7-12" title="12">    <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb7-13" title="13">}</a></code></pre></div>
+<p>It is ~30% slower (which is still good, because <code>std::sort</code> is 600% slower), but it saves you from rewriting the comparator with SIMD by hand, which in most cases is totally doable, but requires some effort.</p>
 </body>
 </html>
