@@ -121,7 +121,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p><a href="https://erikdemaine.org/papers/BRICS2002/paper.pdf">Cache-Oblivious Algorithms and Data Structures</a> by Erik Demaine</p></li>
 <li><p><a href="https://people.freebsd.org/~lstewart/articles/cpumemory.pdf">What Every Programmer Should Know About Memory</a> by Ulrich Drepper</p></li>
 </ul>
-<p>Our minimalistic implementation is only ~15 lines of code while offering 4-5x speedup over <code>std::lower_bound</code>.</p>
+<p>Our minimalistic implementation is only ~15 lines of code while offering 4-5x speedup over <code>std::lower_bound</code>. The exact speedup depends a lot on available memory bandwidth (see notes below).</p>
 <p><strong>If you are writing a contest right now</strong>, stuck on a problem where binary search is a bottleneck, and suddenly remembered about this article, <strong>jump straight to “complete implementation”</strong>, it’s compilable and copy-pastable.</p>
 <h2 id="why-is-binary-search-slow">Why is binary search slow?</h2>
 <p>Here is a standard way of searching for the first element not less than <span class="math inline">\(x\)</span> in a sorted array:</p>
@@ -303,5 +303,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>This explains why they have roughly the same slope.</p>
 <p>Note that this method, while being great for single-threaded world, is unlikely to make its way into database and heavy multi-threaded applications, because it sacrifices bandwidth to achieve low latency.</p>
+<p><a href="https://algorithmica.org/en/b-tree">Part 2</a> explores efficient implementation of implicit static B-trees in bandwidth-constrained environment.</p>
 </body>
 </html>
