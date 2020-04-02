@@ -148,10 +148,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It is correct, because each value of initial array will be copied to a unique position in the resulting array, and the tree height is <span class="math inline">\(\Theta(\log_{B+1} n)\)</span>, because <span class="math inline">\(k\)</span> is multiplied by <span class="math inline">\((B + 1)\)</span> each time a child node is created.</p>
 <p>Note that this approach causes a slight imbalance: “lefter” children may have larger respective ranges.</p>
 <h2 id="basic-search">Basic Search</h2>
-<p>Here is a short but rather inefficient implementation that we will improve later.</p>
+<p>Here is a short but rather inefficient implementation that we will improve later:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> search(<span class="dt">int</span> x) {</a>
 <a class="sourceLine" id="cb3-2" title="2">    <span class="dt">int</span> k = <span class="dv">0</span>, res = INF;</a>
-<a class="sourceLine" id="cb3-3" title="3">    start: <span class="co">// the only justified usage of goto statement</span></a>
+<a class="sourceLine" id="cb3-3" title="3">    start: <span class="co">// the only justified usage of the goto statement</span></a>
 <a class="sourceLine" id="cb3-4" title="4">           <span class="co">// as doing otherwise would add extra inefficiency and more code</span></a>
 <a class="sourceLine" id="cb3-5" title="5">    <span class="cf">while</span> (k &lt; nblocks) {</a>
 <a class="sourceLine" id="cb3-6" title="6">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; B; i++) {</a>
@@ -191,7 +191,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb4-4" title="4"><span class="dt">int</span> i = <span class="fu">__builtin_ffs</span>(mask) - <span class="dv">1</span>;</a>
 <a class="sourceLine" id="cb4-5" title="5"><span class="co">// now i is the number of the correct child node</span></a></code></pre></div>
 <p>…but ~8 times faster.</p>
-<p>The algorithm:</p>
+<p>Actually, compiler quite often produces very optimized code that leverages these instructions for certain types of loops. This is called auto-vectorization, and this is the reason why a loop that sums up an array of <code>short</code>s is faster (theoretically by a factor of two) than the same loop for <code>int</code>s: you can fit more elements on the same 256-bit block. Sadly, this is not our case, as we have loop-carried dependencies.</p>
+<p>The algorithm we will implement:</p>
 <ol type="1">
 <li><p>Somewhere before the main loop, convert <span class="math inline">\(x\)</span> to a vector of <span class="math inline">\(8\)</span> copies of <span class="math inline">\(x\)</span>.</p></li>
 <li><p>Load the keys stored in node into another 256-bit vector.</p></li>
@@ -222,47 +223,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb6-8" title="8"></a>
 <a class="sourceLine" id="cb6-9" title="9"><span class="kw">typedef</span> __m256i reg;</a>
 <a class="sourceLine" id="cb6-10" title="10"></a>
-<a class="sourceLine" id="cb6-11" title="11"><span class="at">const</span> <span class="dt">int</span> n = (<span class="dv">1</span>&lt;&lt;<span class="dv">20</span>), m = (<span class="dv">1</span>&lt;&lt;<span class="dv">22</span>), B = <span class="dv">16</span>;</a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="at">const</span> <span class="dt">int</span> n = (<span class="dv">1</span>&lt;&lt;<span class="dv">20</span>), B = <span class="dv">16</span>;</a>
 <a class="sourceLine" id="cb6-12" title="12"><span class="at">const</span> <span class="dt">int</span> nblocks = (n + B - <span class="dv">1</span>) / B;</a>
 <a class="sourceLine" id="cb6-13" title="13"><span class="at">const</span> <span class="dt">int</span> INF = numeric_limits&lt;<span class="dt">int</span>&gt;::max();</a>
 <a class="sourceLine" id="cb6-14" title="14"></a>
-<a class="sourceLine" id="cb6-15" title="15"><span class="dt">int</span> a[n], q[m], results[m];</a>
-<a class="sourceLine" id="cb6-16" title="16"><span class="kw">alignas</span>(<span class="dv">64</span>) <span class="dt">int</span> b[n+<span class="dv">1</span>], btree[nblocks][B];</a>
-<a class="sourceLine" id="cb6-17" title="17"></a>
-<a class="sourceLine" id="cb6-18" title="18"><span class="dt">int</span> go(<span class="dt">int</span> k, <span class="dt">int</span> i) { <span class="cf">return</span> k * (B + <span class="dv">1</span>) + i + <span class="dv">1</span>; }</a>
-<a class="sourceLine" id="cb6-19" title="19"></a>
-<a class="sourceLine" id="cb6-20" title="20"><span class="dt">void</span> build(<span class="dt">int</span> k = <span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb6-21" title="21">    <span class="at">static</span> <span class="dt">int</span> t = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb6-22" title="22">    <span class="cf">if</span> (k &lt; nblocks) {</a>
-<a class="sourceLine" id="cb6-23" title="23">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; B; i++) {</a>
-<a class="sourceLine" id="cb6-24" title="24">            build(go(k, i));</a>
-<a class="sourceLine" id="cb6-25" title="25">            btree[k][i] = (t &lt; n ? a[t++] : INF);</a>
-<a class="sourceLine" id="cb6-26" title="26">        }</a>
-<a class="sourceLine" id="cb6-27" title="27">        build(go(k, B));</a>
-<a class="sourceLine" id="cb6-28" title="28">    }</a>
-<a class="sourceLine" id="cb6-29" title="29">}</a>
-<a class="sourceLine" id="cb6-30" title="30"></a>
-<a class="sourceLine" id="cb6-31" title="31"><span class="dt">int</span> cmp(reg x_vec, <span class="dt">int</span>* y_ptr) {</a>
-<a class="sourceLine" id="cb6-32" title="32">    reg y_vec = _mm256_load_si256((reg*) y_ptr);</a>
-<a class="sourceLine" id="cb6-33" title="33">    reg mask = _mm256_cmpgt_epi32(x_vec, y_vec);</a>
-<a class="sourceLine" id="cb6-34" title="34">    <span class="cf">return</span> _mm256_movemask_ps((__m256) mask);</a>
-<a class="sourceLine" id="cb6-35" title="35">}</a>
-<a class="sourceLine" id="cb6-36" title="36"></a>
-<a class="sourceLine" id="cb6-37" title="37"><span class="dt">int</span> search(<span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb6-38" title="38">    <span class="dt">int</span> k = <span class="dv">0</span>, res = INF;</a>
-<a class="sourceLine" id="cb6-39" title="39">    reg x_vec = _mm256_set1_epi32(x);</a>
-<a class="sourceLine" id="cb6-40" title="40">    <span class="cf">while</span> (k &lt; nblocks) {</a>
-<a class="sourceLine" id="cb6-41" title="41">        <span class="dt">int</span> mask = ~(</a>
-<a class="sourceLine" id="cb6-42" title="42">            cmp(x_vec, &amp;btree[k][<span class="dv">0</span>]) +</a>
-<a class="sourceLine" id="cb6-43" title="43">            (cmp(x_vec, &amp;btree[k][<span class="dv">8</span>]) &lt;&lt; <span class="dv">8</span>)</a>
-<a class="sourceLine" id="cb6-44" title="44">        );</a>
-<a class="sourceLine" id="cb6-45" title="45">        <span class="dt">int</span> i = <span class="fu">__builtin_ffs</span>(mask) - <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb6-46" title="46">        <span class="cf">if</span> (i &lt; B)</a>
-<a class="sourceLine" id="cb6-47" title="47">            res = btree[k][i];</a>
-<a class="sourceLine" id="cb6-48" title="48">        k = go(k, i);</a>
-<a class="sourceLine" id="cb6-49" title="49">    }</a>
-<a class="sourceLine" id="cb6-50" title="50">    <span class="cf">return</span> res;</a>
-<a class="sourceLine" id="cb6-51" title="51">}</a></code></pre></div>
+<a class="sourceLine" id="cb6-15" title="15"><span class="kw">alignas</span>(<span class="dv">64</span>) <span class="dt">int</span> btree[nblocks][B];</a>
+<a class="sourceLine" id="cb6-16" title="16"></a>
+<a class="sourceLine" id="cb6-17" title="17"><span class="dt">int</span> go(<span class="dt">int</span> k, <span class="dt">int</span> i) { <span class="cf">return</span> k * (B + <span class="dv">1</span>) + i + <span class="dv">1</span>; }</a>
+<a class="sourceLine" id="cb6-18" title="18"></a>
+<a class="sourceLine" id="cb6-19" title="19"><span class="dt">void</span> build(<span class="dt">int</span> k = <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb6-20" title="20">    <span class="at">static</span> <span class="dt">int</span> t = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb6-21" title="21">    <span class="cf">if</span> (k &lt; nblocks) {</a>
+<a class="sourceLine" id="cb6-22" title="22">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; B; i++) {</a>
+<a class="sourceLine" id="cb6-23" title="23">            build(go(k, i));</a>
+<a class="sourceLine" id="cb6-24" title="24">            btree[k][i] = (t &lt; n ? a[t++] : INF);</a>
+<a class="sourceLine" id="cb6-25" title="25">        }</a>
+<a class="sourceLine" id="cb6-26" title="26">        build(go(k, B));</a>
+<a class="sourceLine" id="cb6-27" title="27">    }</a>
+<a class="sourceLine" id="cb6-28" title="28">}</a>
+<a class="sourceLine" id="cb6-29" title="29"></a>
+<a class="sourceLine" id="cb6-30" title="30"><span class="dt">int</span> cmp(reg x_vec, <span class="dt">int</span>* y_ptr) {</a>
+<a class="sourceLine" id="cb6-31" title="31">    reg y_vec = _mm256_load_si256((reg*) y_ptr);</a>
+<a class="sourceLine" id="cb6-32" title="32">    reg mask = _mm256_cmpgt_epi32(x_vec, y_vec);</a>
+<a class="sourceLine" id="cb6-33" title="33">    <span class="cf">return</span> _mm256_movemask_ps((__m256) mask);</a>
+<a class="sourceLine" id="cb6-34" title="34">}</a>
+<a class="sourceLine" id="cb6-35" title="35"></a>
+<a class="sourceLine" id="cb6-36" title="36"><span class="dt">int</span> search(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb6-37" title="37">    <span class="dt">int</span> k = <span class="dv">0</span>, res = INF;</a>
+<a class="sourceLine" id="cb6-38" title="38">    reg x_vec = _mm256_set1_epi32(x);</a>
+<a class="sourceLine" id="cb6-39" title="39">    <span class="cf">while</span> (k &lt; nblocks) {</a>
+<a class="sourceLine" id="cb6-40" title="40">        <span class="dt">int</span> mask = ~(</a>
+<a class="sourceLine" id="cb6-41" title="41">            cmp(x_vec, &amp;btree[k][<span class="dv">0</span>]) +</a>
+<a class="sourceLine" id="cb6-42" title="42">            (cmp(x_vec, &amp;btree[k][<span class="dv">8</span>]) &lt;&lt; <span class="dv">8</span>)</a>
+<a class="sourceLine" id="cb6-43" title="43">        );</a>
+<a class="sourceLine" id="cb6-44" title="44">        <span class="dt">int</span> i = <span class="fu">__builtin_ffs</span>(mask) - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb6-45" title="45">        <span class="cf">if</span> (i &lt; B)</a>
+<a class="sourceLine" id="cb6-46" title="46">            res = btree[k][i];</a>
+<a class="sourceLine" id="cb6-47" title="47">        k = go(k, i);</a>
+<a class="sourceLine" id="cb6-48" title="48">    }</a>
+<a class="sourceLine" id="cb6-49" title="49">    <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb6-50" title="50">}</a></code></pre></div>
 <p>That’s it. This implementation should outperform even the <a href="http://kaldewey.com/pubs/FAST__SIGMOD10.pdf">state-of-the-art indexes</a> used in high-performance databases, though it’s mostly due to the fact that data structures used in real databases have to support fast updates while we don’t.</p>
 <p>Note that this implementation is very specific to the architecture. Older CPUs and CPUs on mobile devices don’t have 256-bit wide registers and will crash (but they likely have 128-bit SIMD so the loop can still be split in 4 parts instead of 2), non-Intel CPUs have their own instruction sets for SIMD, and some computers even have different cache line size.</p>
 <h3 id="legacy-version">Legacy version</h3>
@@ -280,6 +280,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb7-11" title="11">    }</a>
 <a class="sourceLine" id="cb7-12" title="12">    <span class="cf">return</span> res;</a>
 <a class="sourceLine" id="cb7-13" title="13">}</a></code></pre></div>
-<p>It is ~30% slower (which is still good, because <code>std::lower_bound</code> is still ~600% slower), but it saves you from rewriting the comparator with SIMD by hand, which in most cases is totally doable, but requires some effort.</p>
+<p>It is ~30% slower (which is still quite good, because <code>std::lower_bound</code> is ~600% slower), but it saves you from rewriting the comparator with SIMD by hand, which in most cases is totally doable, but requires some effort.</p>
 </body>
 </html>
