@@ -166,7 +166,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p><strong>Temporal locality</strong> is an access pattern where if at one point a particular item is requested, it is likely that this same location will be requested again in the near future. <em>This is like fetching the same type of beer over and over again.</em></p></li>
 <li><p><strong>Spacial locality</strong> is an access pattern where if a memory location is requested, it is likely that a nearby memory locations will be requested again in the near future. <em>This is like storing the kinds of beer that you like on the same shelf.</em></p></li>
 </ul>
-<p>The main problem with binary search over a sorted array is that its memory accesses pattern is neither temporary nor spacially local. For example, element <span class="math inline">\(\lfloor \frac n 2 \rfloor\)</span> is accessed very often (each search) and element <span class="math inline">\(\lfloor \frac n 2 \rfloor + 1\)</span> is not, while they are probably occupying the same cache line.</p>
+<p>The main problem with binary search over a sorted array is that its memory accesses pattern is neither temporary nor spacially local. For example, element <span class="math inline">\(\lfloor \frac n 2 \rfloor\)</span> is accessed very often (every search) and element <span class="math inline">\(\lfloor \frac n 2 \rfloor + 1\)</span> is not, while they are probably occupying the same cache line. In general, only the first 3-5 reads are temporary local and only the last 3-4 reads are spacially local, and the rest are just random memory accesses.</p>
 <p>We can overcome this by enumerating and permuting array elements in a more cache-friendly way. The numeration we will use is actually half a millenium old, and chances are you already know it.</p>
 <h2 id="the-eytzinger-layout">The Eytzinger layout</h2>
 <p><strong>Michaël Eytzinger</strong> is a 16th century Austrian nobleman known for his work on genealogy, particularily for a system for numbering ancestors called <em>ahnentafel</em> (German for “ancestor table”).</p>
@@ -187,7 +187,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>In computer science</strong>, this enumeration has been widely used for implicit (i. e. pointer-free) implementation of heaps, segment trees, and other binary tree structures, where instead of names it stores underlying array items.</p>
 <p>This is how this layout will look when applied to binary search:</p>
 <p><img src="img/eytzinger.png" /></p>
-<p>You can immediately see how it’s temporal locality is better (in fact, theoretically optimal) as the elements closer to the root are closer to the beginning of the array, and thus are more likely to be fetched from cache.</p>
+<p>You can immediately see how its temporal locality is better (in fact, theoretically optimal) as the elements closer to the root are closer to the beginning of the array, and thus are more likely to be fetched from cache.</p>
 <h3 id="construction">Construction</h3>
 <p>Here is a function that constructs Eytzinger array by traversing the original search tree.</p>
 <p>It takes two indexes <span class="math inline">\(i\)</span> and <span class="math inline">\(k\)</span>—one in the original array and one in constructed—and recursively goes to two branches until a leaf node is reached, which could simply be checked by asserting <span class="math inline">\(k \leq n\)</span> as Eytzinger array should have same number of items.</p>
@@ -217,7 +217,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note that, unless the answer is the last element of the array, we compare <span class="math inline">\(x\)</span> against it at some point, and after we learn that it is not less than <span class="math inline">\(x\)</span>, we start comparing <span class="math inline">\(x\)</span> against elements to the left, and all these comparisons will evaluate true (i. e. leading to the right). Hence, the solution to restoring the resulting element is to cancel some number of right turns.</p>
 <p>This can be done in an elegant way by observing that the right turns are recorded in the binary notation of <span class="math inline">\(k\)</span> as 1-bits, and so we just need to find the number of trailing ones in the binary notation and right-shift <span class="math inline">\(k\)</span> by exactly that amount.</p>
 <p>To do this we can invert the number (<code>~x</code>) and call “find first set” instruction available on most systems. In GCC, the corresponding builtin is <code>__builtin_ffs</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">int</span> search(<span class="dt">int</span> x) </a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">int</span> search(<span class="dt">int</span> x) {</a>
 <a class="sourceLine" id="cb5-2" title="2">    int k = <span class="dv">1</span>;</a>
 <a class="sourceLine" id="cb5-3" title="3">    while (k &lt;= n) {</a>
 <a class="sourceLine" id="cb5-4" title="4">        if (b[k] &gt;= x)</a>
@@ -237,8 +237,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In case of binary search, if all of our data is random, branch prediction doesn’t help at all, just because it can’t: all comparisons are 50-50. This is why we need to get rid of if-s and rewrite our main loop the following way:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="cf">while</span> (k &lt;= n)</a>
 <a class="sourceLine" id="cb6-2" title="2">    k = <span class="dv">2</span> * k + (b[k] &lt; x);</a></code></pre></div>
+<p>It also to saves us from executing a few arithmetic instructions directly.</p>
 <h3 id="prefetching">Prefetching</h3>
-<p>Compiler doesn’t like when CPU is sitting idle while waiting for memory fetches. Sometimes it can take a guess which cache line is going to be needed soon and fetch it ahead of time (recall that bandwidth-latency product is usually much larger than 1).</p>
+<p>Compiler doesn’t like when CPU is sitting idle while waiting for memory fetches. Sometimes it can take a guess about which cache line is going to be needed soon and fetch it ahead of time (recall that bandwidth-latency product is usually much larger than 1).</p>
 <p>This works well for simple access patterns, like iterating over array in increasing or decreasing order, but for something complex like what we have here it’s not going to perform well.</p>
 <p>As we know a bit more about our problem than the compiler does, we can tell it to explicitly prefetch a cache line we need. This is done by <code>__builtin_prefetch</code> in GCC:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="cf">while</span> (k &lt;= n) {</a>
@@ -292,7 +293,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="what-about-b-trees">What about B-trees?</h2>
 <p>B-trees are basically <span class="math inline">\((k+1)\)</span>-ary trees, meaning that they store <span class="math inline">\(k\)</span> elements in each node and choose between <span class="math inline">\((k+1)\)</span> possible branches instead of 2.</p>
 <p>They are widely used for indexing in databases, especially those that operate on-disk, because if <span class="math inline">\(k\)</span> is big, this allows large sequential memory accesses while reducing the height of the tree.</p>
-<p>To do static binary searches, one can implement a B-tree in an implicit way, i. e. without actually storing any pointers and spending only <span class="math inline">\(O(1)\)</span> additional memory, and <span class="math inline">\(k\)</span> could be made equal to the cache line size so that each node request fetches exactly one cache line.</p>
+<p>To perform static binary searches, one can implement a B-tree in an implicit way, i. e. without actually storing any pointers and spending only <span class="math inline">\(O(1)\)</span> additional memory, and <span class="math inline">\(k\)</span> could be made equal to the cache line size so that each node request fetches exactly one cache line.</p>
 <p><img src="img/btree.png" /></p>
 <p>Turns out, they have the same rate of growth but sligtly larger compute-tied constant. While the latter is explainable (our while loop only has like 5 instructions; can’t outpace that), the former is surprising.</p>
 <p>Let’s assume that arithmetic costs nothing and do simple cache block analysis:</p>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Implicit Static B-trees - Algorithmica</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/en/'><div id='logo'>Algorithmica</div></a>
+    <div id='links'>
+        <a href='https://github.com/algorithmica-org/en/edit/master/b-tree.md'>Edit this page</a>
+        <a href='https://github.com/algorithmica-org/en/commits/master/b-tree.md'>View history</a>
+    </div>
+</div>
+<h1 id="implicit-static-b-trees">Implicit Static B-trees</h1>
+<p>This is a follow up on a <a href="https://algorithmica.org/en/eytzinger">previous article</a> about using Eytzinger memory layout to speed up binary search. Here we use implicit (pointerless) B-trees accelerated with SIMD operations to perform search efficiently while using less memory bandwidth.</p>
+<p>It performs slightly worse on array sizes that fit lower layers of cache, but in low-bandwidth environments it can be up to 3x faster (or 7x faster than <code>std::lower_bound</code>).</p>
+<h2 id="b-tree-layout">B-tree layout</h2>
+<p>B-trees generalize the concept of binary search trees by allowing nodes to have more than two children.</p>
+<p>Instead of single key, a B-tree node contains up to <span class="math inline">\(B\)</span> sorted keys may have up to <span class="math inline">\((B+1)\)</span> children, thus reducing the tree heigh in <span class="math inline">\(\frac{\log_2 n}{\log_B n} = \frac{\log B}{\log 2} = \log_2 B\)</span> times.</p>
+<p>They were primarily developed for the purpose of managing on-disk databases, as their random access times are almost the same as reading 1MB of data sequentially, which makes the trade-off between number of comparisons and tree height beneficial. In our implementation, we will make each the size of each block equal to the cache line size, which in case of <code>int</code> is 16 elements.</p>
+<p>Normally, a B-tree node also stores <span class="math inline">\((B+1)\)</span> pointers to its children, but we will only store keys and rely on pointer arithmetic, similar to the one used in Eytzinger array:</p>
+<ul>
+<li><p>The root node is numbered <span class="math inline">\(0\)</span>.</p></li>
+<li><p>Node <span class="math inline">\(k\)</span> has <span class="math inline">\((B+1)\)</span> child nodes numbered <span class="math inline">\(\{k \cdot (B+1) + i\}\)</span> for <span class="math inline">\(i \in [1, B]\)</span>.</p></li>
+</ul>
+<p>Keys are stored in a 2d array in non-decreasing order. If the length of the initial array is not a multiple of <span class="math inline">\(B\)</span>, the last block is padded with the largest value if its data type.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> nblocks = (n + B - <span class="dv">1</span>) / B;</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">alignas</span>(<span class="dv">64</span>) <span class="dt">int</span> btree[nblocks][B];</a>
+<a class="sourceLine" id="cb1-3" title="3"></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="dt">int</span> go(<span class="dt">int</span> k, <span class="dt">int</span> i) {</a>
+<a class="sourceLine" id="cb1-5" title="5">    <span class="cf">return</span> k * (B + <span class="dv">1</span>) + i + <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-6" title="6">}</a></code></pre></div>
+<p>In the code, we use zero-indexation for child nodes.</p>
+<h2 id="construction">Construction</h2>
+<p>We can construct B-tree similarly by traversing the search tree.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">void</span> build(<span class="dt">int</span> k = <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="at">static</span> <span class="dt">int</span> t = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb2-3" title="3">    <span class="cf">if</span> (k &lt; nblocks) {</a>
+<a class="sourceLine" id="cb2-4" title="4">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; B; i++) {</a>
+<a class="sourceLine" id="cb2-5" title="5">            build(go(k, i));</a>
+<a class="sourceLine" id="cb2-6" title="6">            btree[k][i] = (t &lt; n ? a[t++] : INF);</a>
+<a class="sourceLine" id="cb2-7" title="7">        }</a>
+<a class="sourceLine" id="cb2-8" title="8">        build(go(k, B));</a>
+<a class="sourceLine" id="cb2-9" title="9">    }</a>
+<a class="sourceLine" id="cb2-10" title="10">}</a></code></pre></div>
+<p>It is correct, because each value of initial array will be copied to a unique position in the resulting array, and the tree height is <span class="math inline">\(\Theta(\log_{B+1} n)\)</span>, because <span class="math inline">\(k\)</span> is multiplied by <span class="math inline">\((B + 1)\)</span> each time a child node is created.</p>
+<p>Note that this approach causes a slight imbalance: “lefter” children may have larger respective ranges.</p>
+<h2 id="basic-search">Basic Search</h2>
+<p>Here is a short but rather inefficient implementation that we will improve later.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> search(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb3-2" title="2">    <span class="dt">int</span> k = <span class="dv">0</span>, res = INF;</a>
+<a class="sourceLine" id="cb3-3" title="3">    start: <span class="co">// the only justified usage of goto statement</span></a>
+<a class="sourceLine" id="cb3-4" title="4">           <span class="co">// as doing otherwise would add extra inefficiency and more code</span></a>
+<a class="sourceLine" id="cb3-5" title="5">    <span class="cf">while</span> (k &lt; nblocks) {</a>
+<a class="sourceLine" id="cb3-6" title="6">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; B; i++) {</a>
+<a class="sourceLine" id="cb3-7" title="7">            <span class="cf">if</span> (btree[k][i] &gt;= x) {</a>
+<a class="sourceLine" id="cb3-8" title="8">                res = btree[k][i];</a>
+<a class="sourceLine" id="cb3-9" title="9">                k = go(k, i);</a>
+<a class="sourceLine" id="cb3-10" title="10">                <span class="cf">goto</span> start;</a>
+<a class="sourceLine" id="cb3-11" title="11">            }</a>
+<a class="sourceLine" id="cb3-12" title="12">        }</a>
+<a class="sourceLine" id="cb3-13" title="13">        k = go(k, B);</a>
+<a class="sourceLine" id="cb3-14" title="14">    }</a>
+<a class="sourceLine" id="cb3-15" title="15">    <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb3-16" title="16">}</a></code></pre></div>
+<p>The issue here is that it runs a linear search on the whole array, and also that it has lots of conditionals that costs much more than just comparing integers.</p>
+<p>Here are some ideas to counter this:</p>
+<ul>
+<li><p>We could unroll the loop so that it performs <span class="math inline">\(B\)</span> comparisons unconditionally and computes index of the right child node.</p></li>
+<li><p>We could run a tiny binary search to get the right index, but there is considerable overhead to this.</p></li>
+<li><p>We could code all the binary search comparisons by hand, or force compiler to do it so that there is no overhead.</p></li>
+</ul>
+<p>But we’ll pick another path. We will honestly do all the comparisons, but in a very efficient way.</p>
+<h2 id="simd">SIMD</h2>
+<p>Back in the 90s, computer engineers discovered that you can get more bang for a buck by adding circuits that do more useful work per cycle than just trying to increase CPU clock rate which <a href="https://en.wikipedia.org/wiki/Speed_of_light">can’t continue forever</a>.</p>
+<p>This worked <a href="https://finance.yahoo.com/quote/NVDA/">particularly well</a> for parallelizable workloads like video game graphics where just you need to perform the same operation over some array of data. This this is how the concept of <em>SIMD</em> became a thing, which stands for <em>single instruction, multiple data</em>.</p>
+<p>Modern hardware can do <a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide">lots of stuff</a> under this paradigm, leveraging <em>data-level parallelism</em>. For example, the simplest thing you can do on modern Intel CPUs is to:</p>
+<ol type="1">
+<li><p>load 256-bit block of ints (which is <span class="math inline">\(\frac{256}{32} = 8\)</span> ints),</p></li>
+<li><p>load another 256-bit block of ints,</p></li>
+<li><p>add them together,</p></li>
+<li><p>write the result somewhere else</p></li>
+</ol>
+<p>…and this whole transaction costs the same as loading and adding just two ints—which means we can do 8 times more work. Magic!</p>
+<p>So, as we promised before, we will perform all <span class="math inline">\(16\)</span> comparisons to compute the index of the right child node, but we leverage SIMD instructions to do it efficiently. Just to clarify—we want to do something like this:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> mask = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; B; i++)</a>
+<a class="sourceLine" id="cb4-3" title="3">    mask |= (btree[k][i] &gt;= x) &lt;&lt; i;</a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="dt">int</span> i = <span class="fu">__builtin_ffs</span>(mask) - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">// now i is the number of the correct child node</span></a></code></pre></div>
+<p>…but ~8 times faster.</p>
+<p>The algorithm:</p>
+<ol type="1">
+<li><p>Somewhere before the main loop, convert <span class="math inline">\(x\)</span> to a vector of <span class="math inline">\(8\)</span> copies of <span class="math inline">\(x\)</span>.</p></li>
+<li><p>Load the keys stored in node into another 256-bit vector.</p></li>
+<li><p>Compare these two vectors. This returns a 256-bit mask in which pairs that compared “greater than” are marked with ones.</p></li>
+<li><p>Create a 8-bit mask out of that and return it. Then you can feed it to <code>__builtin_ffs</code>.</p></li>
+</ol>
+<p>This is how it looks using C++ intrinsics, which are basically built-in wrappers for raw assembly instructions:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="co">// SIMD vector type names are weird and tedious to type, so we define an alias</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">typedef</span> __m256i reg;</a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">// somewhere in the beginning of search loop:</span></a>
+<a class="sourceLine" id="cb5-5" title="5">reg x_vec = _mm256_set1_epi32(x);</a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="dt">int</span> cmp(reg x_vec, <span class="dt">int</span>* y_ptr) {</a>
+<a class="sourceLine" id="cb5-8" title="8">    reg y_vec = _mm256_load_si256((reg*) y_ptr);</a>
+<a class="sourceLine" id="cb5-9" title="9">    reg mask = _mm256_cmpgt_epi32(x_vec, y_vec);</a>
+<a class="sourceLine" id="cb5-10" title="10">    <span class="cf">return</span> _mm256_movemask_ps((__m256) mask);</a>
+<a class="sourceLine" id="cb5-11" title="11">}</a></code></pre></div>
+<p>After that, we call this function two times (because our node size / cache line happens to be 512 bits, which is twice as big) and blend these masks together with bitwise operations.</p>
+<h2 id="complete-implementaiton">Complete implementaiton</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="pp">#pragma GCC optimize(&quot;O3&quot;)</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="pp">#pragma GCC target(&quot;avx2&quot;)</span></a>
+<a class="sourceLine" id="cb6-3" title="3"></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="pp">#include </span><span class="im">&lt;x86intrin.h&gt;</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></a>
+<a class="sourceLine" id="cb6-6" title="6"></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="kw">using</span> <span class="kw">namespace</span> std;</a>
+<a class="sourceLine" id="cb6-8" title="8"></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="kw">typedef</span> __m256i reg;</a>
+<a class="sourceLine" id="cb6-10" title="10"></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="at">const</span> <span class="dt">int</span> n = (<span class="dv">1</span>&lt;&lt;<span class="dv">20</span>), m = (<span class="dv">1</span>&lt;&lt;<span class="dv">22</span>), B = <span class="dv">16</span>;</a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="at">const</span> <span class="dt">int</span> nblocks = (n + B - <span class="dv">1</span>) / B;</a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="at">const</span> <span class="dt">int</span> INF = numeric_limits&lt;<span class="dt">int</span>&gt;::max();</a>
+<a class="sourceLine" id="cb6-14" title="14"></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="dt">int</span> a[n], q[m], results[m];</a>
+<a class="sourceLine" id="cb6-16" title="16"><span class="kw">alignas</span>(<span class="dv">64</span>) <span class="dt">int</span> b[n+<span class="dv">1</span>], btree[nblocks][B];</a>
+<a class="sourceLine" id="cb6-17" title="17"></a>
+<a class="sourceLine" id="cb6-18" title="18"><span class="dt">int</span> go(<span class="dt">int</span> k, <span class="dt">int</span> i) { <span class="cf">return</span> k * (B + <span class="dv">1</span>) + i + <span class="dv">1</span>; }</a>
+<a class="sourceLine" id="cb6-19" title="19"></a>
+<a class="sourceLine" id="cb6-20" title="20"><span class="dt">void</span> build(<span class="dt">int</span> k = <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb6-21" title="21">    <span class="at">static</span> <span class="dt">int</span> t = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb6-22" title="22">    <span class="cf">if</span> (k &lt; nblocks) {</a>
+<a class="sourceLine" id="cb6-23" title="23">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; B; i++) {</a>
+<a class="sourceLine" id="cb6-24" title="24">            build(go(k, i));</a>
+<a class="sourceLine" id="cb6-25" title="25">            btree[k][i] = (t &lt; n ? a[t++] : INF);</a>
+<a class="sourceLine" id="cb6-26" title="26">        }</a>
+<a class="sourceLine" id="cb6-27" title="27">        build(go(k, B));</a>
+<a class="sourceLine" id="cb6-28" title="28">    }</a>
+<a class="sourceLine" id="cb6-29" title="29">}</a>
+<a class="sourceLine" id="cb6-30" title="30"></a>
+<a class="sourceLine" id="cb6-31" title="31"><span class="dt">int</span> cmp(reg x_vec, <span class="dt">int</span>* y_ptr) {</a>
+<a class="sourceLine" id="cb6-32" title="32">    reg y_vec = _mm256_load_si256((reg*) y_ptr);</a>
+<a class="sourceLine" id="cb6-33" title="33">    reg mask = _mm256_cmpgt_epi32(x_vec, y_vec);</a>
+<a class="sourceLine" id="cb6-34" title="34">    <span class="cf">return</span> _mm256_movemask_ps((__m256) mask);</a>
+<a class="sourceLine" id="cb6-35" title="35">}</a>
+<a class="sourceLine" id="cb6-36" title="36"></a>
+<a class="sourceLine" id="cb6-37" title="37"><span class="dt">int</span> search(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb6-38" title="38">    <span class="dt">int</span> k = <span class="dv">0</span>, res = INF;</a>
+<a class="sourceLine" id="cb6-39" title="39">    reg x_vec = _mm256_set1_epi32(x);</a>
+<a class="sourceLine" id="cb6-40" title="40">    <span class="cf">while</span> (k &lt; nblocks) {</a>
+<a class="sourceLine" id="cb6-41" title="41">        <span class="dt">int</span> mask = ~(</a>
+<a class="sourceLine" id="cb6-42" title="42">            cmp(x_vec, &amp;btree[k][<span class="dv">0</span>]) +</a>
+<a class="sourceLine" id="cb6-43" title="43">            (cmp(x_vec, &amp;btree[k][<span class="dv">8</span>]) &lt;&lt; <span class="dv">8</span>)</a>
+<a class="sourceLine" id="cb6-44" title="44">        );</a>
+<a class="sourceLine" id="cb6-45" title="45">        <span class="dt">int</span> i = <span class="fu">__builtin_ffs</span>(mask) - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb6-46" title="46">        <span class="cf">if</span> (i &lt; B)</a>
+<a class="sourceLine" id="cb6-47" title="47">            res = btree[k][i];</a>
+<a class="sourceLine" id="cb6-48" title="48">        k = go(k, i);</a>
+<a class="sourceLine" id="cb6-49" title="49">    }</a>
+<a class="sourceLine" id="cb6-50" title="50">    <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb6-51" title="51">}</a></code></pre></div>
+<p>That’s it. This implementation should outperform even the <a href="http://kaldewey.com/pubs/FAST__SIGMOD10.pdf">state-of-the-art indexes</a> used in high-performance databases, though it’s mostly due to the fact that data structures used in real databases have to support fast updates while we don’t.</p>
+<p>Note that this implementation is very specific to the architecture. Older CPUs and CPUs on mobile devices don’t have 256-bit wide registers and will crash (but they likely have 128-bit SIMD so the loop can still be split in 4 parts instead of 2), non-Intel CPUs have their own instruction sets for SIMD, and some computers even have different cache line size.</p>
+<p>Also, it may take some work to get it working with other data types or different comparators (you’ll have to implement custom comparison using SIMD instructions), but in most cases this should be totally doable.</p>
+</body>
+</html>
