@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Ликбез по комбинаторике - Алгоритмика</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  
+     ym(53961409, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+     });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  
+  <script>
+  // index page width
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementsByClassName('contents')[0].parentElement.style.width = "860px";
+    document.getElementsByTagName('h1')[0].style.marginRight = "40px";
+  });
+  </script>
+</head>
+<body>
+<div id='header'>
+    <a href='https://algorithmica.org/ru/'><div id='logo'>Алгоритмика</div></a>
+    <div id='links'>
+        <a href='https://github.com/algorithmica-org/ru/edit/master/combinatorics.md'>Редактировать</a>
+        <a href='https://github.com/algorithmica-org/ru/commits/master/combinatorics.md'>История</a>
+    </div>
+</div>
+<h1 id="ликбез-по-комбинаторике">Ликбез по комбинаторике</h1>
+<p>Статья не затрагивает теоирию чисел и линейную алгебру.</p>
+<p>Воможно, поможет почитать про <a href="https://algorithmica.org/ru/multiplicative_inverse">нахождение обратного</a>.</p>
+<p>[Конкретная математика](<a href="http://sereja.me/f/discrete_math_knuth.pdf">http://sereja.me/f/discrete_math_knuth.pdf</a> Грэхэма, Кнута и Паташика.</p>
+<h2 id="рекуррентные-задачи">Рекуррентные задачи</h2>
+<h2 id="ханойские-башни">Ханойские башни</h2>
+<p>123</p>
+<p><img src="https://blog.miyozinc.com/wp-content/uploads/2018/08/Screen-Shot-2018-08-05-at-11.47.37-AM.png" /></p>
+<h3 id="задача-иосифа">Задача Иосифа</h3>
+<p>Иосиф Флавий (лат. <em>Flavius Josephus</em>) — знаменитый историк первого векf. По легенде, он бы не дожил до известности если бы не его математические способности.</p>
+<p>Во время еврейсDuring the Jewish-Roman war, he was among a band of 41 Jewish rebels trapped in a cave by the Romans. Preferring suicide to capture, the rebels decided to form a circle and, proceeding around it, to kill every third remaining person until no one was left. But Josephus, along with an unindicted co-conspirator, wanted none of this suicide nonsense; so he quickly calculated where he and his friend should stand in the vicious circle.</p>
+<p><strong>Принцип Дирихле.</strong> Если кролики рассажены в клетки, причём число кроликов больше числа клеток, то хотя бы в одной из клеток находится более одного кролика.</p>
+<p>В англоязычном мире называется <em>Pigeonhole principle</em> и говорит о голубях, но суть не меняется.</p>
+<p><img src="https://miro.medium.com/max/1178/1*rj_4nlE4Qw_ok0P7A7chHA.png" /></p>
+<p>Принцип кажется очевидным, однако его применение очевидно не всегда. Рассмотрим несколько примеров.</p>
+<p><strong>Задача.</strong> Дан квадрат <span class="math inline">\(2 \times 2\)</span> и <span class="math inline">\(5\)</span> точек внутри него. Доказать, что среди них найдется две такие, что расстояние между ними <span class="math inline">\(\leq \sqrt 2\)</span>.</p>
+<p><strong>Решение.</strong> Рассмотрим <span class="math inline">\(4\)</span> квадратика <span class="math inline">\(1 \times 1\)</span>. По принципу Дирихле найдётся квадратик, внутри или на границе которого 2 точки. Эти точки — искомые.</p>
+<p>Примеры посложнее:</p>
+<ul>
+<li><p>Вы пытаетесь замостить шахматную доску доминошками. Если убрать два противоположных угловых поля, это станет невозможно.</p></li>
+<li><p>В группе из шести человек, всегда найдутся трое, которые являются либо взаимными друзьями, либо незнакомцами.</p></li>
+<li><p>Пример из реального мира: любой алгоритм сжатия без потери данных не может гарантировать сжатие для всех возможных входных файлов.</p></li>
+</ul>
+<p>Задача про покемонов.</p>
+<h2 id="бином-ньютона">Бином Ньютона</h2>
+<p>Поли=много, Би=два. <em>nomen</em> = название.</p>
+<p><span class="math display">\[
+(a + b)^n
+\]</span></p>
+<p>Коэффициенты при разложении имеют огромную роль в комбинаторике.</p>
+<p>В России их обозначают как , во всем остальном мире — как .</p>
+<p>Сильно раздражает, что нет даже единого мнения, где <span class="math inline">\(n\)</span>, а где <span class="math inline">\(k\)</span>.</p>
+<h2 id="биномиальные-коэффициенты">Биномиальные коэффициенты</h2>
+<p>Алгоритм Евклида</p>
+<p>Решето</p>
+<h2 id="треугольник-паскаля">Треугольник Паскаля</h2>
+<p>Можно заметить</p>
+<p><img src="https://wiki-images.artofproblemsolving.com//9/96/Pascal%27s_Triangle.png" /></p>
+<h2 id="сочетания">Сочетания</h2>
+<p>Упорядоченный набор из <span class="math inline">\(k\)</span> элементов данного множества, среди которых могут быть повторяющиеся, называется <em>размещением</em> из <span class="math inline">\(n\)</span> элементов по <span class="math inline">\(k\)</span> с повторением.</p>
+<p>Соответственно, если элементы могут повторяться, то набор называется размещением без повторений, или просто размещением.</p>
+<p>Сочетанием из <span class="math inline">\(n\)</span> элементов по <span class="math inline">\(k\)</span> называется набор <span class="math inline">\(k\)</span> элементов этого множества, при том что наборы, отличающиеся только порядком следования элементов, считаются одинаковыми (этим сочетание отличается от размещения).</p>
+<p>Аналогично, сочетания бывают с повторениями и без.</p>
+<p>Читается как «цэ из <span class="math inline">\(n\)</span> по <span class="math inline">\(k\)</span>».</p>
+<h3 id="как-это-считать">Как это считать</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> t[maxn];</a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> bp (<span class="dt">int</span> a, <span class="dt">int</span> n) {</a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> ans = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-5" title="5">    <span class="cf">while</span> (n) {</a>
+<a class="sourceLine" id="cb1-6" title="6">        <span class="cf">if</span> (n&amp;<span class="dv">1</span>) ans = ans*a % mod;</a>
+<a class="sourceLine" id="cb1-7" title="7">        a = a*a % mod;</a>
+<a class="sourceLine" id="cb1-8" title="8">        n &gt;&gt;= <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-9" title="9">    }</a>
+<a class="sourceLine" id="cb1-10" title="10">    <span class="cf">return</span> ans;</a>
+<a class="sourceLine" id="cb1-11" title="11">}</a>
+<a class="sourceLine" id="cb1-12" title="12"></a>
+<a class="sourceLine" id="cb1-13" title="13"><span class="dt">int</span> inv (<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb1-14" title="14">    <span class="cf">return</span> bp(x, mod-<span class="dv">2</span>);</a>
+<a class="sourceLine" id="cb1-15" title="15">}</a>
+<a class="sourceLine" id="cb1-16" title="16"></a>
+<a class="sourceLine" id="cb1-17" title="17"><span class="dt">int</span> c (<span class="dt">int</span> n, <span class="dt">int</span> k) {</a>
+<a class="sourceLine" id="cb1-18" title="18">    <span class="cf">return</span> t[n]*inv(t[k]) % mod * inv(t[n-k]) % mod;</a>
+<a class="sourceLine" id="cb1-19" title="19">}</a>
+<a class="sourceLine" id="cb1-20" title="20"></a>
+<a class="sourceLine" id="cb1-21" title="21">t[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-22" title="22"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; maxn; i++)</a>
+<a class="sourceLine" id="cb1-23" title="23">    t[i] = i*t[i-<span class="dv">1</span>] % mod;</a></code></pre></div>
+<h2 id="разложения">Разложения</h2>
+<p>Шары и перегородки.</p>
+<p>Автор не запоминает эту формулу и не пытается проделать алгебру в уме, а просто определяет вспомогательную функцию:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> d(<span class="dt">int</span> n, <span class="dt">int</span> k) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="cf">return</span> c(n + k - <span class="dv">1</span>, k - <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb2-3" title="3">}</a></code></pre></div>
+<h2 id="известные-равенства">Известные равенства</h2>
+<p><span class="math display">\[
+\sum_k \binom{r}{m+k}\binom{s}{n-k} = \binom{r+s}{m+n}
+\]</span></p>
+<p><span class="math display">\[
+\sum_k \binom{l}{m+k} \binom{s}{n+k} = \binom{l+s}{l-m+n}
+\]</span></p>
+<p><span class="math display">\[
+\sum_k \binom{l}{m+k}\binom{s+k}{n} (-1)^k = (-1)^{l+m} \binom{s-m}{n-l}
+\]</span></p>
+<p><span class="math display">\[
+\sum_{k \leq l} \binom{l-k}{m}\binom{s}{k-n} (-1)^k = (-1)^{l+m} \binom{s-m-l}{l-m-n}
+\]</span></p>
+<p><span class="math display">\[
+\sum_{0 \leq k \leq l} \binom{l-k}{m}\binom{q+k}{n} = \binom{l+q+1}{m+n+1}
+\]</span></p>
+<h3 id="hockey-stick-identity">Hockey stick identity</h3>
+<p>«Равенство хоккейной клюшки».</p>
+<p><img src="https://i.stack.imgur.com/7tW63.jpg" /></p>
+<h2 id="правильные-скобочные-последовательности">Правильные скобочные последовательности</h2>
+<h3 id="диаграмма-юнга">Диаграмма Юнга</h3>
+<h2 id="числа-каталана">Числа Каталана</h2>
+<p>Числа Каталана — числовая последовательность, встречающаяся в удивительном числе комбинаторных задач. Например, <span class="math inline">\(n\)</span>-ное число Каталана равно числу:</p>
+<ul>
+<li><p>…корректных скобочных последовательностей, состоящих из <span class="math inline">\(n\)</span> открывающих и <span class="math inline">\(n\)</span> закрывающих скобок.</p></li>
+<li><p>…корневых бинарных деревьев с n+1 листьями (если вершины не пронумерованы).</p></li>
+<li><p>…разбиений выпуклого многоугольника непересекающимися диагоналями на треугольники <span class="math inline">\((n+2)\)</span>-угольника (это называется триангуляцией).</p></li>
+<li><p>…способов соединить <span class="math inline">\(2n\)</span> точек на окружности <span class="math inline">\(n\)</span> непересекающимися хордами.</p></li>
+<li><p>…разбиений отрезка из <span class="math inline">\(n\)</span> элементов на непрерывные блоки.</p></li>
+<li><p>…путей из точки <span class="math inline">\((0,0)\)</span> в точку <span class="math inline">\((n,n)\)</span> в квадратной решётке размером <span class="math inline">\(n \times n\)</span>, не поднимающихся над главной диагональю.</p></li>
+</ul>
+<p>Первые несколько чисел Каталана, начиная с нулевого:</p>
+<p><span class="math display">\[
+1, 1, 2, 5, 14, 42, 132, 429, 1430, …
+\]</span></p>
+<p>Числа Каталана можно считать квадратичной динамикой. Пусть <span class="math inline">\(k\)</span>-тое число Каталана, <span class="math inline">\(C_k\)</span>, равно количеству правильных скобочных последовательностей длины <span class="math inline">\(2k\)</span>, то есть из <span class="math inline">\(k\)</span> пар скобок. Последовательность начинается с открывающей скобки, и этой скобке соответствует какая-то закрывающая. Можно перебрать её место (все нечетные при нумерации с нуля позиции), и для каждого варианта последовательность разделится на две правильные скобочные последовательности — до закрывающей скобки (из <span class="math inline">\(k\)</span> пар скобок) и после (из <span class="math inline">\((n-1-k)\)</span> пар).</p>
+<p>Получается следующая рекуррентная формула:</p>
+<p><span class="math display">\[
+C_n = \sum_{k = 0}^{n-1} C_k C_{n-1-k}
+\]</span></p>
+<h3 id="аналитическая-формула">Аналитическая формула</h3>
+<p>Но не нужно, потому что есть аналитическая формула, которую мы сейчас докажем:</p>
+<p><span class="math display">\[
+C_n = \dfrac{1}{n+1} \dbinom {2n} {n}
+\]</span></p>
+<p>Эту формулу проще всего вывести из задачи о монотонных путях —. Общее количество монотонных путей в решётке размером n n равно C_{2n}^{n}. Теперь посчитаем количество монотонных путей, пересекающих диагональ. Рассмотрим какой-либо из таких путей, и найдём первое ребро, которое стоит выше диагонали. Отразим относительно диагонали весь путь, идущий после этого ребра. В результате получим монотонный путь в решётке (n-1) (n+1). Но, с другой стороны, любой монотонный путь в решётке (n-1) (n+1) обязательно пересекает диагональ, следовательно, он получен как раз таким способом из какого-либо (причём единственного) монотонного пути, пересекающего диагональ, в решётке n n. Монотонных путей в решётке (n-1) (n+1) имеется C_{2n}^{n-1}. В результате получаем формулу:</p>
+<p>Все <span class="math inline">\(C_4 = 14\)</span> путей на квадрате <span class="math inline">\(4 \times 4\)</span>:</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Catalan_number_4x4_grid_example.svg/1920px-Catalan_number_4x4_grid_example.svg.png" /></p>
+<p><span class="math display">\[
+C_n = C_{2n}^{n} - C_{2n}^{n-1} = \frac{1}{n+1} C[...]
+\]</span></p>
+<h2 id="перестановки">Перестановки</h2>
+<h3 id="перестановки-как-граф">Перестановки как граф</h3>
+<p>Граф, у которого</p>
+<p>Наибольшая общая подпоследовательность двух перестановок.</p>
+<p>Ничего не мешает нам переименовать объекты так, что в первой они будут идти по порядку.</p>
+<h2 id="генерация-комбинаторных-объектов">Генерация комбинаторных объектов</h2>
+<h3 id="обратная-задача">Обратная задача</h3>
+<p><strong>Задача «Попугаи»</strong>. Вам нужно передать 64 байт некоторой информации. Для этого у вас есть 320 специально обученных попугаев, каждый из которых может запомнить число от 0 до 255. Все попугаи рано или поздно долетают до точки назначения и сообщают свой байт, но, возможно, не в том порядке, в котором были выпущены. Попугаи внешне неразличимы.</p>
+<h2 id="принцип-включений-исключений">Принцип включений-исключений</h2>
+<p>Это бывает полезно при подсчете площадей многомерных фигур через префиксные суммы.</p>
+<h2 id="куда-дальше-или-полезные-незатронутые-темы">Куда дальше, или полезные незатронутые темы</h2>
+<p>Если вам зачем-то понадобилось.</p>
+<p>Лемма бернсайда.</p>
+<p>Очень трудно осознать без теории групп, но позволяет считать очень нетривиальные штуки, например количество валидных кубиков Рубика.</p>
+<p>Линейные рекурренты.</p>
+<p>Теория чисел.</p>
+<p>Частично упорядоченные множества и теорема Дилуорса.</p>
+<p>Производящие функции. Очень интересный алгебраический трюк, позволяющий находить явные формулы для многих комбинаторных величин.</p>
+<p>Разные отдельные факты на границе комбинаторики и теории графов.</p>
+<p>Комбинаторика, которая находится на границе с теорией вероятностей.</p>
+</body>
+</html>
