@@ -115,44 +115,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <h1 id="разреженная-таблица">Разреженная таблица</h1>
 <p>Разреженная таблица (англ. <em>sparse table</em>) — структура данных, позволяющая отвечать на запросы минимума на отрезке за <span class="math inline">\(O(1)\)</span> с препроцессингом за <span class="math inline">\(O(n \log n)\)</span> времени и памяти.</p>
-<p><strong>Определение.</strong> Разреженная таблица — это следующий двумерный массив размера <span class="math inline">\(n \times\log n\)</span>:</p>
+<p><strong>Определение.</strong> Разреженная таблица — это следующий двумерный массив размера <span class="math inline">\(\log n \times n\)</span>:</p>
 <p><span class="math display">\[
-t[i][k] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1} \}
+t[k][i] = \min \{ a_i, a_{i+1}, \ldots, a_{i+2^k-1} \}
 \]</span></p>
 <p>По-русски: считаем минимумы на каждом отрезке длины <span class="math inline">\(2^k\)</span>.</p>
 <p>Такой массив можно посчитать за его размер, итерируясь либо по <span class="math inline">\(i\)</span>, либо по <span class="math inline">\(k\)</span>:</p>
 <p><span class="math display">\[
-t[i][k] = \min(t[i][k-1], t[i+2^{k-1}][k-1])
+t[k][i] = \min(t[k-1][i], t[k-1][i+2^{k-1}])
 \]</span></p>
 <p>Имея таком массив, мы можем для любого отрезка быстро посчитать минимум на нём. Заметим, что у любого отрезка имеется два отрезка длины степени двойки, которые пересекаются, и, главное, покрывают его и только его целиком. Значит, мы можем просто взять минимум из значений, которые соответствуют этим отрезкам.</p>
 <p><img src="https://neerc.ifmo.ru/wiki/images/7/75/SparseTableRMQ.png" /></p>
-<p>Последняя деталь: для того, чтобы константа на запрос стала настоящей, вместо функции log нужно предпосчитать массив округленных вниз логарифмов.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> a[maxn], lg[maxn], mn[maxn][logn];</a>
+<p>Последняя деталь: для того, чтобы константа на запрос стала настоящей, нужно научиться считать сам логарифм за константу. Для этого можно воспользоваться функцией <code>__builtin_clz</code> (“count leading zeros”), которая возвращает количество нулей до первой единицы в бинарной записи, из чего можно получить нужный округленный логарифм.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> a[maxn], mn[logn][maxn];</a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> rmq(<span class="dt">int</span> l, <span class="dt">int</span> r) { <span class="co">// полуинтервал [l; r)</span></a>
-<a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> t = lg[r-l];</a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> t = lg(r - l);</a>
 <a class="sourceLine" id="cb1-5" title="5">    <span class="cf">return</span> min(mn[l][t], mn[r - (<span class="dv">1</span> &lt;&lt; t)][t]);</a>
 <a class="sourceLine" id="cb1-6" title="6">}</a>
 <a class="sourceLine" id="cb1-7" title="7"></a>
-<a class="sourceLine" id="cb1-8" title="8"></a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="co">// Это считается где-то в первых строчках main:</span></a>
-<a class="sourceLine" id="cb1-10" title="10"></a>
-<a class="sourceLine" id="cb1-11" title="11"><span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn; l++)</a>
-<a class="sourceLine" id="cb1-12" title="12">    <span class="cf">for</span> (<span class="dt">int</span> i = (<span class="dv">1</span>&lt;&lt;l); i &lt; maxn; i++)</a>
-<a class="sourceLine" id="cb1-13" title="13">        lg[i] = l;</a>
-<a class="sourceLine" id="cb1-14" title="14"></a>
-<a class="sourceLine" id="cb1-15" title="15"><span class="cf">for</span> (<span class="dt">int</span> i = n-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--) {</a>
-<a class="sourceLine" id="cb1-16" title="16">    mn[i][<span class="dv">0</span>] = a[i];</a>
-<a class="sourceLine" id="cb1-17" title="17">    <span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn-<span class="dv">1</span>; l++)</a>
-<a class="sourceLine" id="cb1-18" title="18">        mn[i][l+<span class="dv">1</span>] = min(mn[i][l], mn[i+(<span class="dv">1</span>&lt;&lt;l)][l]);</a>
-<a class="sourceLine" id="cb1-19" title="19">}</a></code></pre></div>
+<a class="sourceLine" id="cb1-8" title="8"><span class="dt">int</span> lg(<span class="dt">int</span> x) {</a>
+<a class="sourceLine" id="cb1-9" title="9">    <span class="cf">return</span> <span class="dv">31</span> - <span class="fu">__builtin_clz</span>(x);</a>
+<a class="sourceLine" id="cb1-10" title="10">}</a>
+<a class="sourceLine" id="cb1-11" title="11"></a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="co">// Это считается где-то в первых строчках main:</span></a>
+<a class="sourceLine" id="cb1-13" title="13"></a>
+<a class="sourceLine" id="cb1-14" title="14">memcpy(mn[<span class="dv">0</span>], a, <span class="kw">sizeof</span> a);</a>
+<a class="sourceLine" id="cb1-15" title="15"></a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn - <span class="dv">1</span>; l++)</a>
+<a class="sourceLine" id="cb1-17" title="17">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i + (<span class="dv">2</span> &lt;&lt; l) &lt;= n; i++)</a>
+<a class="sourceLine" id="cb1-18" title="18">        mn[l+<span class="dv">1</span>][i] = min(mn[l][i], mn[l][i + (<span class="dv">1</span> &lt;&lt; l)]);</a></code></pre></div>
 <p>Для больших таблиц порядок итерирования и расположение данных в памяти сильно влияет на скорость построения — это связано с работой кэшей.</p>
-<p><strong>Упражнение.</strong> Какой из 4 вариантов итерирования и layout-а самый эффективный? (Подсказка: не тот, который приведен выше.)</p>
+<p><strong>Упражнение.</strong> Подумайте, в чём недостатки других 4 вариантов итерирования и layout-а.</p>
 <h3 id="применения">Применения</h3>
 <p>Разреженная таблица является статической структурой данных, то есть её нельзя дёшево обновлять (но можно достраивать на ходу — см. задачу «<a href="http://neerc.ifmo.ru/school/archive/2016-2017/ru-olymp-roi-2017-editorial.pdf">Антиматерия</a>» с РОИ-2017).</p>
 <p>Разреженную таблицу часто применяют для решения задачи о <a href="http://algorithmica.org/ru/lca">наименьшем общем предке</a>, так как её можно свести к RMQ.</p>
 <h2 id="d-static-rmq">2d Static RMQ</h2>
-<p>Эту структуру тоже можно обобщить на б<em>о</em>льшие размерности. Пусть мы хотим посчитать RMQ на подквадратах. Тогда вместо массива <code>t[i][k]</code> у нас будет массив <code>t[i][j][k]</code>, в котором вместо минимума на отрезах будет храниться минимум на <em>квадратах</em> тех же степеней двоек. Получение минимума на произвольном квадрате тогда уже распадется на четыре минимума на квадратах длины <span class="math inline">\(2^k\)</span>.</p>
+<p>Эту структуру тоже можно обобщить на б<em>о</em>льшие размерности. Пусть мы хотим посчитать RMQ на подквадратах. Тогда вместо массива <code>t[k][i]</code> у нас будет массив <code>t[k][i][j]</code>, в котором вместо минимума на отрезах будет храниться минимум на <em>квадратах</em> тех же степеней двоек. Получение минимума на произвольном квадрате тогда уже распадется на четыре минимума на квадратах длины <span class="math inline">\(2^k\)</span>.</p>
 <p>В общем же случае от нас просят минимум на прямоугольниках <span class="math inline">\(d\)</span>-мерного массива. Тогда делаем предподсчет, аналогичный предыдущему случаю, только теперь тут будет <span class="math inline">\(O(n \log^d n)\)</span> памяти и времени на предподсчет — нужно хранить минимумы на всех гипер-прямоугольниках со сторонами степени двойки.</p>
 <h2 id="ограничения-на-операцию">Ограничения на операцию</h2>
 <p>Разреженную таблицу можно применять не только для минимума или максимума. От операции требуется только ассоциативность (<span class="math inline">\(a ∘ (b ∘ c) = (a ∘ b) ∘ c\)</span>), коммутативность (<span class="math inline">\(a ∘ b = b ∘ a\)</span>) и идемпотентность (<span class="math inline">\(a ∘ a = a\)</span>). Например, её можно применять для нахождения <span class="math inline">\(\gcd\)</span>.</p>
@@ -191,19 +190,19 @@ t[i][k] = \min(t[i][k-1], t[i+2^{k-1}][k-1])
 <a class="sourceLine" id="cb3-8" title="8"></a>
 <a class="sourceLine" id="cb3-9" title="9"><span class="dt">void</span> build(<span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> level = logn - <span class="dv">1</span>) {</a>
 <a class="sourceLine" id="cb3-10" title="10">    <span class="dt">int</span> m = (l + r) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb3-11" title="11">    </a>
+<a class="sourceLine" id="cb3-11" title="11"></a>
 <a class="sourceLine" id="cb3-12" title="12">    <span class="dt">int</span> cur = neutral;</a>
 <a class="sourceLine" id="cb3-13" title="13">    <span class="cf">for</span> (<span class="dt">int</span> i = m + <span class="dv">1</span>; i &lt; r; i++) {</a>
 <a class="sourceLine" id="cb3-14" title="14">        cur = f(cur, a[i]);</a>
 <a class="sourceLine" id="cb3-15" title="15">        t[level][i] = cur;</a>
 <a class="sourceLine" id="cb3-16" title="16">    }</a>
-<a class="sourceLine" id="cb3-17" title="17">    </a>
+<a class="sourceLine" id="cb3-17" title="17"></a>
 <a class="sourceLine" id="cb3-18" title="18">    cur = neutral;</a>
 <a class="sourceLine" id="cb3-19" title="19">    <span class="cf">for</span> (<span class="dt">int</span> i = m; i &gt;= l; i--) {</a>
 <a class="sourceLine" id="cb3-20" title="20">        cur = f(cur, a[i]);</a>
 <a class="sourceLine" id="cb3-21" title="21">        t[level][i] = cur;</a>
 <a class="sourceLine" id="cb3-22" title="22">    }</a>
-<a class="sourceLine" id="cb3-23" title="23">    </a>
+<a class="sourceLine" id="cb3-23" title="23"></a>
 <a class="sourceLine" id="cb3-24" title="24">    <span class="cf">if</span> (r - l &gt; <span class="dv">1</span>) {</a>
 <a class="sourceLine" id="cb3-25" title="25">        build(l, mid, level+<span class="dv">1</span>);</a>
 <a class="sourceLine" id="cb3-26" title="26">        build(mid, r, level+<span class="dv">1</span>);</a>
@@ -218,6 +217,6 @@ t[i][k] = \min(t[i][k-1], t[i+2^{k-1}][k-1])
 <a class="sourceLine" id="cb3-35" title="35">        res = f(res, t[level][r]);</a>
 <a class="sourceLine" id="cb3-36" title="36">    <span class="cf">return</span> res;</a>
 <a class="sourceLine" id="cb3-37" title="37">}</a></code></pre></div>
-<p>TODO: скорее всего, тут есть баги.</p>
+<p>TODO: очень вероятно, тут есть баги.</p>
 </body>
 </html>
