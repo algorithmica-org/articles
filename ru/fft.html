@@ -130,7 +130,7 @@ A(x) &amp;= a_0 + a_1\cdot x + a_2 \cdot x^2  + \dots + a_n \cdot x^n
 \]</span></p>
 <p>Основание x при этом может быть выбрано произвольно.</p>
 <p>Чтобы перемножить два числа, мы можем перемножить соответствующие им многочлены, а затем произвести каррирование: пройтись от нижних разрядов получившегося многочлена и «сдвинуть» переполнившиеся разряды:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> base = <span class="dv">10</span>;</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> base = <span class="dv">10</span>;</a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
 <a class="sourceLine" id="cb1-3" title="3">vector&lt;<span class="dt">int</span>&gt; normalize(vector&lt;<span class="dt">int</span>&gt; a) {</a>
 <a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> carry = <span class="dv">0</span>;</a>

@@ -11,6 +11,69 @@
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
   <link rel="stylesheet" href="../pandoc.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
   <!--[if lt IE 9]>
@@ -51,11 +114,36 @@
     </div>
 </div>
 <h1 id="многочлены-и-алгоритм-карацубы">Многочлены и алгоритм Карацубы</h1>
-<p>К концу 50-х годов быстрое преобразование Фурье уже изобрели, но использовали только «по назначению»: для обработки сигналов, а не для умножения чисел.</p>
-<p>В это время <a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%BB%D0%BC%D0%BE%D0%B3%D0%BE%D1%80%D0%BE%D0%B2,_%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9_%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87">Андрей Колмогоров</a> и несколько других пионеров информатики выдвинули «гипотезу <span class="math inline">\(n^2\)</span>»: невозможно перемножить два <span class="math inline">\(n\)</span>-значных числа, быстрее, чем за <span class="math inline">\(O(n^2)\)</span>. Основания на то были: шумеры научились умножать в «в столбик» (сложение <span class="math inline">\(n\)</span> <span class="math inline">\(n\)</span>-значных чисел) как минимум четыре тысячи лет назад, и за это время никто ничего быстрее не придумал.</p>
-<p>На очередном научном семинаре с повесткой «давайте это уже докажем» один из его аспирантов неожиданно предъявил новый метод с оценкой сложности <span class="math inline">\(O(n^{\log_2 3})\)</span>, тем самым опровергая гипотезу. Аспиранта звали Анатолий Карацуба.</p>
+<p>В 1960-м году <a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%BB%D0%BC%D0%BE%D0%B3%D0%BE%D1%80%D0%BE%D0%B2,_%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9_%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87">Андрей Колмогоров</a> и несколько других советских пионеров информатики собрались на научном семинаре и выдвинули «гипотезу <span class="math inline">\(n^2\)</span>»: невозможно перемножить два <span class="math inline">\(n\)</span>-значных числа, быстрее, чем за <span class="math inline">\(O(n^2)\)</span>. Это подразумневает, что умножение «в столбик», придуманное шумерами как минимум четыре тысячи лет назад и никем на тот момент не побитое, является асимптотически оптимальным алгоритмом умножения двух чисел.</p>
+<p>Через неделю 23-летний аспирант Анатолий Карацуба предложил метод умножения с оценкой времени работы <span class="math inline">\(O(n^{\log_2 3})\)</span> и тем самым опроверг гипотезу.</p>
+<p>Историческое примечание: эта задача сейчас решается за <span class="math inline">\(O(n \log n)\)</span> с помощью алгоритма <a href="https://algorithmica.org/ru/fft">быстрого преобразования Фурье</a>, который к концу 50-х годов уже изобрели, но использовали только «по назначению»: для обработки сигналов, а не для умножения чисел.</p>
+<h2 id="умножение-многочленов">Умножение многочленов</h2>
+<p>Любое число можно можно представить в виде многочлена, если вместо <span class="math inline">\(x\)</span> подставить основание системы счисления:</p>
+<p><span class="math display">\[
+\begin{aligned}
+A(x) &amp;= a_0 + a_1\cdot x + a_2 \cdot x^2  + \dots + a_n \cdot x^n
+\\   &amp;= a_0 + a_1\cdot 2 + a_2 \cdot 2^2 + \dots + a_n \cdot 2^n
+\end{aligned}
+\]</span></p>
+<p>Наивная формула для умножения многочленов, если раскрыть все скобки, выглядит так:</p>
+<p><span class="math display">\[
+\left(\sum_{i=0}^n a_i x^i\right)\cdot\left(\sum_{j=0}^m b_j x^j\right)=\sum_{k=0}^{n+m}x^k\sum_{i+j=k}a_i b_j
+\]</span></p>
+<p>Единственный нюанс: в случае чисел, когда мы хотим получить их реальное представление, нужно предварительно провести «каррирование»:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> base = <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dt">void</span> carry(<span class="dt">int</span> *a, <span class="dt">int</span> n) {</a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> d = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
+<a class="sourceLine" id="cb1-6" title="6">        a[i] += d;</a>
+<a class="sourceLine" id="cb1-7" title="7">        d = a[i] % base;</a>
+<a class="sourceLine" id="cb1-8" title="8">        a[i] /= base;</a>
+<a class="sourceLine" id="cb1-9" title="9">    }</a>
+<a class="sourceLine" id="cb1-10" title="10">}</a></code></pre></div>
+<p>Основание системы счисления может быть выбрано произвольно, но из соображений производительности его имеет смысл выбрать его как можно большим, избегая при этом переполнений. Например, при выборе основания <span class="math inline">\(10^6\)</span> и использовании массива <code>long long</code> размера <span class="math inline">\(10^6\)</span> (т. е. в данном случае перемножаются <span class="math inline">\((6 \cdot 10^6)\)</span>-значные числа), ничего переполниться после одного умножения не должно: максимальное значение по формуле будет <span class="math inline">\((10^6)^3 = 10^{18}\)</span>, что помещается в 64 бит.</p>
 <h2 id="мастер-теорема">Мастер-теорема</h2>
-<p>Алгоритм Карацубы основывается на парадигме «разделяй-и-властвуй». Чтобы понять, почему его асимптотика именно такая, нам понадобится более мощная теорема, которая говорит об асимптотике большого класса «разделяек».</p>
+<p>Основная схема алгоритма очень простая: в нём умножение двух чисел длины <span class="math inline">\(n\)</span> небольшим алгебраическим трюком сводится к трём умножениям чисел длины <span class="math inline">\(\frac{n}{2}\)</span>. Примечательно, что нужные формулы были ещё у Чарльза Бэббиджа, работавшего в начале XIX века над механическим компьютером для подсчета налогов для британской короны, однако он не обратил внимания на возможность использования лишь трёх рекурсивных умножений вместо четырех.</p>
+<p>То, почему он работает за такую странную асимптотику, весьма неочевидно, и для этого мы сначала докажем более мощную теорему, которая говорит об асимптотике большого класса алгоритмов вида «разделяй-и-властвуй», заменяющих исходную задачу на <span class="math inline">\(a\)</span> задач размера <span class="math inline">\(\frac{n}{b}\)</span>.</p>
 <p><strong>Мастер-теорема.</strong> Пусть имеется рекуррента:</p>
 <p><span class="math display">\[
 T(n) = \begin{cases}
@@ -94,17 +182,128 @@ T(n) = n^c \sum_{k=0}^{\log_b n} (\frac{a}{b^c})^k = \Theta(n^c (\frac{a}{b^c})^
 \]</span></p>
 <p>В то же время эта рекуррента под условия теоремы не попадает. Можно лишь получить неточные границы <span class="math inline">\(\Omega (n \log n)\)</span> и <span class="math inline">\(O(n^{1+\epsilon})\)</span>, если подставить <span class="math inline">\(c = 1\)</span> и <span class="math inline">\(c = 1 + \epsilon\)</span> соответственно. Заметим, что <span class="math inline">\(n \log n\)</span> и <span class="math inline">\(n \log^2 n\)</span> асимптотически меньше <span class="math inline">\(n^{1+\epsilon}\)</span>, каким бы маленьким <span class="math inline">\(\epsilon\)</span> ни был.</p>
 <h2 id="алгоритм-карацубы">Алгоритм Карацубы</h2>
-<p>Алгоритм Карацубы сводит задачу умножения двух чисел длины <span class="math inline">\(n\)</span> к возведению <span class="math inline">\(n\)</span>-значного числа в квадрат. Для простоты будем считать, что числа бинарные, а n = 2k является степенью двойки. На практике же лучше брать достаточно большое основание, а не двойку — <span class="math inline">\(10^9\)</span>, например.</p>
-<p>Оказывается, что умножение и возведение в квадрат, вообще говоря, эквивалентные задачи: так как <span class="math inline">\(4ab=(a+b)^{2}-(a-b)^{2}\)</span>, то вместо умножения двух чисел <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> можно возвести два числа такого же порядка в квадрат и за линейное время сделать несколько сложений и вычитаний.</p>
-<p>Итак, нам нужно возвести число x в квадрат. Разобьём его на две части, то есть представим в виде <span class="math inline">\(x = a + 2^k b\)</span>, где числа <span class="math inline">\(a\)</span> и <span class="math inline">\(b\)</span> являются <span class="math inline">\(k\)</span>-значными. Внимание, алгебра:</p>
+<p>Пусть у нас есть два многочлена <span class="math inline">\(a(x)\)</span> и <span class="math inline">\(b(x)\)</span> равной длины <span class="math inline">\(n = 2k\)</span> и мы хотим их перемножить. Разделим их коэффициенты на две равные части и представим как:</p>
 <p><span class="math display">\[
-x^2 = (a + 2^k b)^2 = a^2 + 2^k ((a+b)^2 - a^2 - b^2) + b^2 
+a(x) = a_1 (x) + x^k a_2(x)
+\\b(x) = b_1 (x) + x^k b_2(x)
 \]</span></p>
-<p>Выяснилось, что мы можем вместо возведения <span class="math inline">\(n\)</span>-значного числа в квадрат возвести три <span class="math inline">\(\frac{n}{2}\)</span>-значных значных числа в квадрат — <span class="math inline">\(a^2\)</span>, <span class="math inline">\(b^2\)</span> и <span class="math inline">\((a+b)^2\)</span> — и сделать константное количество сложений, вычитаний и сдвигов.</p>
-<p>Пролистав пол-экрана выше, можно убедиться, что асимптотика будет <span class="math inline">\(\Theta (n^{\log_2 3}) \approx \Theta (n^{1.58})\)</span>: в данном случае наша задача разбивается на <span class="math inline">\(a = 3\)</span> части в <span class="math inline">\(b = 2\)</span> раз меньшего размера, а объединение происходит за <span class="math inline">\(O(n)\)</span>.</p>
-<p>Осталось лишь вспомнить, как мы сводили задачу к возведению в квадрат, и мы получим субквадратичный алгоритм для умножения целых чисел.</p>
+<p>Теперь рекурсивно вычислим многочлены-произведения <span class="math inline">\(p_1\)</span> и <span class="math inline">\(p_2\)</span>:</p>
+<p><span class="math display">\[
+p_1(x) = a_1(x) \cdot b_1(x)
+\\
+p_2(x) = a_2(x) \cdot b_2(x)
+\]</span></p>
+<p>А также многочлен <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[
+t(x) = ( a_1(x) + a_2(x) ) \cdot (b_1(x) + b_2(x))
+\]</span></p>
+<p>Результат умножения исходных многочленов теперь можно посчитать по следующей формуле — внимание, алгебра:</p>
+<p><span class="math display">\[
+c(x) = a(x) \cdot b(x) = p_1(x) + x^k \cdot (t(x) - p_1(x) - p_2(x)) + x^{2k} \cdot p_2(x)
+\]</span></p>
+<p>Корректность формулы можно проверить, просто выполнив нужные подстановки.</p>
+<p>Обратим внимание, что результат умножения — многочлен размера <span class="math inline">\(2 n\)</span>.</p>
+<h3 id="анализ">Анализ</h3>
+<p>Если посчитать необходимые операции, то выясняется, что для перемножения двух многочленов размера <span class="math inline">\(n\)</span> нам нужно посчитать три произведения — <span class="math inline">\(p_1\)</span>, <span class="math inline">\(p_2\)</span> и <span class="math inline">\(t\)</span> — размера <span class="math inline">\(\frac{n}{2}\)</span> и константное количество сложений, вычитаний и сдвигов (домножений на <span class="math inline">\(x^k\)</span>), которые суммарно можно выполнить за <span class="math inline">\(O(n)\)</span>.</p>
+<p>Пролистав пол-экрана выше, можно убедиться, что асимптотика всего алгоритма будет <span class="math inline">\(\Theta (n^{\log_2 3}) \approx \Theta (n^{1.58})\)</span>: в данном случае наша задача разбивается на <span class="math inline">\(a = 3\)</span> части в <span class="math inline">\(b = 2\)</span> раз меньшего размера, а объединение происходит за <span class="math inline">\(O(n)\)</span>.</p>
+<h3 id="реализация">Реализация</h3>
+<p>Для простоты будем предполагать, что <span class="math inline">\(n\)</span> это степень двойки. Если это не так, то в зависимости от обстоятельств это можно исправить одним из двух костылей:</p>
+<ol type="1">
+<li><p>Можно дополнить коэффициенты многочлена нулями до ближайшей степени двойки — в худшем случае это будет работать в <span class="math inline">\(2^{1.58} \approx 3\)</span> раза дольше.</p></li>
+<li><p>Можно «отщепить» последний коэффициент от многочленов и свести задачу размера <span class="math inline">\(2k + 1\)</span> к задаче размера <span class="math inline">\(2k\)</span> и константному количество сложений.</p></li>
+</ol>
+<p>В этой статье мы будем использовать первый метод.</p>
+<p>Основные соображения по поводу эффективной реализации:</p>
+<ul>
+<li><p>Нужно выделять как можно меньше лишней памяти, для чего нужно переиспользовать имеющиеся массивы.</p></li>
+<li><p>Все арифметические операции нужно реализовать как простые линейные проходы по массивам, чтобы компилятор смог их <a href="https://algorithmica.org/ru/sse">векторизовать</a>.</p></li>
+<li><p>Вместо использования базы вида <code>if (n == 1) c[0] = a[0] * b[0]</code>, имеет смысл, начиная с какого-то размера задачи, использовать более эффективное наивное умножение за квадрат.</p></li>
+</ul>
+<p>Код основной рекурсивной процедуры:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">void</span> karatsuba(<span class="dt">int</span> *a, <span class="dt">int</span> *b, <span class="dt">int</span> *c, <span class="dt">int</span> n) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="cf">if</span> (n &lt;= <span class="dv">64</span>) {</a>
+<a class="sourceLine" id="cb2-3" title="3">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
+<a class="sourceLine" id="cb2-4" title="4">            <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; j++)</a>
+<a class="sourceLine" id="cb2-5" title="5">                c[i + j] += a[i] * b[j];</a>
+<a class="sourceLine" id="cb2-6" title="6">    }</a>
+<a class="sourceLine" id="cb2-7" title="7">    <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb2-8" title="8">        <span class="dt">int</span> k = n / <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb2-9" title="9">        <span class="dt">int</span> l[k], r[k], t[n] = {<span class="dv">0</span>};</a>
+<a class="sourceLine" id="cb2-10" title="10">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; k; i++) {</a>
+<a class="sourceLine" id="cb2-11" title="11">            l[i] = a[i] + a[k + i];</a>
+<a class="sourceLine" id="cb2-12" title="12">            r[i] = b[i] + b[k + i];</a>
+<a class="sourceLine" id="cb2-13" title="13">        }</a>
+<a class="sourceLine" id="cb2-14" title="14">        karatsuba(l, r, t, k); <span class="co">// считает t</span></a>
+<a class="sourceLine" id="cb2-15" title="15">        karatsuba(a, b, c, k); <span class="co">// считает p1</span></a>
+<a class="sourceLine" id="cb2-16" title="16">        karatsuba(a + k, b + k, c + n, k); <span class="co">// считает p2</span></a>
+<a class="sourceLine" id="cb2-17" title="17">        <span class="dt">int</span> *t1 = t, *t2 = t + k;</a>
+<a class="sourceLine" id="cb2-18" title="18">        <span class="dt">int</span> *s1 = c, *s2 = c + k, *s3 = c + <span class="dv">2</span> * k, *s4 = c + <span class="dv">3</span> * k;</a>
+<a class="sourceLine" id="cb2-19" title="19">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; k; i++) {</a>
+<a class="sourceLine" id="cb2-20" title="20">            <span class="dt">int</span> c1 = s2[i] + t1[i] - s1[i] - s3[i];</a>
+<a class="sourceLine" id="cb2-21" title="21">            <span class="dt">int</span> c2 = s3[i] + t2[i] - s2[i] - s4[i];</a>
+<a class="sourceLine" id="cb2-22" title="22">            c[k + i] = c1;</a>
+<a class="sourceLine" id="cb2-23" title="23">            c[n + i] = c2;</a>
+<a class="sourceLine" id="cb2-24" title="24">        }</a>
+<a class="sourceLine" id="cb2-25" title="25">    }</a>
+<a class="sourceLine" id="cb2-26" title="26">}</a></code></pre></div>
+<p>После трёх рекурсивных вызовов массив <span class="math inline">\(c\)</span> — это конкатенация <span class="math inline">\(p_1\)</span> и <span class="math inline">\(p_2\)</span>.</p>
+<p>После этого, для подсчета самого многочлена <span class="math inline">\(c\)</span> проще всего мысленно разделить разделить его на четыре равные части, а многочлен <span class="math inline">\(t\)</span> — на две половины <span class="math inline">\(t_1\)</span> и <span class="math inline">\(t_2\)</span>, а затем посмотреть на формулу и подумать, как изменится каждая часть:</p>
+<ul>
+<li><p><span class="math inline">\(s_1\)</span>: не меняется — это первая половина <span class="math inline">\(p_1\)</span></p></li>
+<li><p><span class="math inline">\(s_2\)</span>: выражается как <span class="math inline">\(s_2 + t_1 - s_1 - s_3\)</span>, то есть изменяется на «первую» половину <span class="math inline">\(t - p_1 - p_2\)</span></p></li>
+<li><p><span class="math inline">\(s_3\)</span>: выражается как <span class="math inline">\(s_3 + t_2 - s_2 - s_4\)</span>, то есть изменяется на «торую» половину <span class="math inline">\(t - p_1 - p_2\)</span></p></li>
+<li><p><span class="math inline">\(s_4\)</span>: не меняется — это вторая половина <span class="math inline">\(p_2\)</span></p></li>
+</ul>
+<p>Из-за векторизации важно использовать максимально «лёгкий» тип данных и при возможности компилировать с AVX:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="pp">#pragma GCC optimize(&quot;O3&quot;)</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="pp">#pragma GCC target(&quot;avx2&quot;)</span></a></code></pre></div>
+<p>Реализация достаточно эффективна: она может перемножить два многочлена размера <span class="math inline">\(4 \cdot 10^5\)</span> за секунду,</p>
+<h3 id="умножение-многочленов-в-комбинаторике">Умножение многочленов в комбинаторике</h3>
+<p>В олимпиадных задачах длинное умножение само по себе встречается крайне редко. Гораздо чаще оно используется для подсчета каких-либо комбинаторных объектов через умножение многочленов.</p>
+<p>Для примера мы решим задачу «<a href="https://codeforces.com/problemset/problem/632/E">Вор в магазине</a>» с Educational Codeforces Round:</p>
+<blockquote>
+<p>Дано <span class="math inline">\(n \leq 1000\)</span> типов предметов разных положительных стоимостей. Каждая стоимость не превосходит <span class="math inline">\(1000\)</span>. Предметов каждого типа доступно бесконечное количество.</p>
+<p>Требуется определить всевозможные суммы предметов, которые можно набрать, взяв ровно <span class="math inline">\(k\)</span> предметов.</p>
+</blockquote>
+<p>Составим многочлен степени <span class="math inline">\(1000\)</span>, в котором коэффициент при <span class="math inline">\(x_i\)</span> равен единице, если в наборе существует предмет со стоимостью <span class="math inline">\(i\)</span>, и <span class="math inline">\(0\)</span> в противном случае.</p>
+<p>Если возвести этот многочлен в <span class="math inline">\(k\)</span>-тую степень, то его можно записать так:</p>
+<p><span class="math display">\[
+\sum_k (x^k \sum_{t_1+\ldots+t_k=i} a_{t_1} a_{t_2} \ldots a_{t_k})
+\]</span></p>
+<p>Если посмотреть на эту формулу комбинаторно, то в получившемся многочлене коэффициент при <span class="math inline">\(x_i\)</span> равен количеству способов набрать сумму <span class="math inline">\(i\)</span>, взяв ровно <span class="math inline">\(k\)</span> предметов — а в задаче нас по сути интересует, равно ли это число нулю или нет.</p>
+<p>Для возведения многочлена в <span class="math inline">\(k\)</span>-тую степень можно использовать бинарное возведение в степень, а для умножения многочленов — алгоритм Карацубы.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = (<span class="dv">1</span>&lt;&lt;<span class="dv">20</span>);</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="dt">int</span> a[maxn], res[maxn];</a>
+<a class="sourceLine" id="cb4-3" title="3"></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co">// мы не всегда хотим модифицировать исходные массивы при перемножении</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">// поэтому напишем обертку, которая работает, как *=</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="dt">void</span> mul(<span class="dt">int</span> *x, <span class="dt">int</span> *y, <span class="dt">int</span> n) {</a>
+<a class="sourceLine" id="cb4-7" title="7">    <span class="dt">int</span> tx[n], ty[n];</a>
+<a class="sourceLine" id="cb4-8" title="8">    memcpy(tx, x, <span class="kw">sizeof</span> tx);</a>
+<a class="sourceLine" id="cb4-9" title="9">    memcpy(ty, y, <span class="kw">sizeof</span> ty);</a>
+<a class="sourceLine" id="cb4-10" title="10">    memset(x, <span class="dv">0</span>, <span class="kw">sizeof</span> tx);</a>
+<a class="sourceLine" id="cb4-11" title="11">    karatsuba(tx, ty, x, n);</a>
+<a class="sourceLine" id="cb4-12" title="12">}</a>
+<a class="sourceLine" id="cb4-13" title="13"></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="dt">void</span> binpow(<span class="dt">int</span> k) {</a>
+<a class="sourceLine" id="cb4-15" title="15">    res[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb4-16" title="16">    <span class="dt">int</span> len = <span class="dv">1024</span>;</a>
+<a class="sourceLine" id="cb4-17" title="17">    <span class="cf">while</span> (k &gt; <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb4-18" title="18">        <span class="cf">if</span> (k &amp; <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-19" title="19">            mul(res, a, len);</a>
+<a class="sourceLine" id="cb4-20" title="20">        mul(a, a, len);</a>
+<a class="sourceLine" id="cb4-21" title="21">        k /= <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb4-22" title="22">        len *= <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb4-23" title="23">    }</a>
+<a class="sourceLine" id="cb4-24" title="24">    mul(res, a, len);</a>
+<a class="sourceLine" id="cb4-25" title="25">}</a>
+<a class="sourceLine" id="cb4-26" title="26"></a>
+<a class="sourceLine" id="cb4-27" title="27"><span class="co">// осталось скормить функции binpow бинарный массив a,</span></a>
+<a class="sourceLine" id="cb4-28" title="28"><span class="co">// и res будет содержать a в k-той степени</span></a></code></pre></div>
+<p>В асимптотике будет учитёно только последнее (самое больше) умножение.</p>
+<p>Решение в условиях задачи работает за 3 секунды с ограничением в 5. Его можно значительно ускорить, если вместо <code>int</code>-ов использовать байты или даже биты по аналогии с <a href="https://algorithmica.org/ru/bitset">битсетом</a>, потому что нас не интересует количество способов набрать какую-то сумму, а только равно ли это число нулю.</p>
 <h3 id="развитие-идеи">Развитие идеи</h3>
-<p>То же самое можно применить к матричному умножению — это называется <a href="https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%A8%D1%82%D1%80%D0%B0%D1%81%D1%81%D0%B5%D0%BD%D0%B0">алгоритмом Штрассена</a>. В нём две матрицы разбиваются на <span class="math inline">\(8 = 4 + 4\)</span> частей, перемножаются блочно, и сложной алгеброй от одного из 8 умножений получается избавиться, что даёт асимптотику <span class="math inline">\(O(n^{\log_7 8}) \approx O(n^{2.81})\)</span>.</p>
-<p>И в алгоритме Штрассена, и в алгоритме Карацубы можно достичь и лучшей асимптотики, если разбивать объекты на большее число частей. Однако, на практике это не применяется, потому что константа получается слишком высокой.</p>
+<p>Похожий метод можно применить к матричному умножению — это называется <a href="https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%A8%D1%82%D1%80%D0%B0%D1%81%D1%81%D0%B5%D0%BD%D0%B0">алгоритмом Штрассена</a>. В нём две матрицы разбиваются на <span class="math inline">\(8 = 4 + 4\)</span> частей, перемножаются блочно, и сложной алгеброй от одного из 8 умножений получается избавиться, что даёт асимптотику <span class="math inline">\(O(n^{\log_7 8}) \approx O(n^{2.81})\)</span>.</p>
+<p>И в алгоритме Штрассена, и в алгоритме Карацубы можно достичь и лучшей асимптотики, если разбивать объекты на большее число частей. Однако, в реальности это не применяется, потому что в асимптотиках подобных улгоритмов скрыта непрактично большая константа.</p>
 </body>
 </html>

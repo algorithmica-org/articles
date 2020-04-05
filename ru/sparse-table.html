@@ -126,26 +126,22 @@ t[k][i] = \min(t[k-1][i], t[k-1][i+2^{k-1}])
 \]</span></p>
 <p>Имея таком массив, мы можем для любого отрезка быстро посчитать минимум на нём. Заметим, что у любого отрезка имеется два отрезка длины степени двойки, которые пересекаются, и, главное, покрывают его и только его целиком. Значит, мы можем просто взять минимум из значений, которые соответствуют этим отрезкам.</p>
 <p><img src="https://neerc.ifmo.ru/wiki/images/7/75/SparseTableRMQ.png" /></p>
-<p>Последняя деталь: для того, чтобы константа на запрос стала настоящей, нужно научиться считать сам логарифм за константу. Для этого можно воспользоваться функцией <code>__builtin_clz</code> (“count leading zeros”), которая возвращает количество нулей до первой единицы в бинарной записи, из чего можно получить нужный округленный логарифм.</p>
+<p>Последняя деталь: для того, чтобы константа на запрос стала настоящей, нужно научиться считать сам логарифм за константу. Для этого можно воспользоваться доступной в GCC функцией <code>__lg</code>. Она внутри использует инструкцию <code>clz</code> (“count leading zeros”), которая присутствует в большинстве современных процессоров и возвращает количество нулей до первой единицы в бинарной записи, из чего за несколько процессорных тактов можно получить нужный округленный логарифм.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> a[maxn], mn[logn][maxn];</a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> lg(<span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb1-4" title="4">    <span class="cf">return</span> <span class="dv">31</span> - <span class="fu">__builtin_clz</span>(x);</a>
-<a class="sourceLine" id="cb1-5" title="5">}</a>
-<a class="sourceLine" id="cb1-6" title="6"></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="dt">int</span> rmq(<span class="dt">int</span> l, <span class="dt">int</span> r) { <span class="co">// полуинтервал [l; r)</span></a>
-<a class="sourceLine" id="cb1-8" title="8">    <span class="dt">int</span> t = lg(r - l);</a>
-<a class="sourceLine" id="cb1-9" title="9">    <span class="cf">return</span> min(mn[l][t], mn[r - (<span class="dv">1</span> &lt;&lt; t)][t]);</a>
-<a class="sourceLine" id="cb1-10" title="10">}</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> rmq(<span class="dt">int</span> l, <span class="dt">int</span> r) { <span class="co">// полуинтервал [l; r)</span></a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="dt">int</span> t = __lg(r - l);</a>
+<a class="sourceLine" id="cb1-5" title="5">    <span class="cf">return</span> min(mn[l][t], mn[r - (<span class="dv">1</span> &lt;&lt; t)][t]);</a>
+<a class="sourceLine" id="cb1-6" title="6">}</a>
+<a class="sourceLine" id="cb1-7" title="7"></a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="co">// Это считается где-то в первых строчках main:</span></a>
+<a class="sourceLine" id="cb1-9" title="9"></a>
+<a class="sourceLine" id="cb1-10" title="10">memcpy(mn[<span class="dv">0</span>], a, <span class="kw">sizeof</span> a);</a>
 <a class="sourceLine" id="cb1-11" title="11"></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="co">// Это считается где-то в первых строчках main:</span></a>
-<a class="sourceLine" id="cb1-13" title="13"></a>
-<a class="sourceLine" id="cb1-14" title="14">memcpy(mn[<span class="dv">0</span>], a, <span class="kw">sizeof</span> a);</a>
-<a class="sourceLine" id="cb1-15" title="15"></a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn - <span class="dv">1</span>; l++)</a>
-<a class="sourceLine" id="cb1-17" title="17">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i + (<span class="dv">2</span> &lt;&lt; l) &lt;= n; i++)</a>
-<a class="sourceLine" id="cb1-18" title="18">        mn[l+<span class="dv">1</span>][i] = min(mn[l][i], mn[l][i + (<span class="dv">1</span> &lt;&lt; l)]);</a></code></pre></div>
-<p>Для больших таблиц порядок итерирования и расположение данных в памяти сильно влияет на скорость построения — это связано с работой кэшей.</p>
+<a class="sourceLine" id="cb1-12" title="12"><span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l &lt; logn - <span class="dv">1</span>; l++)</a>
+<a class="sourceLine" id="cb1-13" title="13">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i + (<span class="dv">2</span> &lt;&lt; l) &lt;= n; i++)</a>
+<a class="sourceLine" id="cb1-14" title="14">        mn[l+<span class="dv">1</span>][i] = min(mn[l][i], mn[l][i + (<span class="dv">1</span> &lt;&lt; l)]);</a></code></pre></div>
+<p>Для больших таблиц порядок итерирования и расположение данных в памяти сильно влияет на скорость построения — это связано с работой кэшей. Но в большинстве случаев время построения не так критично.</p>
 <p><strong>Упражнение.</strong> Подумайте, в чём недостатки других 4 вариантов итерирования и layout-а.</p>
 <p>Интересно, что последний цикл не <a href="https://algorithmica.org/ru/sse">векторизуется</a> компилятором автоматически (видимо, потому что <code>std::min</code> это что-то сложное внутри), и поэтому замена тела цикла на конструкцию вида <code>(x &lt; y ? x : y)</code> ускоряет построение ещё в ~2 раза.</p>
 <h3 id="применения">Применения</h3>
