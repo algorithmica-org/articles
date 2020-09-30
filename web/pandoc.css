@@ -23,12 +23,12 @@
 }
 
 @font-face {
-    font-family: "Open Sans";
+    font-family: "Ariel";
     src: url(fonts/opensans.woff2);
 }
 
 html {
-  font-size: 100%;
+  font-size: 89%;
   overflow-y: scroll;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -52,17 +52,17 @@ body {
 }
 
 .credits {
-    font-size: 14px;
-    margin: 25px 10px -40px 15px;
+    font-size: 12px;
+    margin: 25px 10px -23px 15px;
     padding: 16px 50px 0 50px;
     /* text-align: left; */
     border-top: 1px solid #666;
-    color: black;
+    color: blue;
 }
 
 .credits table {
     border: none;
-    margin-left: 46px;
+    margin-left: 40px;
     margin-bottom: 10px;
 }
 
