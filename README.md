@@ -2,7 +2,7 @@
 
 **Q: I found a small bug/typo and I want to fix it. How can I do it?**
 
-Login to GitHub, go to `src/<lang>/<broken_article>.md`, click "Edit", correct the error, press "commit" and create a tiny pull request. Someone will soon review and approve it.
+Login to GitHub, go to `src/<lang>/<broken_article>.md`, click "Edit", correct the error, press "commit" and create a tiny pull request. Someone will soon review and approve it. after doing this you get solution of your problem.
 
 **Q: How to contribute an article?**
 
