@@ -18,4 +18,4 @@ Once your pull request is merged into master, it will be automatically deployed 
 
 Sure, everything is published under Creative Commons. You can use it wherever you want, even commercially, but please provide a link to original post.
 
-Note that some articles include diagrams borrowed from external resources. Since they aren't ours, we can't give you permission to use them.
+*Note that some articles include diagrams borrowed from external resources. Since they aren't ours, we can't give you permission to use them.*
