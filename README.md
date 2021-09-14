@@ -1,4 +1,4 @@
-# Algorithmica.org — Contribution FAQ
+# Algorithmica.org — Contribution FAQ - AN DYNAMIC PROJECT
 
 **Q: I found a small bug/typo and I want to fix it. How can I do it?**
 
