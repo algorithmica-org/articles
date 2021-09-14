@@ -27,6 +27,19 @@
     src: url(fonts/opensans.woff2);
 }
 
+.migration {
+  background: rgb(219, 245, 227);
+  border: 1px solid green;
+  margin: 20px 0px;
+  padding: 6px 12px;
+  font-family: "Garamond";
+}
+
+.migration a {
+  display: block;
+  font-size: 1.25em;
+}
+
 html {
   font-size: 100%;
   overflow-y: scroll;

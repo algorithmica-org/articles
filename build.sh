@@ -10,6 +10,7 @@ do
     section=${file:0:2}
     edit="Редактировать"
     view_history="История"
+    migration="<a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там."
     if [ "$section" = "ru" ]; then
         sitename="Алгоритмика"
     fi
@@ -17,6 +18,7 @@ do
         sitename="Algorithmica"
         edit="Edit this page"
         view_history="View history"
+        migration="<a href='https://en.algorithmica.org/hpc/'>I'm writing a book.</a> It's free and available online. You can find an updated version of this and many more of my old articles there.<br>— Sergey Slotin"
     fi
     if [ "$section" = "tg" ]; then
         sitename="Tinkoff Generation"
@@ -40,6 +42,7 @@ do
     --variable sitename="$sitename" \
     --variable edit="$edit" \
     --variable view_history="$view_history" \
+    --variable migration="$migration" \
     --metadata index="$index" \
     --standalone --mathjax
 done
