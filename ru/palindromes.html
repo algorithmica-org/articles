@@ -12,26 +12,28 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +42,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -75,18 +77,18 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -96,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -113,6 +115,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href='https://github.com/algorithmica-org/ru/commits/master/palindromes.md'>История</a>
     </div>
 </div>
+<div class="migration"><a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там.</div>
 <h1 id="палиндромы">Палиндромы</h1>
 <p><strong>Палиндром</strong> — это фраза, которая читается одинаково слева направо и справа налево. Например:</p>
 <ul>
@@ -127,54 +130,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Пусть есть строка <span class="math inline">\(s\)</span> и мы хотим найти в ней все подпалиндромы.</p>
 <p>Мы сразу сталкиваемся с очевидной трудностью: их в строке может быть <span class="math inline">\(O(n^2)\)</span>, что можно видеть на примере строки <span class="math inline">\(s = aa \ldots a\)</span>. Поэтому будем использовать следующий формат: для каждой позиции <span class="math inline">\(s_i\)</span> найдём наибольший палиндром, центр которого совпадает с <span class="math inline">\(s_i\)</span> (чётные и нечётные палиндромы будем рассматривать отдельно). Половину его длины, округлённую вниз, будем называть <em>радиусом</em>.</p>
 <p>Наивное решение — перебрать <span class="math inline">\(s_i\)</span>, а для него вторым циклом находить наибольшую искомую длину:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1">vector&lt;<span class="dt">int</span>&gt; pal_array(string s) {</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> n = s.size();</a>
-<a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">    <span class="co">// окружим строку спецсимволами, чтобы не рассматривать выход за границы</span></a>
-<a class="sourceLine" id="cb1-5" title="5">    s = <span class="st">&quot;#&quot;</span> + s + <span class="st">&quot;$&quot;</span>;</a>
-<a class="sourceLine" id="cb1-6" title="6"></a>
-<a class="sourceLine" id="cb1-7" title="7">    <span class="co">// в этом массиве будем хранить расстояние от центра до границы палиндрома</span></a>
-<a class="sourceLine" id="cb1-8" title="8">    vector&lt;<span class="dt">int</span>&gt; t(n, <span class="dv">0</span>);</a>
-<a class="sourceLine" id="cb1-9" title="9"></a>
-<a class="sourceLine" id="cb1-10" title="10">    <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n; i++)</a>
-<a class="sourceLine" id="cb1-11" title="11">        <span class="cf">while</span> (s[i - t[i - <span class="dv">1</span>]] == s[i + t[i - <span class="dv">1</span>]])</a>
-<a class="sourceLine" id="cb1-12" title="12">            r[i-<span class="dv">1</span>]++;</a>
-<a class="sourceLine" id="cb1-13" title="13"></a>
-<a class="sourceLine" id="cb1-14" title="14">    <span class="cf">return</span> r;</a>
-<a class="sourceLine" id="cb1-15" title="15">}</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> pal_array<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> s<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// окружим строку спецсимволами, чтобы не рассматривать выход за границы</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="st">&quot;#&quot;</span> <span class="op">+</span> s <span class="op">+</span> <span class="st">&quot;$&quot;</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// в этом массиве будем хранить расстояние от центра до границы палиндрома</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> t<span class="op">(</span>n<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>s<span class="op">[</span>i <span class="op">-</span> t<span class="op">[</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">]]</span> <span class="op">==</span> s<span class="op">[</span>i <span class="op">+</span> t<span class="op">[</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">]])</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            r<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">]++;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> r<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Тот же пример <span class="math inline">\(s = aa\dots a\)</span> показывает, что данная реализация работает за <span class="math inline">\(O(n^2)\)</span>.</p>
 <p>Для оптимизации применим идею, знакомую из алгоритма <a href="string-searching">z-функции</a>: при инициализации <span class="math inline">\(t_i\)</span> будем пользоваться уже посчитанными <span class="math inline">\(t\)</span>. А именно, будем поддерживать <span class="math inline">\((l, r)\)</span> — интервал, соответствующий самому правому из найденных подпалиндромов. Тогда мы можем сказать, что часть наибольшего палиндрома с центром в <span class="math inline">\(s_i\)</span>, которая лежит внутри <span class="math inline">\(s_{l:r}\)</span>, имеет радиус хотя бы <span class="math inline">\(\min(r-i, \; t_{l+r-i})\)</span>. Первая величина равна длине, дальше которой произошел бы выход за пределы <span class="math inline">\(s_{l:r}\)</span>, а вторая — значению радиуса в позиции, зеркальной относительно центра палиндрома <span class="math inline">\(s_{l:r}\)</span>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"></a>
-<a class="sourceLine" id="cb2-2" title="2">vector&lt;<span class="dt">int</span>&gt; manacher_odd(string s) {</a>
-<a class="sourceLine" id="cb2-3" title="3">    <span class="dt">int</span> n = (<span class="dt">int</span>) s.size();</a>
-<a class="sourceLine" id="cb2-4" title="4">    vector&lt;<span class="dt">int</span>&gt; d(n, <span class="dv">1</span>);</a>
-<a class="sourceLine" id="cb2-5" title="5">    <span class="dt">int</span> l = <span class="dv">0</span>, r = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb2-7" title="7">        <span class="cf">if</span> (i &lt; r)</a>
-<a class="sourceLine" id="cb2-8" title="8">            d[i] = min(r - i + <span class="dv">1</span>, d[l + r - i]);</a>
-<a class="sourceLine" id="cb2-9" title="9">        <span class="cf">while</span> (i - d[i] &gt;= <span class="dv">0</span> &amp;&amp; i + d[i] &lt; n &amp;&amp; s[i - d[i]] == s[i + d[i]])</a>
-<a class="sourceLine" id="cb2-10" title="10">            d[i]++;</a>
-<a class="sourceLine" id="cb2-11" title="11">        <span class="cf">if</span> (i + d[i] - <span class="dv">1</span> &gt; r)</a>
-<a class="sourceLine" id="cb2-12" title="12">            l = i - d[i] + <span class="dv">1</span>, r = i + d[i] - <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb2-13" title="13">    }</a>
-<a class="sourceLine" id="cb2-14" title="14">    <span class="cf">return</span> d;</a>
-<a class="sourceLine" id="cb2-15" title="15">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode {.c++"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> manacher_odd<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> s<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> d<span class="op">(</span>n<span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> l <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>i <span class="op">&lt;</span> r<span class="op">)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            d<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> min<span class="op">(</span>r <span class="op">-</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> d<span class="op">[</span>l <span class="op">+</span> r <span class="op">-</span> i<span class="op">]);</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>i <span class="op">-</span> d<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> i <span class="op">+</span> d<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> n <span class="op">&amp;&amp;</span> s<span class="op">[</span>i <span class="op">-</span> d<span class="op">[</span>i<span class="op">]]</span> <span class="op">==</span> s<span class="op">[</span>i <span class="op">+</span> d<span class="op">[</span>i<span class="op">]])</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            d<span class="op">[</span>i<span class="op">]++;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>i <span class="op">+</span> d<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> <span class="dv">1</span> <span class="op">&gt;</span> r<span class="op">)</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            l <span class="op">=</span> i <span class="op">-</span> d<span class="op">[</span>i<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> r <span class="op">=</span> i <span class="op">+</span> d<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> d<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Так же, как и z-функция, алгоритм работает за линейное время: цикл <code>while</code> запускается только когда <span class="math inline">\(t_i = r - i\)</span> (иначе палиндром уже во что-то упёрся), и каждая его итерация сдвигает увеличивает <span class="math inline">\(r\)</span> на единицу. Так как <span class="math inline">\(r \leq n\)</span>, получаем, что суммарно эти циклы сделают <span class="math inline">\(O(n)\)</span> итераций.</p>
 <p>Для случая чётных палиндромов меняется только индексация:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1">vector&lt;<span class="dt">int</span>&gt; manacher_even(string s) {</a>
-<a class="sourceLine" id="cb3-2" title="2">    <span class="dt">int</span> n = (<span class="dt">int</span>) s.size();</a>
-<a class="sourceLine" id="cb3-3" title="3">    vector&lt;<span class="dt">int</span>&gt; d(n, <span class="dv">0</span>);</a>
-<a class="sourceLine" id="cb3-4" title="4">    <span class="dt">int</span> l = -<span class="dv">1</span>, r = -<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb3-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n - <span class="dv">1</span>; i++) {</a>
-<a class="sourceLine" id="cb3-6" title="6">        <span class="cf">if</span> (i &lt; r)</a>
-<a class="sourceLine" id="cb3-7" title="7">            d[i] = min(r - i, d[l + r - i - <span class="dv">1</span>]);</a>
-<a class="sourceLine" id="cb3-8" title="8">        <span class="cf">while</span> (i - d[i] &gt;= <span class="dv">0</span> &amp;&amp; i + d[i] + <span class="dv">1</span> &lt; n &amp;&amp; s[i - d[i]] == s[i + d[i] + <span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb3-9" title="9">            d[i]++;</a>
-<a class="sourceLine" id="cb3-10" title="10">        <span class="cf">if</span> (i + d[i] &gt; r)</a>
-<a class="sourceLine" id="cb3-11" title="11">            l = i - d[i] + <span class="dv">1</span>, r = i + d[i];</a>
-<a class="sourceLine" id="cb3-12" title="12">    }</a>
-<a class="sourceLine" id="cb3-13" title="13">    <span class="cf">return</span> d;</a>
-<a class="sourceLine" id="cb3-14" title="14">}</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> manacher_even<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> s<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> d<span class="op">(</span>n<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> l <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> r <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>i <span class="op">&lt;</span> r<span class="op">)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            d<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> min<span class="op">(</span>r <span class="op">-</span> i<span class="op">,</span> d<span class="op">[</span>l <span class="op">+</span> r <span class="op">-</span> i <span class="op">-</span> <span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>i <span class="op">-</span> d<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> i <span class="op">+</span> d<span class="op">[</span>i<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;</span> n <span class="op">&amp;&amp;</span> s<span class="op">[</span>i <span class="op">-</span> d<span class="op">[</span>i<span class="op">]]</span> <span class="op">==</span> s<span class="op">[</span>i <span class="op">+</span> d<span class="op">[</span>i<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span><span class="op">])</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            d<span class="op">[</span>i<span class="op">]++;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>i <span class="op">+</span> d<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> r<span class="op">)</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            l <span class="op">=</span> i <span class="op">-</span> d<span class="op">[</span>i<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> r <span class="op">=</span> i <span class="op">+</span> d<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> d<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Также можно было не писать отдельно две реализации, а воспользоваться следующим трюком — сделать замену:</p>
 <p><span class="math display">\[
 S = s_1 s_2 \dots s_n \to S^* = s_1 \# s_2 \# \dots \# s_n
@@ -190,35 +193,35 @@ S = s_1 s_2 \dots s_n \to S^* = s_1 \# s_2 \# \dots \# s_n
 <p>Будем поддерживать наибольший суффикс-палиндром. Когда мы будем дописывать очередной символ <span class="math inline">\(c\)</span>, нужно найти наибольший суффикс этого палиндрома, который может быть дополнен символом <span class="math inline">\(c\)</span> — это и будет новый наидлиннейший суффикс-палиндром.</p>
 <p>Для этого поступим аналогично <a href="aho-corasick">алгоритму Ахо-Корасик</a>: будем поддерживать для каждого палиндрома суффиксную ссылку <span class="math inline">\(l(v)\)</span>, ведущую из <span class="math inline">\(v\)</span> в её наибольший суффикс-палиндром. При добавлении очередного символа, будем подниматься по суффиксным ссылкам, пока не найдём вершину, из которой можно совершить нужный переход.</p>
 <p>Если в подходящей вершине этого перехода не существовало, то нужно создать новую вершину, и для неё тоже понадобится своя суффиксная ссылка. Чтобы найти её, будем продолжать подниматься по суффиксным ссылкам предыдущего суффикс-палиндрома, пока не найдём второе такое место, которое мы можем дополнить символом <span class="math inline">\(c\)</span>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>, k = <span class="dv">26</span>;</a>
-<a class="sourceLine" id="cb4-2" title="2"></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="dt">int</span> s[maxn], len[maxn], link[maxn], to[maxn][k];</a>
-<a class="sourceLine" id="cb4-4" title="4"></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="dt">int</span> n, last, sz;</a>
-<a class="sourceLine" id="cb4-6" title="6"></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="dt">void</span> init() {</a>
-<a class="sourceLine" id="cb4-8" title="8">    s[n++] = -<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb4-9" title="9">    link[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb4-10" title="10">    len[<span class="dv">1</span>] = -<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb4-11" title="11">    sz = <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb4-12" title="12">}</a>
-<a class="sourceLine" id="cb4-13" title="13"></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="dt">int</span> get_link(<span class="dt">int</span> v) {</a>
-<a class="sourceLine" id="cb4-15" title="15">    <span class="cf">while</span> (s[n-len[v]-<span class="dv">2</span>] != s[n-<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb4-16" title="16">        v = link[v];</a>
-<a class="sourceLine" id="cb4-17" title="17">    <span class="cf">return</span> v;</a>
-<a class="sourceLine" id="cb4-18" title="18">}</a>
-<a class="sourceLine" id="cb4-19" title="19"></a>
-<a class="sourceLine" id="cb4-20" title="20"><span class="dt">void</span> add_char(<span class="dt">int</span> c) {</a>
-<a class="sourceLine" id="cb4-21" title="21">    s[n++] = c;</a>
-<a class="sourceLine" id="cb4-22" title="22">    last = get_link(last);</a>
-<a class="sourceLine" id="cb4-23" title="23">    <span class="cf">if</span> (!to[last][c]) {</a>
-<a class="sourceLine" id="cb4-24" title="24">        len[sz] = len[last] + <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb4-25" title="25">        link[sz] = to[get_link(link[last])][c];</a>
-<a class="sourceLine" id="cb4-26" title="26">        to[last][c] = sz++;</a>
-<a class="sourceLine" id="cb4-27" title="27">    }</a>
-<a class="sourceLine" id="cb4-28" title="28">    last = to[last][c];</a>
-<a class="sourceLine" id="cb4-29" title="29">}</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> maxn <span class="op">=</span> <span class="fl">1e5</span><span class="op">,</span> k <span class="op">=</span> <span class="dv">26</span><span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> s<span class="op">[</span>maxn<span class="op">],</span> len<span class="op">[</span>maxn<span class="op">],</span> link<span class="op">[</span>maxn<span class="op">],</span> to<span class="op">[</span>maxn<span class="op">][</span>k<span class="op">];</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> last<span class="op">,</span> sz<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> init<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    s<span class="op">[</span>n<span class="op">++]</span> <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    link<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    len<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    sz <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> get_link<span class="op">(</span><span class="dt">int</span> v<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>s<span class="op">[</span>n<span class="op">-</span>len<span class="op">[</span>v<span class="op">]-</span><span class="dv">2</span><span class="op">]</span> <span class="op">!=</span> s<span class="op">[</span>n<span class="op">-</span><span class="dv">1</span><span class="op">])</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        v <span class="op">=</span> link<span class="op">[</span>v<span class="op">];</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> v<span class="op">;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> add_char<span class="op">(</span><span class="dt">int</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    s<span class="op">[</span>n<span class="op">++]</span> <span class="op">=</span> c<span class="op">;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    last <span class="op">=</span> get_link<span class="op">(</span>last<span class="op">);</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>to<span class="op">[</span>last<span class="op">][</span>c<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        len<span class="op">[</span>sz<span class="op">]</span> <span class="op">=</span> len<span class="op">[</span>last<span class="op">]</span> <span class="op">+</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        link<span class="op">[</span>sz<span class="op">]</span> <span class="op">=</span> to<span class="op">[</span>get_link<span class="op">(</span>link<span class="op">[</span>last<span class="op">])][</span>c<span class="op">];</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        to<span class="op">[</span>last<span class="op">][</span>c<span class="op">]</span> <span class="op">=</span> sz<span class="op">++;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    last <span class="op">=</span> to<span class="op">[</span>last<span class="op">][</span>c<span class="op">];</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Здесь мы использовали обычный массив для хранения переходов. Как и для любых префиксных деревьев, вместо него можно использовтать бинарное дерево поиска, хэш-таблицу, односвязный список и другие структуры, позволяющие обменять время на память, немного изменив асимптотику.</p>
 <h3 id="асимптотика">Асимптотика</h3>
 <p>Покажем линейность алгоритма. Рассмотрим длину наибольшего суффикс-палиндрома строки. Каждый новый символ увеличивает её не более, чем на 2. При этом каждый переход по суффиксной ссылке уменьшает её, поэтому нахождение первого суффикс-палиндрома амортизировано работает за линейное время.</p>

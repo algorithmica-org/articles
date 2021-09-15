@@ -12,18 +12,18 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -33,7 +33,7 @@
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -50,6 +50,7 @@
         <a href='https://github.com/algorithmica-org/tg/commits/master/combinatorics.md'>История</a>
     </div>
 </div>
+<div class="migration"><a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там.</div>
 <h1 id="комбинаторика">Комбинаторика</h1>
 <p>Иногда в задачах требуется подсчитать количество некоторых объектов, количество способов сделать что-то. При этом обычно это количество слишком велико, чтобы можно было перечислить все объекты в явном виде.</p>
 <p>Например, можно посчитать количество перестановок из <span class="math inline">\(n\)</span> различных элементов следующим образом. Понятно, что на первое место в перестановке мы можем поставить любой из <span class="math inline">\(n\)</span> элементов, на второе — любой из <span class="math inline">\(n - 1\)</span> оставшихся, и так далее. Для последнего места останется только 1 элемент. Значит, число перестановок <span class="math inline">\(n\)</span> элементов равно <span class="math inline">\(n\cdot(n-1)\cdot\ldots\cdot2\cdot1\)</span>, что сокращенно обозначается как <span class="math inline">\(n!\)</span></p>
@@ -59,7 +60,7 @@
 <p>Есть и другой способ подсчета <span class="math inline">\(C_n^k\)</span> для <span class="math inline">\(0 &lt; k &lt; n\)</span>. Посмотрим на первый элемент. Если он входит в набор, то осталось выбрать <span class="math inline">\(k-1\)</span> из <span class="math inline">\(n-1\)</span> оставшихся. Иначе нужно выбрать <span class="math inline">\(k\)</span> из <span class="math inline">\(n-1\)</span> оставшихся. Значит, <span class="math inline">\(C_n^k=C_{n-1}^{k}+C_{n-1}^{k-1}\)</span>. Так можно найти все <span class="math inline">\(C_n^k\)</span> до какого-то <span class="math inline">\(n\)</span> за <span class="math inline">\(O(n^2)\)</span>.</p>
 <p>Таким образом, <span class="math inline">\(C_n^k\)</span> легко представлять в виде бесконечного треугольника, где на сторонах стоят 1, а остальные числа равны сумме двух верхних. Легко видеть, что <span class="math inline">\(C_n^k\)</span> это <span class="math inline">\(k\)</span>-е число в строке номер <span class="math inline">\(n\)</span>. Это называют треугольником Паскаля.</p>
 <figure>
-<img src="images/pascal_triangle.png" alt="Треугольник Паскаля" /><figcaption>Треугольник Паскаля</figcaption>
+<img src="images/pascal_triangle.png" alt="Треугольник Паскаля" /><figcaption aria-hidden="true">Треугольник Паскаля</figcaption>
 </figure>
 <h2 id="число-путей-черепашки">Число путей черепашки</h2>
 <p>Пусть, в левом верхнем углу прямоугольного поля стоит черепашка, которая может ходить только на одну клетку вправо или вниз. Сколько у нее способов попасть в правый нижний угол?</p>

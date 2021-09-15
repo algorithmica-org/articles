@@ -12,26 +12,28 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +42,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -75,18 +77,18 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -96,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -113,6 +115,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href='https://github.com/algorithmica-org/ru/commits/master/segtree.md'>История</a>
     </div>
 </div>
+<div class="migration"><a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там.</div>
 <h1 id="дерево-отрезков">Дерево отрезков</h1>
 <p><strong>Замечание</strong>. Почти везде мы будем использовать полуинтервалы — обозначаемые как <span class="math inline">\([l, r)\)</span> — вместо отрезков. Несмотря на контринтуитивность, это немного упростит код и вообще является хорошей практикой в программировании, подобно нумерации с нуля.</p>
 <p><strong>Дерево отрезков</strong> — очень мощная и гибкая структура данных, позволяющая быстро отвечать на самые разные запросы на отрезках.</p>
@@ -158,27 +161,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Объект — это сущность, которой можно посылать сообщения и которая может на них реагировать, используя свои данные. Инкапсулировать логику в объекты на самом деле очень удобно. Дереву отрезков не важно знать, как устроен окружающий мир, а миру не важно, как внутри устроено дерево отрезков — это просто какая-то структура, которая умеет делать нужные операции за <span class="math inline">\(O(\log n)\)</span>.</p>
 <p>В C++ есть два способа объявлять классы (объект — это экземпляр класса): через <code>struct</code> и через <code>class</code>. Их основное отличие в том, что по умолчанию в <code>class</code> все поля приватные: к ним нет прямого доступа снаружи. Это нужно для дополнительной защиты, чтобы в крупных промышленных проектах никто случайно ничего не поломал, но на олимпиадах это не очень актуально.</p>
 <p>У классов есть поля (переменные) и методы (функции, привязанные к объектам). Среди них есть особые, например <strong>конструктор</strong> — он вызывается при создании объекта. Чтобы объявить конструктор класса в C++, нужно объявить внутри него метод с тем же названием, что и у самого класса.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">struct</span> A {</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> param1, param2; <span class="co">// тут можно что-то хранить</span></a>
-<a class="sourceLine" id="cb1-3" title="3">    <span class="dt">char</span> param3 = <span class="ch">&#39;k&#39;</span>;</a>
-<a class="sourceLine" id="cb1-4" title="4">    A (<span class="dt">int</span> var) {</a>
-<a class="sourceLine" id="cb1-5" title="5">        <span class="co">// эта часть называется конструктором</span></a>
-<a class="sourceLine" id="cb1-6" title="6">        <span class="co">// ...</span></a>
-<a class="sourceLine" id="cb1-7" title="7">    }</a>
-<a class="sourceLine" id="cb1-8" title="8">    <span class="dt">void</span> do_something () {</a>
-<a class="sourceLine" id="cb1-9" title="9">        <span class="co">// это какой-то другой метод</span></a>
-<a class="sourceLine" id="cb1-10" title="10">        <span class="co">// ...</span></a>
-<a class="sourceLine" id="cb1-11" title="11">    }</a>
-<a class="sourceLine" id="cb1-12" title="12">}; <span class="co">// &lt;- не забудьте точку с запятой</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> A <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> param1<span class="op">,</span> param2<span class="op">;</span> <span class="co">// тут можно что-то хранить</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> param3 <span class="op">=</span> <span class="ch">&#39;k&#39;</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    A <span class="op">(</span><span class="dt">int</span> var<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// эта часть называется конструктором</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ...</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> do_something <span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">// это какой-то другой метод</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ...</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span> <span class="co">// &lt;- не забудьте точку с запятой</span></span></code></pre></div>
 <p>Другое важное понятие — указатель. Память можно представлять как просто очень большой массив. На самом деле, когда мы создаем какой-то объект, отдельная программа (<em>аллокатор</em>) выделяет место в массиве (<em>оперативной памяти</em>) под этот объект и возвращает позицию (<em>указатель</em>) на место в этом массиве.</p>
 <p>Указатели нам нужны для того, чтобы хранить ссылки на детей. Имея указатель на объект, можно делать всё то же, что и имея сам объект, только синтаксис немного поменяется:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1">A x(<span class="dv">179</span>);</a>
-<a class="sourceLine" id="cb2-2" title="2">x.do_something();</a>
-<a class="sourceLine" id="cb2-3" title="3">x.param1 = <span class="dv">57</span>;</a>
-<a class="sourceLine" id="cb2-4" title="4"></a>
-<a class="sourceLine" id="cb2-5" title="5">A *y = <span class="kw">new</span> A(<span class="dv">42</span>); <span class="co">// new возвращает адрес, по которому можно найти объект</span></a>
-<a class="sourceLine" id="cb2-6" title="6">y-&gt;do_something();</a>
-<a class="sourceLine" id="cb2-7" title="7">y.param3 = <span class="ch">&#39;!&#39;</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A x<span class="op">(</span><span class="dv">179</span><span class="op">);</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x<span class="op">.</span>do_something<span class="op">();</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x<span class="op">.</span>param1 <span class="op">=</span> <span class="dv">57</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>A <span class="op">*</span>y <span class="op">=</span> <span class="kw">new</span> A<span class="op">(</span><span class="dv">42</span><span class="op">);</span> <span class="co">// new возвращает адрес, по которому можно найти объект</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>y<span class="op">-&gt;</span>do_something<span class="op">();</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>y<span class="op">.</span>param3 <span class="op">=</span> <span class="ch">&#39;!&#39;</span><span class="op">;</span></span></code></pre></div>
 <p>Оффтоп: вы не задумывались, почему мы перешли с 32-битных процессоров на 64-битные? Каждый указатель ссылается на байт — более точный адрес менеджер памяти выделять не умеет. Поэтому 32-битный компьютер умеет работать только с не более, чем <span class="math inline">\(2^{32}\)</span> байтами памяти — это ровно 4 гигабайта — что с какого-то момента начало нехватать. Большинство операций в любом компьютере — это операции с памятью, и разрядность повысили именно из-за этого, а не чтобы операции с <code>long long</code> быстрее считались</p>
 <h2 id="реализация">Реализация</h2>
 <p><strong>Примечание.</strong> Данная реализация неэффективна по времени и памяти (см. раздел «другие реализации»). Мы её приводим в педагогических целях.</p>
@@ -188,39 +191,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Формально описать, что должны делать методы и за какую асимптотику.</li>
 <li>Решить много отдельных задач, реализуя методы, не нарушающие инварианты.</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">struct</span> segtree {</a>
-<a class="sourceLine" id="cb3-2" title="2">    <span class="dt">int</span> lb, rb; <span class="co">// левые и правые границы отрезков</span></a>
-<a class="sourceLine" id="cb3-3" title="3">    <span class="dt">int</span> sum = <span class="dv">0</span>; <span class="co">// сумма на текущем отрезке</span></a>
-<a class="sourceLine" id="cb3-4" title="4">    segtree *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb3-5" title="5">    segtree (<span class="dt">int</span> _lb, <span class="dt">int</span> _rb) {</a>
-<a class="sourceLine" id="cb3-6" title="6">        lb = _lb, rb = _rb;</a>
-<a class="sourceLine" id="cb3-7" title="7">        <span class="cf">if</span> (lb + <span class="dv">1</span> &lt; rb) {</a>
-<a class="sourceLine" id="cb3-8" title="8">            <span class="co">// если не лист, создаем детей</span></a>
-<a class="sourceLine" id="cb3-9" title="9">            <span class="dt">int</span> t = (lb + rb) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb3-10" title="10">            l = <span class="kw">new</span> segtree(lb, t);</a>
-<a class="sourceLine" id="cb3-11" title="11">            r = <span class="kw">new</span> segtree(t, rb);</a>
-<a class="sourceLine" id="cb3-12" title="12">        }</a>
-<a class="sourceLine" id="cb3-13" title="13">    }</a>
-<a class="sourceLine" id="cb3-14" title="14">    <span class="dt">void</span> add (<span class="dt">int</span> k, <span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb3-15" title="15">        sum += x;</a>
-<a class="sourceLine" id="cb3-16" title="16">        <span class="cf">if</span> (l) {</a>
-<a class="sourceLine" id="cb3-17" title="17">            <span class="cf">if</span> (k &lt; l-&gt;rb)</a>
-<a class="sourceLine" id="cb3-18" title="18">                l-&gt;add(k, x);</a>
-<a class="sourceLine" id="cb3-19" title="19">            <span class="cf">else</span></a>
-<a class="sourceLine" id="cb3-20" title="20">                r-&gt;add(k, x);</a>
-<a class="sourceLine" id="cb3-21" title="21">        }</a>
-<a class="sourceLine" id="cb3-22" title="22">    }</a>
-<a class="sourceLine" id="cb3-23" title="23">    <span class="dt">int</span> get_sum (<span class="dt">int</span> lq, <span class="dt">int</span> rq) {</a>
-<a class="sourceLine" id="cb3-24" title="24">        <span class="cf">if</span> (lb &gt;= lq &amp;&amp; rb &lt;= rq)</a>
-<a class="sourceLine" id="cb3-25" title="25">            <span class="co">// если мы лежим полностью в отрезке запроса, вывести сумму</span></a>
-<a class="sourceLine" id="cb3-26" title="26">            <span class="cf">return</span> sum;</a>
-<a class="sourceLine" id="cb3-27" title="27">        <span class="cf">if</span> (max(lb, lq) &gt;= min(rb, rq))</a>
-<a class="sourceLine" id="cb3-28" title="28">            <span class="co">// если мы не пересекаемся с отрезком запроса, вывести ноль</span></a>
-<a class="sourceLine" id="cb3-29" title="29">            <span class="cf">return</span> <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb3-30" title="30">        <span class="co">// иначе всё сложно -- запускаемся от детей и пусть они там сами решают</span></a>
-<a class="sourceLine" id="cb3-31" title="31">        <span class="cf">return</span> l-&gt;get_sum(lq, rq) + r-&gt;get_sum(lq, rq);</a>
-<a class="sourceLine" id="cb3-32" title="32">    }</a>
-<a class="sourceLine" id="cb3-33" title="33">};</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> segtree <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> lb<span class="op">,</span> rb<span class="op">;</span> <span class="co">// левые и правые границы отрезков</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> <span class="co">// сумма на текущем отрезке</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    segtree <span class="op">*</span>l <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="op">*</span>r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    segtree <span class="op">(</span><span class="dt">int</span> _lb<span class="op">,</span> <span class="dt">int</span> _rb<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        lb <span class="op">=</span> _lb<span class="op">,</span> rb <span class="op">=</span> _rb<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>lb <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;</span> rb<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            <span class="co">// если не лист, создаем детей</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> t <span class="op">=</span> <span class="op">(</span>lb <span class="op">+</span> rb<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            l <span class="op">=</span> <span class="kw">new</span> segtree<span class="op">(</span>lb<span class="op">,</span> t<span class="op">);</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            r <span class="op">=</span> <span class="kw">new</span> segtree<span class="op">(</span>t<span class="op">,</span> rb<span class="op">);</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> add <span class="op">(</span><span class="dt">int</span> k<span class="op">,</span> <span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        sum <span class="op">+=</span> x<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>l<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>k <span class="op">&lt;</span> l<span class="op">-&gt;</span>rb<span class="op">)</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                l<span class="op">-&gt;</span>add<span class="op">(</span>k<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                r<span class="op">-&gt;</span>add<span class="op">(</span>k<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> get_sum <span class="op">(</span><span class="dt">int</span> lq<span class="op">,</span> <span class="dt">int</span> rq<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>lb <span class="op">&gt;=</span> lq <span class="op">&amp;&amp;</span> rb <span class="op">&lt;=</span> rq<span class="op">)</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>            <span class="co">// если мы лежим полностью в отрезке запроса, вывести сумму</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>max<span class="op">(</span>lb<span class="op">,</span> lq<span class="op">)</span> <span class="op">&gt;=</span> min<span class="op">(</span>rb<span class="op">,</span> rq<span class="op">))</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>            <span class="co">// если мы не пересекаемся с отрезком запроса, вывести ноль</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">// иначе всё сложно -- запускаемся от детей и пусть они там сами решают</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> l<span class="op">-&gt;</span>get_sum<span class="op">(</span>lq<span class="op">,</span> rq<span class="op">)</span> <span class="op">+</span> r<span class="op">-&gt;</span>get_sum<span class="op">(</span>lq<span class="op">,</span> rq<span class="op">);</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
 <blockquote>
 <p>Посчитать число беспорядков в перестановке из <span class="math inline">\(n\)</span> элементов (беспорядок или инверсия — это пара чисел <span class="math inline">\(i &lt; j\)</span>, для которых <span class="math inline">\(p_i &gt; p_j\)</span>).</p>
 </blockquote>
@@ -246,136 +249,136 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Когда нам позже понадобятся правильные значения таких вершин и их детей, мы будем делать «проталкивание» информации из текущей вершины в её сыновей: если метка стоит, пересчитаем сумму текущего отрезка и передадим эту метку сыновьям. Когда нам потом понадобятся сыновья, мы будем делать то же самое. Подобная операция будет гарантировать корректность данных в вершине ровно к тому моменту, когда они нам понадобятся.</p>
 <p>Понятно, что от использования таких «запаздывающих» обновлений асимптотика никак не ухудшается, и мы можем всё так же решить задачу за <span class="math inline">\(O(n \log n)\)</span>.</p>
 <p>При реализации создадим вспомогательную функцию <code>push</code>, которая будет производить проталкивание информации из этой вершины в обоих её сыновей. Вызывать её стоит в самом начале обработки любого запроса — тогда она гарантирует, что в текущей вершине и её сыновьях все значения корректны.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">struct</span> segtree {</a>
-<a class="sourceLine" id="cb4-2" title="2">    <span class="dt">int</span> lb, rb;</a>
-<a class="sourceLine" id="cb4-3" title="3">    <span class="dt">int</span> sum = <span class="dv">0</span>, assign = -<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb4-4" title="4">    segtree *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb4-5" title="5">    segtree (<span class="dt">int</span> _lb, <span class="dt">int</span> _rb) {</a>
-<a class="sourceLine" id="cb4-6" title="6">        lb = _lb, rb = _rb;</a>
-<a class="sourceLine" id="cb4-7" title="7">        <span class="cf">if</span> (lb + <span class="dv">1</span> &lt; rb) {</a>
-<a class="sourceLine" id="cb4-8" title="8">            <span class="dt">int</span> t = (lb + rb) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb4-9" title="9">            l = <span class="kw">new</span> segtree(lb, t);</a>
-<a class="sourceLine" id="cb4-10" title="10">            r = <span class="kw">new</span> segtree(t, rb);</a>
-<a class="sourceLine" id="cb4-11" title="11">        }</a>
-<a class="sourceLine" id="cb4-12" title="12">    }</a>
-<a class="sourceLine" id="cb4-13" title="13">    <span class="dt">void</span> push () {</a>
-<a class="sourceLine" id="cb4-14" title="14">        <span class="cf">if</span> (assign != -<span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb4-15" title="15">            sum = (rb-lb) * assign;</a>
-<a class="sourceLine" id="cb4-16" title="16">            <span class="cf">if</span> (l) { <span class="co">// если дети есть</span></a>
-<a class="sourceLine" id="cb4-17" title="17">                l-&gt;assign = assign;</a>
-<a class="sourceLine" id="cb4-18" title="18">                r-&gt;assign = assign;</a>
-<a class="sourceLine" id="cb4-19" title="19">            }</a>
-<a class="sourceLine" id="cb4-20" title="20">        }</a>
-<a class="sourceLine" id="cb4-21" title="21">        assign = -<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb4-22" title="22">    }</a>
-<a class="sourceLine" id="cb4-23" title="23">    <span class="dt">void</span> upd (<span class="dt">int</span> lq, <span class="dt">int</span> rq, <span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb4-24" title="24">        push();</a>
-<a class="sourceLine" id="cb4-25" title="25">        <span class="cf">if</span> (lq &lt;= lb &amp;&amp; rb &lt;= rq)</a>
-<a class="sourceLine" id="cb4-26" title="26">            assign = x;</a>
-<a class="sourceLine" id="cb4-27" title="27">        <span class="cf">else</span> <span class="cf">if</span> (l &amp;&amp; max(lb, lq) &lt; min(rb, rq)) {</a>
-<a class="sourceLine" id="cb4-28" title="28">            <span class="co">// если есть дети и отрезок запроса хоть как-то пересекается с нашим</span></a>
-<a class="sourceLine" id="cb4-29" title="29">            l-&gt;upd(lq, rq, x);</a>
-<a class="sourceLine" id="cb4-30" title="30">            r-&gt;upd(lq, rq, x);</a>
-<a class="sourceLine" id="cb4-31" title="31">            <span class="co">// ...дальше они сами разберутся</span></a>
-<a class="sourceLine" id="cb4-32" title="32">        }</a>
-<a class="sourceLine" id="cb4-33" title="33">    }</a>
-<a class="sourceLine" id="cb4-34" title="34">    <span class="dt">int</span> get_sum (<span class="dt">int</span> lq, <span class="dt">int</span> rq) {</a>
-<a class="sourceLine" id="cb4-35" title="35">        push();</a>
-<a class="sourceLine" id="cb4-36" title="36">        <span class="cf">if</span> (lb &gt;= lq &amp;&amp; rb &lt;= rq)</a>
-<a class="sourceLine" id="cb4-37" title="37">            <span class="cf">return</span> sum;</a>
-<a class="sourceLine" id="cb4-38" title="38">        <span class="cf">if</span> (max(lb, lq) &gt;= min(rb, rq))</a>
-<a class="sourceLine" id="cb4-39" title="39">            <span class="cf">return</span> <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb4-40" title="40">        <span class="cf">return</span> l-&gt;get_sum(lq, rq) + r-&gt;get_sum(lq, rq);</a>
-<a class="sourceLine" id="cb4-41" title="41">    }</a>
-<a class="sourceLine" id="cb4-42" title="42">};</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> segtree <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> lb<span class="op">,</span> rb<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> assign <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    segtree <span class="op">*</span>l <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="op">*</span>r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    segtree <span class="op">(</span><span class="dt">int</span> _lb<span class="op">,</span> <span class="dt">int</span> _rb<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        lb <span class="op">=</span> _lb<span class="op">,</span> rb <span class="op">=</span> _rb<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>lb <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;</span> rb<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> t <span class="op">=</span> <span class="op">(</span>lb <span class="op">+</span> rb<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            l <span class="op">=</span> <span class="kw">new</span> segtree<span class="op">(</span>lb<span class="op">,</span> t<span class="op">);</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            r <span class="op">=</span> <span class="kw">new</span> segtree<span class="op">(</span>t<span class="op">,</span> rb<span class="op">);</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> push <span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>assign <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            sum <span class="op">=</span> <span class="op">(</span>rb<span class="op">-</span>lb<span class="op">)</span> <span class="op">*</span> assign<span class="op">;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>l<span class="op">)</span> <span class="op">{</span> <span class="co">// если дети есть</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                l<span class="op">-&gt;</span>assign <span class="op">=</span> assign<span class="op">;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                r<span class="op">-&gt;</span>assign <span class="op">=</span> assign<span class="op">;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        assign <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> upd <span class="op">(</span><span class="dt">int</span> lq<span class="op">,</span> <span class="dt">int</span> rq<span class="op">,</span> <span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        push<span class="op">();</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>lq <span class="op">&lt;=</span> lb <span class="op">&amp;&amp;</span> rb <span class="op">&lt;=</span> rq<span class="op">)</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>            assign <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>l <span class="op">&amp;&amp;</span> max<span class="op">(</span>lb<span class="op">,</span> lq<span class="op">)</span> <span class="op">&lt;</span> min<span class="op">(</span>rb<span class="op">,</span> rq<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            <span class="co">// если есть дети и отрезок запроса хоть как-то пересекается с нашим</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>            l<span class="op">-&gt;</span>upd<span class="op">(</span>lq<span class="op">,</span> rq<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>            r<span class="op">-&gt;</span>upd<span class="op">(</span>lq<span class="op">,</span> rq<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>            <span class="co">// ...дальше они сами разберутся</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> get_sum <span class="op">(</span><span class="dt">int</span> lq<span class="op">,</span> <span class="dt">int</span> rq<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        push<span class="op">();</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>lb <span class="op">&gt;=</span> lq <span class="op">&amp;&amp;</span> rb <span class="op">&lt;=</span> rq<span class="op">)</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>max<span class="op">(</span>lb<span class="op">,</span> lq<span class="op">)</span> <span class="op">&gt;=</span> min<span class="op">(</span>rb<span class="op">,</span> rq<span class="op">))</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> l<span class="op">-&gt;</span>get_sum<span class="op">(</span>lq<span class="op">,</span> rq<span class="op">)</span> <span class="op">+</span> r<span class="op">-&gt;</span>get_sum<span class="op">(</span>lq<span class="op">,</span> rq<span class="op">);</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
 <p>По-английски эта техника называется <em>lazy propagation</em>. <strong>Очень важно научиться её писать</strong> — она часто встречается на олимпиадах.</p>
 <p>Идея «давайте будем всё делать в последний момент» применима не только в ДО, но и в других структурах <s>и в реальной жизни</s>.</p>
 <h2 id="динамическое-построение">Динамическое построение</h2>
 <p>А что, если у нас все индексы лежать не от в пределах <span class="math inline">\(10^5\)</span>, а, например, <span class="math inline">\(10^9\)</span>. Все асимптотики нас по прежнему устраивают (<span class="math inline">\(\log_2 10^6 \approx 20\)</span>, <span class="math inline">\(\log_2 10^9 \approx 30\)</span>), кроме этапа построения.</p>
 <p>Можно решить эту проблему так: откажемся от явного создания всех вершин дерева изначально. Изначально создадим только лишь корень, а остальные вершины будем создавать на ходу, когда в них потребуется записать что-то не дефолтное — как в lazy propagation.</p>
 <p>Реализовать это можно так же, как и с <code>push</code>-ем: в начале всех методов будем проверять, что дети-вершины созданы, и создавать их, если это не так.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">struct</span> segtree {</a>
-<a class="sourceLine" id="cb5-2" title="2">    <span class="dt">int</span> lb, rb;</a>
-<a class="sourceLine" id="cb5-3" title="3">    <span class="dt">int</span> sum = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb5-4" title="4">    segtree *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb5-5" title="5">    segtree (<span class="dt">int</span> _lb, <span class="dt">int</span> _rb) {</a>
-<a class="sourceLine" id="cb5-6" title="6">        lb = _lb, rb = _rb;</a>
-<a class="sourceLine" id="cb5-7" title="7">        <span class="co">// а тут ничего нет</span></a>
-<a class="sourceLine" id="cb5-8" title="8">    }</a>
-<a class="sourceLine" id="cb5-9" title="9">    <span class="dt">void</span> extend () {</a>
-<a class="sourceLine" id="cb5-10" title="10">        <span class="cf">if</span> (!l &amp;&amp; lb + <span class="dv">1</span> &lt; rb) {</a>
-<a class="sourceLine" id="cb5-11" title="11">            <span class="dt">int</span> t = (lb + rb) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb5-12" title="12">            l = <span class="kw">new</span> segtree(lb, t);</a>
-<a class="sourceLine" id="cb5-13" title="13">            r = <span class="kw">new</span> segtree(t, rb);</a>
-<a class="sourceLine" id="cb5-14" title="14">        }</a>
-<a class="sourceLine" id="cb5-15" title="15">    }</a>
-<a class="sourceLine" id="cb5-16" title="16">    <span class="dt">void</span> add (<span class="dt">int</span> k, <span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb5-17" title="17">        extend();</a>
-<a class="sourceLine" id="cb5-18" title="18">        sum += x;</a>
-<a class="sourceLine" id="cb5-19" title="19">        <span class="cf">if</span> (l) {</a>
-<a class="sourceLine" id="cb5-20" title="20">            <span class="cf">if</span> (k &lt; l-&gt;rb)</a>
-<a class="sourceLine" id="cb5-21" title="21">                l-&gt;add(k, x);</a>
-<a class="sourceLine" id="cb5-22" title="22">            <span class="cf">else</span></a>
-<a class="sourceLine" id="cb5-23" title="23">                r-&gt;add(k, x);</a>
-<a class="sourceLine" id="cb5-24" title="24">        }</a>
-<a class="sourceLine" id="cb5-25" title="25">    }</a>
-<a class="sourceLine" id="cb5-26" title="26">    <span class="dt">int</span> get_sum (<span class="dt">int</span> lq, <span class="dt">int</span> rq) {</a>
-<a class="sourceLine" id="cb5-27" title="27">        <span class="cf">if</span> (lb &gt;= lq &amp;&amp; rb &lt;= rq)</a>
-<a class="sourceLine" id="cb5-28" title="28">            <span class="cf">return</span> sum;</a>
-<a class="sourceLine" id="cb5-29" title="29">        <span class="cf">if</span> (max(lb, lq) &gt;= min(rb, rq))</a>
-<a class="sourceLine" id="cb5-30" title="30">            <span class="cf">return</span> <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb5-31" title="31">        extend();</a>
-<a class="sourceLine" id="cb5-32" title="32">        <span class="cf">return</span> l-&gt;get_sum(lq, rq) + r-&gt;get_sum(lq, rq);</a>
-<a class="sourceLine" id="cb5-33" title="33">    }</a>
-<a class="sourceLine" id="cb5-34" title="34">};</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> segtree <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> lb<span class="op">,</span> rb<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    segtree <span class="op">*</span>l <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="op">*</span>r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    segtree <span class="op">(</span><span class="dt">int</span> _lb<span class="op">,</span> <span class="dt">int</span> _rb<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        lb <span class="op">=</span> _lb<span class="op">,</span> rb <span class="op">=</span> _rb<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// а тут ничего нет</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> extend <span class="op">()</span> <span class="op">{</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>l <span class="op">&amp;&amp;</span> lb <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;</span> rb<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> t <span class="op">=</span> <span class="op">(</span>lb <span class="op">+</span> rb<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            l <span class="op">=</span> <span class="kw">new</span> segtree<span class="op">(</span>lb<span class="op">,</span> t<span class="op">);</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            r <span class="op">=</span> <span class="kw">new</span> segtree<span class="op">(</span>t<span class="op">,</span> rb<span class="op">);</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> add <span class="op">(</span><span class="dt">int</span> k<span class="op">,</span> <span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        extend<span class="op">();</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        sum <span class="op">+=</span> x<span class="op">;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>l<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>k <span class="op">&lt;</span> l<span class="op">-&gt;</span>rb<span class="op">)</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                l<span class="op">-&gt;</span>add<span class="op">(</span>k<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                r<span class="op">-&gt;</span>add<span class="op">(</span>k<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> get_sum <span class="op">(</span><span class="dt">int</span> lq<span class="op">,</span> <span class="dt">int</span> rq<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>lb <span class="op">&gt;=</span> lq <span class="op">&amp;&amp;</span> rb <span class="op">&lt;=</span> rq<span class="op">)</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>max<span class="op">(</span>lb<span class="op">,</span> lq<span class="op">)</span> <span class="op">&gt;=</span> min<span class="op">(</span>rb<span class="op">,</span> rq<span class="op">))</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        extend<span class="op">();</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> l<span class="op">-&gt;</span>get_sum<span class="op">(</span>lq<span class="op">,</span> rq<span class="op">)</span> <span class="op">+</span> r<span class="op">-&gt;</span>get_sum<span class="op">(</span>lq<span class="op">,</span> rq<span class="op">);</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
 <p>Но вообще, в большинстве случаев, использовать динамическое построение — это как стрелять из пушки по воробьям. Если все запросы известны заранее, то их координаты можно просто сжать перед обработкой запросов. Автор обычно делает это так:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1">vector&lt;<span class="dt">int</span>&gt; compress (vector&lt;<span class="dt">int</span>&gt; a) {</a>
-<a class="sourceLine" id="cb6-2" title="2">    vector&lt;<span class="dt">int</span>&gt; b = a;</a>
-<a class="sourceLine" id="cb6-3" title="3">    sort(b.begin(), b.end());</a>
-<a class="sourceLine" id="cb6-4" title="4">    b.erase(unique(b.begin(), b.end()), b.end());</a>
-<a class="sourceLine" id="cb6-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> &amp;x : a) </a>
-<a class="sourceLine" id="cb6-6" title="6">        x = <span class="dt">int</span>(lower_bound(b.begin(), b.end(), x) - b.begin());</a>
-<a class="sourceLine" id="cb6-7" title="7">    <span class="cf">return</span> a;</a>
-<a class="sourceLine" id="cb6-8" title="8">}</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> compress <span class="op">(</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> a<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> b <span class="op">=</span> a<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    sort<span class="op">(</span>b<span class="op">.</span>begin<span class="op">(),</span> b<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    b<span class="op">.</span>erase<span class="op">(</span>unique<span class="op">(</span>b<span class="op">.</span>begin<span class="op">(),</span> b<span class="op">.</span>end<span class="op">()),</span> b<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> <span class="op">&amp;</span>x <span class="op">:</span> a<span class="op">)</span> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="dt">int</span><span class="op">(</span>lower_bound<span class="op">(</span>b<span class="op">.</span>begin<span class="op">(),</span> b<span class="op">.</span>end<span class="op">(),</span> x<span class="op">)</span> <span class="op">-</span> b<span class="op">.</span>begin<span class="op">());</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h2 id="персистентность">Персистентность</h2>
 <p>Структуры данных называют <strong>персистентными</strong>, если их можно быстро «откатить» до произвольного предыдущего состояния.</p>
 <p>Известны персистентные версии многих структур: стека, очереди, СНМ, ДО. В случае со структурами данных на ссылках есть следующий общий подход: во всех методах, меняющих значения в вершинах, будем копировать ссылки на детей перед тем, как в них переходить и что-либо менять. Таким образом, мы всегда будем делать копию вершины перед тем, как что-либо менять в ней самой или её потомках. Вершины в момент <span class="math inline">\(t\)</span> никогда не будут ссылаться на вершины, измененные после этого, и поэтому ничего не сломается.</p>
 <p>У персистентных структур есть один минус: они обычно требуют больше памяти. В случае ДО мы будем создавать <span class="math inline">\(O(\log n)\)</span> новых вершин на запрос, что означает общее потребление памяти <span class="math inline">\(O(m \log n)\)</span>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">struct</span> segtree {</a>
-<a class="sourceLine" id="cb7-2" title="2">    <span class="dt">int</span> lb, rb;</a>
-<a class="sourceLine" id="cb7-3" title="3">    <span class="dt">int</span> sum = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb7-4" title="4">    segtree *l = <span class="dv">0</span>, *r = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb7-5" title="5">    segtree (<span class="dt">int</span> _lb, <span class="dt">int</span> _rb) {</a>
-<a class="sourceLine" id="cb7-6" title="6">        lb = _lb, rb = _rb;</a>
-<a class="sourceLine" id="cb7-7" title="7">        <span class="cf">if</span> (lb != rb) {</a>
-<a class="sourceLine" id="cb7-8" title="8">            <span class="dt">int</span> t = (lb + rb) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb7-9" title="9">            l = <span class="kw">new</span> segtree(lb, t);</a>
-<a class="sourceLine" id="cb7-10" title="10">            r = <span class="kw">new</span> segtree(t, rb);</a>
-<a class="sourceLine" id="cb7-11" title="11">        }</a>
-<a class="sourceLine" id="cb7-12" title="12">    }</a>
-<a class="sourceLine" id="cb7-13" title="13">    <span class="dt">void</span> copy () {</a>
-<a class="sourceLine" id="cb7-14" title="14">        <span class="cf">if</span> (l) {</a>
-<a class="sourceLine" id="cb7-15" title="15">            l = <span class="kw">new</span> segtree(*l);</a>
-<a class="sourceLine" id="cb7-16" title="16">            r = <span class="kw">new</span> segtree(*r);</a>
-<a class="sourceLine" id="cb7-17" title="17">        }</a>
-<a class="sourceLine" id="cb7-18" title="18">    }</a>
-<a class="sourceLine" id="cb7-19" title="19">    <span class="dt">void</span> add (<span class="dt">int</span> k, <span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb7-20" title="20">        copy();</a>
-<a class="sourceLine" id="cb7-21" title="21">        sum += x;</a>
-<a class="sourceLine" id="cb7-22" title="22">        <span class="cf">if</span> (l) {</a>
-<a class="sourceLine" id="cb7-23" title="23">            <span class="cf">if</span> (k &lt; l-&gt;rb) l-&gt;add(k, x);</a>
-<a class="sourceLine" id="cb7-24" title="24">            <span class="cf">else</span> r-&gt;add(k, x);</a>
-<a class="sourceLine" id="cb7-25" title="25">        }</a>
-<a class="sourceLine" id="cb7-26" title="26">    }</a>
-<a class="sourceLine" id="cb7-27" title="27">    <span class="dt">int</span> get_sum (<span class="dt">int</span> lq, <span class="dt">int</span> rq) {</a>
-<a class="sourceLine" id="cb7-28" title="28">        <span class="co">// этот метод ничего не меняет -- он и так хороший</span></a>
-<a class="sourceLine" id="cb7-29" title="29">        <span class="cf">if</span> (lq &lt;= lb &amp;&amp; rb &lt;= rq)</a>
-<a class="sourceLine" id="cb7-30" title="30">            <span class="cf">return</span> sum;</a>
-<a class="sourceLine" id="cb7-31" title="31">        <span class="cf">if</span> (max(lb, lq) &gt;= min(rb, rq))</a>
-<a class="sourceLine" id="cb7-32" title="32">            <span class="cf">return</span> <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb7-33" title="33">        <span class="cf">return</span> l-&gt;get_sum(lq, rq) + r-&gt;get_sum(lq, rq);</a>
-<a class="sourceLine" id="cb7-34" title="34">    }</a>
-<a class="sourceLine" id="cb7-35" title="35">};</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> segtree <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> lb<span class="op">,</span> rb<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    segtree <span class="op">*</span>l <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="op">*</span>r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    segtree <span class="op">(</span><span class="dt">int</span> _lb<span class="op">,</span> <span class="dt">int</span> _rb<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        lb <span class="op">=</span> _lb<span class="op">,</span> rb <span class="op">=</span> _rb<span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>lb <span class="op">!=</span> rb<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> t <span class="op">=</span> <span class="op">(</span>lb <span class="op">+</span> rb<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            l <span class="op">=</span> <span class="kw">new</span> segtree<span class="op">(</span>lb<span class="op">,</span> t<span class="op">);</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            r <span class="op">=</span> <span class="kw">new</span> segtree<span class="op">(</span>t<span class="op">,</span> rb<span class="op">);</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> copy <span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>l<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            l <span class="op">=</span> <span class="kw">new</span> segtree<span class="op">(*</span>l<span class="op">);</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>            r <span class="op">=</span> <span class="kw">new</span> segtree<span class="op">(*</span>r<span class="op">);</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> add <span class="op">(</span><span class="dt">int</span> k<span class="op">,</span> <span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        copy<span class="op">();</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        sum <span class="op">+=</span> x<span class="op">;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>l<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>k <span class="op">&lt;</span> l<span class="op">-&gt;</span>rb<span class="op">)</span> l<span class="op">-&gt;</span>add<span class="op">(</span>k<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span> r<span class="op">-&gt;</span>add<span class="op">(</span>k<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> get_sum <span class="op">(</span><span class="dt">int</span> lq<span class="op">,</span> <span class="dt">int</span> rq<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        <span class="co">// этот метод ничего не меняет -- он и так хороший</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>lq <span class="op">&lt;=</span> lb <span class="op">&amp;&amp;</span> rb <span class="op">&lt;=</span> rq<span class="op">)</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>max<span class="op">(</span>lb<span class="op">,</span> lq<span class="op">)</span> <span class="op">&gt;=</span> min<span class="op">(</span>rb<span class="op">,</span> rq<span class="op">))</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> l<span class="op">-&gt;</span>get_sum<span class="op">(</span>lq<span class="op">,</span> rq<span class="op">)</span> <span class="op">+</span> r<span class="op">-&gt;</span>get_sum<span class="op">(</span>lq<span class="op">,</span> rq<span class="op">);</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
 <blockquote>
 <p>Даны <span class="math inline">\(n\)</span> точек на плоскости. Нужно <em>в онлайн</em> ответить на <span class="math inline">\(q\)</span> запросов суммы на прямоугольнике.</p>
 </blockquote>

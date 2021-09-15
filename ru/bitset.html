@@ -12,26 +12,28 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +42,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -75,18 +77,18 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -96,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -113,6 +115,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href='https://github.com/algorithmica-org/ru/commits/master/bitset.md'>История</a>
     </div>
 </div>
+<div class="migration"><a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там.</div>
 <h1 id="битовое-сжатие">Битовое сжатие</h1>
 <p>Процессор устроен так, что работает не с индивидуальными битами, а сразу с блоками по 32 или 64 бита — эта величина называется <em>машинным словом</em>. Как следствие, операции, затрагивающие лишь один бит, на самом деле «стоят» столько же, сколько и операции над целым <code>int</code>-ом или <code>long</code>-ом.</p>
 <p>Когда требуется делать какие-то теоретико-множественные операции, их часто можно свести к большому количеству одинаковых операций над элементами булевого массива. Например:</p>
@@ -124,13 +127,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Здесь появляется следующая идея оптимизации: сгруппировать элементы массива в блоки размера 64 и каждый такой блок считать двоичным числом. Тогда можно применить эту битовую операцию сразу к 64 элементам и потратить на это один такт вместо 64-х.</p>
 <p>Это всё несложно кодить и вручную, но в STL это уже сделали до нас, написав структуру, ведущую себя как большое двоичное число со всеми стандартными битовыми операциями: <code>bitset</code>.</p>
 <p>Работать с ним нужно вот так:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> lim = <span class="dv">1000</span>;</a>
-<a class="sourceLine" id="cb1-2" title="2">bitset&lt;lim&gt; b; <span class="co">// создать битсет размера lim (должно быть константой)</span></a>
-<a class="sourceLine" id="cb1-3" title="3">b.set();       <span class="co">// заполнить единицами</span></a>
-<a class="sourceLine" id="cb1-4" title="4">b.reset();     <span class="co">// заполнить нулями</span></a>
-<a class="sourceLine" id="cb1-5" title="5">b.flip();      <span class="co">// заменить единички на нули и наоборот</span></a>
-<a class="sourceLine" id="cb1-6" title="6">b.count();     <span class="co">// посчитать число единичек</span></a>
-<a class="sourceLine" id="cb1-7" title="7">cout &lt;&lt; b;     <span class="co">// вывести битовую строку</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> lim <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>bitset<span class="op">&lt;</span>lim<span class="op">&gt;</span> b<span class="op">;</span> <span class="co">// создать битсет размера lim (должно быть константой)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>b<span class="op">.</span>set<span class="op">();</span>       <span class="co">// заполнить единицами</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>b<span class="op">.</span>reset<span class="op">();</span>     <span class="co">// заполнить нулями</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>b<span class="op">.</span>flip<span class="op">();</span>      <span class="co">// заменить единички на нули и наоборот</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>b<span class="op">.</span>count<span class="op">();</span>     <span class="co">// посчитать число единичек</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>cout <span class="op">&lt;&lt;</span> b<span class="op">;</span>     <span class="co">// вывести битовую строку</span></span></code></pre></div>
 <p>Также для битсетов работает вся битовая арифметика: <code>&amp;, |, ^, ~, &lt;&lt;, &gt;&gt;</code> и их варианты с <code>[operator]=</code>.</p>
 <p><strong>Примечание.</strong> Часто «асимптотику» использующих <code>bitset</code> решений пишут как <span class="math inline">\(O(f / 64)\)</span>. Автору не нравится такая нотация, потому что численную константу формально можно сократить, и, вообще, на разных архитектурах будут разные константы. Вместо этого мы будем везде писать <span class="math inline">\(O(f / w)\)</span>, где <span class="math inline">\(w\)</span> означает размер машинного слова.</p>
 <h2 id="задача-о-рюкзаке">Задача о рюкзаке</h2>
@@ -138,41 +141,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Даны <span class="math inline">\(n\)</span> предметов с положительными целыми весами <span class="math inline">\(a_i\)</span> и рюкзак размера <span class="math inline">\(lim\)</span>. Требуется выбрать подмножество предметов с максимальной суммой, не превышающий размер рюкзака.</p>
 </blockquote>
 <p>Обычно его решают так:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">bool</span> dp[lim] = {}; <span class="co">// так можно его заполнить нулями</span></a>
-<a class="sourceLine" id="cb2-2" title="2">dp[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb2-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> x = lim - a[i]; x &gt;= <span class="dv">0</span>; x--)</a>
-<a class="sourceLine" id="cb2-5" title="5">        dp[x + a[i]] |= dp[x];</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> dp<span class="op">[</span>lim<span class="op">]</span> <span class="op">=</span> <span class="op">{};</span> <span class="co">// так можно его заполнить нулями</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dp<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> x <span class="op">=</span> lim <span class="op">-</span> a<span class="op">[</span>i<span class="op">];</span> x <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> x<span class="op">--)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        dp<span class="op">[</span>x <span class="op">+</span> a<span class="op">[</span>i<span class="op">]]</span> <span class="op">|=</span> dp<span class="op">[</span>x<span class="op">];</span></span></code></pre></div>
 <p>…а с битсетом оно разгоняется так:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1">bitset&lt;lim&gt; b;</a>
-<a class="sourceLine" id="cb3-2" title="2">b[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb3-4" title="4">    b |= b &lt;&lt; a[i];</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>bitset<span class="op">&lt;</span>lim<span class="op">&gt;</span> b<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    b <span class="op">|=</span> b <span class="op">&lt;&lt;</span> a<span class="op">[</span>i<span class="op">];</span></span></code></pre></div>
 <h2 id="цикл-длины-3">Цикл длины 3</h2>
 <p>Пусть нам нужно узнать, есть ли цикл длины 3 в ориентированном графе из <span class="math inline">\(n\)</span> вершин, заданном своей матрицей смежности. Обернем эту матрицу в битсет, и тогда задача решается за <span class="math inline">\(O(n^3 / w)\)</span> следующим образом:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1">bitset&lt;maxn&gt; g[maxn]; <span class="co">// матрица смежности</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="cf">for</span> (<span class="dt">int</span> a = <span class="dv">0</span>; a &lt; n; a++) {</a>
-<a class="sourceLine" id="cb4-3" title="3">    <span class="cf">for</span> (<span class="dt">int</span> b = <span class="dv">0</span>; b &lt; n; b++) {</a>
-<a class="sourceLine" id="cb4-4" title="4">        <span class="cf">if</span> (g[a][b] &amp;&amp; (~g[a] &amp; g[b]).any()) {</a>
-<a class="sourceLine" id="cb4-5" title="5">            <span class="co">// цикл найден</span></a>
-<a class="sourceLine" id="cb4-6" title="6">        }</a>
-<a class="sourceLine" id="cb4-7" title="7">    }</a>
-<a class="sourceLine" id="cb4-8" title="8">}</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>bitset<span class="op">&lt;</span>maxn<span class="op">&gt;</span> g<span class="op">[</span>maxn<span class="op">];</span> <span class="co">// матрица смежности</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> a <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> a <span class="op">&lt;</span> n<span class="op">;</span> a<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> b <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> b <span class="op">&lt;</span> n<span class="op">;</span> b<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>g<span class="op">[</span>a<span class="op">][</span>b<span class="op">]</span> <span class="op">&amp;&amp;</span> <span class="op">(~</span>g<span class="op">[</span>a<span class="op">]</span> <span class="op">&amp;</span> g<span class="op">[</span>b<span class="op">]).</span>any<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="co">// цикл найден</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Бенчмарк: на серверах CodeForces этот код при <span class="math inline">\(n = 5000\)</span> работает за 7 секунд.</p>
 <h2 id="перемножение-матриц">Перемножение матриц</h2>
 <p>Основное применение в олимпиадах: матрица смежности графа, возведенная в степень <span class="math inline">\(n\)</span>, имеет комбинаторный смысл — на пересечении <span class="math inline">\(a\)</span>-ой строки и <span class="math inline">\(b\)</span>-того столбца матрицы <span class="math inline">\(G^n\)</span> будет записано количество способов дойти из вершины <span class="math inline">\(a\)</span> в вершину <span class="math inline">\(b\)</span>, используя ровно <span class="math inline">\(n\)</span> переходов.</p>
 <p>В некоторых задачах нам не нужно знать именно число способов — нам хватит знания, можно ли вообще через <span class="math inline">\(n\)</span> ходов там оказаться. Тогда вместо числового умножения нам хватит битового умножения, то есть <code>&amp;</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">typedef</span> bitset&lt;maxn&gt; t;</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw">typedef</span> array&lt;t, maxn&gt; matrix;</a>
-<a class="sourceLine" id="cb5-3" title="3"></a>
-<a class="sourceLine" id="cb5-4" title="4">matrix matmul(matrix a, matrix b) {</a>
-<a class="sourceLine" id="cb5-5" title="5">    matrix c;</a>
-<a class="sourceLine" id="cb5-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb5-7" title="7">        <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; j++)</a>
-<a class="sourceLine" id="cb5-8" title="8">            <span class="cf">if</span> (a[i][j])</a>
-<a class="sourceLine" id="cb5-9" title="9">                c[i] |= b[j];</a>
-<a class="sourceLine" id="cb5-10" title="10">    <span class="cf">return</span> c;</a>
-<a class="sourceLine" id="cb5-11" title="11">}</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> bitset<span class="op">&lt;</span>maxn<span class="op">&gt;</span> t<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> array<span class="op">&lt;</span>t<span class="op">,</span> maxn<span class="op">&gt;</span> matrix<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>matrix matmul<span class="op">(</span>matrix a<span class="op">,</span> matrix b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    matrix c<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>a<span class="op">[</span>i<span class="op">][</span>j<span class="op">])</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                c<span class="op">[</span>i<span class="op">]</span> <span class="op">|=</span> b<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h2 id="метод-гаусса">Метод Гаусса</h2>
 <p>Иногда встречаются задачи, требующие решения системы линейных уравнений. Большую часть из них на самом деле можно решить над полем <span class="math inline">\(\mathbb{Z}_2\)</span> — то есть взять все числа по модулю 2.</p>
 <p>Пример: есть <span class="math inline">\(n\)</span> переключателей лампочек, каждый активированный переключатель меняет состояние (включает или выключает) какого-то подмножества из <span class="math inline">\(n\)</span> лампочек. Известно текущее состояние всех лампочек, нужно восстановить по нему состояние переключаетелей.</p>
@@ -187,22 +190,22 @@ a_{n1} x_1 + a_{n2} x_2 + \ldots + a_{nn} x_n \equiv b_n \pmod 2
 \]</span></p>
 <p>Здесь <span class="math inline">\(x\)</span> — состояния переключателей, <span class="math inline">\(b\)</span> — состояния лампочек, а матрица <span class="math inline">\(A\)</span> содержит информацию о том, влияет ли переключатель на лампочку.</p>
 <p>В таком случае можно значительно ускорить и упростить обычный метод Гаусса:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1">t gauss(matrix a) {</a>
-<a class="sourceLine" id="cb6-2" title="2">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb6-3" title="3">        <span class="dt">int</span> nonzero = i;</a>
-<a class="sourceLine" id="cb6-4" title="4">        <span class="cf">for</span> (<span class="dt">int</span> j = i+<span class="dv">1</span>; j &lt; n; j++)</a>
-<a class="sourceLine" id="cb6-5" title="5">            <span class="cf">if</span> (a[j][i])</a>
-<a class="sourceLine" id="cb6-6" title="6">                nonzero = j;</a>
-<a class="sourceLine" id="cb6-7" title="7">        swap(a[nonzero], a[i]);</a>
-<a class="sourceLine" id="cb6-8" title="8">        <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; j++)</a>
-<a class="sourceLine" id="cb6-9" title="9">            <span class="cf">if</span> (j != i &amp;&amp; a[j][i])</a>
-<a class="sourceLine" id="cb6-10" title="10">                a[j] ^= a[i];</a>
-<a class="sourceLine" id="cb6-11" title="11">    }</a>
-<a class="sourceLine" id="cb6-12" title="12">    t x;</a>
-<a class="sourceLine" id="cb6-13" title="13">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb6-14" title="14">        x[i] = a[i][n] ^ a[i][i];</a>
-<a class="sourceLine" id="cb6-15" title="15">    <span class="cf">return</span> x;</a>
-<a class="sourceLine" id="cb6-16" title="16">}</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>t gauss<span class="op">(</span>matrix a<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> nonzero <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> i<span class="op">+</span><span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>a<span class="op">[</span>j<span class="op">][</span>i<span class="op">])</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                nonzero <span class="op">=</span> j<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        swap<span class="op">(</span>a<span class="op">[</span>nonzero<span class="op">],</span> a<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>j <span class="op">!=</span> i <span class="op">&amp;&amp;</span> a<span class="op">[</span>j<span class="op">][</span>i<span class="op">])</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                a<span class="op">[</span>j<span class="op">]</span> <span class="op">^=</span> a<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    t x<span class="op">;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        x<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> a<span class="op">[</span>i<span class="op">][</span>n<span class="op">]</span> <span class="op">^</span> a<span class="op">[</span>i<span class="op">][</span>i<span class="op">];</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Код находит вектор <span class="math inline">\(x\)</span> из уравнения <span class="math inline">\(Ax = b\)</span> при условии, что решение существует и единственно. Для простоты кода предполагается, что вектор <span class="math inline">\(b\)</span> приписан справа к матрице <span class="math inline">\(A\)</span>.</p>
 <h2 id="самописный-bitset">Самописный bitset</h2>
 <p>На самом деле, реализация из STL очень медленная. Простой <code>for</code>, в котором and-ят <code>int</code>-ы, будет работать в несколько раз быстрее аналогичной операции битсета. Ускорение получается за счёт <a href="sse">векторизации</a> — компилятор перестраивает цикл, используя специальные инструкции, работающие с блоками по 128 / 256 бит, а не 64.</p>

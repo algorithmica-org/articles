@@ -12,26 +12,28 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +42,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -75,18 +77,18 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -96,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -113,6 +115,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href='https://github.com/algorithmica-org/tg/commits/master/bfs.md'>История</a>
     </div>
 </div>
+<div class="migration"><a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там.</div>
 <h1 id="кратчайшие-пути-в-графах.-bfs.-dijkstra.">Кратчайшие пути в графах. BFS. Dijkstra.</h1>
 <h2 id="задача">Задача</h2>
 <blockquote>
@@ -143,28 +146,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Оба алгоритма позволяют обойти граф целиком - посетить каждую вершину ровно один раз. Поэтому они оба подходят для таких задач как: * поиск компонент связности * проверка графа на двудольность * построение остова</p>
 <h2 id="реализация-на-c">Реализация на C++</h2>
 <p><code>n</code> — количество вершин в графе; <code>adj</code> — список смежности</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1">vector&lt;<span class="dt">int</span>&gt; bfs(<span class="dt">int</span> s) {</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="co">// длина любого кратчайшего пути не превосходит n - 1,</span></a>
-<a class="sourceLine" id="cb1-3" title="3">    <span class="co">// поэтому n - достаточное значение для &quot;бесконечности&quot;;</span></a>
-<a class="sourceLine" id="cb1-4" title="4">    <span class="co">// после работы алгоритма dist[v] = n, если v недостижима из s</span></a>
-<a class="sourceLine" id="cb1-5" title="5">    vector&lt;<span class="dt">int</span>&gt; dist(n, n);</a>
-<a class="sourceLine" id="cb1-6" title="6">    dist[s] = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb1-7" title="7">    queue&lt;<span class="dt">int</span>&gt; q;</a>
-<a class="sourceLine" id="cb1-8" title="8">    q.push(s);</a>
-<a class="sourceLine" id="cb1-9" title="9"></a>
-<a class="sourceLine" id="cb1-10" title="10">    <span class="cf">while</span> (!q.empty()) {</a>
-<a class="sourceLine" id="cb1-11" title="11">        <span class="dt">int</span> v = q.front();</a>
-<a class="sourceLine" id="cb1-12" title="12">        q.pop();</a>
-<a class="sourceLine" id="cb1-13" title="13">        <span class="cf">for</span> (<span class="dt">int</span> u : adj[v]) {</a>
-<a class="sourceLine" id="cb1-14" title="14">            <span class="cf">if</span> (dist[u] &gt; dist[v] + <span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb1-15" title="15">                dist[u] = dist[v] + <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb1-16" title="16">                q.push(u);</a>
-<a class="sourceLine" id="cb1-17" title="17">            }</a>
-<a class="sourceLine" id="cb1-18" title="18">        }</a>
-<a class="sourceLine" id="cb1-19" title="19">    }</a>
-<a class="sourceLine" id="cb1-20" title="20"></a>
-<a class="sourceLine" id="cb1-21" title="21">    <span class="cf">return</span> dist;</a>
-<a class="sourceLine" id="cb1-22" title="22">}</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> bfs<span class="op">(</span><span class="dt">int</span> s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// длина любого кратчайшего пути не превосходит n - 1,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// поэтому n - достаточное значение для &quot;бесконечности&quot;;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// после работы алгоритма dist[v] = n, если v недостижима из s</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> dist<span class="op">(</span>n<span class="op">,</span> n<span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    dist<span class="op">[</span>s<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    queue<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> q<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    q<span class="op">.</span>push<span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!</span>q<span class="op">.</span>empty<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> v <span class="op">=</span> q<span class="op">.</span>front<span class="op">();</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        q<span class="op">.</span>pop<span class="op">();</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> u <span class="op">:</span> adj<span class="op">[</span>v<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>dist<span class="op">[</span>u<span class="op">]</span> <span class="op">&gt;</span> dist<span class="op">[</span>v<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                dist<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> dist<span class="op">[</span>v<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                q<span class="op">.</span>push<span class="op">(</span>u<span class="op">);</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dist<span class="op">;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h2 id="свойства-кратчайших-путей">Свойства кратчайших путей</h2>
 <p><strong>Обозначение</strong>: <span class="math inline">\(d(v)\)</span> — длина кратчайшего пути от <span class="math inline">\(s\)</span> до <span class="math inline">\(v\)</span>.</p>
 <p><strong>Лемма 1</strong>. &gt; Пусть <span class="math inline">\((u, v) \in E\)</span>, тогда <span class="math inline">\(d(v) \leq d(u) + 1\)</span>.</p>
@@ -187,42 +190,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Поддерживать этот массив просто: при релаксации нужно просто запоминать, из какой вершины мы прорелаксировали в данную. Также будем считать, что <span class="math inline">\(p[s] = -1\)</span>: у стартовой вершины предок — некоторая несуществующая вершина.</p>
 <p>Восстановление пути делается с конца. Мы знаем последнюю вершину пути — это <span class="math inline">\(t\)</span>. Далее, мы сводим задачу к меньшей, переходя к нахождению пути из <span class="math inline">\(s\)</span> в <span class="math inline">\(p[t]\)</span>.</p>
 <h2 id="реализация-bfs-с-восстановлением-пути">Реализация BFS с восстановлением пути</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="co">// теперь bfs принимает 2 вершины, между которыми ищется пути</span></a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="co">// bfs возвращает кратчайший путь из s в t, или же пустой vector, если пути нет</span></a>
-<a class="sourceLine" id="cb2-3" title="3">vector&lt;<span class="dt">int</span>&gt; bfs(<span class="dt">int</span> s, <span class="dt">int</span> t) {</a>
-<a class="sourceLine" id="cb2-4" title="4">    vector&lt;<span class="dt">int</span>&gt; dist(n, n);</a>
-<a class="sourceLine" id="cb2-5" title="5">    vector&lt;<span class="dt">int</span>&gt; p(n, -<span class="dv">1</span>);</a>
-<a class="sourceLine" id="cb2-6" title="6">    dist[s] = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb2-7" title="7">    queue&lt;<span class="dt">int</span>&gt; q;</a>
-<a class="sourceLine" id="cb2-8" title="8">    q.push(s);</a>
-<a class="sourceLine" id="cb2-9" title="9"></a>
-<a class="sourceLine" id="cb2-10" title="10">    <span class="cf">while</span> (!q.empty()) {</a>
-<a class="sourceLine" id="cb2-11" title="11">        <span class="dt">int</span> v = q.front();</a>
-<a class="sourceLine" id="cb2-12" title="12">        q.pop();</a>
-<a class="sourceLine" id="cb2-13" title="13">        <span class="cf">for</span> (<span class="dt">int</span> u : adj[v]) {</a>
-<a class="sourceLine" id="cb2-14" title="14">            <span class="cf">if</span> (dist[u] &gt; dist[v] + <span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb2-15" title="15">                p[u] = v;</a>
-<a class="sourceLine" id="cb2-16" title="16">                dist[u] = dist[v] + <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb2-17" title="17">                q.push(u);</a>
-<a class="sourceLine" id="cb2-18" title="18">            }</a>
-<a class="sourceLine" id="cb2-19" title="19">        }</a>
-<a class="sourceLine" id="cb2-20" title="20">    }</a>
-<a class="sourceLine" id="cb2-21" title="21">    </a>
-<a class="sourceLine" id="cb2-22" title="22">    <span class="co">// если пути не существует, возвращаем пустой vector</span></a>
-<a class="sourceLine" id="cb2-23" title="23">    <span class="cf">if</span> (dist[t] == n) {</a>
-<a class="sourceLine" id="cb2-24" title="24">        <span class="cf">return</span> {};</a>
-<a class="sourceLine" id="cb2-25" title="25">    }</a>
-<a class="sourceLine" id="cb2-26" title="26"></a>
-<a class="sourceLine" id="cb2-27" title="27">    vector&lt;<span class="dt">int</span>&gt; path;</a>
-<a class="sourceLine" id="cb2-28" title="28">    <span class="cf">while</span> (t != -<span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb2-29" title="29">        path.push_back(t);</a>
-<a class="sourceLine" id="cb2-30" title="30">        t = p[t];</a>
-<a class="sourceLine" id="cb2-31" title="31">    }</a>
-<a class="sourceLine" id="cb2-32" title="32">    </a>
-<a class="sourceLine" id="cb2-33" title="33">    <span class="co">// путь был рассмотрен в обратном порядке, поэтому его нужно перевернуть</span></a>
-<a class="sourceLine" id="cb2-34" title="34">    reverse(path.begin(), path.end());</a>
-<a class="sourceLine" id="cb2-35" title="35">    <span class="cf">return</span> path;</a>
-<a class="sourceLine" id="cb2-36" title="36">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// теперь bfs принимает 2 вершины, между которыми ищется пути</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">// bfs возвращает кратчайший путь из s в t, или же пустой vector, если пути нет</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> bfs<span class="op">(</span><span class="dt">int</span> s<span class="op">,</span> <span class="dt">int</span> t<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> dist<span class="op">(</span>n<span class="op">,</span> n<span class="op">);</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> p<span class="op">(</span>n<span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    dist<span class="op">[</span>s<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    queue<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> q<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    q<span class="op">.</span>push<span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!</span>q<span class="op">.</span>empty<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> v <span class="op">=</span> q<span class="op">.</span>front<span class="op">();</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        q<span class="op">.</span>pop<span class="op">();</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> u <span class="op">:</span> adj<span class="op">[</span>v<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>dist<span class="op">[</span>u<span class="op">]</span> <span class="op">&gt;</span> dist<span class="op">[</span>v<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                p<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> v<span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                dist<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> dist<span class="op">[</span>v<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                q<span class="op">.</span>push<span class="op">(</span>u<span class="op">);</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">// если пути не существует, возвращаем пустой vector</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>dist<span class="op">[</span>t<span class="op">]</span> <span class="op">==</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">{};</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> path<span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>t <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        path<span class="op">.</span>push_back<span class="op">(</span>t<span class="op">);</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        t <span class="op">=</span> p<span class="op">[</span>t<span class="op">];</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">// путь был рассмотрен в обратном порядке, поэтому его нужно перевернуть</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    reverse<span class="op">(</span>path<span class="op">.</span>begin<span class="op">(),</span> path<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> path<span class="op">;</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h2 id="проверка-принадлежности-вершины-кратчайшему-пути">Проверка принадлежности вершины кратчайшему пути</h2>
 <blockquote>
 <p>Дан ориентированный граф <span class="math inline">\(G\)</span>, найти все вершины, которые принадлежат хотя бы одному кратчайшему пути из <span class="math inline">\(s\)</span> в <span class="math inline">\(t\)</span>.</p>
@@ -256,39 +259,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code></code></pre>
 <h2 id="реализация-на-c-1">Реализация на C++</h2>
 <p>Рёбра будем хранить как <code>pair&lt;int, int&gt;</code>, где первое число пары — куда оно ведёт; а второе — длина ребра.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="co">// INF - infinity - бесконечность</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="at">const</span> <span class="dt">long</span> <span class="dt">long</span> INF = (<span class="dt">long</span> <span class="dt">long</span>) <span class="fl">1e18</span> + <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb4-3" title="3"></a>
-<a class="sourceLine" id="cb4-4" title="4">vector&lt;<span class="dt">long</span> <span class="dt">long</span>&gt; dijkstra(<span class="dt">int</span> s) {</a>
-<a class="sourceLine" id="cb4-5" title="5">    vector&lt;<span class="dt">long</span> <span class="dt">long</span>&gt; dist(n, INF);</a>
-<a class="sourceLine" id="cb4-6" title="6">    dist[s] = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb4-7" title="7">    vector&lt;<span class="dt">bool</span>&gt; used(n);</a>
-<a class="sourceLine" id="cb4-8" title="8">    </a>
-<a class="sourceLine" id="cb4-9" title="9">    <span class="cf">while</span> (<span class="kw">true</span>) {</a>
-<a class="sourceLine" id="cb4-10" title="10">        <span class="co">// находим вершину, из которой будем релаксировать</span></a>
-<a class="sourceLine" id="cb4-11" title="11">        <span class="dt">int</span> v = -<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb4-12" title="12">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb4-13" title="13">            <span class="cf">if</span> (!used[i] &amp;&amp; (v == -<span class="dv">1</span> || dist[i] &lt; dist[v])) {</a>
-<a class="sourceLine" id="cb4-14" title="14">                v = i;</a>
-<a class="sourceLine" id="cb4-15" title="15">            }</a>
-<a class="sourceLine" id="cb4-16" title="16">        }</a>
-<a class="sourceLine" id="cb4-17" title="17">        </a>
-<a class="sourceLine" id="cb4-18" title="18">        <span class="co">// если не нашли подходящую вершину, прекращаем работу алгоритма</span></a>
-<a class="sourceLine" id="cb4-19" title="19">        <span class="cf">if</span> (v == -<span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb4-20" title="20">            <span class="cf">break</span>;</a>
-<a class="sourceLine" id="cb4-21" title="21">        }</a>
-<a class="sourceLine" id="cb4-22" title="22">        </a>
-<a class="sourceLine" id="cb4-23" title="23">        <span class="cf">for</span> (<span class="kw">auto</span> &amp;e : adj[v]) {</a>
-<a class="sourceLine" id="cb4-24" title="24">            <span class="dt">int</span> u = e.first;</a>
-<a class="sourceLine" id="cb4-25" title="25">            <span class="dt">int</span> len = e.second;</a>
-<a class="sourceLine" id="cb4-26" title="26">            <span class="cf">if</span> (dist[u] &gt; dist[v] + len) {</a>
-<a class="sourceLine" id="cb4-27" title="27">                dist[u] = dist[v] + len;</a>
-<a class="sourceLine" id="cb4-28" title="28">            }</a>
-<a class="sourceLine" id="cb4-29" title="29">        }</a>
-<a class="sourceLine" id="cb4-30" title="30">    }</a>
-<a class="sourceLine" id="cb4-31" title="31">    </a>
-<a class="sourceLine" id="cb4-32" title="32">    <span class="cf">return</span> dist;</a>
-<a class="sourceLine" id="cb4-33" title="33">}</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// INF - infinity - бесконечность</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">long</span> <span class="dt">long</span> INF <span class="op">=</span> <span class="op">(</span><span class="dt">long</span> <span class="dt">long</span><span class="op">)</span> <span class="fl">1e18</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">long</span> <span class="dt">long</span><span class="op">&gt;</span> dijkstra<span class="op">(</span><span class="dt">int</span> s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">long</span> <span class="dt">long</span><span class="op">&gt;</span> dist<span class="op">(</span>n<span class="op">,</span> INF<span class="op">);</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    dist<span class="op">[</span>s<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">bool</span><span class="op">&gt;</span> used<span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// находим вершину, из которой будем релаксировать</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> v <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(!</span>used<span class="op">[</span>i<span class="op">]</span> <span class="op">&amp;&amp;</span> <span class="op">(</span>v <span class="op">==</span> <span class="op">-</span><span class="dv">1</span> <span class="op">||</span> dist<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> dist<span class="op">[</span>v<span class="op">]))</span> <span class="op">{</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                v <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="co">// если не нашли подходящую вершину, прекращаем работу алгоритма</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>v <span class="op">==</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> <span class="op">&amp;</span>e <span class="op">:</span> adj<span class="op">[</span>v<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> u <span class="op">=</span> e<span class="op">.</span>first<span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> len <span class="op">=</span> e<span class="op">.</span>second<span class="op">;</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>dist<span class="op">[</span>u<span class="op">]</span> <span class="op">&gt;</span> dist<span class="op">[</span>v<span class="op">]</span> <span class="op">+</span> len<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                dist<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> dist<span class="op">[</span>v<span class="op">]</span> <span class="op">+</span> len<span class="op">;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dist<span class="op">;</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h2 id="восстановление-пути-1">Восстановление пути</h2>
 <p>Восстановление пути в алгоритме Дейкстры делается аналогично восстановлению пути в BFS (и любой динамике).</p>
 <h2 id="дейкстра-на-сете">Дейкстра на сете</h2>

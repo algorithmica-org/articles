@@ -12,26 +12,28 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +42,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -75,18 +77,18 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -96,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -113,6 +115,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href='https://github.com/algorithmica-org/en/commits/master/eytzinger.md'>View history</a>
     </div>
 </div>
+<div class="migration"><a href='https://en.algorithmica.org/hpc/'>I'm writing a book.</a> It's free and available online. You can find an updated version of this and many more of my old articles there.<br>— Sergey Slotin</div>
 <h1 id="eytzinger-binary-search">Eytzinger Binary Search</h1>
 <p>This tutorial is loosely based on a <a href="https://arxiv.org/pdf/1509.05053.pdf">46-page paper</a> by Paul-Virak Khuong and Pat Morin “Array layouts for comparison-based searching” and describes one particular way of performing efficient binary search by rearranging elements of a sorted array in a cache-friendly way.</p>
 <p>We briefly review relevant concepts in processor architecture; if you want to get deeper, we recommend reading the original 2015 paper, as well as these articles:</p>
@@ -125,34 +128,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>If you are writing a contest right now</strong>, stuck on a problem where binary search is a bottleneck, and suddenly remembered about this article, <strong>jump straight to “complete implementation”</strong>, it’s compilable and copy-pastable.</p>
 <h2 id="why-is-binary-search-slow">Why is binary search slow?</h2>
 <p>Here is a standard way of searching for the first element not less than <span class="math inline">\(x\)</span> in a sorted array:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> lower_bound(<span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> l = <span class="dv">0</span>, r = n - <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb1-3" title="3">    <span class="cf">while</span> (l &lt; r) {</a>
-<a class="sourceLine" id="cb1-4" title="4">        <span class="dt">int</span> t = (l + r) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb1-5" title="5">        <span class="cf">if</span> (a[t] &gt;= x)</a>
-<a class="sourceLine" id="cb1-6" title="6">            r = t;</a>
-<a class="sourceLine" id="cb1-7" title="7">        <span class="cf">else</span></a>
-<a class="sourceLine" id="cb1-8" title="8">            l = t + <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb1-9" title="9">    }</a>
-<a class="sourceLine" id="cb1-10" title="10">    <span class="cf">return</span> a[l];</a>
-<a class="sourceLine" id="cb1-11" title="11">}</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> lower_bound<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> l <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> r <span class="op">=</span> n <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>l <span class="op">&lt;</span> r<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> t <span class="op">=</span> <span class="op">(</span>l <span class="op">+</span> r<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>a<span class="op">[</span>t<span class="op">]</span> <span class="op">&gt;=</span> x<span class="op">)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>            r <span class="op">=</span> t<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>            l <span class="op">=</span> t <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">[</span>l<span class="op">];</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>The running time of this (or any) algorithm is not just the “cost” of all its arithmetic operations, but rather this cost <em>plus</em> the time spent waiting for data to be fetched from memory. Thus, depending on the algorithm and problem limitations, it can be CPU-bound or memory-bound, meaning that the running time is dominated by one of its components.</p>
 <p>If array is large enough—usually around the point where it stops fitting in cache and fetches become significantly slower—the running time of binary search becomes dominated by memory fetches.</p>
 <p>To give an idea, the following code is only ~5% slower for <span class="math inline">\(n \approx 10^6\)</span>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> slightly_slower_lower_bound(<span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb2-2" title="2">    <span class="dt">int</span> l = <span class="dv">0</span>, r = n - <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb2-3" title="3">    <span class="cf">while</span> (l &lt; r) {</a>
-<a class="sourceLine" id="cb2-4" title="4">        volatile <span class="dt">int</span> s = <span class="dv">0</span>; <span class="co">// volatile to prevent compiler from cutting this code out</span></a>
-<a class="sourceLine" id="cb2-5" title="5">        <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">10</span>; i++)</a>
-<a class="sourceLine" id="cb2-6" title="6">            s += i;</a>
-<a class="sourceLine" id="cb2-7" title="7">        <span class="dt">int</span> t = (l + r) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb2-8" title="8">        <span class="cf">if</span> (a[t] &gt;= x)</a>
-<a class="sourceLine" id="cb2-9" title="9">            r = t;</a>
-<a class="sourceLine" id="cb2-10" title="10">        <span class="cf">else</span></a>
-<a class="sourceLine" id="cb2-11" title="11">            l = t + <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb2-12" title="12">    }</a>
-<a class="sourceLine" id="cb2-13" title="13">    <span class="cf">return</span> a[l];</a>
-<a class="sourceLine" id="cb2-14" title="14">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> slightly_slower_lower_bound<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> l <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> r <span class="op">=</span> n <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>l <span class="op">&lt;</span> r<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        volatile <span class="dt">int</span> s <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> <span class="co">// volatile to prevent compiler from cutting this code out</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            s <span class="op">+=</span> i<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> t <span class="op">=</span> <span class="op">(</span>l <span class="op">+</span> r<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>a<span class="op">[</span>t<span class="op">]</span> <span class="op">&gt;=</span> x<span class="op">)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            r <span class="op">=</span> t<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            l <span class="op">=</span> t <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">[</span>l<span class="op">];</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>To be more precise about it, we briefly explain how memory fetching works.</p>
 <h2 id="how-caching-works">How caching works</h2>
 <p>Here is a famous quote about caching:</p>
@@ -191,43 +194,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 id="construction">Construction</h3>
 <p>Here is a function that constructs Eytzinger array by traversing the original search tree.</p>
 <p>It takes two indexes <span class="math inline">\(i\)</span> and <span class="math inline">\(k\)</span>—one in the original array and one in constructed—and recursively goes to two branches until a leaf node is reached, which could simply be checked by asserting <span class="math inline">\(k \leq n\)</span> as Eytzinger array should have same number of items.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="at">const</span> <span class="dt">int</span> n = <span class="fl">1e5</span>;</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="dt">int</span> a[n], b[n+<span class="dv">1</span>];</a>
-<a class="sourceLine" id="cb3-3" title="3"></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="dt">int</span> eytzinger(<span class="dt">int</span> i = <span class="dv">0</span>, <span class="dt">int</span> k = <span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb3-5" title="5">    <span class="cf">if</span> (k &lt;= n) {</a>
-<a class="sourceLine" id="cb3-6" title="6">        i = eytzinger(i, <span class="dv">2</span> * k);</a>
-<a class="sourceLine" id="cb3-7" title="7">        b[k] = a[i++];</a>
-<a class="sourceLine" id="cb3-8" title="8">        i = eytzinger(i, <span class="dv">2</span> * k + <span class="dv">1</span>);</a>
-<a class="sourceLine" id="cb3-9" title="9">    }</a>
-<a class="sourceLine" id="cb3-10" title="10">    <span class="cf">return</span> i;</a>
-<a class="sourceLine" id="cb3-11" title="11">}</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> n <span class="op">=</span> <span class="fl">1e5</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a<span class="op">[</span>n<span class="op">],</span> b<span class="op">[</span>n<span class="op">+</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> eytzinger<span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">int</span> k <span class="op">=</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>k <span class="op">&lt;=</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> eytzinger<span class="op">(</span>i<span class="op">,</span> <span class="dv">2</span> <span class="op">*</span> k<span class="op">);</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        b<span class="op">[</span>k<span class="op">]</span> <span class="op">=</span> a<span class="op">[</span>i<span class="op">++];</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> eytzinger<span class="op">(</span>i<span class="op">,</span> <span class="dv">2</span> <span class="op">*</span> k <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> i<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Despite being recursive, this is actually a really fast implementation as all memory reads are sequential.</p>
 <p>Note that the first element is left unfilled and the whole array is essencially 1-shifted. This will actually turn out to be a huge performance booster.</p>
 <h2 id="binary-search-implementation">Binary search implementation</h2>
 <p>We can now descend this array using only indices: we just start with <span class="math inline">\(k=1\)</span> and execute <span class="math inline">\(k := 2k\)</span> if we need to go left and <span class="math inline">\(k := 2k + 1\)</span> if we need to go right. We don’t even need to store and recalculate binary search boundaries anymore.</p>
 <p>The only problem arises when we need to restore the index of the resulting element, as <span class="math inline">\(k\)</span> may end up not pointing to a leaf node. Here is an example of how that can happen:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1">    array:  <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span> <span class="dv">6</span> <span class="dv">7</span> <span class="dv">8</span></a>
-<a class="sourceLine" id="cb4-2" title="2">eytzinger:  <span class="dv">4</span> <span class="dv">2</span> <span class="dv">5</span> <span class="dv">1</span> <span class="dv">6</span> <span class="dv">3</span> <span class="dv">7</span> <span class="dv">8</span></a>
-<a class="sourceLine" id="cb4-3" title="3">1st <span class="bu">range</span>:  <span class="op">---------------</span>  k :<span class="op">=</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb4-4" title="4">2nd <span class="bu">range</span>:  <span class="op">-------</span>          k :<span class="op">=</span> <span class="dv">2</span><span class="op">*</span>k      (<span class="op">=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb4-5" title="5">3rd <span class="bu">range</span>:      <span class="op">---</span>          k :<span class="op">=</span> <span class="dv">2</span><span class="op">*</span>k <span class="op">+</span> <span class="dv">1</span>  (<span class="op">=</span><span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb4-6" title="6">4th <span class="bu">range</span>:        <span class="op">-</span>          k :<span class="op">=</span> <span class="dv">2</span><span class="op">*</span>k <span class="op">+</span> <span class="dv">1</span>  (<span class="op">=</span><span class="dv">11</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    array:  <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span> <span class="dv">6</span> <span class="dv">7</span> <span class="dv">8</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>eytzinger:  <span class="dv">4</span> <span class="dv">2</span> <span class="dv">5</span> <span class="dv">1</span> <span class="dv">6</span> <span class="dv">3</span> <span class="dv">7</span> <span class="dv">8</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>st <span class="bu">range</span>:  <span class="op">---------------</span>  k :<span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>nd <span class="bu">range</span>:  <span class="op">-------</span>          k :<span class="op">=</span> <span class="dv">2</span><span class="op">*</span>k      (<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>rd <span class="bu">range</span>:      <span class="op">---</span>          k :<span class="op">=</span> <span class="dv">2</span><span class="op">*</span>k <span class="op">+</span> <span class="dv">1</span>  (<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>th <span class="bu">range</span>:        <span class="op">-</span>          k :<span class="op">=</span> <span class="dv">2</span><span class="op">*</span>k <span class="op">+</span> <span class="dv">1</span>  (<span class="op">=</span><span class="dv">11</span>)</span></code></pre></div>
 <p>Here we query array of <span class="math inline">\([1, …, 8]\)</span> for the lower bound of <span class="math inline">\(x=4\)</span>. We compare it against <span class="math inline">\(4\)</span>, <span class="math inline">\(2\)</span> and <span class="math inline">\(5\)</span>, and go left-right-right and end up with <span class="math inline">\(k = 11\)</span>, which isn’t even a valid array index.</p>
 <p>Note that, unless the answer is the last element of the array, we compare <span class="math inline">\(x\)</span> against it at some point, and after we learn that it is not less than <span class="math inline">\(x\)</span>, we start comparing <span class="math inline">\(x\)</span> against elements to the left, and all these comparisons will evaluate true (i. e. leading to the right). Hence, the solution to restoring the resulting element is to cancel some number of right turns.</p>
 <p>This can be done in an elegant way by observing that the right turns are recorded in the binary notation of <span class="math inline">\(k\)</span> as 1-bits, and so we just need to find the number of trailing ones in the binary notation and right-shift <span class="math inline">\(k\)</span> by exactly that amount.</p>
 <p>To do this we can invert the number (<code>~x</code>) and call “find first set” instruction available on most systems. In GCC, the corresponding builtin is <code>__builtin_ffs</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">int</span> search(<span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb5-2" title="2">    int k = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb5-3" title="3">    while (k &lt;= n) {</a>
-<a class="sourceLine" id="cb5-4" title="4">        if (b[k] &gt;= x)</a>
-<a class="sourceLine" id="cb5-5" title="5">            k = <span class="dv">2</span> * k;</a>
-<a class="sourceLine" id="cb5-6" title="6">        <span class="cf">else</span></a>
-<a class="sourceLine" id="cb5-7" title="7">            k = <span class="dv">2</span> * k + <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb5-8" title="8">    }</a>
-<a class="sourceLine" id="cb5-9" title="9">    k &gt;&gt;= <span class="fu">__builtin_ffs</span>(~k);</a>
-<a class="sourceLine" id="cb5-10" title="10">    return b[k];</a>
-<a class="sourceLine" id="cb5-11" title="11">}</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> search<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    int k <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    while <span class="op">(</span>k <span class="op">&lt;=</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        if <span class="op">(</span>b<span class="op">[</span>k<span class="op">]</span> <span class="op">&gt;=</span> x<span class="op">)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>            k <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> k<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            k <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> k <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    k <span class="op">&gt;&gt;=</span> <span class="fu">__builtin_ffs</span><span class="op">(~</span>k<span class="op">);</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    return b<span class="op">[</span>k<span class="op">];</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Note that <span class="math inline">\(k\)</span> will be zero if binary search returned no result (i. e. all elements are less than <span class="math inline">\(x\)</span> and all turns were right-turns that got canceled). In that case, you can put a special flag in the first element of <code>b</code>.</p>
 <p>This is already 2-3 times faster than <code>std::lower_bound</code>, but we are not going to stop there and apply a series of small incremental improvements.</p>
 <h3 id="branch-free">Branch-free</h3>
@@ -235,53 +238,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To avoid performance hits caused by memory latency here, CPU loads 20-ish instructions ahead of time, but to do this it needs to know ahead of time which instructions to fetch. If a program has conditional execution (if-s, while-s, for-s) there is no option other than to take a guess.</p>
 <p>Branch misprediction (guessing “wrong” branch of “if”) costs around 10-20 cycles. To partially negate this penalty, hardware <a href="https://en.wikipedia.org/wiki/Branch_predictor">branch predictors</a> were developed. These are complex ad-hoc systems that use statistical methods—some even use simple <a href="https://en.wikipedia.org/wiki/Branch_predictor#Neural_branch_prediction">neural networks</a>—to make a more accurate guess.</p>
 <p>In case of binary search, if all of our data is random, branch prediction doesn’t help at all, just because it can’t: all comparisons are 50-50. This is why we need to get rid of if-s and rewrite our main loop the following way:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="cf">while</span> (k &lt;= n)</a>
-<a class="sourceLine" id="cb6-2" title="2">    k = <span class="dv">2</span> * k + (b[k] &lt; x);</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>k <span class="op">&lt;=</span> n<span class="op">)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> k <span class="op">+</span> <span class="op">(</span>b<span class="op">[</span>k<span class="op">]</span> <span class="op">&lt;</span> x<span class="op">);</span></span></code></pre></div>
 <p>It also directly saves us from executing a few unnecessary arithmetic instructions.</p>
 <h3 id="prefetching">Prefetching</h3>
 <p>Compiler doesn’t like when CPU is sitting idle while waiting for memory fetches. Sometimes it can take a guess about which cache line is going to be needed soon and fetch it ahead of time (recall that bandwidth-latency product is usually much larger than 1).</p>
 <p>This works well for simple access patterns, like iterating over array in increasing or decreasing order, but for something complex like what we have here it’s not going to perform well.</p>
 <p>As we know a bit more about our problem than the compiler does, we can explicitly tell it to prefetch a cache line we need. This is done by <code>__builtin_prefetch</code> in GCC:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" title="1"><span class="cf">while</span> (k &lt;= n) {</a>
-<a class="sourceLine" id="cb7-2" title="2">    <span class="fu">__builtin_prefetch</span>(b + k * block_size);</a>
-<a class="sourceLine" id="cb7-3" title="3">    k = <span class="dv">2</span> * k + (b[k] &lt; x);</a>
-<a class="sourceLine" id="cb7-4" title="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>k <span class="op">&lt;=</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__builtin_prefetch</span><span class="op">(</span>b <span class="op">+</span> k <span class="op">*</span> block_size<span class="op">);</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> k <span class="op">+</span> <span class="op">(</span>b<span class="op">[</span>k<span class="op">]</span> <span class="op">&lt;</span> x<span class="op">);</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Here, <code>block_size</code> equals 16, which is precisely how many ints are needed to cover a cache line. When we reference cache line at <code>b + k * block_size</code>, we are referencing <span class="math inline">\(k\)</span>’s grand-grandson (<code>block_size</code> = <span class="math inline">\(2 \times 2 \times 2 \times 2\)</span>, or 4 left turns) and possibly some of his neighbours in his layer (recall that indexes at the same level are just consecutive numbers).</p>
 <p>The whole point of doing this is that there is a good chance that we will prefetch an element that we will use later on <span class="math inline">\((i+4)\)</span>-th iteration. What chance, exactly? Well, it turns out that it is constant for each iteration.</p>
 <h3 id="memory-allignment">Memory allignment</h3>
 <p>Note that for each layer in the tree, except for the first 4 and possibly the last one, the number of nodes in that layer is divisible by 16, the block size. This means that the fraction of covered nodes on <em>each</em> iteration depends only on the position of the first offset of the array in respect to its cache line. But what is more important is that it can be made that all of <span class="math inline">\(k\)</span>’s grand-grandchildren are covered by the same cache line.</p>
 <p>The way to achieve this is to place the first element of the array to the 1st position (0-indexed) of a cache line, or placing the array itself on the beginning of a cache line, since its first (i. e. <code>b[0]</code>) element is blank by design. This way the next <span class="math inline">\(1 + 2 + 4 + 8 = 15\)</span> elements of first 4 layers will occupy the rest of the cache line, and the rest of the array is alligned in nice 16-element blocks of nodes that share a grandpa.</p>
 <p>We just need to ask memory manager to allocate our array on the beginning of a cache line (by default it allocates your arrays wherever it wants), and that’s it. To do this, we can use <code>alignas</code> specifier:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">alignas</span>(<span class="dv">64</span>) <span class="dt">int</span> b[n+<span class="dv">1</span>];</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">alignas</span><span class="op">(</span><span class="dv">64</span><span class="op">)</span> <span class="dt">int</span> b<span class="op">[</span>n<span class="op">+</span><span class="dv">1</span><span class="op">];</span></span></code></pre></div>
 <p>This is it. Now our algorithm is constantly prefetching 4 layers / cache lines ahead of time, which is covered by the bandwidth of our RAM. This way the effective latency is reduced by a factor of 4, and we’re basically trading off bandwidth for latency.</p>
 <h3 id="complete-implementation">Complete implementation</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" title="1"><span class="pp">#pragma GCC optimize(&quot;O3&quot;)</span></a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></a>
-<a class="sourceLine" id="cb9-3" title="3"></a>
-<a class="sourceLine" id="cb9-4" title="4"><span class="kw">using</span> <span class="kw">namespace</span> std;</a>
-<a class="sourceLine" id="cb9-5" title="5"></a>
-<a class="sourceLine" id="cb9-6" title="6"><span class="at">const</span> <span class="dt">int</span> n = (<span class="dv">1</span>&lt;&lt;<span class="dv">20</span>);</a>
-<a class="sourceLine" id="cb9-7" title="7"><span class="at">const</span> <span class="dt">int</span> block_size = <span class="dv">16</span>; <span class="co">// = 64 / 4 = cache_line_size / sizeof(int)</span></a>
-<a class="sourceLine" id="cb9-8" title="8"><span class="kw">alignas</span>(<span class="dv">64</span>) <span class="dt">int</span> a[n], b[n+<span class="dv">1</span>];</a>
-<a class="sourceLine" id="cb9-9" title="9"></a>
-<a class="sourceLine" id="cb9-10" title="10"><span class="dt">int</span> eytzinger(<span class="dt">int</span> i = <span class="dv">0</span>, <span class="dt">int</span> k = <span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb9-11" title="11">    <span class="cf">if</span> (k &lt;= n) {</a>
-<a class="sourceLine" id="cb9-12" title="12">        i = eytzinger(i, <span class="dv">2</span> * k);</a>
-<a class="sourceLine" id="cb9-13" title="13">        b[k] = a[i++];</a>
-<a class="sourceLine" id="cb9-14" title="14">        i = eytzinger(i, <span class="dv">2</span> * k + <span class="dv">1</span>);</a>
-<a class="sourceLine" id="cb9-15" title="15">    }</a>
-<a class="sourceLine" id="cb9-16" title="16">    <span class="cf">return</span> i;</a>
-<a class="sourceLine" id="cb9-17" title="17">}</a>
-<a class="sourceLine" id="cb9-18" title="18"></a>
-<a class="sourceLine" id="cb9-19" title="19"><span class="dt">int</span> search(<span class="dt">int</span> x) {</a>
-<a class="sourceLine" id="cb9-20" title="20">    <span class="dt">int</span> k = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb9-21" title="21">    <span class="cf">while</span> (k &lt;= n) {</a>
-<a class="sourceLine" id="cb9-22" title="22">        <span class="fu">__builtin_prefetch</span>(b + k * block_size);</a>
-<a class="sourceLine" id="cb9-23" title="23">        k = <span class="dv">2</span> * k + (b[k] &lt; x);</a>
-<a class="sourceLine" id="cb9-24" title="24">    }</a>
-<a class="sourceLine" id="cb9-25" title="25">    k &gt;&gt;= <span class="fu">__builtin_ffs</span>(~k);</a>
-<a class="sourceLine" id="cb9-26" title="26">    <span class="cf">return</span> k;</a>
-<a class="sourceLine" id="cb9-27" title="27">}</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC optimize(&quot;O3&quot;)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> n <span class="op">=</span> <span class="op">(</span><span class="dv">1</span><span class="op">&lt;&lt;</span><span class="dv">20</span><span class="op">);</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> block_size <span class="op">=</span> <span class="dv">16</span><span class="op">;</span> <span class="co">// = 64 / 4 = cache_line_size / sizeof(int)</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="kw">alignas</span><span class="op">(</span><span class="dv">64</span><span class="op">)</span> <span class="dt">int</span> a<span class="op">[</span>n<span class="op">],</span> b<span class="op">[</span>n<span class="op">+</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> eytzinger<span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">int</span> k <span class="op">=</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>k <span class="op">&lt;=</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> eytzinger<span class="op">(</span>i<span class="op">,</span> <span class="dv">2</span> <span class="op">*</span> k<span class="op">);</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        b<span class="op">[</span>k<span class="op">]</span> <span class="op">=</span> a<span class="op">[</span>i<span class="op">++];</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> eytzinger<span class="op">(</span>i<span class="op">,</span> <span class="dv">2</span> <span class="op">*</span> k <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> i<span class="op">;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> search<span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> k <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>k <span class="op">&lt;=</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="fu">__builtin_prefetch</span><span class="op">(</span>b <span class="op">+</span> k <span class="op">*</span> block_size<span class="op">);</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> k <span class="op">+</span> <span class="op">(</span>b<span class="op">[</span>k<span class="op">]</span> <span class="op">&lt;</span> x<span class="op">);</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    k <span class="op">&gt;&gt;=</span> <span class="fu">__builtin_ffs</span><span class="op">(~</span>k<span class="op">);</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> k<span class="op">;</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Few more things to note:</p>
 <ul>
 <li><p>It works best when <span class="math inline">\(n\)</span> is a power of 2 or close to it, because otherwise the branch predictor will have a hard time figuring out whether or not to unroll the <span class="math inline">\((\log n)\)</span>-th cycle.</p></li>

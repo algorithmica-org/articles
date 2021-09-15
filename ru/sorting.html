@@ -12,26 +12,28 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +42,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -75,18 +77,18 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -96,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -113,44 +115,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href='https://github.com/algorithmica-org/ru/commits/master/sorting.md'>История</a>
     </div>
 </div>
+<div class="migration"><a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там.</div>
 <h1 id="сортировки-и-o-нотация">Сортировки и O-нотация</h1>
 <p>Задача сортировки массива заключается в том, чтобы расставить его элементы в определённом порядке (чаще всего — по неубыванию: каждый элемент должен быть больше или равен предыдущему).</p>
 <p>Будет полезно вместе с описанем алгоритмов смотреть их <a href="https://visualgo.net/nl/sorting">визуализацию</a>.</p>
 <h3 id="сортировка-пузырьком">Сортировка пузырьком</h3>
 <p>Наш первый подход будет заключаться в следующем: обозначим за <span class="math inline">\(n\)</span> длину массива и <span class="math inline">\(n\)</span> раз пройдёмся раз пройдемся по нему, меняя два соседних элемента, если первый больше второго.</p>
 <p>Как каждую итерацию максимальный элемент «всплывает» словно пузырек к концу массива — отсюда и название.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1">void bubble_sort(vector<span class="op">&lt;</span><span class="bu">int</span><span class="op">&gt;&amp;</span> array) {</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="bu">int</span> n <span class="op">=</span> (<span class="bu">int</span>) array.size()<span class="op">;</span></a>
-<a class="sourceLine" id="cb1-3" title="3">    <span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++</span>) {</a>
-<a class="sourceLine" id="cb1-4" title="4">        <span class="cf">for</span> (<span class="bu">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> j<span class="op">++</span>) {</a>
-<a class="sourceLine" id="cb1-5" title="5">            <span class="op">//</span> сравниваем элемент со следующим</a>
-<a class="sourceLine" id="cb1-6" title="6">            <span class="op">//</span> и меняем местами, если следующий меньше</a>
-<a class="sourceLine" id="cb1-7" title="7">            <span class="cf">if</span> (array[j] <span class="op">&gt;</span> arr[j <span class="op">+</span> <span class="dv">1</span>]) {</a>
-<a class="sourceLine" id="cb1-8" title="8">                swap(array[j], array[j <span class="op">+</span> <span class="dv">1</span>])<span class="op">;</span></a>
-<a class="sourceLine" id="cb1-9" title="9">            }</a>
-<a class="sourceLine" id="cb1-10" title="10">        }     </a>
-<a class="sourceLine" id="cb1-11" title="11">    }</a>
-<a class="sourceLine" id="cb1-12" title="12">}</a>
-<a class="sourceLine" id="cb1-13" title="13"></a>
-<a class="sourceLine" id="cb1-14" title="14">vector<span class="op">&lt;</span><span class="bu">int</span><span class="op">&gt;</span> a <span class="op">=</span> {<span class="dv">1</span>, <span class="dv">-3</span>, <span class="dv">7</span>, <span class="dv">88</span>, <span class="dv">7</span>}<span class="op">;</span></a>
-<a class="sourceLine" id="cb1-15" title="15">bubble_sort(a)<span class="op">;</span></a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="cf">for</span> (auto elem : a) {</a>
-<a class="sourceLine" id="cb1-17" title="17">    cout <span class="op">&lt;&lt;</span> elem <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb1-18" title="18">}</a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="op">//</span> <span class="dv">-3</span> <span class="dv">1</span> <span class="dv">7</span> <span class="dv">7</span> <span class="dv">88</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>void bubble_sort(vector<span class="op">&lt;</span><span class="bu">int</span><span class="op">&gt;&amp;</span> array) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">int</span> n <span class="op">=</span> (<span class="bu">int</span>) array.size()<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (<span class="bu">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            <span class="op">//</span> сравниваем элемент со следующим</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>            <span class="op">//</span> и меняем местами, если следующий меньше</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (array[j] <span class="op">&gt;</span> arr[j <span class="op">+</span> <span class="dv">1</span>]) {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                swap(array[j], array[j <span class="op">+</span> <span class="dv">1</span>])<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        }     </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="bu">int</span><span class="op">&gt;</span> a <span class="op">=</span> {<span class="dv">1</span>, <span class="op">-</span><span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">88</span>, <span class="dv">7</span>}<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>bubble_sort(a)<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (auto elem : a) {</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> elem <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> <span class="op">-</span><span class="dv">3</span> <span class="dv">1</span> <span class="dv">7</span> <span class="dv">7</span> <span class="dv">88</span></span></code></pre></div>
 <p>После <span class="math inline">\(i\)</span> шагов алгоритма сортировки пузырьком последние <span class="math inline">\((i + 1)\)</span> чисел всегда отсортированы, а значит алгоритм работает корректно.</p>
 <p><strong>Упражнение.</strong> Алгоритм можно немного ускорить. Подумайте, какие лишние элементы мы перебираем. Как нужно изменить границы в двух циклах <code>for</code>, чтобы не делать никаких бесполезных действий?</p>
 <h3 id="сортировка-выбором">Сортировка выбором</h3>
 <p>Другим способом является <strong>сортировка выбором</strong> минимума (или максимума).</p>
 <p>Чтобы отсортировать массив, просто <span class="math inline">\(n\)</span> раз выберем минимум среди еще неотсортированных чисел и поставим его на свое место. На <span class="math inline">\(i\)</span>-ом шаге будем искать минимум на отрезке <span class="math inline">\([i, n - 1]\)</span> и менять его местами с <span class="math inline">\(i\)</span>-тым элементом, после чего отрезок <span class="math inline">\([0, i]\)</span> будет отсортирован.</p>
 <p>Содержательная часть будет выглядеть так:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="cf">for</span> (i = <span class="dv">0</span>; i &lt; n - <span class="dv">1</span>; i++) {</a>
-<a class="sourceLine" id="cb2-2" title="2">    <span class="cf">for</span> (j = i + <span class="dv">1</span>; j &lt; n; j++) {</a>
-<a class="sourceLine" id="cb2-3" title="3">        <span class="cf">if</span> (a[i] &gt; a[j]) {</a>
-<a class="sourceLine" id="cb2-4" title="4">            swap(a[j], a[i]);</a>
-<a class="sourceLine" id="cb2-5" title="5">        }</a>
-<a class="sourceLine" id="cb2-6" title="6">    }</a>
-<a class="sourceLine" id="cb2-7" title="7">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>j <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>a<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> a<span class="op">[</span>j<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            swap<span class="op">(</span>a<span class="op">[</span>j<span class="op">],</span> a<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h3 id="сортировка-вставками">Сортировка вставками</h3>
 <p><strong>Определение.</strong> <em>Префиксом</em> длины <span class="math inline">\(i\)</span> будем называть первые <span class="math inline">\(i\)</span> элементов массива.</p>
 <p>Тогда пусть на <span class="math inline">\(i\)</span>-ом шаге у нас уже будет отсортирован префикс до <span class="math inline">\(i\)</span>-го элемента. Чтобы этот префикс увеличить, нужно взять элемент, идущий после него, и менять с левым соседом, пока этот элемент наконец не окажется больше своего левого соседа. Если в конце он больше левого соседа, но меньше правого, то это будет означать, что мы правильно вставили этот элемент в отсортированную часть массива.</p>
@@ -216,23 +219,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><span class="math inline">\(10^{100}\)</span></li>
 </ul>
 <p><strong>Упражнение.</strong> Найдите асимптотическое время работы данных функций:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">def</span> f(n):</a>
-<a class="sourceLine" id="cb4-2" title="2">    s <span class="op">=</span> <span class="dv">0</span></a>
-<a class="sourceLine" id="cb4-3" title="3">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</a>
-<a class="sourceLine" id="cb4-4" title="4">        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</a>
-<a class="sourceLine" id="cb4-5" title="5">            s <span class="op">+=</span> i <span class="op">*</span> j</a>
-<a class="sourceLine" id="cb4-6" title="6">    <span class="cf">return</span> s</a></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">def</span> g(n):</a>
-<a class="sourceLine" id="cb5-2" title="2">    s <span class="op">=</span> <span class="dv">0</span></a>
-<a class="sourceLine" id="cb5-3" title="3">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</a>
-<a class="sourceLine" id="cb5-4" title="4">        s <span class="op">+=</span> i</a>
-<a class="sourceLine" id="cb5-5" title="5">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</a>
-<a class="sourceLine" id="cb5-6" title="6">        s <span class="op">+=</span> i <span class="op">*</span> i</a>
-<a class="sourceLine" id="cb5-7" title="7">    <span class="cf">return</span> s</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">def</span> h(n):</a>
-<a class="sourceLine" id="cb6-2" title="2">    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:</a>
-<a class="sourceLine" id="cb6-3" title="3">        <span class="cf">return</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb6-4" title="4">    <span class="cf">return</span> h(n <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> n</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(n):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            s <span class="op">+=</span> i <span class="op">*</span> j</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> g(n):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        s <span class="op">+=</span> i</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        s <span class="op">+=</span> i <span class="op">*</span> i</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> h(n):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h(n <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> n</span></code></pre></div>
 <p><strong>Упражнение.</strong> Найдите лучшее время работы алгоритмов, решающих данные задачи:</p>
 <ul>
 <li>Написать числа от <span class="math inline">\(1\)</span> до <span class="math inline">\(n\)</span>.</li>
@@ -243,19 +246,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="сортировки-за-on-log-n">Сортировки за <span class="math inline">\(O(n \log n)\)</span></h2>
 <p>Сортировка очень часто применяется как часть решения олимпиадных задач. В таких случаях обычно не пишут её заново, а используют встроенную.</p>
 <p>Пример на Python:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1">a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">-4</span>]</a>
-<a class="sourceLine" id="cb7-2" title="2">a.sort()</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="op">-</span><span class="dv">4</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>a.sort()</span></code></pre></div>
 <p>Пример на C++:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1"><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></a>
-<a class="sourceLine" id="cb8-4" title="4"></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="kw">using</span> <span class="kw">namespace</span> std;</a>
-<a class="sourceLine" id="cb8-6" title="6"></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="dt">int</span> main() {</a>
-<a class="sourceLine" id="cb8-8" title="8">    vector&lt;<span class="dt">int</span>&gt; v = {<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">5</span>, -<span class="dv">4</span>};</a>
-<a class="sourceLine" id="cb8-9" title="9">    sort(v.begin(), v.end());</a>
-<a class="sourceLine" id="cb8-10" title="10">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> v <span class="op">=</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="op">-</span><span class="dv">4</span><span class="op">};</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    sort<span class="op">(</span>v<span class="op">.</span>begin<span class="op">(),</span> v<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>В разных языках она может быть реализована по-разному, но везде она работает за <span class="math inline">\(O(n \log n)\)</span>, и, обычно, неплохо оптимизирована. Далее мы опишем два подхода к её реализации.</p>
 <h2 id="сортировка-слиянием">Сортировка слиянием</h2>
 <blockquote>
@@ -264,14 +267,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Наивное решение: бинарный поиск. Будем считать, что массив уже отсортирован. Для каждого элемента <span class="math inline">\(a\)</span> найдем первый справа элемент <span class="math inline">\(b\)</span>, который входит в ответ в паре с <span class="math inline">\(a\)</span>. Нетрудно заметить, что все элементы, большие <span class="math inline">\(b\)</span>, также входят в ответ. Итоговая асимптотика <span class="math inline">\(O(n\log n)\)</span>.</p>
 <p>А можно ли быстрее?</p>
 <p>Да, давайте перебирать <strong>два указателя</strong> — два индекса <span class="math inline">\(first\)</span> и <span class="math inline">\(second\)</span>. Будем перебирать <span class="math inline">\(first\)</span> просто слева направо и поддерживать для каждого <span class="math inline">\(first\)</span> первый элемент справа от него, такой что <span class="math inline">\(a[second] - a[first] &gt; K\)</span> как <span class="math inline">\(second\)</span>. Тогда в пару к <span class="math inline">\(a=a[first]\)</span> подходят ровно <span class="math inline">\(n-second\)</span> элементов массив начиная с <span class="math inline">\(second\)</span>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" title="1"><span class="dt">int</span> second = <span class="dv">0</span>, ans = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="cf">for</span> (<span class="dt">int</span> first = <span class="dv">0</span>; first &lt; n; ++first) {</a>
-<a class="sourceLine" id="cb9-3" title="3">    <span class="cf">while</span> (second != n &amp;&amp; a[second] - a[first] &lt;= r) {</a>
-<a class="sourceLine" id="cb9-4" title="4">        second++;</a>
-<a class="sourceLine" id="cb9-5" title="5">    }</a>
-<a class="sourceLine" id="cb9-6" title="6"></a>
-<a class="sourceLine" id="cb9-7" title="7">    ans += n - second;</a>
-<a class="sourceLine" id="cb9-8" title="8">}</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> second <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> ans <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> first <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> first <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>first<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>second <span class="op">!=</span> n <span class="op">&amp;&amp;</span> a<span class="op">[</span>second<span class="op">]</span> <span class="op">-</span> a<span class="op">[</span>first<span class="op">]</span> <span class="op">&lt;=</span> r<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        second<span class="op">++;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    ans <span class="op">+=</span> n <span class="op">-</span> second<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>За сколько же работает это решение? С виду может показаться, что за <span class="math inline">\(O(n^2)\)</span>, но давайте посмотрим сколько раз меняется значение переменной <span class="math inline">\(second\)</span>. Так как оно изначально равняется нулю, только увеличивается и не может превысить <span class="math inline">\(n\)</span>, то суммарно операций мы сделаем <span class="math inline">\(O(n)\)</span>.</p>
 <p>Это называется метод двух указателей — так как мы двигаем два указателя first и second одновременно слева направо по каким-то правилам. Обычно его используют на одном отсортированном массиве.</p>
 <p>Давайте разберем еще примеры.</p>
@@ -279,59 +282,59 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Еще пример двух указателей на нескольких массивах.</p>
 <p>Пусть у нас есть два отсортированных по неубыванию массива размера <span class="math inline">\(n\)</span> и <span class="math inline">\(m\)</span>. Хотим получить отсортированный массив размера <span class="math inline">\(n + m\)</span> из исходных.</p>
 <p>Пусть первый указатель будет указывать на начало первого массива, а второй, соответственно, на начало второго. Из двух текущих элементов, на которые указывают указатели, выберем наименьший и положим на соответствующую позицию в новом массиве, после чего сдвинем указатель. Продолжим этот процесс пока в обоих массивах не закончатся элементы. Тогда код будет выглядеть следующим образом:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb10-1" title="1"><span class="dt">int</span> a[n + <span class="dv">1</span>], b[m + <span class="dv">1</span>], res[n + m];</a>
-<a class="sourceLine" id="cb10-2" title="2"></a>
-<a class="sourceLine" id="cb10-3" title="3">a[n] = INF; <span class="co">// Создаем в конце массива фиктивный элемент, который заведомо больше остальных</span></a>
-<a class="sourceLine" id="cb10-4" title="4">b[m] = INF; <span class="co">// Чтобы избежать лишних случаев</span></a>
-<a class="sourceLine" id="cb10-5" title="5"></a>
-<a class="sourceLine" id="cb10-6" title="6"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {</a>
-<a class="sourceLine" id="cb10-7" title="7">    cin &gt;&gt; a[i];</a>
-<a class="sourceLine" id="cb10-8" title="8">}</a>
-<a class="sourceLine" id="cb10-9" title="9"></a>
-<a class="sourceLine" id="cb10-10" title="10"><span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; m; ++j) {</a>
-<a class="sourceLine" id="cb10-11" title="11">    cin &gt;&gt; a[j];</a>
-<a class="sourceLine" id="cb10-12" title="12">}</a>
-<a class="sourceLine" id="cb10-13" title="13"></a>
-<a class="sourceLine" id="cb10-14" title="14"><span class="dt">int</span> i = <span class="dv">0</span>, j = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb10-15" title="15"><span class="cf">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; n + m; ++k) {</a>
-<a class="sourceLine" id="cb10-16" title="16">    <span class="cf">if</span> (a[i] &lt; b[j]) {</a>
-<a class="sourceLine" id="cb10-17" title="17">        res[k] = a[i];</a>
-<a class="sourceLine" id="cb10-18" title="18">        i++;</a>
-<a class="sourceLine" id="cb10-19" title="19">    } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb10-20" title="20">        res[k] = b[j];</a>
-<a class="sourceLine" id="cb10-21" title="21">        j++;</a>
-<a class="sourceLine" id="cb10-22" title="22">    }</a>
-<a class="sourceLine" id="cb10-23" title="23">}</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a<span class="op">[</span>n <span class="op">+</span> <span class="dv">1</span><span class="op">],</span> b<span class="op">[</span>m <span class="op">+</span> <span class="dv">1</span><span class="op">],</span> res<span class="op">[</span>n <span class="op">+</span> m<span class="op">];</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>a<span class="op">[</span>n<span class="op">]</span> <span class="op">=</span> INF<span class="op">;</span> <span class="co">// Создаем в конце массива фиктивный элемент, который заведомо больше остальных</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>b<span class="op">[</span>m<span class="op">]</span> <span class="op">=</span> INF<span class="op">;</span> <span class="co">// Чтобы избежать лишних случаев</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> a<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> m<span class="op">;</span> <span class="op">++</span>j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> a<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;</span> n <span class="op">+</span> m<span class="op">;</span> <span class="op">++</span>k<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>a<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> b<span class="op">[</span>j<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        res<span class="op">[</span>k<span class="op">]</span> <span class="op">=</span> a<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        i<span class="op">++;</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        res<span class="op">[</span>k<span class="op">]</span> <span class="op">=</span> b<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        j<span class="op">++;</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Итоговая асимптотика: <span class="math inline">\(O(n + m)\)</span>.</p>
 <h2 id="сортировка-слиянием-1">Сортировка слиянием</h2>
 <p>Давайте подробно опишем как использовать операцию слияния для сортировки за <span class="math inline">\(O(n\log n)\)</span>.</p>
 <p>Пусть у нас есть какой-то массив.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb11-1" title="1"><span class="dt">int</span> a[<span class="dv">8</span>] = {<span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>};</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a<span class="op">[</span><span class="dv">8</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">7</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">8</span><span class="op">};</span></span></code></pre></div>
 <p>Сделаем такое предположение. Пусть мы уже умеем как-то сортировать массив размера <span class="math inline">\(n\)</span>. Тогда научимся сортировать массив размера <span class="math inline">\(2n\)</span>. Давайте разобьем наш массив на две половины, отсортируем каждую из них, а после это сделаем слияние двух массивов, которое мы научились делать за <span class="math inline">\(O(n)\)</span> в данных условиях. Также заметим, что массив размера <span class="math inline">\(1\)</span> уже отсортирован, тогда мы можем делать это процедуру рекурсивно. Тогда для данного массива <span class="math inline">\(a\)</span> это будет выглядеть следующим образом:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb12-1" title="1"><span class="co">// (7  2  5  6  1  3  4  8)</span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="co">// (7  2  5  6)(1  3  4  8)</span></a>
-<a class="sourceLine" id="cb12-3" title="3"><span class="co">// (7  2)(5  6)(1  3)(4  8)</span></a>
-<a class="sourceLine" id="cb12-4" title="4"><span class="co">// (2  7)(5  6)(1  3)(4  8)</span></a>
-<a class="sourceLine" id="cb12-5" title="5"><span class="co">// (2  5  6  7)(1  3  4  8)</span></a>
-<a class="sourceLine" id="cb12-6" title="6"><span class="co">// (1  2  3  4  5  6  7  8)</span></a>
-<a class="sourceLine" id="cb12-7" title="7"></a>
-<a class="sourceLine" id="cb12-8" title="8"><span class="pp">#include  </span><span class="co">// Воспользуемся встроенной функцией merge</span></a>
-<a class="sourceLine" id="cb12-9" title="9"></a>
-<a class="sourceLine" id="cb12-10" title="10"><span class="dt">void</span> merge_sort(vector &amp;v, <span class="dt">int</span> l, <span class="dt">int</span> r) { <span class="co">// v - вектор, который хотим отсортировать</span></a>
-<a class="sourceLine" id="cb12-11" title="11">    <span class="cf">if</span> (r - l == <span class="dv">1</span>) {                            <span class="co">// l и r - полуинтервал, который хотим отсортировать</span></a>
-<a class="sourceLine" id="cb12-12" title="12">        <span class="cf">return</span>;</a>
-<a class="sourceLine" id="cb12-13" title="13">    }</a>
-<a class="sourceLine" id="cb12-14" title="14"></a>
-<a class="sourceLine" id="cb12-15" title="15">    <span class="dt">int</span> mid = (l + r) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb12-16" title="16">    merge_sort(v, l, mid);</a>
-<a class="sourceLine" id="cb12-17" title="17">    merge_sort(v, mid, r);</a>
-<a class="sourceLine" id="cb12-18" title="18">    vector temp(r - l); <span class="co">// временный вектор</span></a>
-<a class="sourceLine" id="cb12-19" title="19">    merge(v.begin() + l, v.begin() + mid, v.begin() + mid, v.begin() + r, c.begin());</a>
-<a class="sourceLine" id="cb12-20" title="20">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; r - l; ++i) {</a>
-<a class="sourceLine" id="cb12-21" title="21">        v[i + l] = temp[i];</a>
-<a class="sourceLine" id="cb12-22" title="22">    }</a>
-<a class="sourceLine" id="cb12-23" title="23">    <span class="cf">return</span>;</a>
-<a class="sourceLine" id="cb12-24" title="24">}</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// (7  2  5  6  1  3  4  8)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">// (7  2  5  6)(1  3  4  8)</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">// (7  2)(5  6)(1  3)(4  8)</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">// (2  7)(5  6)(1  3)(4  8)</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">// (2  5  6  7)(1  3  4  8)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">// (1  2  3  4  5  6  7  8)</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#include  </span><span class="co">// Воспользуемся встроенной функцией merge</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> merge_sort<span class="op">(</span>vector <span class="op">&amp;</span>v<span class="op">,</span> <span class="dt">int</span> l<span class="op">,</span> <span class="dt">int</span> r<span class="op">)</span> <span class="op">{</span> <span class="co">// v - вектор, который хотим отсортировать</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>r <span class="op">-</span> l <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>                            <span class="co">// l и r - полуинтервал, который хотим отсортировать</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> mid <span class="op">=</span> <span class="op">(</span>l <span class="op">+</span> r<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    merge_sort<span class="op">(</span>v<span class="op">,</span> l<span class="op">,</span> mid<span class="op">);</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    merge_sort<span class="op">(</span>v<span class="op">,</span> mid<span class="op">,</span> r<span class="op">);</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    vector temp<span class="op">(</span>r <span class="op">-</span> l<span class="op">);</span> <span class="co">// временный вектор</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    merge<span class="op">(</span>v<span class="op">.</span>begin<span class="op">()</span> <span class="op">+</span> l<span class="op">,</span> v<span class="op">.</span>begin<span class="op">()</span> <span class="op">+</span> mid<span class="op">,</span> v<span class="op">.</span>begin<span class="op">()</span> <span class="op">+</span> mid<span class="op">,</span> v<span class="op">.</span>begin<span class="op">()</span> <span class="op">+</span> r<span class="op">,</span> c<span class="op">.</span>begin<span class="op">());</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> r <span class="op">-</span> l<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        v<span class="op">[</span>i <span class="op">+</span> l<span class="op">]</span> <span class="op">=</span> temp<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Так сколько же работает это решение?</p>
 <p>Пускай <span class="math inline">\(T(n)\)</span> — время сортировки массива длины <span class="math inline">\(n\)</span>, тогда для сортировки слиянием справедливо <span class="math inline">\(T(n)=2T(n/2)+O(n)\)</span> <span class="math inline">\(O(n)\)</span> — время, необходимое на то, чтобы слить два массива длины n. Распишем это соотношение:</p>
 <p><span class="math inline">\(T(n)=2T(n/2)+O(n)=4T(n/4)+2O(n)=\ldots=T(1)+\log(n)O(n)=O(n\log(n)).\)</span></p>
@@ -341,17 +344,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Найти количество инверсий в данной перестановке.</p>
 </blockquote>
 <p>Очевидно, что эта задача легко решается обычным перебором двух индексов за <span class="math inline">\(O(n^2)\)</span>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb13-1" title="1"><span class="dt">int</span> a[n], ans = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb13-2" title="2"></a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {</a>
-<a class="sourceLine" id="cb13-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> j = i + <span class="dv">1</span>; j &lt; n; ++j) {</a>
-<a class="sourceLine" id="cb13-5" title="5">        <span class="cf">if</span> (a[i] &gt; a[j]) {</a>
-<a class="sourceLine" id="cb13-6" title="6">            ans++;</a>
-<a class="sourceLine" id="cb13-7" title="7">        }</a>
-<a class="sourceLine" id="cb13-8" title="8">    }</a>
-<a class="sourceLine" id="cb13-9" title="9">}</a>
-<a class="sourceLine" id="cb13-10" title="10"></a>
-<a class="sourceLine" id="cb13-11" title="11">cout &lt;&lt; ans &lt;&lt; endl;</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a<span class="op">[</span>n<span class="op">],</span> ans <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>a<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> a<span class="op">[</span>j<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>            ans<span class="op">++;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>cout <span class="op">&lt;&lt;</span> ans <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div>
 <p>Внезапно эту задачу можно решить используя сортировку слиянием, слегка модифицируя её. Оставим ту же идею. Пусть мы умеем находить количество инверсий в массиве размера <span class="math inline">\(n\)</span>, научимся находить количество инверсий в массиве размера <span class="math inline">\(2n\)</span>.</p>
 <p>Заметим, что мы уже знаем количество инверсий в левой половине и в правой половине массива. Осталось лишь посчитать число инверсий, где одно число лежит в левой половине, а второе в правой половине. Как же их посчитать?</p>
 <p>Давайте подробнее рассмотрим операцию merge левой и правой половины (которую мы ранее заменили на вызов встроенной функции merge). Первый указатель указывает на элемент левой половины, второй указатель указывает на элемент второй половины, мы смотрим на минимум из них и этот указатель вдигаем вправо.</p>
@@ -359,17 +362,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Значит в тот момент, когда мы добавляем число <span class="math inline">\(A\)</span> из левой половины, к ответу достаточно прибавить индекс второго указателя (минус начало правой половины). Так мы учтем все инверсии между половинами.</p>
 <h1 id="быстрая-сортировка">Быстрая сортировка</h1>
 <p>Быстрая сортировка заключается в том, что на каждом шаге мы находим опорный элемент, все элементы, которые меньше его кидаем в левую часть, остальные в правую, а затем рекурсивно спускаемся в обе части.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb14-1" title="1"><span class="dt">void</span> quicksort(<span class="dt">int</span> l, <span class="dt">int</span> r){</a>
-<a class="sourceLine" id="cb14-2" title="2">    <span class="cf">if</span> (l &lt; r){</a>
-<a class="sourceLine" id="cb14-3" title="3">        <span class="dt">int</span> index = (l + r) / <span class="dv">2</span>; <span class="co">/* index - индекс опорного элемента для </span></a>
-<a class="sourceLine" id="cb14-4" title="4"><span class="co">        начала сделаем его равным середине отрезка*/</span></a>
-<a class="sourceLine" id="cb14-5" title="5">        index = divide(l, r, index); <span class="co">/* divide - функция разбивающие элементы </span></a>
-<a class="sourceLine" id="cb14-6" title="6"><span class="co">        на меньшие и больше/равные a[index], </span></a>
-<a class="sourceLine" id="cb14-7" title="7"><span class="co">        при этом функция возвращает границу разбиения*/</span></a>
-<a class="sourceLine" id="cb14-8" title="8"><span class="co">        quicksort(l, index);</span></a>
-<a class="sourceLine" id="cb14-9" title="9"><span class="co">        quicksort(index + 1, r);</span></a>
-<a class="sourceLine" id="cb14-10" title="10"><span class="co">    }</span></a>
-<a class="sourceLine" id="cb14-11" title="11"><span class="co">}</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> quicksort<span class="op">(</span><span class="dt">int</span> l<span class="op">,</span> <span class="dt">int</span> r<span class="op">){</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>l <span class="op">&lt;</span> r<span class="op">){</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> index <span class="op">=</span> <span class="op">(</span>l <span class="op">+</span> r<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span> <span class="co">/* index - индекс опорного элемента для </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">        начала сделаем его равным середине отрезка*/</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> divide<span class="op">(</span>l<span class="op">,</span> r<span class="op">,</span> index<span class="op">);</span> <span class="co">/* divide - функция разбивающие элементы </span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">        на меньшие и больше/равные a[index], </span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">        при этом функция возвращает границу разбиения*/</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        quicksort<span class="op">(</span>l<span class="op">,</span> index<span class="op">);</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        quicksort<span class="op">(</span>index <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> r<span class="op">);</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Давайте оценим асимптотику данной сортировки. На случайных данных она работает за <span class="math inline">\(O(NlogN)\)</span> , так как каждый раз мы будем делить массив на две примерно равные части, то есть суммарно размер рекурсии будет около логарифма и при этом на каждом этапе рекурсии мы просмотрим не более, чем размер массива. Однако можно легко найти две проблемы, одна - одинаковые числа, а вторая - если вдруг середина - минимум или максимум.</p>
 <p>Существуют несколько выходов из этой ситуации :</p>
 <ol start="2" type="1">

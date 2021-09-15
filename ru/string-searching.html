@@ -12,26 +12,28 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +42,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -75,18 +77,18 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -96,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -113,6 +115,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href='https://github.com/algorithmica-org/ru/commits/master/string-searching.md'>История</a>
     </div>
 </div>
+<div class="migration"><a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там.</div>
 <h1 id="поиск-строки-в-строке">Поиск строки в строке</h1>
 <p>Рассмотрим задачу, которая возникает каждый раз, когда вы делаете <code>ctrl+f</code>:</p>
 <blockquote>
@@ -123,40 +126,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="префикс-функция">Префикс-функция</h2>
 <p><strong>Определение</strong>. Префикс-функцией от строки <span class="math inline">\(s\)</span> называется массив <span class="math inline">\(p\)</span>, где <span class="math inline">\(p_i\)</span> равно длине самого большого префикса строки <span class="math inline">\(s_0 s_1 s_2 \ldots s_i\)</span>, который также является и суффиксом <span class="math inline">\(i\)</span>-того префика (не считая весь <span class="math inline">\(i\)</span>-й префикс).</p>
 <p>Например, самый большой префикс, который равен суффиксу для строки «aataataa» — это «aataa»; префикс-функция для этой строки равна <span class="math inline">\([0, 1, 0, 1, 2, 3, 4, 5]\)</span>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1">vector&lt;<span class="dt">int</span>&gt; slow_prefix_function(string s) {</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">int</span> n = (<span class="dt">int</span>) s.size();</a>
-<a class="sourceLine" id="cb1-3" title="3">    vector&lt;<span class="dt">int</span>&gt; p(n, <span class="dv">0</span>);</a>
-<a class="sourceLine" id="cb1-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb1-5" title="5">        <span class="cf">for</span> (<span class="dt">int</span> len = <span class="dv">1</span>; len &lt;= i; len++)</a>
-<a class="sourceLine" id="cb1-6" title="6">            <span class="co">// если префикс длины len равен суффиксу длины len</span></a>
-<a class="sourceLine" id="cb1-7" title="7">            <span class="cf">if</span> (s.substr(<span class="dv">0</span>, len) == s.substr(i - len + <span class="dv">1</span>, len))</a>
-<a class="sourceLine" id="cb1-8" title="8">                p[i] = len;</a>
-<a class="sourceLine" id="cb1-9" title="9">    <span class="cf">return</span> p;</a>
-<a class="sourceLine" id="cb1-10" title="10">}</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> slow_prefix_function<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> s<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> p<span class="op">(</span>n<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> len <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> len <span class="op">&lt;=</span> i<span class="op">;</span> len<span class="op">++)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>            <span class="co">// если префикс длины len равен суффиксу длины len</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>s<span class="op">.</span>substr<span class="op">(</span><span class="dv">0</span><span class="op">,</span> len<span class="op">)</span> <span class="op">==</span> s<span class="op">.</span>substr<span class="op">(</span>i <span class="op">-</span> len <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> len<span class="op">))</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                p<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> len<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> p<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Этот алгоритм пока что работает за <span class="math inline">\(O(n^3)\)</span>, но позже мы его ускорим.</p>
 <h3 id="как-это-поможет-решить-исходную-задачу">Как это поможет решить исходную задачу?</h3>
 <p>Давайте пока поверим, что мы умеем считать префикс-функцию за линейное от размера строки, и научимся с помощью нее искать подстроку в строке.</p>
 <p>Соединим подстроки <span class="math inline">\(s\)</span> и <span class="math inline">\(t\)</span> каким-нибудь символом, который не встречается ни там, ни там — обозначим пусть этот символ #. Посмотрим на префикс-функцию получившейся строки <span class="math inline">\(s\#t\)</span>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1">string s = <span class="st">&quot;choose&quot;</span>;</a>
-<a class="sourceLine" id="cb2-2" title="2">string t =</a>
-<a class="sourceLine" id="cb2-3" title="3">    <span class="st">&quot;choose life. choose a job. choose a career. choose a family. choose a fu...&quot;</span>;</a>
-<a class="sourceLine" id="cb2-4" title="4"></a>
-<a class="sourceLine" id="cb2-5" title="5">cout &lt;&lt; s + <span class="st">&quot;#&quot;</span> + t &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb2-6" title="6">cout &lt;&lt; slow_prefix_function(s + <span class="st">&quot;#&quot;</span> + t) &lt;&lt; endl;</a></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="ex">choose</span>#choose life. choose a job. choose a career. choose a family. choose a fu...</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="ex">0000000123456000000012345600000000123456000100000001234560000000000012345600000000</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>string s <span class="op">=</span> <span class="st">&quot;choose&quot;</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>string t <span class="op">=</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;choose life. choose a job. choose a career. choose a family. choose a fu...&quot;</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>cout <span class="op">&lt;&lt;</span> s <span class="op">+</span> <span class="st">&quot;#&quot;</span> <span class="op">+</span> t <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>cout <span class="op">&lt;&lt;</span> slow_prefix_function<span class="op">(</span>s <span class="op">+</span> <span class="st">&quot;#&quot;</span> <span class="op">+</span> t<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">choose#choose</span> life. choose a job. choose a career. choose a family. choose a fu...</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">0000000123456000000012345600000000123456000100000001234560000000000012345600000000</span></span></code></pre></div>
 <p>Видно, что все места, где значения равны 6 (длине <span class="math inline">\(s\)</span>) — это концы вхождений <span class="math inline">\(s\)</span> в текст <span class="math inline">\(t\)</span>.</p>
 <p>Такой алгоритм (посчитать префикс-функцию от <span class="math inline">\(s\#t\)</span> и посмотреть, в каких позициях она равна <span class="math inline">\(|s|\)</span>) называется <strong>алгоритмом Кнута-Морриса-Пратта</strong>.</p>
 <h3 id="как-её-быстро-считать">Как её быстро считать</h3>
 <p>Рассмотрим ещё несколько примеров префикс-функций и попытаемся найти закономерности:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="ex">aaaaa</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="ex">01234</span></a>
-<a class="sourceLine" id="cb4-3" title="3"></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="ex">abcdef</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="ex">000000</span></a>
-<a class="sourceLine" id="cb4-6" title="6"></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="ex">abacabadava</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="ex">00101230101</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">aaaaa</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">01234</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">abcdef</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">000000</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ex">abacabadava</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ex">00101230101</span></span></code></pre></div>
 <p>Можно заметить следующую особенность: <span class="math inline">\(p_{i+1}\)</span> максимум на единицу превосходит <span class="math inline">\(p_i\)</span>.</p>
 <p><strong>Доказательство.</strong> Если есть префикс, равный суффиксу строки <span class="math inline">\(s_{:i+1}\)</span>, длины <span class="math inline">\(p_{i+1}\)</span>, то, отбросив последний символ, можно получить правильный суффикс для строки <span class="math inline">\(s_{:i}\)</span>, длина которого будет ровно на единицу меньше.</p>
 <p>Попытаемся решить задачу с помощью динамики: найдём формулу для <span class="math inline">\(p_i\)</span> через предыдущие значения.</p>
@@ -170,21 +173,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><span class="math inline">\(\implies\)</span> Если <span class="math inline">\(s_2 = s_{11}\)</span> (т. е. новый символ совпадает с идущим после префикса-кандидата), то <span class="math inline">\(p_{11} = p_2 + 1 = 2 + 1 = 3\)</span>.</li>
 </ul>
 <p>В данном случае это действительно так (нужный префикс — «aab»). Но что делать, если, в общем случае, <span class="math inline">\(p_{i+1} \neq p_{p_i+1}\)</span>? Тогда мы проводим такое же рассуждение и получаем нового кандидата, меньшей длины — <span class="math inline">\(p_{p_{p_i}}\)</span>. Если и этот не подошел — аналогично проверяем меньшего, пока этот индекс не станет нулевым.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1">vector&lt;<span class="dt">int</span>&gt; prefix_function(string s) {</a>
-<a class="sourceLine" id="cb5-2" title="2">    <span class="dt">int</span> n = (<span class="dt">int</span>) s.size();</a>
-<a class="sourceLine" id="cb5-3" title="3">    vector&lt;<span class="dt">int</span>&gt; p(n, <span class="dv">0</span>);</a>
-<a class="sourceLine" id="cb5-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb5-5" title="5">        <span class="co">// префикс функция точно не больше этого значения + 1</span></a>
-<a class="sourceLine" id="cb5-6" title="6">        <span class="dt">int</span> cur = p[i - <span class="dv">1</span>];</a>
-<a class="sourceLine" id="cb5-7" title="7">        <span class="co">// уменьшаем cur значение, пока новый символ не сматчится</span></a>
-<a class="sourceLine" id="cb5-8" title="8">        <span class="cf">while</span> (s[i] != s[cur] &amp;&amp; cur &gt; <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb5-9" title="9">            cur = p[cur - <span class="dv">1</span>];</a>
-<a class="sourceLine" id="cb5-10" title="10">        <span class="co">// здесь либо s[i] == s[cur], либо cur == 0</span></a>
-<a class="sourceLine" id="cb5-11" title="11">        <span class="cf">if</span> (s[i] == s[cur])</a>
-<a class="sourceLine" id="cb5-12" title="12">            p[i] = cur + <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb5-13" title="13">    }</a>
-<a class="sourceLine" id="cb5-14" title="14">    <span class="cf">return</span> p;</a>
-<a class="sourceLine" id="cb5-15" title="15">}</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> prefix_function<span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> s<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> p<span class="op">(</span>n<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// префикс функция точно не больше этого значения + 1</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> cur <span class="op">=</span> p<span class="op">[</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">];</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// уменьшаем cur значение, пока новый символ не сматчится</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>s<span class="op">[</span>i<span class="op">]</span> <span class="op">!=</span> s<span class="op">[</span>cur<span class="op">]</span> <span class="op">&amp;&amp;</span> cur <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            cur <span class="op">=</span> p<span class="op">[</span>cur <span class="op">-</span> <span class="dv">1</span><span class="op">];</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// здесь либо s[i] == s[cur], либо cur == 0</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>s<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> s<span class="op">[</span>cur<span class="op">])</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            p<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> cur <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> p<span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p><strong>Асимптотика.</strong> В худшем случае этот <code>while</code> может работать <span class="math inline">\(O(n)\)</span> раз за одну итерацию, но <em>в среднем</em> каждый <code>while</code> работает за <span class="math inline">\(O(1)\)</span>.</p>
 <p>Префикс-функция каждый шаг возрастает максимум на единицу и после каждой итерации <code>while</code> уменьшается хотя бы на единицу. Значит, суммарно операций будет не более <span class="math inline">\(O(n)\)</span>.</p>
 <h2 id="z-функция">Z-функция</h2>
@@ -193,23 +196,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[
 \underbrace{aba}c\overbrace{aba}daba \hspace{1em} (z_4 = 3)
 \]</span></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1">vector&lt;<span class="dt">int</span>&gt; slow_z_function (string s) {</a>
-<a class="sourceLine" id="cb6-2" title="2">    <span class="dt">int</span> n = (<span class="dt">int</span>) s.size();</a>
-<a class="sourceLine" id="cb6-3" title="3">    vector&lt;<span class="dt">int</span>&gt; z(n, <span class="dv">0</span>); <span class="co">// z[0] считается не определенным</span></a>
-<a class="sourceLine" id="cb6-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb6-5" title="5">        <span class="co">// если мы не вышли за границу и следующие символы совпадают</span></a>
-<a class="sourceLine" id="cb6-6" title="6">        <span class="cf">while</span> (i + z[i] &lt; n &amp;&amp; s[z[i]] == s[i + z[i]])</a>
-<a class="sourceLine" id="cb6-7" title="7">            z[i]++;</a>
-<a class="sourceLine" id="cb6-8" title="8">    <span class="cf">return</span> z;</a>
-<a class="sourceLine" id="cb6-9" title="9">}</a></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" title="1"><span class="ex">aaaaa</span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="ex">04321</span></a>
-<a class="sourceLine" id="cb7-3" title="3"></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="ex">abcdef</span></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="ex">000000</span></a>
-<a class="sourceLine" id="cb7-6" title="6"></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="ex">abacabadava</span></a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="ex">00103010101</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> slow_z_function <span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> s<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> z<span class="op">(</span>n<span class="op">,</span> <span class="dv">0</span><span class="op">);</span> <span class="co">// z[0] считается не определенным</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// если мы не вышли за границу и следующие символы совпадают</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>i <span class="op">+</span> z<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> n <span class="op">&amp;&amp;</span> s<span class="op">[</span>z<span class="op">[</span>i<span class="op">]]</span> <span class="op">==</span> s<span class="op">[</span>i <span class="op">+</span> z<span class="op">[</span>i<span class="op">]])</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            z<span class="op">[</span>i<span class="op">]++;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> z<span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">aaaaa</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">04321</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ex">abcdef</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">000000</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ex">abacabadava</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">00103010101</span></span></code></pre></div>
 <p>Z-функцию можно использовать вместо префикс-функции в алгоритме Кнута-Морриса-Пратта — только теперь нужные позиции будут начинаться c <span class="math inline">\(|s|\)</span>, а не заканчиваться. Осталось только научиться её искать за <span class="math inline">\(O(n)\)</span>.</p>
 <h3 id="как-её-быстро-считать-1">Как её быстро считать</h3>
 <p>Будем идти слева направо и хранить <em>z-блок</em> — самую правую подстроку, равную префиксу, которую мы успели обнаружить. Будем обозначать его границы как <span class="math inline">\(l\)</span> и <span class="math inline">\(r\)</span> включительно.</p>
@@ -218,27 +221,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Если правее, то мы просто наивно перебором найдем <span class="math inline">\(z_i\)</span> (максимальный отрезок, начинающийся с <span class="math inline">\(s_i\)</span> и равный префиксу), и объявим его новым z-блоком.</li>
 <li>Если <span class="math inline">\(i\)</span>-й элемент лежит внутри z-блока, то мы можем посмотреть на значение <span class="math inline">\(z_{i-l}\)</span> и использовать его, чтобы инициализировать <span class="math inline">\(z_i\)</span> чем-то, возможно, отличным от нуля. Если <span class="math inline">\(z_{i-l}\)</span> левее правой границы <span class="math inline">\(z\)</span>-блока, то <span class="math inline">\(z_i = z_{i-l}\)</span> — больше <span class="math inline">\(z_i\)</span> быть не может. Если он упирается в границу, то «обрежем» его до неё и будем увеличивать на единичку.</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" title="1">vector&lt;<span class="dt">int</span>&gt; z_function (string s) {</a>
-<a class="sourceLine" id="cb8-2" title="2">    <span class="dt">int</span> n = (<span class="dt">int</span>) s.size();</a>
-<a class="sourceLine" id="cb8-3" title="3">    vector&lt;<span class="dt">int</span>&gt; z(n, <span class="dv">0</span>);</a>
-<a class="sourceLine" id="cb8-4" title="4">    <span class="dt">int</span> l = <span class="dv">0</span>, r = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb8-5" title="5">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb8-6" title="6">        <span class="co">// если мы уже видели этот символ</span></a>
-<a class="sourceLine" id="cb8-7" title="7">        <span class="cf">if</span> (i &lt;= r)</a>
-<a class="sourceLine" id="cb8-8" title="8">            <span class="co">// то мы можем попробовать его инициализировать z[i - l],</span></a>
-<a class="sourceLine" id="cb8-9" title="9">            <span class="co">// но не дальше правой границы: там мы уже ничего не знаем</span></a>
-<a class="sourceLine" id="cb8-10" title="10">            z[i] = min(r - i + <span class="dv">1</span>, z[i - l]);</a>
-<a class="sourceLine" id="cb8-11" title="11">        <span class="co">// дальше каждое успешное увеличение z[i] сдвинет z-блок на единицу</span></a>
-<a class="sourceLine" id="cb8-12" title="12">        <span class="cf">while</span> (i + z[i] &lt; n &amp;&amp; s[z[i]] == s[i + z[i]])</a>
-<a class="sourceLine" id="cb8-13" title="13">            z[i]++;</a>
-<a class="sourceLine" id="cb8-14" title="14">        <span class="co">// проверим, правее ли мы текущего z-блока</span></a>
-<a class="sourceLine" id="cb8-15" title="15">        <span class="cf">if</span> (i + z[i] - <span class="dv">1</span> &gt; r) {</a>
-<a class="sourceLine" id="cb8-16" title="16">            r = i + z[i] - <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb8-17" title="17">            l = i;</a>
-<a class="sourceLine" id="cb8-18" title="18">        }</a>
-<a class="sourceLine" id="cb8-19" title="19">    }</a>
-<a class="sourceLine" id="cb8-20" title="20">    <span class="cf">return</span> z;</a>
-<a class="sourceLine" id="cb8-21" title="21">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> z_function <span class="op">(</span>string s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> s<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> z<span class="op">(</span>n<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> l <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">// если мы уже видели этот символ</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>i <span class="op">&lt;=</span> r<span class="op">)</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>            <span class="co">// то мы можем попробовать его инициализировать z[i - l],</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>            <span class="co">// но не дальше правой границы: там мы уже ничего не знаем</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>            z<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> min<span class="op">(</span>r <span class="op">-</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> z<span class="op">[</span>i <span class="op">-</span> l<span class="op">]);</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// дальше каждое успешное увеличение z[i] сдвинет z-блок на единицу</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>i <span class="op">+</span> z<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> n <span class="op">&amp;&amp;</span> s<span class="op">[</span>z<span class="op">[</span>i<span class="op">]]</span> <span class="op">==</span> s<span class="op">[</span>i <span class="op">+</span> z<span class="op">[</span>i<span class="op">]])</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>            z<span class="op">[</span>i<span class="op">]++;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// проверим, правее ли мы текущего z-блока</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>i <span class="op">+</span> z<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> <span class="dv">1</span> <span class="op">&gt;</span> r<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>            r <span class="op">=</span> i <span class="op">+</span> z<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>            l <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> z<span class="op">;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p><strong>Асимптотика</strong>. В алгоритме мы делаем столько же действий, сколько раз сдвигается правая граница z-блока — а это <span class="math inline">\(O(n)\)</span>.</p>
 <h3 id="сравнение">Сравнение</h3>
 <p>В целом они зет- и префикс-функции очень похожи, но алгоритм Кнута-Морриса-Пратта есть во всех классических учебниках по программированию, а про z-функцию почему-то мало кто знает кроме олимпиадных программистов.</p>

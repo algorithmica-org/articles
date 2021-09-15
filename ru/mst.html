@@ -12,26 +12,28 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +42,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -75,18 +77,18 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -96,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -113,6 +115,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href='https://github.com/algorithmica-org/ru/commits/master/mst.md'>История</a>
     </div>
 </div>
+<div class="migration"><a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там.</div>
 <h1 id="минимальные-остовы">Минимальные остовы</h1>
 <p>Рассмотрим следующую задачу:</p>
 <blockquote>
@@ -142,65 +145,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Этот алгоритм очень похож на алгоритм Дейкстры, только тут мы выбираем следующую вершину с другой весовой функцией — вес соединяющего ребра вместо суммарного расстояния до неё.</p>
 <p>Совсем наивная реализация за <span class="math inline">\(O(nm)\)</span> — каждый раз перебираем все рёбра:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>, inf = <span class="fl">1e9</span>;</a>
-<a class="sourceLine" id="cb1-2" title="2">vector from, to, weight;</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="dt">bool</span> used[maxn]</a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="co">// считать все рёбра в массивы</span></a>
-<a class="sourceLine" id="cb1-6" title="6"></a>
-<a class="sourceLine" id="cb1-7" title="7">used[<span class="dv">0</span>] = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n-<span class="dv">1</span>; i++) {</a>
-<a class="sourceLine" id="cb1-9" title="9">    <span class="dt">int</span> opt_w = inf, opt_from, opt_to;</a>
-<a class="sourceLine" id="cb1-10" title="10">    <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; m; j++)</a>
-<a class="sourceLine" id="cb1-11" title="11">        <span class="cf">if</span> (opt_w &gt; weight[j] &amp;&amp; used[from[j]] &amp;&amp; !used[to[j]])</a>
-<a class="sourceLine" id="cb1-12" title="12">            opt_w = weight[j], opt_from = from[j], opt_to = to[j]</a>
-<a class="sourceLine" id="cb1-13" title="13">    used[opt_to] = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb1-14" title="14">    cout &lt;&lt; opt_from &lt;&lt; <span class="st">&quot; &quot;</span> &lt;&lt; opt_to &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb1-15" title="15">}</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> maxn <span class="op">=</span> <span class="fl">1e5</span><span class="op">,</span> inf <span class="op">=</span> <span class="fl">1e9</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>vector from<span class="op">,</span> to<span class="op">,</span> weight<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> used<span class="op">[</span>maxn<span class="op">]</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">// считать все рёбра в массивы</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>used<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">-</span><span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> opt_w <span class="op">=</span> inf<span class="op">,</span> opt_from<span class="op">,</span> opt_to<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> m<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>opt_w <span class="op">&gt;</span> weight<span class="op">[</span>j<span class="op">]</span> <span class="op">&amp;&amp;</span> used<span class="op">[</span>from<span class="op">[</span>j<span class="op">]]</span> <span class="op">&amp;&amp;</span> <span class="op">!</span>used<span class="op">[</span>to<span class="op">[</span>j<span class="op">]])</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            opt_w <span class="op">=</span> weight<span class="op">[</span>j<span class="op">],</span> opt_from <span class="op">=</span> from<span class="op">[</span>j<span class="op">],</span> opt_to <span class="op">=</span> to<span class="op">[</span>j<span class="op">]</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    used<span class="op">[</span>opt_to<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> opt_from <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span> <span class="op">&lt;&lt;</span> opt_to <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Реализация за <span class="math inline">\(O(n^2)\)</span>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="at">const</span> <span class="dt">int</span> maxn = <span class="fl">1e5</span>, inf = <span class="fl">1e9</span>;</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="dt">bool</span> used[maxn];</a>
-<a class="sourceLine" id="cb2-3" title="3">vector&lt; pair&lt;<span class="dt">int</span>, <span class="dt">int</span>&gt; &gt; g[maxn];</a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="dt">int</span> min_edge[maxn] = {inf}, best_edge[maxn];</a>
-<a class="sourceLine" id="cb2-5" title="5">min_edge[<span class="dv">0</span>] = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb2-6" title="6"></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="co">// ...</span></a>
-<a class="sourceLine" id="cb2-8" title="8"></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {</a>
-<a class="sourceLine" id="cb2-10" title="10">    <span class="dt">int</span> v = -<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb2-11" title="11">    <span class="cf">for</span> (<span class="dt">int</span> u = <span class="dv">0</span>; u &lt; n; j++)</a>
-<a class="sourceLine" id="cb2-12" title="12">        <span class="cf">if</span> (!used[u] &amp;&amp; (v == -<span class="dv">1</span> || min_edge[u] &lt; min_edge[v]))</a>
-<a class="sourceLine" id="cb2-13" title="13">            v = u;</a>
-<a class="sourceLine" id="cb2-14" title="14"></a>
-<a class="sourceLine" id="cb2-15" title="15">    used[v] = <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb2-16" title="16">    <span class="cf">if</span> (v != <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb2-17" title="17">        cout &lt;&lt; v &lt;&lt; <span class="st">&quot; &quot;</span> &lt;&lt; best_edge[v] &lt;&lt; endl;</a>
-<a class="sourceLine" id="cb2-18" title="18"></a>
-<a class="sourceLine" id="cb2-19" title="19">    <span class="cf">for</span> (<span class="kw">auto</span> e : g[v]) {</a>
-<a class="sourceLine" id="cb2-20" title="20">        <span class="dt">int</span> u = e.first, w = e.second;</a>
-<a class="sourceLine" id="cb2-21" title="21">        <span class="cf">if</span> (w &lt; min_edge[u]) {</a>
-<a class="sourceLine" id="cb2-22" title="22">            min_edge[u] = w;</a>
-<a class="sourceLine" id="cb2-23" title="23">            best_edge[u] = v;</a>
-<a class="sourceLine" id="cb2-24" title="24">        }</a>
-<a class="sourceLine" id="cb2-25" title="25">    }</a>
-<a class="sourceLine" id="cb2-26" title="26">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> maxn <span class="op">=</span> <span class="fl">1e5</span><span class="op">,</span> inf <span class="op">=</span> <span class="fl">1e9</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> used<span class="op">[</span>maxn<span class="op">];</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> <span class="op">&gt;</span> g<span class="op">[</span>maxn<span class="op">];</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> min_edge<span class="op">[</span>maxn<span class="op">]</span> <span class="op">=</span> <span class="op">{</span>inf<span class="op">},</span> best_edge<span class="op">[</span>maxn<span class="op">];</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>min_edge<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">// ...</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> v <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> u <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> u <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>used<span class="op">[</span>u<span class="op">]</span> <span class="op">&amp;&amp;</span> <span class="op">(</span>v <span class="op">==</span> <span class="op">-</span><span class="dv">1</span> <span class="op">||</span> min_edge<span class="op">[</span>u<span class="op">]</span> <span class="op">&lt;</span> min_edge<span class="op">[</span>v<span class="op">]))</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            v <span class="op">=</span> u<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    used<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>v <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        cout <span class="op">&lt;&lt;</span> v <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span> <span class="op">&lt;&lt;</span> best_edge<span class="op">[</span>v<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> e <span class="op">:</span> g<span class="op">[</span>v<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> u <span class="op">=</span> e<span class="op">.</span>first<span class="op">,</span> w <span class="op">=</span> e<span class="op">.</span>second<span class="op">;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>w <span class="op">&lt;</span> min_edge<span class="op">[</span>u<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            min_edge<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> w<span class="op">;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            best_edge<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> v<span class="op">;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Можно не делать линейный поиск оптимальной вершины, а поддерживать его в приоритетной очереди, как в алгоритме Дейкстры. Получается реализация за <span class="math inline">\(O(m \log n)\)</span>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1">set&lt; pair&lt;<span class="dt">int</span>, <span class="dt">int</span>&gt; &gt; q;</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="dt">int</span> d[maxn];</a>
-<a class="sourceLine" id="cb3-3" title="3"></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="cf">while</span> (q.size()) {</a>
-<a class="sourceLine" id="cb3-5" title="5">    v = q.begin()-&gt;second;</a>
-<a class="sourceLine" id="cb3-6" title="6">    q.erase(q.begin());</a>
-<a class="sourceLine" id="cb3-7" title="7"></a>
-<a class="sourceLine" id="cb3-8" title="8">    <span class="cf">for</span> (<span class="kw">auto</span> e : g[v]) {</a>
-<a class="sourceLine" id="cb3-9" title="9">        <span class="dt">int</span> u = e.first, w = e.second;</a>
-<a class="sourceLine" id="cb3-10" title="10">        <span class="cf">if</span> (w &lt; d[u]) {</a>
-<a class="sourceLine" id="cb3-11" title="11">            q.erase({d[u], u});</a>
-<a class="sourceLine" id="cb3-12" title="12">            d[u] = w;</a>
-<a class="sourceLine" id="cb3-13" title="13">            q.insert({d[u], u});</a>
-<a class="sourceLine" id="cb3-14" title="14">        }</a>
-<a class="sourceLine" id="cb3-15" title="15">    }</a>
-<a class="sourceLine" id="cb3-16" title="16">}</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>set<span class="op">&lt;</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> <span class="op">&gt;</span> q<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> d<span class="op">[</span>maxn<span class="op">];</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>q<span class="op">.</span>size<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> q<span class="op">.</span>begin<span class="op">()-&gt;</span>second<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    q<span class="op">.</span>erase<span class="op">(</span>q<span class="op">.</span>begin<span class="op">());</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> e <span class="op">:</span> g<span class="op">[</span>v<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> u <span class="op">=</span> e<span class="op">.</span>first<span class="op">,</span> w <span class="op">=</span> e<span class="op">.</span>second<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>w <span class="op">&lt;</span> d<span class="op">[</span>u<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            q<span class="op">.</span>erase<span class="op">({</span>d<span class="op">[</span>u<span class="op">],</span> u<span class="op">});</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            d<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> w<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            q<span class="op">.</span>insert<span class="op">({</span>d<span class="op">[</span>u<span class="op">],</span> u<span class="op">});</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Про алгоритм за <span class="math inline">\(O(n^2)\)</span> забывать не стоит — он работает лучше в случае плотных графов.</p>
 <h2 id="система-непересекающихся-множеств">Система непересекающихся множеств</h2>
 <p>Система непересекающихся множеств (англ. <em>disjoint set union</em>) — структура данных, которая используется для хранения информации о связности компонент. Она нам потребуется для описания следующего подхода — алгоритма Крускала.</p>
@@ -212,46 +215,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Обе операции выполняются в среднем почти за <span class="math inline">\(O(1)\)</span> (но не совсем — этот сложный вопрос будет разъяснен позже).</p>
 <p>Множества элементов мы будем хранить в виде деревьев: одно дерево соответствует одному множеству. Корень дерева — это представитель (лидер) множества. Заведём массив <code>_p</code>, в котором для каждого элемента мы храним номер его предка в дереве. Для корней деревьев будем считать, что их предки — они сами.</p>
 <p>Наивная реализация, которую мы потом ускорим:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> _p[maxn];</a>
-<a class="sourceLine" id="cb4-2" title="2"></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="dt">int</span> p(<span class="dt">int</span> v) {</a>
-<a class="sourceLine" id="cb4-4" title="4">    <span class="cf">if</span> (_p[v] == v)</a>
-<a class="sourceLine" id="cb4-5" title="5">        <span class="cf">return</span> v;</a>
-<a class="sourceLine" id="cb4-6" title="6">    <span class="cf">else</span></a>
-<a class="sourceLine" id="cb4-7" title="7">        <span class="cf">return</span> p(_p[v]);</a>
-<a class="sourceLine" id="cb4-8" title="8">}</a>
-<a class="sourceLine" id="cb4-9" title="9"></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="dt">void</span> unite(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
-<a class="sourceLine" id="cb4-11" title="11">    a = p(a), b = p(b);</a>
-<a class="sourceLine" id="cb4-12" title="12">    _p[a] = b;</a>
-<a class="sourceLine" id="cb4-13" title="13">}</a>
-<a class="sourceLine" id="cb4-14" title="14"></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb4-16" title="16">    _p[i] = i;</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> _p<span class="op">[</span>maxn<span class="op">];</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> p<span class="op">(</span><span class="dt">int</span> v<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>_p<span class="op">[</span>v<span class="op">]</span> <span class="op">==</span> v<span class="op">)</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> p<span class="op">(</span>_p<span class="op">[</span>v<span class="op">]);</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> unite<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> p<span class="op">(</span>a<span class="op">),</span> b <span class="op">=</span> p<span class="op">(</span>b<span class="op">);</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    _p<span class="op">[</span>a<span class="op">]</span> <span class="op">=</span> b<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    _p<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> i<span class="op">;</span></span></code></pre></div>
 <p><strong>Эвристика сжатия пути</strong>. Оптимизируем работу функции <code>p</code>. Давайте перед тем, как вернуть ответ, запишем его в <code>_p</code> от текущей вершины, то есть переподвесим его за самую высокую.</p>
 <figure>
-<img src="img/stasyan.jpg" alt="Паблик «Странные опросы для спортивных программистов»" /><figcaption>Паблик «Странные опросы для спортивных программистов»</figcaption>
+<img src="img/stasyan.jpg" alt="Паблик «Странные опросы для спортивных программистов»" /><figcaption aria-hidden="true">Паблик «Странные опросы для спортивных программистов»</figcaption>
 </figure>
 <p>Следующие две эвристики похожи по смыслу и стараются оптимизировать высоту дерева, выбирая оптимальный корень для переподвешивания.</p>
 <p><strong>Ранговая эвристика</strong>. Будем хранить для каждой вершины её <em>ранг</em> — высоту её поддереа. При объединении деревьев будем делать корнем нового дерева ту вершину, у которой ранг больше, и пересчитывать ранги (ранг у лидера должен увеличиться на единицу, если он совпадал с рангом другой вершины). Эта эвристика оптимизирует высоту дерева напрямую.</p>
 <p><strong>Весовая эвристика</strong>. Будем вместо ранга хранить размеры поддеревьев для каждой вершины, а при объединении — подвешивать за более «тяжелую».</p>
 <p>Финальная реализация, использующая весовую эвристику и эвристику сжатия путей:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">int</span> _p[maxn], s[maxn];</a>
-<a class="sourceLine" id="cb5-2" title="2"></a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="dt">int</span> p (<span class="dt">int</span> v) { <span class="cf">return</span> (_p[v] == v) ? v : _p[v] = p(_p[v]); }</a>
-<a class="sourceLine" id="cb5-4" title="4"></a>
-<a class="sourceLine" id="cb5-5" title="5"><span class="dt">void</span> unite(<span class="dt">int</span> a, <span class="dt">int</span> b) {</a>
-<a class="sourceLine" id="cb5-6" title="6">    a = p(a), b = p(b);</a>
-<a class="sourceLine" id="cb5-7" title="7">    <span class="cf">if</span> (s[a] &gt; s[b])</a>
-<a class="sourceLine" id="cb5-8" title="8">        swap(a, b);</a>
-<a class="sourceLine" id="cb5-9" title="9">    s[b] += s[a];</a>
-<a class="sourceLine" id="cb5-10" title="10">    _p[a] = b;</a>
-<a class="sourceLine" id="cb5-11" title="11">}</a>
-<a class="sourceLine" id="cb5-12" title="12"></a>
-<a class="sourceLine" id="cb5-13" title="13"><span class="co">// где-то в main:</span></a>
-<a class="sourceLine" id="cb5-14" title="14"></a>
-<a class="sourceLine" id="cb5-15" title="15"><span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++)</a>
-<a class="sourceLine" id="cb5-16" title="16">    _p[i] = i;</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> _p<span class="op">[</span>maxn<span class="op">],</span> s<span class="op">[</span>maxn<span class="op">];</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> p <span class="op">(</span><span class="dt">int</span> v<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> <span class="op">(</span>_p<span class="op">[</span>v<span class="op">]</span> <span class="op">==</span> v<span class="op">)</span> <span class="op">?</span> v <span class="op">:</span> _p<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> p<span class="op">(</span>_p<span class="op">[</span>v<span class="op">]);</span> <span class="op">}</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> unite<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> p<span class="op">(</span>a<span class="op">),</span> b <span class="op">=</span> p<span class="op">(</span>b<span class="op">);</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>s<span class="op">[</span>a<span class="op">]</span> <span class="op">&gt;</span> s<span class="op">[</span>b<span class="op">])</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        swap<span class="op">(</span>a<span class="op">,</span> b<span class="op">);</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    s<span class="op">[</span>b<span class="op">]</span> <span class="op">+=</span> s<span class="op">[</span>a<span class="op">];</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    _p<span class="op">[</span>a<span class="op">]</span> <span class="op">=</span> b<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">// где-то в main:</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    _p<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> i<span class="op">;</span></span></code></pre></div>
 <p>Автор предпочитает именно весовую эвристику, потому что часто в задачах размеры компонент требуются сами по себе.</p>
 <h3 id="асимптотика">Асимптотика</h3>
 <p>Эвристика сжатия путей улучшает асимптотику до <span class="math inline">\(O(\log n)\)</span> в среднем. Здесь используется именно амортизированная оценка — понятно, что в худшем случае нужно будет сжимать весь бамбук за <span class="math inline">\(O(n)\)</span>.</p>
@@ -261,19 +264,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="алгоритм-крускала">Алгоритм Крускала</h2>
 <p>Отсортируем рёбра и будем пытаться добавлять их в остов в порядке возрастания их весов. Если ребро соединяет какие-то две уже соединенные вершины, то проигнорируем его, иначе оно является безопасным, и его можно добавить.</p>
 <p>Звучит очень просто — отсортировать все рёбра, пройтись по ним циклом и делать проверку, что вершины в разных компонентах. Наивная проверка будет работать за <span class="math inline">\(O(m \log m + n^2)\)</span>, но асимптотику можно улучшить до <span class="math inline">\(O(m \log m)\)</span> (до стоимости сортировки), если для проверок использовать систему непересекающихся множеств.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" title="1"><span class="co">// (w, (a, b))</span></a>
-<a class="sourceLine" id="cb6-2" title="2">vector&lt; pair&lt; <span class="dt">int</span>, pair&lt;<span class="dt">int</span>, <span class="dt">int</span>&gt; &gt; &gt; edges;</a>
-<a class="sourceLine" id="cb6-3" title="3"></a>
-<a class="sourceLine" id="cb6-4" title="4">sort(edges.begin(), edges.end());</a>
-<a class="sourceLine" id="cb6-5" title="5"></a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="cf">for</span> (<span class="kw">auto</span> e : edges) {</a>
-<a class="sourceLine" id="cb6-7" title="7">    <span class="dt">int</span> a = e.first.first, b = e.first.second;</a>
-<a class="sourceLine" id="cb6-8" title="8">    <span class="co">// компоненты разные, если лидеры разные</span></a>
-<a class="sourceLine" id="cb6-9" title="9">    <span class="cf">if</span> (p(a) != p(b)) {</a>
-<a class="sourceLine" id="cb6-10" title="10">        <span class="co">// добавим ребро (a, b)</span></a>
-<a class="sourceLine" id="cb6-11" title="11">        unite(a, b);</a>
-<a class="sourceLine" id="cb6-12" title="12">    }</a>
-<a class="sourceLine" id="cb6-13" title="13">}</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// (w, (a, b))</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span> pair<span class="op">&lt;</span> <span class="dt">int</span><span class="op">,</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> edges<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>sort<span class="op">(</span>edges<span class="op">.</span>begin<span class="op">(),</span> edges<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> e <span class="op">:</span> edges<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a <span class="op">=</span> e<span class="op">.</span>first<span class="op">.</span>first<span class="op">,</span> b <span class="op">=</span> e<span class="op">.</span>first<span class="op">.</span>second<span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// компоненты разные, если лидеры разные</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>p<span class="op">(</span>a<span class="op">)</span> <span class="op">!=</span> p<span class="op">(</span>b<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// добавим ребро (a, b)</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        unite<span class="op">(</span>a<span class="op">,</span> b<span class="op">);</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h2 id="алгоритм-борувки">Алгоритм Борувки</h2>
 <p><strong>Лемма.</strong> Для любой вершины минимальное инцидентное ей реборо является безопасным.</p>
 <p><strong>Доказательство.</strong> Пусть есть минимальный остов, в котором для какой-то вершины <span class="math inline">\(v\)</span> нет её минимального инцидентного ребра. Тогда, если добавить это ребро, образуется цикл, из которого можно удалить другое ребро, тоже инцидентное <span class="math inline">\(v\)</span>, но имеющее не меньший вес.</p>

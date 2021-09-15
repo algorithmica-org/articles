@@ -12,18 +12,18 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -33,7 +33,7 @@
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -50,6 +50,7 @@
         <a href='https://github.com/algorithmica-org/tg/commits/master/dfs.md'>История</a>
     </div>
 </div>
+<div class="migration"><a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там.</div>
 <h1 id="графы-определения-деревья-хранение-и-поиск-в-глубину">Графы — определения, деревья, хранение и поиск в глубину</h1>
 <h2 id="основные-определения">Основные определения</h2>
 <p>Формальное определение:</p>
@@ -57,20 +58,20 @@
 <p>Простое определение:</p>
 <p>Граф - это набор вершин (точек) и соединяющих их отрезков (рёбер).</p>
 <figure>
-<img src="http://i.imgur.com/vE0aVrE.jpg" alt="Примеры графа" /><figcaption>Примеры графа</figcaption>
+<img src="http://i.imgur.com/vE0aVrE.jpg" alt="Примеры графа" /><figcaption aria-hidden="true">Примеры графа</figcaption>
 </figure>
 <p>Две вершины, соединенные ребром, называют смежными вершинами. Обычно в задачах <span class="math inline">\(N\)</span> - количество вершин, а <span class="math inline">\(M\)</span> - ребер. Количество ребер, исходящее из вершины называют степенью вершины <span class="math inline">\(d(v)\)</span>. Для вершины <span class="math inline">\(a\)</span> ребро <span class="math inline">\((a, b)\)</span> называется инцидентным ей. На рисунке ниже вершине 8 инцидентно только ребро (4, 8), а вершине 10 ребра (2, 10) и (5, 10).</p>
 <h3 id="теоретическое-задание">Теоретическое задание</h3>
 <p>Назовите степень 1-ой и 6-ой вершины и какие ребра инциденты им.</p>
 <figure>
-<img src="http://gaskley.narod.ru/Discr/more_2/10.gif" alt="1" /><figcaption>1</figcaption>
+<img src="http://gaskley.narod.ru/Discr/more_2/10.gif" alt="1" /><figcaption aria-hidden="true">1</figcaption>
 </figure>
 <p>Если какие-то две вершины соединены более, чем одним ребром, то говорят, что граф содержит кратные ребра. Если ребро соединяет вершину саму с собой, то такое ребро называют петлей.</p>
 <p><strong>Простой граф</strong> не содержит петель и кратных ребер. Если не сказано ничего про наличие петель и кратных ребер, мы будем всегда считать, что граф простой.</p>
 <h3 id="теоретическое-задание-1">Теоретическое задание</h3>
 <p>Сколько может быть рёбер в простом графе в <span class="math inline">\(N\)</span> вершинами?</p>
 <figure>
-<img src="http://rain.ifmo.ru/cat/data/theory/unsorted/matroids-2004/graph.gif" alt="2" /><figcaption>2</figcaption>
+<img src="http://rain.ifmo.ru/cat/data/theory/unsorted/matroids-2004/graph.gif" alt="2" /><figcaption aria-hidden="true">2</figcaption>
 </figure>
 <h3 id="теоретическое-задание-2">Теоретическое задание</h3>
 <p>Найдите цикл размера 4 и петлю в этом непростом графе.</p>
@@ -84,7 +85,7 @@
 <li><strong>Матрица смежности.</strong> Давайте хранить двумерную матрицу <span class="math inline">\(A_{nn}\)</span>, где для данного графа G верно, что если <span class="math inline">\(A_{ij}\)</span> = 1, то две вершины <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> являются смежными, иначе вершины <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> смежными не являются.</li>
 </ol>
 <figure>
-<img src="http://www.compendium.su/informatics/ege_1/ege_1.files/image026.jpg" alt="Граф G и Матрица смежности" /><figcaption>Граф G и Матрица смежности</figcaption>
+<img src="http://www.compendium.su/informatics/ege_1/ege_1.files/image026.jpg" alt="Граф G и Матрица смежности" /><figcaption aria-hidden="true">Граф G и Матрица смежности</figcaption>
 </figure>
 <p>Мы храним для каждой из <span class="math inline">\(N\)</span> вершин информацию, есть ли ребро в другие вершины, то есть суммарно мы храним <span class="math inline">\(N^2\)</span> ячеек, а следовательно асимптотика по памяти - <span class="math inline">\(O(N^2)\)</span>.</p>
 <ol start="2" type="1">
@@ -117,7 +118,7 @@ for (int i = 0; i &lt; m; ++i){
 <h2 id="деревья">Деревья</h2>
 <p>Дерево - это <strong>связный неориентированный граф без циклов</strong>.</p>
 <figure>
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Tree_graph.svg/162px-Tree_graph.svg.png" alt="Пример дерева" /><figcaption>Пример дерева</figcaption>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Tree_graph.svg/162px-Tree_graph.svg.png" alt="Пример дерева" /><figcaption aria-hidden="true">Пример дерева</figcaption>
 </figure>
 <p>Свойства дерева:</p>
 <ol type="1">

@@ -12,26 +12,28 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +42,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -75,18 +77,18 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../pandoc.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjBggQFxAS4ilBAAACgElEQVRIx52VS0iUYRSGn/8fzbxMIYoRKSZKi2wGwo2FxRQZIlGbaGUF0b52LWbTLlx0W7VyEZiBWkE5mraRRrJFRUwolQw6zQTeuoiU423eFuk0M//nhJ7dd+Z7n/8932HOscgIgU0lR/Cxn3LKgGlijDJIkAgJiywhZMujVo0qrsyIa1St8shWFnmp/IooW0TkV6mMYuRVQCv6X6woIK+QQ16vkPP2M/WZICHVpyGEvCb5vE7olH6bEV6l1R4w3RpQkYoVNJcSWHsLIUt+rTpvLOuSELqihAmwKr8sgZBHE2aX5UKoRmNmDxPyCBtoodLU1m5yaADC9Jr7XkkLoCqNmPAx1eqqnqhAqEHfzB5GVGXTQLUJ/5xZznGcOuAtQbOHahpsfOQ5f5mng8McZAdnsVigkyUTIA8fGjZ561OpuiRJY6oR2qU35iKGbSqc4GU6qObYmstmYIrH5iIq0JIT+17lupU8BVUsVKsvJgdLtgnbxXZOJ091HAU+0W+0YCnGnvRUlCa+42OdbRHiA3CSbtyZ+q85RDMBfcxxjZKUf5uPO4wwzGsaMwFR1JZe1Jx8uuB4mBtC6LJzXLTZDLKYihziM+fJzfjQGfYC/XxMTy8yaDNEOLWBDznAIcdT7aMRiPI0PR1myGacnn+Zd7ygiUIHwEUjuUAnsdR0D+M20E7k7/knt5ki39guN9uAEPeIr6citIPrOsxQiC9hveIuLylkkgXyKUsR/2CAB8yyEzdhJiliN3aCmzwCCwSl3FfzDL9wYZFAuClJAcSZJoELALFKAWVYvVxkdm3NbDRUs0TqUM021jeU15s2w9YXSxKy9dWWRGx6uVpOyObW+x/B+LEV0hF3cAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNi0wOFQxNjoyMzoxNiswMjowMLEfSBUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDYtMDhUMTY6MjM6MTYrMDI6MDDAQvCpAAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
-  
+
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  
+
      ym(53961409, "init", {
           clickmap:true,
           trackLinks:true,
@@ -96,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  
+
   <script>
   // index page width
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -113,6 +115,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href='https://github.com/algorithmica-org/ru/commits/master/lca.md'>История</a>
     </div>
 </div>
+<div class="migration"><a href='https://ru.algorithmica.org/cs/'>Сайт переезжает.</a> Большинство статей уже перенесено на новую версию.<br>Скоро добавим автоматические переходы, но пока обновленную версию этой статьи можно найти там.</div>
 <h1 id="корневые-деревья">Корневые деревья</h1>
 <p>Дерево называется <em>корневым</em>, если оно ориентированно, и из какой-то вершины (называемой <em>корнем</em>) можно попасть во все остальные.</p>
 <p>Примеры корневых деревьев:</p>
@@ -126,16 +129,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/mastimg/LCA_Euler.png" /></p>
 <h2 id="свойства-dfs">Свойства dfs</h2>
 <p>Посчитаем для каждой вершины времена входа (<span class="math inline">\(tin\)</span>) и выхода (<span class="math inline">\(tout\)</span>) из неё во время эйлерова прохода:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" title="1">vector&lt;<span class="dt">int</span>&gt; g[maxn];</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="dt">int</span> p[maxn], tin[maxn], tout[maxn];</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> t = <span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="dt">void</span> dfs (<span class="dt">int</span> v) {</a>
-<a class="sourceLine" id="cb1-6" title="6">    tin[v] = t++;</a>
-<a class="sourceLine" id="cb1-7" title="7">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v])</a>
-<a class="sourceLine" id="cb1-8" title="8">        dfs(u);</a>
-<a class="sourceLine" id="cb1-9" title="9">    tout[v] = t; <span class="co">// иногда счётчик тут тоже увеличивают</span></a>
-<a class="sourceLine" id="cb1-10" title="10">}</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> g<span class="op">[</span>maxn<span class="op">];</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> p<span class="op">[</span>maxn<span class="op">],</span> tin<span class="op">[</span>maxn<span class="op">],</span> tout<span class="op">[</span>maxn<span class="op">];</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> t <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs <span class="op">(</span><span class="dt">int</span> v<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    tin<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> t<span class="op">++;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> u <span class="op">:</span> g<span class="op">[</span>v<span class="op">])</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>u<span class="op">);</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    tout<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> t<span class="op">;</span> <span class="co">// иногда счётчик тут тоже увеличивают</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>У этих массивов много полезных свойств:</p>
 <ul>
 <li>Вершина <span class="math inline">\(u\)</span> является предком <span class="math inline">\(v\)</span> <span class="math inline">\(\iff tin_v \in [tin_u, tout_u)\)</span>. Эту проверку можно делать за константу.</li>
@@ -166,60 +169,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>По-английский эта задача называется <em>Least Common Ancestor</em>. Есть много разных способов её решать, и мы рассмотрим только основные.</p>
 <p><img src="http://homepages.kcbbs.gen.nz/tonyg/pictures/least-common-ancestor.png" /></p>
 <p>Для лучшего понимания — медленно (за линейное время) наименьшего общего предка можно искать так:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">bool</span> a (<span class="dt">int</span> u, <span class="dt">int</span> v) {</a>
-<a class="sourceLine" id="cb2-2" title="2">    <span class="cf">return</span> tin[u] &lt;= tin[v] &amp;&amp; tin[v] &lt; tout[u];</a>
-<a class="sourceLine" id="cb2-3" title="3">}</a>
-<a class="sourceLine" id="cb2-4" title="4"></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="dt">int</span> lca (<span class="dt">int</span> u, <span class="dt">int</span> v) {</a>
-<a class="sourceLine" id="cb2-6" title="6">    <span class="cf">while</span> (!ancestor(u, v))</a>
-<a class="sourceLine" id="cb2-7" title="7">        u = p[u];</a>
-<a class="sourceLine" id="cb2-8" title="8">    <span class="cf">return</span> u;</a>
-<a class="sourceLine" id="cb2-9" title="9">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> a <span class="op">(</span><span class="dt">int</span> u<span class="op">,</span> <span class="dt">int</span> v<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tin<span class="op">[</span>u<span class="op">]</span> <span class="op">&lt;=</span> tin<span class="op">[</span>v<span class="op">]</span> <span class="op">&amp;&amp;</span> tin<span class="op">[</span>v<span class="op">]</span> <span class="op">&lt;</span> tout<span class="op">[</span>u<span class="op">];</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> lca <span class="op">(</span><span class="dt">int</span> u<span class="op">,</span> <span class="dt">int</span> v<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!</span>ancestor<span class="op">(</span>u<span class="op">,</span> v<span class="op">))</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        u <span class="op">=</span> p<span class="op">[</span>u<span class="op">];</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> u<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h2 id="двоичные-подъемы">Двоичные подъемы</h2>
 <p>Предпосчитаем для каждой вершины её 1-го предка, 2-го предка, 4-го и так далее. Сохраним их в двумерном массиве <code>up</code> размера <span class="math inline">\(n \times \lceil \log n \rceil\)</span>: в <code>up[v][d]</code> будет храниться предок вершины <span class="math inline">\(v\)</span> на расстоянии <span class="math inline">\(2^d\)</span>, а если такой вершины не существует, то корень.</p>
 <p>Такой препроцессинг можно выполнить за <span class="math inline">\(O(n \log n)\)</span>, используя тот факт, что предок на расстоянии <span class="math inline">\(2^{d+1}\)</span> — это предок на расстоянии <span class="math inline">\(2^d\)</span> предка на расстоянии <span class="math inline">\(2^d\)</span>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> up[maxn][logn];</a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="dt">void</span> dfs (<span class="dt">int</span> v) {</a>
-<a class="sourceLine" id="cb3-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">1</span>; l &lt; logn; l++)</a>
-<a class="sourceLine" id="cb3-5" title="5">        up[v][l] = up[up[v][l-<span class="dv">1</span>]][l-<span class="dv">1</span>];</a>
-<a class="sourceLine" id="cb3-6" title="6">    tin[v] = t++;</a>
-<a class="sourceLine" id="cb3-7" title="7">    <span class="cf">for</span> (<span class="dt">int</span> u : g[v]) {</a>
-<a class="sourceLine" id="cb3-8" title="8">        up[u][<span class="dv">0</span>] = v;</a>
-<a class="sourceLine" id="cb3-9" title="9">        dfs(u);</a>
-<a class="sourceLine" id="cb3-10" title="10">    }</a>
-<a class="sourceLine" id="cb3-11" title="11">    tout[v] = t;</a>
-<a class="sourceLine" id="cb3-12" title="12">}</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> up<span class="op">[</span>maxn<span class="op">][</span>logn<span class="op">];</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs <span class="op">(</span><span class="dt">int</span> v<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> l <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> l <span class="op">&lt;</span> logn<span class="op">;</span> l<span class="op">++)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        up<span class="op">[</span>v<span class="op">][</span>l<span class="op">]</span> <span class="op">=</span> up<span class="op">[</span>up<span class="op">[</span>v<span class="op">][</span>l<span class="op">-</span><span class="dv">1</span><span class="op">]][</span>l<span class="op">-</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    tin<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> t<span class="op">++;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> u <span class="op">:</span> g<span class="op">[</span>v<span class="op">])</span> <span class="op">{</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        up<span class="op">[</span>u<span class="op">][</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> v<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>u<span class="op">);</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    tout<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> t<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Пусть теперь поступил запрос нахождения LCA — пара вершин <span class="math inline">\((u, v)\)</span>:</p>
 <ul>
 <li>Проверим, не является ли одна вершина предком другой — в таком случае она и является результатом.</li>
 <li>Иначе, пользуясь массивом <code>up</code>, будем подниматься по предкам одной из них, пока не найдём самую высокую вершину, которая ещё не является предком другой. Следующая за ней будет искомым LCA.</li>
 </ul>
 <p>Подробнее про второй пункт. Присвоим <span class="math inline">\(i = \lceil \log n \rceil\)</span> и будем уменьшать эту переменную на единицу, пока <code>up[v][i]</code> не перестанет быть предком <span class="math inline">\(u\)</span>. Когда это произойдёт, подвинем указатель на <span class="math inline">\(2^i\)</span>-го предка <span class="math inline">\(v\)</span> и продолжим дальше:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> lca (<span class="dt">int</span> v, <span class="dt">int</span> u) {</a>
-<a class="sourceLine" id="cb4-2" title="2">    <span class="cf">if</span> (a(v, u)) <span class="cf">return</span> v;</a>
-<a class="sourceLine" id="cb4-3" title="3">    <span class="cf">if</span> (a(u, v)) <span class="cf">return</span> u;</a>
-<a class="sourceLine" id="cb4-4" title="4">    <span class="cf">for</span> (<span class="dt">int</span> l = logn-<span class="dv">1</span>; l &gt;= <span class="dv">0</span>; l--)</a>
-<a class="sourceLine" id="cb4-5" title="5">        <span class="cf">if</span> (!ancestor(up[v][l], u))</a>
-<a class="sourceLine" id="cb4-6" title="6">            v = up[v][l];</a>
-<a class="sourceLine" id="cb4-7" title="7">    <span class="cf">return</span> up[v][<span class="dv">0</span>];</a>
-<a class="sourceLine" id="cb4-8" title="8">}</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> lca <span class="op">(</span><span class="dt">int</span> v<span class="op">,</span> <span class="dt">int</span> u<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>a<span class="op">(</span>v<span class="op">,</span> u<span class="op">))</span> <span class="cf">return</span> v<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>a<span class="op">(</span>u<span class="op">,</span> v<span class="op">))</span> <span class="cf">return</span> u<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> l <span class="op">=</span> logn<span class="op">-</span><span class="dv">1</span><span class="op">;</span> l <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> l<span class="op">--)</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>ancestor<span class="op">(</span>up<span class="op">[</span>v<span class="op">][</span>l<span class="op">],</span> u<span class="op">))</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            v <span class="op">=</span> up<span class="op">[</span>v<span class="op">][</span>l<span class="op">];</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> up<span class="op">[</span>v<span class="op">][</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Указатель <code>up[v][i]</code> изначально явдяеься корнем дерева, а затем будет каждую итерацию спускаться на <span class="math inline">\(2^i\)</span>. Когда он станет потомком lca, нам достаточно подняться всего лишь один раз, потому что два раза прыгнуть на расстояние <span class="math inline">\(2^i\)</span> это то же самое, что один раз прыгнуть на <span class="math inline">\(2^{i+1}\)</span>, а мы могли это сделать на предыдущем шаге.</p>
 <p><strong>Асимптотика.</strong> Препроцессинг занимает <span class="math inline">\(O(n \log n)\)</span>, потому что таков размер массива <code>up</code>, и каждый его элемент вычисляется за константу. Ответ на произвольный запрос будет работать за <span class="math inline">\(O(\log n)\)</span>, потому что фактически мы делаем один бинпоиск.</p>
 <h3 id="запросы-на-путях">Запросы на путях</h3>
 <p>Пусть нас вместо LCA спрашивают, например, о минимуме на произвольном пути (на всех рёбрах записаны какие-то числа).</p>
 <p>Мы можем сделать такой же предподсчет, как в методе двоичных подъемов, но хранить вместе с номером <span class="math inline">\(2^d\)</span>-ого предка минимум на соответствующем пути.</p>
 <p>Заметим, что минимум на пути от <span class="math inline">\(u\)</span> до <span class="math inline">\(v\)</span> — это минимум от минимума на пути от <span class="math inline">\(u\)</span> до <span class="math inline">\(lca(u, v)\)</span> и от минимума на пути от <span class="math inline">\(v\)</span> до <span class="math inline">\(lca(u, v)\)</span>. В свою очередь, оба этих минимума — это минимум на всех двоичных подъемах до LCA.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">int</span> get_min (<span class="dt">int</span> v, <span class="dt">int</span> u) {</a>
-<a class="sourceLine" id="cb5-2" title="2">    <span class="dt">int</span> res = inf;</a>
-<a class="sourceLine" id="cb5-3" title="3">    <span class="cf">for</span> (<span class="dt">int</span> l = logn-<span class="dv">1</span>; l &gt;= <span class="dv">0</span>; l--)</a>
-<a class="sourceLine" id="cb5-4" title="4">        <span class="cf">if</span> (!ancestor(up[v][l], u))</a>
-<a class="sourceLine" id="cb5-5" title="5">            v = up[v][l], res = min(res, mn[v][l]);</a>
-<a class="sourceLine" id="cb5-6" title="6">    <span class="cf">for</span> (<span class="dt">int</span> l = logn-<span class="dv">1</span>; l &gt;= <span class="dv">0</span>; l--)</a>
-<a class="sourceLine" id="cb5-7" title="7">        <span class="cf">if</span> (!ancestor(up[u][l], v))</a>
-<a class="sourceLine" id="cb5-8" title="8">            u = up[u][l], res = min(res, mn[u][l]);</a>
-<a class="sourceLine" id="cb5-9" title="9">    <span class="cf">return</span> min({res, mn[v][<span class="dv">0</span>], mn[u][<span class="dv">0</span>]})</a>
-<a class="sourceLine" id="cb5-10" title="10">}</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> get_min <span class="op">(</span><span class="dt">int</span> v<span class="op">,</span> <span class="dt">int</span> u<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> res <span class="op">=</span> inf<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> l <span class="op">=</span> logn<span class="op">-</span><span class="dv">1</span><span class="op">;</span> l <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> l<span class="op">--)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>ancestor<span class="op">(</span>up<span class="op">[</span>v<span class="op">][</span>l<span class="op">],</span> u<span class="op">))</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>            v <span class="op">=</span> up<span class="op">[</span>v<span class="op">][</span>l<span class="op">],</span> res <span class="op">=</span> min<span class="op">(</span>res<span class="op">,</span> mn<span class="op">[</span>v<span class="op">][</span>l<span class="op">]);</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> l <span class="op">=</span> logn<span class="op">-</span><span class="dv">1</span><span class="op">;</span> l <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> l<span class="op">--)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>ancestor<span class="op">(</span>up<span class="op">[</span>u<span class="op">][</span>l<span class="op">],</span> v<span class="op">))</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            u <span class="op">=</span> up<span class="op">[</span>u<span class="op">][</span>l<span class="op">],</span> res <span class="op">=</span> min<span class="op">(</span>res<span class="op">,</span> mn<span class="op">[</span>u<span class="op">][</span>l<span class="op">]);</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> min<span class="op">({</span>res<span class="op">,</span> mn<span class="op">[</span>v<span class="op">][</span><span class="dv">0</span><span class="op">],</span> mn<span class="op">[</span>u<span class="op">][</span><span class="dv">0</span><span class="op">]})</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Аналогичным образом можно считать сумму, <code>gcd</code>, полиномиальный хэш и много других странных функций на пути, но только в статическом случае (когда у нас нет обновлений). Для динамического случая существует весьма сложный метод, называемый <a href="hld">heavy-light декомпозицией</a>.</p>
 <h2 id="сведение-lca-к-rmq">Сведение LCA к RMQ</h2>
 <p>Подойдём к задаче нахождения наименьшего общего предка с другой стороны.</p>
